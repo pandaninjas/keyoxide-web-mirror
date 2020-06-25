@@ -33,6 +33,22 @@ footer {
 .spacer {
     flex: 1;
 }
+.bigBtn {
+    color: #333;
+    width: 100%;
+    padding: 8px;
+    font-size: 1.2em;
+    text-transform: uppercase;
+    text-decoration: none;
+    background-color: #c3eaff;
+    border: 1px solid #3f9acc;
+    border-radius: 3px;
+    border-bottom-width: 3px;
+    cursor: pointer;
+}
+.bigBtn:hover {
+    background-color: #9dd3f0;
+}
 
 h1 {
     margin: 0;
@@ -53,20 +69,6 @@ textarea {
 }
 input[type="radio"] {
     vertical-align: sub;
-}
-input[type="submit"] {
-    width: 100%;
-    padding: 8px;
-    font-size: 1.2em;
-    text-transform: uppercase;
-    background-color: #c3eaff;
-    border: 1px solid #3f9acc;
-    border-radius: 3px;
-    border-bottom-width: 3px;
-    cursor: pointer;
-}
-input[type="submit"]:hover {
-    background-color: #9dd3f0;
 }
 .green {
     color: green;
