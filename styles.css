@@ -31,6 +31,9 @@ h1 {
     background-color: #9dd3f0;
     text-align: center;
 }
+h3 {
+    margin-top: 48px;
+}
 a {
     color: #3f9acc;
 }
