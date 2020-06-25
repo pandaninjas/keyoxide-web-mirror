@@ -1,15 +1,35 @@
+---
+
 kind: pipeline
 type: exec
-name: deploy
+name: deploy to prod
 
 steps:
     - name: deploy to server
       environment:
           DEPLOY_COMMAND:
-              from_secret: deploy_command
+              from_secret: deploy_command_prod
       commands:
           - $${DEPLOY_COMMAND}
 
 trigger:
     branch:
         - main
+
+---
+
+kind: pipeline
+type: exec
+name: deploy to dev
+
+steps:
+    - name: deploy to server
+      environment:
+          DEPLOY_COMMAND:
+              from_secret: deploy_command_dev
+      commands:
+          - $${DEPLOY_COMMAND}
+
+trigger:
+    branch:
+        - dev
