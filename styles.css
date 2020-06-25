@@ -37,19 +37,23 @@ footer {
 .bigBtn {
     display: inline-block;
     margin-bottom: 12px;
-    padding: 8px;
-    color: #333;
+    padding: 8px 16px;
+    color: #fff;
     font-size: 1.2em;
     text-transform: uppercase;
     text-decoration: none;
-    background-color: #c3eaff;
-    border: 1px solid #3f9acc;
-    border-radius: 3px;
-    border-bottom-width: 3px;
+    background-color: #3f9acc; /*#c3eaff;*/
+    /* border: 2px solid #3f9acc; */
+    border: 0;
+    border-radius: 8px;
+    /* border-bottom-width: 4px; */
     cursor: pointer;
 }
 .bigBtn:hover {
-    background-color: #9dd3f0;
+    color: #fff;
+    /* border-color: #3f9acc; */
+    background-color: #72bde6;
+    /* background-color: #9dd3f0; */
 }
 
 h1 {
