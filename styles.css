@@ -34,9 +34,9 @@ footer {
     flex: 1;
 }
 .bigBtn {
-    color: #333;
-    width: 100%;
+    display: inline-block;
     padding: 8px;
+    color: #333;
     font-size: 1.2em;
     text-transform: uppercase;
     text-decoration: none;
@@ -56,11 +56,14 @@ h1 {
     background-color: #9dd3f0;
     text-align: center;
 }
-h3 {
+h2, h3 {
     margin-top: 48px;
 }
 a {
     color: #3f9acc;
+}
+a.bigBtn {
+    margin-right: 8px;
 }
 textarea {
     width: 100%;
@@ -69,6 +72,9 @@ textarea {
 }
 input[type="radio"] {
     vertical-align: sub;
+}
+input[type="submit"] {
+    width: 100%;
 }
 .green {
     color: green;
