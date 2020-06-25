@@ -1,0 +1,15 @@
+kind: pipeline
+type: exec
+name: deploy
+
+steps:
+    - name: deploy to server
+      environment:
+          DEPLOY_COMMAND:
+              from_secret: deploy_command
+      commands:
+          - $${DEPLOY_COMMAND}
+
+trigger:
+    branch:
+        - main
