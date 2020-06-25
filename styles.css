@@ -11,6 +11,12 @@ header {
     font-size: 1.1em;
     background-color: #fff;
 }
+header .container {
+    display: flex;
+}
+header a {
+    margin-left: 12px;
+}
 footer {
     color: #777;
     margin: 64px 0;
@@ -23,6 +29,9 @@ footer {
 .content {
     padding: 16px 32px 32px;
     background-color: #fff;
+}
+.spacer {
+    flex: 1;
 }
 
 h1 {
