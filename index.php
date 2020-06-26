@@ -41,9 +41,8 @@ if(is_array($match) && is_callable($match['target'])) {
             break;
 
         case 'profile':
-            $content = file_get_contents('pages/profile.html');
+            $content = file_get_contents('pages/profile.html', FALSE, NULL, 0, 36);
             $content = str_replace('%UID%', $match['params']['uid'], $content);
-            $content = mb_convert_encoding($content, 'UTF-8', mb_detect_encoding($content, 'UTF-8, ISO-8859-1', true));
             echo $content;
             break;
     }
