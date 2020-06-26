@@ -1,21 +1,21 @@
 async function verifySignature(opts) {
+    // Init
     const elRes = document.body.querySelector("#result");
     const elResContent = document.body.querySelector("#resultContent");
-    let keyData, feedback, signature, verified;
+    let keyData, feedback, signature, verified, valid;
 
+    // Reset feedback
     elRes.innerHTML = "";
     elResContent.innerHTML = "";
 
     try {
+        // Get key data
         keyData = await fetchKeys(opts);
 
-        if (opts.signature == null) {
-            elRes.innerHTML = "No signature was provided.";
-            elRes.classList.remove('green');
-            elRes.classList.add('red');
-            return;
-        }
+        // Handle missing signature
+        if (opts.signature == null) { throw("No signature was provided."); }
 
+        // Try two different methods of signature reading
         let readError = null;
         try {
             signature = await openpgp.message.readArmored(opts.signature);
@@ -27,12 +27,14 @@ async function verifySignature(opts) {
         } catch(e) {
             readError = e;
         }
-        if (signature == null) {throw(readError)};
+        if (signature == null) { throw(readError) };
 
+        // Verify the signature
         verified = await openpgp.verify({
             message: signature,
             publicKeys: keyData.publicKey
         });
+        { valid } = verified.signatures[0];
     } catch (e) {
         console.error(e);
         elRes.innerHTML = e;
@@ -41,13 +43,15 @@ async function verifySignature(opts) {
         return;
     }
 
+    // Init feedback to empty string
     feedback = '';
-    const { valid } = verified.signatures[0];
 
+    // If content was extracted from signature
     if (keyData.sigContent) {
         elResContent.innerHTML = "<strong>Signature content:</strong><br><span style=\"white-space: pre-line\">"+sigContent+"</span>";
     }
 
+    // Provide different feedback depending on key input mode
     if (opts.mode == "signature" && keyData.sigUserId) {
         if (valid) {
             feedback += "The message was signed by the userId extracted from the signature.<br>";
@@ -88,27 +92,30 @@ async function verifySignature(opts) {
         }
     }
 
+    // Display feedback
     elRes.innerHTML = feedback;
 };
 
 async function encryptMessage(opts) {
+    // Init
     const elEnc = document.body.querySelector("#messageEncrypted");
     const elRes = document.body.querySelector("#result");
     let keyData, feedback, message, encrypted;
 
+    // Reset feedback
     elRes.innerHTML = "";
     elEnc.value = "";
 
     try {
+        // Get key data
         keyData = await fetchKeys(opts);
 
+        // Handle missing message
         if (opts.message == null) {
-            elRes.innerHTML = "No message was provided.";
-            elRes.classList.remove('green');
-            elRes.classList.add('red');
-            return;
+            throw("No message was provided.");
         }
 
+        // Encrypt the message
         encrypted = await openpgp.encrypt({
             message: openpgp.message.fromText(opts.message),
             publicKeys: keyData.publicKey
@@ -121,6 +128,7 @@ async function encryptMessage(opts) {
         return;
     }
 
+    // Display encrypted data
     elEnc.value = encrypted.data;
 };
 
