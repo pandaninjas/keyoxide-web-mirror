@@ -34,7 +34,7 @@ async function verifySignature(opts) {
             message: signature,
             publicKeys: keyData.publicKey
         });
-        { valid } = verified.signatures[0];
+        valid = verified.signatures[0].valid;
     } catch (e) {
         console.error(e);
         elRes.innerHTML = e;
