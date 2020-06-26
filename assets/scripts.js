@@ -165,7 +165,30 @@ async function verifyProofs(opts) {
 
     // Display feedback
     elRes.innerHTML = feedback;
-};
+}
+
+async function displayProfile(opts) {
+    let keyData = await fetchKeys(opts);
+    let userData = keyData.user.user.userId;
+    let feedback = "", notation, isVerified, verifications = [];
+
+    document.body.querySelector('#profile--name').innerHTML = userData.name;
+    document.body.querySelector('#profile--email').innerHTML = userData.email;
+
+    for (var i = 0; i < keyData.notations.length; i++) {
+        notation = keyData.notations[i];
+        if (!(notation[0] == "proof@keyoxide.org" || notation[0] == "proof@metacode.biz")) { continue; }
+        verifications.push(await verifyProof(notation[1], keyData.fingerprint));
+    }
+
+    // Generate feedback
+    for (var i = 0; i < verifications.length; i++) {
+        feedback += `${verifications[i].type}: <a href="${verifications[i].url}">${verifications[i].display}</a>: ${verifications[i].isVerified}<br>`;
+    }
+
+    // Display feedback
+    document.body.querySelector('#profile--proofs').innerHTML = feedback;
+}
 
 async function verifyProof(url, fingerprint) {
     // Init
@@ -385,8 +408,9 @@ async function fetchKeys(opts) {
 
 // General purpose
 let elFormVerify = document.body.querySelector("#form-verify"),
-    elFormEncrypt = document.body.querySelector("#form-encrypt");
-    elFormProofs = document.body.querySelector("#form-proofs");
+    elFormEncrypt = document.body.querySelector("#form-encrypt"),
+    elFormProofs = document.body.querySelector("#form-proofs"),
+    elProfileUid = document.body.querySelector("#profileUid");
 
 if (elFormVerify) {
     elFormVerify.onsubmit = function (evt) {
@@ -473,4 +497,13 @@ if (elFormProofs) {
         }
         verifyProofs(opts);
     };
+}
+
+if (elProfileUid) {
+    let profileUid = elProfileUid.innerHTML;
+    let opts = {
+        input: profileUid,
+        mode: "hkp"
+    }
+    displayProfile(opts);
 }
