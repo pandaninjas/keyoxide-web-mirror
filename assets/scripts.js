@@ -199,7 +199,6 @@ async function displayProfile(opts) {
     feedback += `<div class="profileDataItem__value">proofs</div>`;
     feedback += `</div>`;
     for (var i = 0; i < verifications.length; i++) {
-        // feedback += `${verifications[i].type}: <a href="${verifications[i].url}">${verifications[i].display}</a>: ${verifications[i].isVerified}<br>`;
         feedback += `<div class="profileDataItem">`;
         feedback += `<div class="profileDataItem__label">${verifications[i].type}</div>`;
         feedback += `<div class="profileDataItem__value">`;
