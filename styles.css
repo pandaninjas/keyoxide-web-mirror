@@ -14,7 +14,7 @@ header {
 header .container {
     display: flex;
 }
-header a {
+nav a {
     margin-left: 12px;
 }
 footer {
