@@ -41,9 +41,10 @@ if(is_array($match) && is_callable($match['target'])) {
             break;
 
         case 'profile':
-            $content = file_get_contents('pages/profile.html', FALSE, NULL, 0, 36);
+            $content = file_get_contents('pages/profile.html');
             $content = str_replace('%UID%', $match['params']['uid'], $content);
-            echo $content;
+            header('Content-Type: text/html; charset=utf-8');
+            print($content);
             break;
     }
 } else {
