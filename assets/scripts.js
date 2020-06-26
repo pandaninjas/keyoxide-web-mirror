@@ -173,6 +173,7 @@ async function displayProfile(opts) {
     let feedback = "", notation, isVerified, verifications = [];
 
     document.body.querySelector('#profileName').innerHTML = userData.name;
+    document.title = `${userData.name} - Keyoxide`;
 
     for (var i = 0; i < keyData.notations.length; i++) {
         notation = keyData.notations[i];
