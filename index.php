@@ -12,6 +12,7 @@ $router->map('GET', '/verify', function() {}, 'verify');
 $router->map('GET', '/encrypt', function() {}, 'encrypt');
 $router->map('GET', '/proofs', function() {}, 'proofs');
 $router->map('GET', '/faq', function() {}, 'faq');
+$router->map('GET', '/[:uid]', function() {}, 'profile');
 
 // Router matching
 $match = $router->match();
@@ -37,6 +38,12 @@ if(is_array($match) && is_callable($match['target'])) {
 
         case 'faq':
             readfile('pages/faq.html');
+            break;
+
+        case 'profile':
+            $content = file_get_contents('pages/profile.html');
+            $content = str_replace('%UID%', $match['params']['uid'], $content);
+            print($content);
             break;
     }
 } else {
