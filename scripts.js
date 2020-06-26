@@ -57,6 +57,7 @@ async function verifySignature(opts) {
             elRes.classList.add('green');
         } else {
             feedback += "The message's signature COULD NOT BE verified using the userId extracted from the signature.<br>";
+            feedback += 'UserId: '+keyData.sigUserId+'<br>';
             elRes.classList.remove('green');
             elRes.classList.add('red');
         }
@@ -70,6 +71,7 @@ async function verifySignature(opts) {
             elRes.classList.add('green');
         } else {
             feedback += "The message's signature COULD NOT BE verified using the keyId extracted from the signature.<br>";
+            feedback += 'KeyID: '+keyData.sigKeyId+'<br>';
             elRes.classList.remove('green');
             elRes.classList.add('red');
         }
