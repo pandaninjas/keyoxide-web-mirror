@@ -3,7 +3,7 @@
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <title>Keyoxide</title>
+        <title>Profile - Keyoxide</title>
         <script async defer data-domain="keyoxide.org" src="https://plausible.io/js/plausible.js"></script>
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/normalize.css@8.0.1/normalize.css">
         <link rel="stylesheet" href="styles.css">
@@ -22,17 +22,21 @@
         </header>
 
         <div class="container">
-            <h1>Keyoxide</h1>
+            <h1>Proofs</h1>
             <div class="content">
-                <h2>PGP functions</h2>
-                <p>
-                    <a class="bigBtn" href="/verify">verify signature</a>
-                    <a class="bigBtn" href="/encrypt">encrypt message</a>
-                    <a class="bigBtn" href="/proofs">verify proofs</a>
-                </p>
-                <h2>About</h2>
-                <p><a href="/">Keyoxide</a> is a lightweight and FOSS solution to make basic cryptography operations accessible to regular humans.</p>
-                <p>Read more in the <a href="/faq">FAQ</a>.</p>
+                <form id="form-proofs" method="post">
+                    <h3>Public Key (1: plaintext)</h3>
+                    <textarea name="publicKey" id="publicKey"></textarea>
+                    <h3>Public Key (2: web key directory)</h3>
+                    <input type="text" name="wkd" id="wkd" placeholder="name@domain.com">
+                    <h3>Public Key (3: HKP server)</h3>
+                    <input type="text" name="hkp_server" id="hkp_server" placeholder="https://keys.openpgp.org/">
+                    <input type="text" name="hkp_input" id="hkp_input" placeholder="Email / key id / fingerprint">
+                    <h3>Result</h3>
+                    <p id="result">Click on the button below.</p>
+                    <p id="resultContent"></p>
+                    <input type="submit" class="bigBtn" name="submit" value="VERIFY PROOFS" value="">
+                </form>
             </div>
 
             <footer>

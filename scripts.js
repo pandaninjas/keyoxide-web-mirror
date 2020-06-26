@@ -132,6 +132,177 @@ async function encryptMessage(opts) {
     elEnc.value = encrypted.data;
 };
 
+async function verifyProofs(opts) {
+    // Init
+    const elRes = document.body.querySelector("#result");
+    let keyData, feedback = "", message, encrypted;
+
+    // Reset feedback
+    elRes.innerHTML = "";
+
+    try {
+        // Get key data
+        keyData = await fetchKeys(opts);
+    } catch (e) {
+        console.error(e);
+        elRes.innerHTML = e;
+        elRes.classList.remove('green');
+        elRes.classList.add('red');
+        return;
+    }
+
+    let notation, isVerified, verifications = [];
+    for (var i = 0; i < keyData.notations.length; i++) {
+        notation = keyData.notations[i];
+        if (!(notation[0] == "proof@keyoxide.org" || notation[0] == "proof@metacode.biz")) { continue; }
+        verifications.push(await verifyProof(notation[1], keyData.fingerprint));
+    }
+
+    // Generate feedback
+    for (var i = 0; i < verifications.length; i++) {
+        feedback += `${verifications[i].type}: <a href="${verifications[i].url}">${verifications[i].display}</a>: ${verifications[i].isVerified}<br>`;
+    }
+
+    // Display feedback
+    elRes.innerHTML = feedback;
+};
+
+async function verifyProof(url, fingerprint) {
+    // Init
+    let reVerify, urlFetch, output = {url: url, type: null, isVerified: false, display: null};
+
+    // DNS
+    if (/^dns:/.test(url)) {
+        output.type = "dns";
+        let domain = url.replace(/dns:/, '').replace(/\?type=TXT/, '');
+        urlFetch = `https://dns.google.com/resolve?name=${domain}&type=TXT`;
+        output.display = domain;
+
+        try {
+            response = await fetch(urlFetch, {
+                headers: {
+                    Accept: 'application/json'
+                },
+                credentials: 'omit'
+            });
+            if (!response.ok) {
+                throw new Error('Response failed: ' + response.status);
+            }
+            json = await response.json();
+            reVerify = new RegExp(`openpgp4fpr:${fingerprint}`);
+            json.Answer.forEach((item, i) => {
+                if (reVerify.test(item.data)) {
+                    output.isVerified = true;
+                }
+            });
+        } catch (e) {
+        } finally {
+            return output;
+        }
+    }
+    // HN
+    if (/^https:\/\/news.ycombinator.com/.test(url)) {
+        output.type = "hn";
+        try {
+            response = await fetch(urlFetch, {
+                headers: {
+                    Accept: 'application/json'
+                },
+                credentials: 'omit'
+            });
+            if (!response.ok) {
+                throw new Error('Response failed: ' + response.status);
+            }
+            json = await response.json();
+            reVerify = new RegExp(`openpgp4fpr:${fingerprint}`);
+            json.Answer.forEach((item, i) => {
+                if (reVerify.test(item.data)) {
+                    output.isVerified = true;
+                }
+            });
+        } catch (e) {
+        } finally {
+            return output;
+        }
+    }
+    // Reddit
+    if (/^https:\/\/www.reddit.com\/user/.test(url)) {
+        output.type = "reddit";
+        try {
+            response = await fetch(urlFetch, {
+                headers: {
+                    Accept: 'application/json'
+                },
+                credentials: 'omit'
+            });
+            if (!response.ok) {
+                throw new Error('Response failed: ' + response.status);
+            }
+            json = await response.json();
+            reVerify = new RegExp(`openpgp4fpr:${fingerprint}`);
+            json.Answer.forEach((item, i) => {
+                if (reVerify.test(item.data)) {
+                    output.isVerified = true;
+                }
+            });
+        } catch (e) {
+        } finally {
+            return output;
+        }
+    }
+    // Github
+    if (/^https:\/\/gist.github.com/.test(url)) {
+        output.type = "github";
+        try {
+            response = await fetch(urlFetch, {
+                headers: {
+                    Accept: 'application/json'
+                },
+                credentials: 'omit'
+            });
+            if (!response.ok) {
+                throw new Error('Response failed: ' + response.status);
+            }
+            json = await response.json();
+            reVerify = new RegExp(`openpgp4fpr:${fingerprint}`);
+            json.Answer.forEach((item, i) => {
+                if (reVerify.test(item.data)) {
+                    output.isVerified = true;
+                }
+            });
+        } catch (e) {
+        } finally {
+            return output;
+        }
+    }
+    // Catchall
+    try {
+        response = await fetch(url, {
+            headers: {
+                Accept: 'application/json'
+            },
+            credentials: 'omit'
+        });
+        if (!response.ok) {
+            throw new Error('Response failed: ' + response.status);
+        }
+        json = await response.json();
+        if ('attachment' in json) {
+            // Potentially Mastodon
+            json.attachment.forEach((item, i) => {
+                if (item.value === fingerprint) {
+                    output.type = "mastodon";
+                    output.display = json.url;
+                    output.isVerified = true;
+                }
+            });
+        }
+    } catch (e) {
+    } finally {
+        return output;
+    }
+}
+
 async function fetchKeys(opts) {
     // Init
     let lookupOpts, wkd, hkd, sig, lastPrimarySig;
@@ -215,6 +386,7 @@ async function fetchKeys(opts) {
 // General purpose
 let elFormVerify = document.body.querySelector("#form-verify"),
     elFormEncrypt = document.body.querySelector("#form-encrypt");
+    elFormProofs = document.body.querySelector("#form-proofs");
 
 if (elFormVerify) {
     elFormVerify.onsubmit = function (evt) {
@@ -273,5 +445,32 @@ if (elFormEncrypt) {
             opts.mode = "signature";
         }
         encryptMessage(opts);
+    };
+}
+
+if (elFormProofs) {
+    elFormProofs.onsubmit = function (evt) {
+        evt.preventDefault();
+
+        let opts = {
+            mode: null,
+            input: null,
+            server: null,
+        };
+
+        if (document.body.querySelector("#publicKey").value != "") {
+            opts.input = document.body.querySelector("#publicKey").value;
+            opts.mode = "plaintext";
+        } else if (document.body.querySelector("#wkd").value != "") {
+            opts.input = document.body.querySelector("#wkd").value;
+            opts.mode = "wkd";
+        } else if (document.body.querySelector("#hkp_input").value != "") {
+            opts.input = document.body.querySelector("#hkp_input").value;
+            opts.server =  document.body.querySelector("#hkp_server").value;
+            opts.mode = "hkp";
+        } else {
+            opts.mode = null;
+        }
+        verifyProofs(opts);
     };
 }
