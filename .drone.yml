@@ -5,6 +5,9 @@ type: exec
 name: deploy to prod
 
 steps:
+    - name: composer
+      commands:
+          - composer install
     - name: deploy to server
       environment:
           DEPLOY_COMMAND:
@@ -23,6 +26,9 @@ type: exec
 name: deploy to dev
 
 steps:
+    - name: composer
+      commands:
+          - composer install
     - name: deploy to server
       environment:
           DEPLOY_COMMAND:
