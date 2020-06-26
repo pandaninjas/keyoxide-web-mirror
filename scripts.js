@@ -1,60 +1,13 @@
 async function verifySignature(opts) {
     const elRes = document.body.querySelector("#result");
     const elResContent = document.body.querySelector("#resultContent");
-    let feedback, signature, verified, publicKey, fp, lookupOpts, wkd, hkp, sig, userId, keyId, sigContent;
+    let keyData, feedback, signature, verified;
 
     elRes.innerHTML = "";
     elResContent.innerHTML = "";
 
     try {
-        switch (opts.mode) {
-            case "plaintext":
-                publicKey = (await openpgp.key.readArmored(opts.input)).keys;
-                break;
-
-            case "wkd":
-                wkd = new openpgp.WKD();
-                lookupOpts = {
-                    email: opts.input
-                };
-                publicKey = (await wkd.lookup(lookupOpts)).keys;
-                break;
-
-            case "hkp":
-                if (!opts.server) {opts.server = "https://keys.openpgp.org/"};
-                hkp = new openpgp.HKP(opts.server);
-                lookupOpts = {
-                    query: opts.input
-                };
-                publicKey = await hkp.lookup(lookupOpts);
-                publicKey = (await openpgp.key.readArmored(publicKey)).keys;
-                break;
-
-            default:
-                sig = (await openpgp.signature.readArmored(opts.signature));
-                if ('compressed' in sig.packets[0]) {
-                    sig = sig.packets[0];
-                    sigContent = (await openpgp.stream.readToEnd(await sig.packets[1].getText()));
-                };
-                keyId = (await sig.packets[0].issuerKeyId.toHex());
-                userId = sig.packets[0].signersUserId;
-
-                if (!keyId && !userId) {
-                    elRes.innerHTML = "The signature does not contain a valid keyId or userId.";
-                    elRes.classList.remove('green');
-                    elRes.classList.add('red');
-                    return;
-                }
-
-                if (!opts.server) {opts.server = "https://keys.openpgp.org/"};
-                hkp = new openpgp.HKP(opts.server);
-                lookupOpts = {
-                    query: userId ? userId : keyId
-                };
-                publicKey = await hkp.lookup(lookupOpts);
-                publicKey = (await openpgp.key.readArmored(publicKey)).keys;
-                break;
-        }
+        keyData = await fetchKeys(opts);
 
         if (opts.signature == null) {
             elRes.innerHTML = "No signature was provided.";
@@ -76,10 +29,9 @@ async function verifySignature(opts) {
         }
         if (signature == null) {throw(readError)};
 
-        fp = publicKey[0].getFingerprint();
         verified = await openpgp.verify({
             message: signature,
-            publicKeys: publicKey
+            publicKeys: keyData.publicKey
         });
     } catch (e) {
         console.error(e);
@@ -90,17 +42,17 @@ async function verifySignature(opts) {
     }
 
     feedback = '';
-    const valid = verified.signatures[0];
+    const { valid } = verified.signatures[0];
 
-    if (sigContent) {
+    if (keyData.sigContent) {
         elResContent.innerHTML = "<strong>Signature content:</strong><br><span style=\"white-space: pre-line\">"+sigContent+"</span>";
     }
 
-    if (userId) {
+    if (opts.mode == "signature" && keyData.sigUserId) {
         if (valid) {
             feedback += "The message was signed by the userId extracted from the signature.<br>";
-            feedback += 'UserId: '+userId+'<br>';
-            feedback += "Fingerprint: "+fp+"<br>";
+            feedback += 'UserId: '+keyData.sigUserId+'<br>';
+            feedback += "Fingerprint: "+keyData.fingerprint+"<br>";
             elRes.classList.remove('red');
             elRes.classList.add('green');
         } else {
@@ -108,11 +60,11 @@ async function verifySignature(opts) {
             elRes.classList.remove('green');
             elRes.classList.add('red');
         }
-    } else if (keyId) {
+    } else if (opts.mode == "signature" && keyData.sigKeyId) {
         if (valid) {
             feedback += "The message was signed by the keyId extracted from the signature.<br>";
-            feedback += 'KeyID: '+keyId+'<br>';
-            feedback += "Fingerprint: "+fp+"<br><br>";
+            feedback += 'KeyID: '+keyData.sigKeyId+'<br>';
+            feedback += "Fingerprint: "+keyData.fingerprint+"<br><br>";
             feedback += "!!! You should manually verify the fingerprint to confirm the signer's identity !!!";
             elRes.classList.remove('red');
             elRes.classList.add('green');
@@ -124,7 +76,7 @@ async function verifySignature(opts) {
     } else {
         if (valid) {
             feedback += "The message was signed by the provided key ("+opts.mode+").<br>";
-            feedback += "Fingerprint: "+fp+"<br>";
+            feedback += "Fingerprint: "+keyData.fingerprint+"<br>";
             elRes.classList.remove('red');
             elRes.classList.add('green');
         } else {
@@ -140,60 +92,13 @@ async function verifySignature(opts) {
 async function encryptMessage(opts) {
     const elEnc = document.body.querySelector("#messageEncrypted");
     const elRes = document.body.querySelector("#result");
-    let feedback, message, verified, publicKey, fp, lookupOpts, wkd, hkp, sig, userId, keyId, sigContent;
+    let keyData, feedback, message, encrypted;
 
     elRes.innerHTML = "";
     elEnc.value = "";
 
     try {
-        switch (opts.mode) {
-            case "plaintext":
-                publicKey = (await openpgp.key.readArmored(opts.input)).keys;
-                break;
-
-            case "wkd":
-                wkd = new openpgp.WKD();
-                lookupOpts = {
-                    email: opts.input
-                };
-                publicKey = (await wkd.lookup(lookupOpts)).keys;
-                break;
-
-            case "hkp":
-                if (!opts.server) {opts.server = "https://keys.openpgp.org/"};
-                hkp = new openpgp.HKP(opts.server);
-                lookupOpts = {
-                    query: opts.input
-                };
-                publicKey = await hkp.lookup(lookupOpts);
-                publicKey = (await openpgp.key.readArmored(publicKey)).keys;
-                break;
-
-            default:
-                sig = (await openpgp.signature.readArmored(opts.message));
-                if ('compressed' in sig.packets[0]) {
-                    sig = sig.packets[0];
-                    sigContent = (await openpgp.stream.readToEnd(await sig.packets[1].getText()));
-                };
-                keyId = (await sig.packets[0].issuerKeyId.toHex());
-                userId = sig.packets[0].signersUserId;
-
-                if (!keyId && !userId) {
-                    elRes.innerHTML = "The signature does not contain a valid keyId or userId.";
-                    elRes.classList.remove('green');
-                    elRes.classList.add('red');
-                    return;
-                }
-
-                if (!opts.server) {opts.server = "https://keys.openpgp.org/"};
-                hkp = new openpgp.HKP(opts.server);
-                lookupOpts = {
-                    query: userId ? userId : keyId
-                };
-                publicKey = await hkp.lookup(lookupOpts);
-                publicKey = (await openpgp.key.readArmored(publicKey)).keys;
-                break;
-        }
+        keyData = await fetchKeys(opts);
 
         if (opts.message == null) {
             elRes.innerHTML = "No message was provided.";
@@ -204,7 +109,7 @@ async function encryptMessage(opts) {
 
         encrypted = await openpgp.encrypt({
             message: openpgp.message.fromText(opts.message),
-            publicKeys: publicKey
+            publicKeys: keyData.publicKey
         });
     } catch (e) {
         console.error(e);
@@ -217,6 +122,84 @@ async function encryptMessage(opts) {
     elEnc.value = encrypted.data;
 };
 
+async function fetchKeys(opts) {
+    let lookupOpts, wkd, hkd, sig, lastPrimarySig;
+    let output = {
+        publicKey: null,
+        user: null,
+        notations: null,
+        sigKeyId: null,
+        sigUserId: null,
+        sigContent: null
+    };
+
+    switch (opts.mode) {
+        case "plaintext":
+            output.publicKey = (await openpgp.key.readArmored(opts.input)).keys[0];
+
+            if (!output.publicKey) {
+                throw("Error: No public keys could be fetched from the plaintext input.");
+            }
+            break;
+
+        case "wkd":
+            wkd = new openpgp.WKD();
+            lookupOpts = {
+                email: opts.input
+            };
+            output.publicKey = (await wkd.lookup(lookupOpts)).keys[0];
+
+            if (!output.publicKey) {
+                throw("Error: No public keys could be fetched using WKD.");
+            }
+            break;
+
+        case "hkp":
+            if (!opts.server) {opts.server = "https://keys.openpgp.org/"};
+            hkp = new openpgp.HKP(opts.server);
+            lookupOpts = {
+                query: opts.input
+            };
+            output.publicKey = await hkp.lookup(lookupOpts);
+            output.publicKey = (await openpgp.key.readArmored(output.publicKey)).keys[0];
+
+            if (!output.publicKey) {
+                throw("Error: No public keys could be fetched from the HKP server.");
+            }
+            break;
+
+        case "signature":
+            sig = (await openpgp.signature.readArmored(opts.signature));
+            if ('compressed' in sig.packets[0]) {
+                sig = sig.packets[0];
+                output.sigContent = (await openpgp.stream.readToEnd(await sig.packets[1].getText()));
+            };
+            output.sigUserId = sig.packets[0].signersUserId;
+            output.sigKeyId = (await sig.packets[0].issuerKeyId.toHex());
+
+            if (!opts.server) {opts.server = "https://keys.openpgp.org/"};
+            hkp = new openpgp.HKP(opts.server);
+            lookupOpts = {
+                query: output.sigUserId ? output.sigUserId : output.sigKeyId
+            };
+            output.publicKey = await hkp.lookup(lookupOpts);
+            output.publicKey = (await openpgp.key.readArmored(output.publicKey)).keys[0];
+
+            if (!output.publicKey) {
+                throw("Error: No public keys could be extracted from the signature.");
+            }
+            break;
+    }
+
+    output.fingerprint = output.publicKey.primaryKey.getFingerprint();
+    output.user = await output.publicKey.getPrimaryUser();
+    lastPrimarySig = output.user.selfCertification;
+    output.notations = lastPrimarySig.notations || [];
+
+    return output;
+}
+
+// General purpose
 let elFormVerify = document.body.querySelector("#form-verify"),
     elFormEncrypt = document.body.querySelector("#form-encrypt");
 
@@ -243,6 +226,8 @@ if (elFormVerify) {
             opts.input = document.body.querySelector("#hkp_input").value;
             opts.server =  document.body.querySelector("#hkp_server").value;
             opts.mode = "hkp";
+        } else {
+            opts.mode = "signature";
         }
         verifySignature(opts);
     };
@@ -271,6 +256,8 @@ if (elFormEncrypt) {
             opts.input = document.body.querySelector("#hkp_input").value;
             opts.server =  document.body.querySelector("#hkp_server").value;
             opts.mode = "hkp";
+        } else {
+            opts.mode = "signature";
         }
         encryptMessage(opts);
     };
