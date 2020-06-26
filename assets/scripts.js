@@ -172,8 +172,7 @@ async function displayProfile(opts) {
     let userData = keyData.user.user.userId;
     let feedback = "", notation, isVerified, verifications = [];
 
-    document.body.querySelector('#profile--name').innerHTML = userData.name;
-    document.body.querySelector('#profile--email').innerHTML = userData.email;
+    document.body.querySelector('#profileName').innerHTML = userData.name;
 
     for (var i = 0; i < keyData.notations.length; i++) {
         notation = keyData.notations[i];
@@ -182,27 +181,55 @@ async function displayProfile(opts) {
     }
 
     // Generate feedback
+    feedback += `<div class="profileDataItem profileDataItem--separator">`;
+    feedback += `<div class="profileDataItem__label"></div>`;
+    feedback += `<div class="profileDataItem__value">general information</div>`;
+    feedback += `</div>`;
+    feedback += `<div class="profileDataItem">`;
+    feedback += `<div class="profileDataItem__label">email</div>`;
+    feedback += `<div class="profileDataItem__value"><a href="mailto:${userData.email}">${userData.email}</a></div>`;
+    feedback += `</div>`;
+    feedback += `<div class="profileDataItem">`;
+    feedback += `<div class="profileDataItem__label">fingerprint</div>`;
+    feedback += `<div class="profileDataItem__value"><a href="https://keys.openpgp.org/pks/lookup?op=get&options=mr&search=0x${keyData.fingerprint}">${keyData.fingerprint}</a></div>`;
+    feedback += `</div>`;
+
+    feedback += `<div class="profileDataItem profileDataItem--separator">`;
+    feedback += `<div class="profileDataItem__label"></div>`;
+    feedback += `<div class="profileDataItem__value">proofs</div>`;
+    feedback += `</div>`;
     for (var i = 0; i < verifications.length; i++) {
-        feedback += `${verifications[i].type}: <a href="${verifications[i].url}">${verifications[i].display}</a>: ${verifications[i].isVerified}<br>`;
+        // feedback += `${verifications[i].type}: <a href="${verifications[i].url}">${verifications[i].display}</a>: ${verifications[i].isVerified}<br>`;
+        feedback += `<div class="profileDataItem">`;
+        feedback += `<div class="profileDataItem__label">${verifications[i].type}</div>`;
+        feedback += `<div class="profileDataItem__value">`;
+        feedback += `<a class="proofDisplay" href="${verifications[i].url}">${verifications[i].display}</a>`;
+        if (verifications[i].isVerified) {
+            feedback += `<a class="proofUrl proofUrl--verified" href="${verifications[i].proofUrl}">verified &#10004;</a>`;
+        } else {
+            feedback += `<a class="proofUrl" href="${verifications[i].proofUrl}">proof</a>`;
+        }
+        feedback += `</div>`;
+        feedback += `</div>`;
     }
 
     // Display feedback
-    document.body.querySelector('#profile--proofs').innerHTML = feedback;
+    document.body.querySelector('#profileData').innerHTML = feedback;
 }
 
 async function verifyProof(url, fingerprint) {
     // Init
-    let reVerify, urlFetch, output = {url: url, type: null, isVerified: false, display: null};
+    let reVerify, output = {url: url, type: null, proofUrl: url, proofUrlFetch: null, isVerified: false, display: null};
 
     // DNS
     if (/^dns:/.test(url)) {
-        output.type = "dns";
-        let domain = url.replace(/dns:/, '').replace(/\?type=TXT/, '');
-        urlFetch = `https://dns.google.com/resolve?name=${domain}&type=TXT`;
-        output.display = domain;
+        output.type = "website";
+        output.display = url.replace(/dns:/, '').replace(/\?type=TXT/, '');
+        output.proofUrlFetch = `https://dns.google.com/resolve?name=${output.display}&type=TXT`;
+        output.url = `https://${output.display}`;
 
         try {
-            response = await fetch(urlFetch, {
+            response = await fetch(output.proofUrlFetch, {
                 headers: {
                     Accept: 'application/json'
                 },
@@ -226,8 +253,10 @@ async function verifyProof(url, fingerprint) {
     // HN
     if (/^https:\/\/news.ycombinator.com/.test(url)) {
         output.type = "hn";
+        output.display = url.replace(/https:\/\/news.ycombinator.com\/user\?id=/, "");
+        output.proofUrlFetch = `https://hacker-news.firebaseio.com/v0/user/${output.display}.json`;
         try {
-            response = await fetch(urlFetch, {
+            response = await fetch(output.proofUrlFetch, {
                 headers: {
                     Accept: 'application/json'
                 },
@@ -238,11 +267,9 @@ async function verifyProof(url, fingerprint) {
             }
             json = await response.json();
             reVerify = new RegExp(`openpgp4fpr:${fingerprint}`);
-            json.Answer.forEach((item, i) => {
-                if (reVerify.test(item.data)) {
-                    output.isVerified = true;
-                }
-            });
+            if (reVerify.test(json.about)) {
+                output.isVerified = true;
+            }
         } catch (e) {
         } finally {
             return output;
@@ -251,8 +278,11 @@ async function verifyProof(url, fingerprint) {
     // Reddit
     if (/^https:\/\/www.reddit.com\/user/.test(url)) {
         output.type = "reddit";
+        output.display = url.replace(/^https:\/\/www.reddit.com\/user\//, "").replace(/\/comments\/.*/, "");
+        output.url = `https://www.reddit.com/user/${output.display}`;
+        output.proofUrlFetch = url.replace(/\/[a-zA-Z0-9_]*\/$/, ".json");
         try {
-            response = await fetch(urlFetch, {
+            response = await fetch(output.proofUrlFetch, {
                 headers: {
                     Accept: 'application/json'
                 },
@@ -262,7 +292,8 @@ async function verifyProof(url, fingerprint) {
                 throw new Error('Response failed: ' + response.status);
             }
             json = await response.json();
-            reVerify = new RegExp(`openpgp4fpr:${fingerprint}`);
+            console.log(json);
+            reVerify = new RegExp(`Verifying my OpenPGP key: openpgp4fpr:${fingerprint}`);
             json.Answer.forEach((item, i) => {
                 if (reVerify.test(item.data)) {
                     output.isVerified = true;
@@ -276,8 +307,12 @@ async function verifyProof(url, fingerprint) {
     // Github
     if (/^https:\/\/gist.github.com/.test(url)) {
         output.type = "github";
+        output.display = url.replace(/^https:\/\/gist.github.com\//, "").replace(/\/[a-zA-Z0-9]*$/, "");
+        output.url = `https://github.com/${output.display}`;
+        let gistId = url.replace(/^https:\/\/gist.github.com\/[a-zA-Z0-9_-]*\//, "");
+        output.proofUrlFetch = `https://api.github.com/gists/${gistId}`;
         try {
-            response = await fetch(urlFetch, {
+            response = await fetch(output.proofUrlFetch, {
                 headers: {
                     Accept: 'application/json'
                 },
@@ -287,12 +322,10 @@ async function verifyProof(url, fingerprint) {
                 throw new Error('Response failed: ' + response.status);
             }
             json = await response.json();
-            reVerify = new RegExp(`openpgp4fpr:${fingerprint}`);
-            json.Answer.forEach((item, i) => {
-                if (reVerify.test(item.data)) {
-                    output.isVerified = true;
-                }
-            });
+            reVerify = new RegExp(`[Verifying my OpenPGP key: openpgp4fpr:${fingerprint}]`);
+            if (reVerify.test(json.files["openpgp.md"].content)) {
+                output.isVerified = true;
+            }
         } catch (e) {
         } finally {
             return output;
@@ -316,6 +349,7 @@ async function verifyProof(url, fingerprint) {
                 if (item.value === fingerprint) {
                     output.type = "mastodon";
                     output.display = json.url;
+                    output.proofUrlFetch = json.url;
                     output.isVerified = true;
                 }
             });
