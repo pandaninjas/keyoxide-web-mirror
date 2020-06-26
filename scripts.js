@@ -133,6 +133,7 @@ async function encryptMessage(opts) {
 };
 
 async function fetchKeys(opts) {
+    // Init
     let lookupOpts, wkd, hkd, sig, lastPrimarySig;
     let output = {
         publicKey: null,
@@ -143,6 +144,7 @@ async function fetchKeys(opts) {
         sigContent: null
     };
 
+    // Fetch keys depending on the input mode
     switch (opts.mode) {
         case "plaintext":
             output.publicKey = (await openpgp.key.readArmored(opts.input)).keys[0];
@@ -201,7 +203,8 @@ async function fetchKeys(opts) {
             break;
     }
 
-    output.fingerprint = output.publicKey.primaryKey.getFingerprint();
+    // Gather more data about the primary key and user
+    output.fingerprint = await output.publicKey.primaryKey.getFingerprint();
     output.user = await output.publicKey.getPrimaryUser();
     lastPrimarySig = output.user.selfCertification;
     output.notations = lastPrimarySig.notations || [];
