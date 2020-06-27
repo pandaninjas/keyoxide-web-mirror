@@ -217,6 +217,19 @@ async function displayProfile(opts) {
         feedback += `</div>`;
     }
 
+    feedback += `<div class="profileDataItem profileDataItem--separator">`;
+    feedback += `<div class="profileDataItem__label"></div>`;
+    feedback += `<div class="profileDataItem__value">actions</div>`;
+    feedback += `</div>`;
+    feedback += `<div class="profileDataItem">`;
+    feedback += `<div class="profileDataItem__label"></div>`;
+    feedback += `<div class="profileDataItem__value"><a href="/verify/${keyData.fingerprint}">verify signature</a></div>`;
+    feedback += `</div>`;
+    feedback += `<div class="profileDataItem">`;
+    feedback += `<div class="profileDataItem__label"></div>`;
+    feedback += `<div class="profileDataItem__value"><a href="/encrypt/${keyData.fingerprint}">encrypt message</a></div>`;
+    feedback += `</div>`;
+
     // Display feedback
     document.body.querySelector('#profileData').innerHTML = feedback;
 }
