@@ -252,7 +252,7 @@ async function verifyProof(url, fingerprint) {
     if (/^dns:/.test(url)) {
         output.type = "website";
         output.display = url.replace(/dns:/, '').replace(/\?type=TXT/, '');
-        output.proofUrl = `https://dns.google.com/resolve?name=${output.display}&type=TXT`;
+        output.proofUrl = `https://dns.shivering-isles.com/dns-query?name=${output.display}&type=TXT`;
         output.proofUrlFetch = output.proofUrl;
         output.url = `https://${output.display}`;
 
