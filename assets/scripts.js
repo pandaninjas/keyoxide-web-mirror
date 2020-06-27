@@ -181,15 +181,19 @@ async function displayProfile(opts) {
         verifications.push(await verifyProof(notation[1], keyData.fingerprint));
     }
 
+    console.log(keyData);
+
     // Generate feedback
     feedback += `<div class="profileDataItem profileDataItem--separator">`;
     feedback += `<div class="profileDataItem__label"></div>`;
     feedback += `<div class="profileDataItem__value">general information</div>`;
     feedback += `</div>`;
-    feedback += `<div class="profileDataItem">`;
-    feedback += `<div class="profileDataItem__label">email</div>`;
-    feedback += `<div class="profileDataItem__value"><a href="mailto:${userData.email}">${userData.email}</a></div>`;
-    feedback += `</div>`;
+    for (var i = 0; i < keyData.publicKey.users.length; i++) {
+        feedback += `<div class="profileDataItem">`;
+        feedback += `<div class="profileDataItem__label">email</div>`;
+        feedback += `<div class="profileDataItem__value"><a href="mailto:${keyData.publicKey.users[i].userId.email}">${keyData.publicKey.users[i].userId.email}</a></div>`;
+        feedback += `</div>`;
+    }
     feedback += `<div class="profileDataItem">`;
     feedback += `<div class="profileDataItem__label">fingerprint</div>`;
     feedback += `<div class="profileDataItem__value"><a href="https://keys.openpgp.org/pks/lookup?op=get&options=mr&search=0x${keyData.fingerprint}">${keyData.fingerprint}</a></div>`;
