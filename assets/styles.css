@@ -166,4 +166,7 @@ a.proofUrl:hover {
     .profileDataItem__value {
         min-height: 28px;
     }
+	.profileDataItem--noLabel .profileDataItem__label {
+		display: none;
+	}
 }
