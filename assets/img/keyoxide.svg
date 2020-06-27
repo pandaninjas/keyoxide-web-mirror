@@ -7,43 +7,43 @@
    xmlns="http://www.w3.org/2000/svg"
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
-   inkscape:export-ydpi="12"
-   inkscape:export-xdpi="12"
-   inkscape:export-filename="/home/yarmo/dev/web/keyoxide/favicon.png"
-   sodipodi:docname="keyoxide.svg"
-   inkscape:version="1.0 (4035a4fb49, 2020-05-01)"
-   id="svg8"
-   version="1.1"
-   viewBox="0 0 270.93333 270.93334"
+   width="1024"
    height="1024"
-   width="1024">
+   viewBox="0 0 270.93333 270.93334"
+   version="1.1"
+   id="svg8"
+   inkscape:version="1.0 (4035a4fb49, 2020-05-01)"
+   sodipodi:docname="keyoxide.svg"
+   inkscape:export-filename="/home/yarmo/dev/web/keyoxide/favicon.png"
+   inkscape:export-xdpi="12.093751"
+   inkscape:export-ydpi="12.093751">
   <defs
      id="defs2" />
   <sodipodi:namedview
-     showguides="true"
-     inkscape:window-maximized="1"
-     inkscape:window-y="36"
-     inkscape:window-x="0"
-     inkscape:window-height="1015"
-     inkscape:window-width="1920"
-     units="px"
-     showgrid="true"
-     inkscape:document-rotation="0"
-     inkscape:current-layer="layer1"
-     inkscape:document-units="mm"
-     inkscape:cy="552.1885"
-     inkscape:cx="331.25806"
-     inkscape:zoom="0.7"
-     inkscape:pageshadow="2"
-     inkscape:pageopacity="0.0"
-     borderopacity="1.0"
-     bordercolor="#666666"
+     id="base"
      pagecolor="#ffffff"
-     id="base">
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageopacity="0.0"
+     inkscape:pageshadow="2"
+     inkscape:zoom="0.35"
+     inkscape:cx="522.53222"
+     inkscape:cy="1216.6356"
+     inkscape:document-units="mm"
+     inkscape:current-layer="layer1"
+     inkscape:document-rotation="0"
+     showgrid="false"
+     units="px"
+     inkscape:window-width="1920"
+     inkscape:window-height="1015"
+     inkscape:window-x="0"
+     inkscape:window-y="36"
+     inkscape:window-maximized="1"
+     showguides="true">
     <inkscape:grid
-       empspacing="8"
+       type="xygrid"
        id="grid2770"
-       type="xygrid" />
+       empspacing="8" />
   </sodipodi:namedview>
   <metadata
      id="metadata5">
@@ -53,50 +53,50 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title></dc:title>
+        <dc:title />
       </cc:Work>
     </rdf:RDF>
   </metadata>
   <g
-     style="display:inline"
-     inkscape:label="Layer 2"
+     inkscape:groupmode="layer"
      id="layer2"
-     inkscape:groupmode="layer">
+     inkscape:label="Layer 2"
+     style="display:inline">
     <circle
-       cy="135.46666"
-       cx="135.46666"
-       id="path1943-8"
+       r="135.46666"
        style="display:inline;fill:#3f9acc;fill-opacity:1;fill-rule:evenodd;stroke-width:0.690242"
-       r="135.46666" />
+       id="path1943-8"
+       cx="135.46666"
+       cy="135.46666" />
   </g>
   <g
-     style="display:inline"
-     id="layer1"
+     inkscape:label="Layer 1"
      inkscape:groupmode="layer"
-     inkscape:label="Layer 1">
+     id="layer1"
+     style="display:inline">
     <circle
-       r="55.033333"
+       style="fill:#ffffff;fill-opacity:1;fill-rule:evenodd;stroke-width:0.28041"
+       id="path1943"
+       cx="71.966667"
+       cy="135.46666"
+       r="55.033333" />
+    <rect
+       style="fill:#ffffff;fill-opacity:1;stroke-width:0.331624"
+       id="rect2768"
+       width="133.35001"
+       height="33.866669"
+       x="116.41666"
+       y="118.53333" />
+    <path
+       style="fill:#ffffff;stroke:none;stroke-width:0.264583px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       d="m 162.98333,152.4 -38.1,38.1 38.1,0 23.28334,-23.28333 L 209.55,190.5 l 38.1,-1e-5 L 209.55,152.4 Z"
+       id="path2803"
+       sodipodi:nodetypes="cccccccc" />
+    <circle
+       r="25.4"
        cy="135.46666"
        cx="71.966667"
-       id="path1943"
-       style="fill:#ffffff;fill-opacity:1;fill-rule:evenodd;stroke-width:0.28041" />
-    <rect
-       y="124.88333"
-       x="103.71667"
-       height="21.166672"
-       width="146.05"
-       id="rect2768"
-       style="fill:#ffffff;fill-opacity:1;stroke-width:0.274373" />
-    <path
-       sodipodi:nodetypes="cccccccc"
-       id="path2803"
-       d="m 177.79999,146.04999 -44.45,44.45 23.28334,1e-5 29.63333,-29.63334 29.63333,29.63333 h 23.28334 l -44.45,-44.45 z"
-       style="fill:#ffffff;stroke:none;stroke-width:0.264583px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" />
-    <circle
-       r="33.866665"
-       style="fill:#3f9acc;fill-opacity:1;fill-rule:evenodd;stroke-width:0.172559"
        id="circle2820"
-       cx="71.966667"
-       cy="135.46666" />
+       style="fill:#3f9acc;fill-opacity:1;fill-rule:evenodd;stroke-width:0.129419" />
   </g>
 </svg>
