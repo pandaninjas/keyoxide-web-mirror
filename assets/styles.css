@@ -140,17 +140,16 @@ input[type="submit"] {
     overflow: hidden;
     text-overflow: ellipsis;
 }
-.profileDataItem__value a.proofDisplay {
+a.proofDisplay {
     margin-right: 16px;
 }
-.profileDataItem__value a.proofUrl {
+a.proofUrl {
     color: #777;
-    /* text-decoration: none; */
 }
-.profileDataItem__value a.proofUrl.proofUrl--verified {
+a.proofUrl.proofUrl--verified {
     color: #499539;
 }
-.profileDataItem__value a.proofUrl:hover {
+a.proofUrl:hover {
     text-decoration: underline;
 }
 @media (max-width: 680px) {
