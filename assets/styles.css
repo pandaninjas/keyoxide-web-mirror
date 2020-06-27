@@ -2,10 +2,10 @@
     box-sizing: border-box;
 }
 body {
-    background-color: #eee;
+	margin: 0;
     color: #333;
     font-family: sans-serif;
-	margin: 0;
+	background-color: #eee;
 }
 header {
     padding: 16px;
@@ -62,6 +62,9 @@ h1 {
 }
 h2, h3 {
     margin-top: 32px;
+}
+p {
+	line-height: 1.3em;
 }
 a {
     color: #3f9acc;
@@ -143,10 +146,11 @@ input[type="submit"] {
     text-overflow: ellipsis;
 }
 a.proofDisplay {
-    margin-right: 16px;
+    margin-right: 8px;
 }
 a.proofUrl {
     color: #777;
+	font-size: 0.8em;
 }
 a.proofUrl.proofUrl--verified {
     color: #499539;
@@ -157,6 +161,7 @@ a.proofUrl:hover {
 @media (max-width: 680px) {
     .profileDataItem {
         flex-direction: column;
+		margin-bottom: 8px;
     }
     .profileDataItem__label {
         max-width: 100%;
