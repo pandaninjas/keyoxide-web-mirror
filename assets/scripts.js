@@ -159,9 +159,19 @@ async function verifyProofs(opts) {
     }
 
     // Generate feedback
+    feedback += `<p>`;
     for (var i = 0; i < verifications.length; i++) {
-        feedback += `${verifications[i].type}: <a href="${verifications[i].url}">${verifications[i].display}</a>: ${verifications[i].isVerified}<br>`;
+        // feedback += `${verifications[i].type}: <a href="${verifications[i].url}">${verifications[i].display}</a>: ${verifications[i].isVerified}<br>`;
+        feedback += `${verifications[i].type}: `;
+        feedback += `<a class="proofDisplay" href="${verifications[i].url}">${verifications[i].display}</a>`;
+        if (verifications[i].isVerified) {
+            feedback += `<a class="proofUrl proofUrl--verified" href="${verifications[i].proofUrl}">verified &#10004;</a>`;
+        } else {
+            feedback += `<a class="proofUrl" href="${verifications[i].proofUrl}">proof</a>`;
+        }
+        feedback += `<br>`;
     }
+    feedback += `</p>`;
 
     // Display feedback
     elRes.innerHTML = feedback;
