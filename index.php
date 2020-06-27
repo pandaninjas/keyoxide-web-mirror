@@ -11,6 +11,9 @@ $router->map('GET', '/', function() {}, 'index');
 $router->map('GET', '/verify', function() {}, 'verify');
 $router->map('GET', '/encrypt', function() {}, 'encrypt');
 $router->map('GET', '/proofs', function() {}, 'proofs');
+$router->map('GET', '/verify/[:uid]', function() {}, 'verifyUid');
+$router->map('GET', '/encrypt/[:uid]', function() {}, 'encryptUid');
+$router->map('GET', '/proofs/[:uid]', function() {}, 'proofsUid');
 $router->map('GET', '/faq', function() {}, 'faq');
 $router->map('GET', '/[:uid]', function() {}, 'profile');
 
@@ -25,19 +28,27 @@ if(is_array($match) && is_callable($match['target'])) {
             break;
 
         case 'verify':
-            readfile('pages/verify.html');
+        case 'verifyUid':
+            $content = file_get_contents('pages/verify.html');
+            $content = str_replace('%UID%', (array_key_exists('uid', $match['params']) ? $match['params']['uid'] : ""), $content);
+            header('Content-Type: text/html; charset=utf-8');
+            echo($content);
             break;
 
         case 'encrypt':
-            readfile('pages/encrypt.html');
+        case 'encryptUid':
+            $content = file_get_contents('pages/encrypt.html');
+            $content = str_replace('%UID%', (array_key_exists('uid', $match['params']) ? $match['params']['uid'] : ""), $content);
+            header('Content-Type: text/html; charset=utf-8');
+            echo($content);
             break;
 
         case 'proofs':
-            readfile('pages/proofs.html');
-            break;
-
-        case 'faq':
-            readfile('pages/faq.html');
+        case 'proofsUid':
+            $content = file_get_contents('pages/proofs.html');
+            $content = str_replace('%UID%', (array_key_exists('uid', $match['params']) ? $match['params']['uid'] : ""), $content);
+            header('Content-Type: text/html; charset=utf-8');
+            echo($content);
             break;
 
         case 'profile':
@@ -45,6 +56,10 @@ if(is_array($match) && is_callable($match['target'])) {
             $content = str_replace('%UID%', $match['params']['uid'], $content);
             header('Content-Type: text/html; charset=utf-8');
             echo($content);
+            break;
+
+        case 'faq':
+            readfile('pages/faq.html');
             break;
     }
 } else {
