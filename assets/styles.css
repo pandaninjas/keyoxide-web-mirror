@@ -150,7 +150,6 @@ a.proofDisplay {
 }
 a.proofUrl {
     color: #777;
-	font-size: 0.8em;
 }
 a.proofUrl.proofUrl--verified {
     color: #499539;
