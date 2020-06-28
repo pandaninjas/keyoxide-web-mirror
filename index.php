@@ -24,7 +24,7 @@ $router->map('GET', '/proofs/wkd/[**:uid]', function() {}, 'proofsWKD');
 $router->map('GET', '/verify/[:uid]', function() {}, 'verifyUid');
 $router->map('GET', '/encrypt/[:uid]', function() {}, 'encryptUid');
 $router->map('GET', '/proofs/[:uid]', function() {}, 'proofsUid');
-$router->map('GET', '/hkp/[**:uid]', function() {}, 'profile/HKP');
+$router->map('GET', '/hkp/[**:uid]', function() {}, 'profileHKP');
 $router->map('GET', '/wkd/[**:uid]', function() {}, 'profileWKD');
 $router->map('GET', '/[**:uid]', function() {}, 'profile');
 
