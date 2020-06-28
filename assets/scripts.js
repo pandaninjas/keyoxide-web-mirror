@@ -245,7 +245,7 @@ async function displayProfile(opts) {
 
 async function verifyProof(url, fingerprint) {
     // Init
-    let reVerify, output = {url: url, type: null, proofUrl: url, proofUrlFetch: null, isVerified: false, display: null};
+    let reVerify, match, output = {url: url, type: null, proofUrl: url, proofUrlFetch: null, isVerified: false, display: null};
 
     // DNS
     if (/^dns:/.test(url)) {
@@ -272,6 +272,30 @@ async function verifyProof(url, fingerprint) {
                     output.isVerified = true;
                 }
             });
+        } catch (e) {
+        } finally {
+            return output;
+        }
+    }
+    // Twitter
+    if (/^https:\/\/twitter.com/.test(url)) {
+        output.type = "twitter";
+        match = url.match(/https:\/\/twitter\.com\/(.*)\/status\/(.*)/);
+        output.display = `@${match[1]}`;
+        output.url = `https://twitter.com/${match[1]}`;
+        output.proofUrlFetch = `/server/verifyTweet.php?id=${match[2]}&fp=${fingerprint}`;
+        try {
+            response = await fetch(output.proofUrlFetch, {
+                headers: {
+                    Accept: 'application/json'
+                },
+                credentials: 'omit'
+            });
+            if (!response.ok) {
+                throw new Error('Response failed: ' + response.status);
+            }
+            json = await response.json();
+            output.isVerified = json.verified;
         } catch (e) {
         } finally {
             return output;
