@@ -154,7 +154,7 @@ async function verifyProofs(opts) {
     let notation, isVerified, verifications = [];
     for (var i = 0; i < keyData.notations.length; i++) {
         notation = keyData.notations[i];
-        if (!(notation[0] == "proof@keyoxide.org" || notation[0] == "proof@metacode.biz")) { continue; }
+        if (notation[0] == "proof@metacode.biz") { continue; }
         verifications.push(await verifyProof(notation[1], keyData.fingerprint));
     }
 
@@ -187,11 +187,9 @@ async function displayProfile(opts) {
 
     for (var i = 0; i < keyData.notations.length; i++) {
         notation = keyData.notations[i];
-        if (!(notation[0] == "proof@keyoxide.org" || notation[0] == "proof@metacode.biz")) { continue; }
+        if (notation[0] == "proof@metacode.biz") { continue; }
         verifications.push(await verifyProof(notation[1], keyData.fingerprint));
     }
-
-    console.log(keyData);
 
     // Generate feedback
     feedback += `<div class="profileDataItem profileDataItem--separator profileDataItem--noLabel">`;
