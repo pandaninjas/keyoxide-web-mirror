@@ -9,24 +9,24 @@ $router = new AltoRouter();
 
 // Router mapping
 $router->map('GET', '/', function() {}, 'index');
+$router->map('GET', '/guides', function() {}, 'guides');
+$router->map('GET', '/guides/[:id]', function() {}, 'guideId');
+$router->map('GET', '/faq', function() {}, 'faq');
 $router->map('GET', '/verify', function() {}, 'verify');
 $router->map('GET', '/encrypt', function() {}, 'encrypt');
 $router->map('GET', '/proofs', function() {}, 'proofs');
-$router->map('GET', '/verify/[:uid]', function() {}, 'verifyUid');
-$router->map('GET', '/encrypt/[:uid]', function() {}, 'encryptUid');
-$router->map('GET', '/proofs/[:uid]', function() {}, 'proofsUid');
 $router->map('GET', '/verify/hkp/[**:uid]', function() {}, 'verifyHKP');
 $router->map('GET', '/encrypt/hkp/[**:uid]', function() {}, 'encryptHKP');
 $router->map('GET', '/proofs/hkp/[**:uid]', function() {}, 'proofsHKP');
 $router->map('GET', '/verify/wkd/[**:uid]', function() {}, 'verifyWKD');
 $router->map('GET', '/encrypt/wkd/[**:uid]', function() {}, 'encryptWKD');
 $router->map('GET', '/proofs/wkd/[**:uid]', function() {}, 'proofsWKD');
-$router->map('GET', '/guides', function() {}, 'guides');
-$router->map('GET', '/guides/[:id]', function() {}, 'guideId');
-$router->map('GET', '/faq', function() {}, 'faq');
-$router->map('GET', '/[**:uid]', function() {}, 'profile');
+$router->map('GET', '/verify/[:uid]', function() {}, 'verifyUid');
+$router->map('GET', '/encrypt/[:uid]', function() {}, 'encryptUid');
+$router->map('GET', '/proofs/[:uid]', function() {}, 'proofsUid');
 $router->map('GET', '/hkp/[**:uid]', function() {}, 'profile/HKP');
 $router->map('GET', '/wkd/[**:uid]', function() {}, 'profileWKD');
+$router->map('GET', '/[**:uid]', function() {}, 'profile');
 
 // Router matching
 $match = $router->match();
