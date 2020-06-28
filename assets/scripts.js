@@ -582,7 +582,7 @@ if (elFormProofs) {
 }
 
 if (elProfileUid) {
-    let profileUid = elProfileUid.innerHTML, opts, match;
+    let profileUid = elProfileUid.innerHTML, match, opts;
     if (/.*@.*/.test(profileUid)) {
         match = profileUid.match(/(.*)@(.*)_([a-zA-Z0-9]+)$/);
         opts = {
