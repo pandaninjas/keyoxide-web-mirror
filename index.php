@@ -29,11 +29,6 @@ $router->map('GET', '/[:uid]', function() {}, 'profile');
 // Router matching
 $match = $router->match();
 
-// Fix "escaped" email address
-if (array_key_exists('uid', $match['params'])) {
-    $match['params']['uid'] = str_lreplace('_', '.', $match['params']['uid']);
-}
-
 // Render the appropriate route
 if(is_array($match) && is_callable($match['target'])) {
     switch ($match['name']) {
