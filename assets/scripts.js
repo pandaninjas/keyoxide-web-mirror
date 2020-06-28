@@ -161,7 +161,7 @@ async function verifyProofs(opts) {
     // Generate feedback
     feedback += `<p>`;
     for (var i = 0; i < verifications.length; i++) {
-        // if (verifications[i].type == "null") { continue; }
+        if (verifications[i].type == "null") { continue; }
         feedback += `${verifications[i].type}: `;
         feedback += `<a class="proofDisplay" href="${verifications[i].url}">${verifications[i].display}</a>`;
         if (verifications[i].isVerified) {
@@ -212,7 +212,7 @@ async function displayProfile(opts) {
     feedback += `<div class="profileDataItem__value">proofs</div>`;
     feedback += `</div>`;
     for (var i = 0; i < verifications.length; i++) {
-        // if (!verifications[i].type) { continue; }
+        if (!verifications[i].type) { continue; }
         feedback += `<div class="profileDataItem">`;
         feedback += `<div class="profileDataItem__label">${verifications[i].type}</div>`;
         feedback += `<div class="profileDataItem__value">`;
