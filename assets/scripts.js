@@ -602,8 +602,8 @@ if (elProfileUid) {
             }
             break;
 
-        case: "hkp":
-        case: "wkd":
+        case "hkp":
+        case "wkd":
             opts = {
                 input: profileUid,
                 mode: elProfileMode.innerHTML
