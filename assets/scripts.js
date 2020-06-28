@@ -232,11 +232,11 @@ async function displayProfile(opts) {
     feedback += `</div>`;
     feedback += `<div class="profileDataItem profileDataItem--noLabel">`;
     feedback += `<div class="profileDataItem__label"></div>`;
-    feedback += `<div class="profileDataItem__value"><a href="/verify/${keyData.fingerprint}">verify signature</a></div>`;
+    feedback += `<div class="profileDataItem__value"><a href="/verify/${opts.input}">verify signature</a></div>`;
     feedback += `</div>`;
     feedback += `<div class="profileDataItem profileDataItem--noLabel">`;
     feedback += `<div class="profileDataItem__label"></div>`;
-    feedback += `<div class="profileDataItem__value"><a href="/encrypt/${keyData.fingerprint}">encrypt message</a></div>`;
+    feedback += `<div class="profileDataItem__value"><a href="/encrypt/${opts.input}">encrypt message</a></div>`;
     feedback += `</div>`;
 
     // Display feedback
