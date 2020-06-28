@@ -17,7 +17,7 @@ curl_close($ch);
 $data = json_decode($result, true);
 
 $response = array();
-$response["fingerprint"] = false;
+$response["verified"] = false;
 $response["fingerprint"] = $fingerprint;
 $response["tweetId"] = $tweetId;
 $response["text"] = $data["data"]["text"];
