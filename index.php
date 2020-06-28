@@ -25,6 +25,8 @@ $router->map('GET', '/guides', function() {}, 'guides');
 $router->map('GET', '/guides/[:id]', function() {}, 'guideId');
 $router->map('GET', '/faq', function() {}, 'faq');
 $router->map('GET', '/[**:uid]', function() {}, 'profile');
+$router->map('GET', '/hkp/[**:uid]', function() {}, 'profile/HKP');
+$router->map('GET', '/wkd/[**:uid]', function() {}, 'profileWKD');
 
 // Router matching
 $match = $router->match();
@@ -93,6 +95,23 @@ if(is_array($match) && is_callable($match['target'])) {
         case 'profile':
             $content = file_get_contents('pages/profile.html');
             $content = str_replace('%UID%', $match['params']['uid'], $content);
+            $content = str_replace('%MODE%', "auto", $content);
+            header('Content-Type: text/html; charset=utf-8');
+            echo($content);
+            break;
+
+        case 'profileHKP':
+            $content = file_get_contents('pages/profile.html');
+            $content = str_replace('%UID%', $match['params']['uid'], $content);
+            $content = str_replace('%MODE%', "hkp", $content);
+            header('Content-Type: text/html; charset=utf-8');
+            echo($content);
+            break;
+
+        case 'profileWKD':
+            $content = file_get_contents('pages/profile.html');
+            $content = str_replace('%UID%', $match['params']['uid'], $content);
+            $content = str_replace('%MODE%', "wkd", $content);
             header('Content-Type: text/html; charset=utf-8');
             echo($content);
             break;

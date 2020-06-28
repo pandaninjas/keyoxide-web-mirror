@@ -492,7 +492,8 @@ async function fetchKeys(opts) {
 let elFormVerify = document.body.querySelector("#form-verify"),
     elFormEncrypt = document.body.querySelector("#form-encrypt"),
     elFormProofs = document.body.querySelector("#form-proofs"),
-    elProfileUid = document.body.querySelector("#profileUid");
+    elProfileUid = document.body.querySelector("#profileUid"),
+    elProfileMode = document.body.querySelector("#profileMode");
 
 if (elFormVerify) {
     elFormVerify.onsubmit = function (evt) {
@@ -583,18 +584,31 @@ if (elFormProofs) {
 
 if (elProfileUid) {
     let match, opts, profileUid = elProfileUid.innerHTML;
-    if (/.*@.*/.test(profileUid)) {
-        // Match email for wkd
-        opts = {
-            input: profileUid,
-            mode: "wkd"
-        }
-    } else {
-        // Match fingerprint for hkp
-        opts = {
-            input: profileUid,
-            mode: "hkp"
-        }
+    switch (elProfileMode.innerHTML) {
+        default:
+        case "auto":
+            if (/.*@.*/.test(profileUid)) {
+                // Match email for wkd
+                opts = {
+                    input: profileUid,
+                    mode: "wkd"
+                }
+            } else {
+                // Match fingerprint for hkp
+                opts = {
+                    input: profileUid,
+                    mode: "hkp"
+                }
+            }
+            break;
+
+        case: "hkp":
+        case: "wkd":
+            opts = {
+                input: profileUid,
+                mode: elProfileMode.innerHTML
+            }
+            break;
     }
     displayProfile(opts);
 }
