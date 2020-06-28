@@ -29,6 +29,8 @@ $router->map('GET', '/[:uid]', function() {}, 'profile');
 // Router matching
 $match = $router->match();
 
+print_r($match);
+
 // Render the appropriate route
 if(is_array($match) && is_callable($match['target'])) {
     switch ($match['name']) {
