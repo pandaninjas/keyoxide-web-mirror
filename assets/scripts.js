@@ -582,10 +582,18 @@ if (elFormProofs) {
 }
 
 if (elProfileUid) {
-    let profileUid = elProfileUid.innerHTML;
-    let opts = {
-        input: profileUid,
-        mode: "hkp"
+    let profileUid = elProfileUid.innerHTML, opts, match;
+    if (/.*@.*/.test(profileUid)) {
+        match = profileUid.match(/(.*)@(.*)_([a-zA-Z0-9]+)$/);
+        opts = {
+            input: `${match[1]}@${match[2]}.${match[3]}`,
+            mode: "wkd"
+        }
+    } else {
+        opts = {
+            input: profileUid,
+            mode: "hkp"
+        }
     }
     displayProfile(opts);
 }
