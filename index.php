@@ -18,18 +18,16 @@ $router->map('GET', '/proofs/[:uid]', function() {}, 'proofsUid');
 $router->map('GET', '/verify/hkp/[:uid]', function() {}, 'verifyHKP');
 $router->map('GET', '/encrypt/hkp/[:uid]', function() {}, 'encryptHKP');
 $router->map('GET', '/proofs/hkp/[:uid]', function() {}, 'proofsHKP');
-$router->map('GET', '/verify/wkd/[:uid]', function() {}, 'verifyWKD');
-$router->map('GET', '/encrypt/wkd/[:uid]', function() {}, 'encryptWKD');
-$router->map('GET', '/proofs/wkd/[:uid]', function() {}, 'proofsWKD');
+$router->map('GET', '/verify/wkd/[**:uid]', function() {}, 'verifyWKD');
+$router->map('GET', '/encrypt/wkd/[**:uid]', function() {}, 'encryptWKD');
+$router->map('GET', '/proofs/wkd/[**:uid]', function() {}, 'proofsWKD');
 $router->map('GET', '/guides', function() {}, 'guides');
 $router->map('GET', '/guides/[:id]', function() {}, 'guideId');
 $router->map('GET', '/faq', function() {}, 'faq');
-$router->map('GET', '/[:uid]', function() {}, 'profile');
+$router->map('GET', '/[**:uid]', function() {}, 'profile');
 
 // Router matching
 $match = $router->match();
-
-print_r($match);
 
 // Render the appropriate route
 if(is_array($match) && is_callable($match['target'])) {
