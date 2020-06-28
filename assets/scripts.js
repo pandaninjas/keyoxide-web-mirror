@@ -333,7 +333,7 @@ async function verifyProof(url, fingerprint) {
         match = url.match(/https:\/\/www.reddit.com\/user\/(.*)\/comments\/(.*)\/(.*)\//);
         output.display = match[1];
         output.url = `https://www.reddit.com/user/${match[1]}`;
-        output.proofUrlFetch = url.replace(/\/[a-zA-Z0-9_]*\/$/, ".json");
+        output.proofUrlFetch = `/server/verifyReddit.php?user=${match[1]}&comment=${match[2]}&fp=${fingerprint}`;
         try {
             response = await fetch(output.proofUrlFetch, {
                 headers: {
@@ -345,13 +345,7 @@ async function verifyProof(url, fingerprint) {
                 throw new Error('Response failed: ' + response.status);
             }
             json = await response.json();
-            console.log(json);
-            reVerify = new RegExp(`Verifying my OpenPGP key: openpgp4fpr:${fingerprint}`);
-            json.Answer.forEach((item, i) => {
-                if (reVerify.test(item.data)) {
-                    output.isVerified = true;
-                }
-            });
+            output.isVerified = json.verified;
         } catch (e) {
         } finally {
             return output;
