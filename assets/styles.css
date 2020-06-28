@@ -72,6 +72,13 @@ a {
 a.bigBtn {
     margin-right: 8px;
 }
+code {
+    display: block;
+    padding: 8px;
+    background-color: #eee;
+    border: solid 1px #ddd;
+    user-select: all;
+}
 textarea {
     width: 100%;
     height: 128px;

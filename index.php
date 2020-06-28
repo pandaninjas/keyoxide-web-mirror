@@ -14,6 +14,8 @@ $router->map('GET', '/proofs', function() {}, 'proofs');
 $router->map('GET', '/verify/[:uid]', function() {}, 'verifyUid');
 $router->map('GET', '/encrypt/[:uid]', function() {}, 'encryptUid');
 $router->map('GET', '/proofs/[:uid]', function() {}, 'proofsUid');
+$router->map('GET', '/guides', function() {}, 'guides');
+$router->map('GET', '/guides/[:id]', function() {}, 'guideId');
 $router->map('GET', '/faq', function() {}, 'faq');
 $router->map('GET', '/[:uid]', function() {}, 'profile');
 
@@ -54,6 +56,22 @@ if(is_array($match) && is_callable($match['target'])) {
         case 'profile':
             $content = file_get_contents('pages/profile.html');
             $content = str_replace('%UID%', $match['params']['uid'], $content);
+            header('Content-Type: text/html; charset=utf-8');
+            echo($content);
+            break;
+
+        case 'guides':
+            readfile('pages/guides.html');
+            break;
+
+        case 'guideId':
+            $id = $match['params']['id'];
+            $content = file_get_contents("pages/template.html");
+            $guideTitle = file_get_contents("pages/guides/$id.title.html");
+            $guideContent = file_get_contents("pages/guides/$id.content.html");
+            $guideContent = "<p><a href='/guides'>Back to guides</a></p>".$guideContent;
+            $content = str_replace('%TITLE%', $guideTitle, $content);
+            $content = str_replace('%CONTENT%', $guideContent, $content);
             header('Content-Type: text/html; charset=utf-8');
             echo($content);
             break;
