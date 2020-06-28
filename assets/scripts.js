@@ -304,8 +304,9 @@ async function verifyProof(url, fingerprint) {
     // HN
     if (/^https:\/\/news.ycombinator.com/.test(url)) {
         output.type = "hn";
-        output.display = url.replace(/https:\/\/news.ycombinator.com\/user\?id=/, "");
-        output.proofUrlFetch = `https://hacker-news.firebaseio.com/v0/user/${output.display}.json`;
+        match = url.match(/https:\/\/news.ycombinator.com\/user\?id=(.*)/);
+        output.display = match[1];
+        output.proofUrlFetch = `https://hacker-news.firebaseio.com/v0/user/${match[1]}.json`;
         try {
             response = await fetch(output.proofUrlFetch, {
                 headers: {
@@ -329,8 +330,9 @@ async function verifyProof(url, fingerprint) {
     // Reddit
     if (/^https:\/\/www.reddit.com\/user/.test(url)) {
         output.type = "reddit";
-        output.display = url.replace(/^https:\/\/www.reddit.com\/user\//, "").replace(/\/comments\/.*/, "");
-        output.url = `https://www.reddit.com/user/${output.display}`;
+        match = url.match(/https:\/\/www.reddit.com\/user\/(.*)\/comments\/(.*)\/(.*)\//);
+        output.display = match[1];
+        output.url = `https://www.reddit.com/user/${match[1]}`;
         output.proofUrlFetch = url.replace(/\/[a-zA-Z0-9_]*\/$/, ".json");
         try {
             response = await fetch(output.proofUrlFetch, {
@@ -358,10 +360,10 @@ async function verifyProof(url, fingerprint) {
     // Github
     if (/^https:\/\/gist.github.com/.test(url)) {
         output.type = "github";
-        output.display = url.replace(/^https:\/\/gist.github.com\//, "").replace(/\/[a-zA-Z0-9]*$/, "");
-        output.url = `https://github.com/${output.display}`;
-        let gistId = url.replace(/^https:\/\/gist.github.com\/[a-zA-Z0-9_-]*\//, "");
-        output.proofUrlFetch = `https://api.github.com/gists/${gistId}`;
+        match = url.match(/https:\/\/gist.github.com\/(.*)\/(.*)/);
+        output.display = match[1];
+        output.url = `https://github.com/${match[1]}`;
+        output.proofUrlFetch = `https://api.github.com/gists/${match[2]}`;
         try {
             response = await fetch(output.proofUrlFetch, {
                 headers: {
@@ -396,10 +398,11 @@ async function verifyProof(url, fingerprint) {
         json = await response.json();
         if ('attachment' in json) {
             // Potentially Mastodon
+            match = url.match(/https:\/\/(.*)\/@(.*)/);
             json.attachment.forEach((item, i) => {
                 if (item.value === fingerprint) {
                     output.type = "mastodon";
-                    output.display = json.url;
+                    output.display = `@${match[2]}@${[match[1]]}`;
                     output.proofUrlFetch = json.url;
                     output.isVerified = true;
                 }
