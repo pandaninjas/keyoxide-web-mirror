@@ -27,10 +27,10 @@
                     <h3>Public Key (1: plaintext)</h3>
                     <textarea name="publicKey" id="publicKey"></textarea>
                     <h3>Public Key (2: web key directory)</h3>
-                    <input type="text" name="wkd" id="wkd" placeholder="name@domain.com">
+                    <input type="text" name="wkd" id="wkd" placeholder="name@domain.com" value="%WKD_UID%">
                     <h3>Public Key (3: HKP server)</h3>
                     <input type="text" name="hkp_server" id="hkp_server" placeholder="https://keys.openpgp.org/">
-                    <input type="text" name="hkp_input" id="hkp_input" placeholder="Email / key id / fingerprint" value="%UID%">
+                    <input type="text" name="hkp_input" id="hkp_input" placeholder="Email / key id / fingerprint" value="%HKP_UID%">
                     <h3>Result</h3>
                     <p id="result">Click on the button below.</p>
                     <p id="resultContent"></p>

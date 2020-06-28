@@ -585,9 +585,8 @@ if (elProfileUid) {
     let match, opts, profileUid = elProfileUid.innerHTML;
     if (/.*@.*/.test(profileUid)) {
         // Match email for wkd
-        match = profileUid.match(/(.*)@(.*)_([a-zA-Z0-9]+)$/);
         opts = {
-            input: `${match[1]}@${match[2]}.${match[3]}`,
+            input: profileUid,
             mode: "wkd"
         }
     } else {

@@ -2,6 +2,7 @@
 
 include_once __DIR__ . '/vendor/autoload.php';
 use Pagerange\Markdown\MetaParsedown;
+include_once 'server/functions.php';
 
 // Init router
 $router = new AltoRouter();
@@ -14,6 +15,12 @@ $router->map('GET', '/proofs', function() {}, 'proofs');
 $router->map('GET', '/verify/[:uid]', function() {}, 'verifyUid');
 $router->map('GET', '/encrypt/[:uid]', function() {}, 'encryptUid');
 $router->map('GET', '/proofs/[:uid]', function() {}, 'proofsUid');
+$router->map('GET', '/verify/hkp/[:uid]', function() {}, 'verifyHKP');
+$router->map('GET', '/encrypt/hkp/[:uid]', function() {}, 'encryptHKP');
+$router->map('GET', '/proofs/hkp/[:uid]', function() {}, 'proofsHKP');
+$router->map('GET', '/verify/wkd/[:uid]', function() {}, 'verifyWKD');
+$router->map('GET', '/encrypt/wkd/[:uid]', function() {}, 'encryptWKD');
+$router->map('GET', '/proofs/wkd/[:uid]', function() {}, 'proofsWKD');
 $router->map('GET', '/guides', function() {}, 'guides');
 $router->map('GET', '/guides/[:id]', function() {}, 'guideId');
 $router->map('GET', '/faq', function() {}, 'faq');
@@ -21,6 +28,11 @@ $router->map('GET', '/[:uid]', function() {}, 'profile');
 
 // Router matching
 $match = $router->match();
+
+// Fix "escaped" email address
+if (array_key_exists('uid', $match['params'])) {
+    $match['params']['uid'] = str_lreplace('_', '.', $match['params']['uid']);
+}
 
 // Render the appropriate route
 if(is_array($match) && is_callable($match['target'])) {
@@ -31,24 +43,54 @@ if(is_array($match) && is_callable($match['target'])) {
 
         case 'verify':
         case 'verifyUid':
+        case 'verifyHKP':
             $content = file_get_contents('pages/verify.html');
-            $content = str_replace('%UID%', (array_key_exists('uid', $match['params']) ? $match['params']['uid'] : ""), $content);
+            $content = str_replace('%HKP_UID%', (array_key_exists('uid', $match['params']) ? $match['params']['uid'] : ''), $content);
+            $content = str_replace('%WKD_UID%', '', $content);
+            header('Content-Type: text/html; charset=utf-8');
+            echo($content);
+            break;
+
+        case 'verifyWKD':
+            $content = file_get_contents('pages/verify.html');
+            $content = str_replace('%HKP_UID%', '', $content);
+            $content = str_replace('%WKD_UID%', (array_key_exists('uid', $match['params']) ? $match['params']['uid'] : ''), $content);
             header('Content-Type: text/html; charset=utf-8');
             echo($content);
             break;
 
         case 'encrypt':
         case 'encryptUid':
+        case 'encryptHKP':
             $content = file_get_contents('pages/encrypt.html');
-            $content = str_replace('%UID%', (array_key_exists('uid', $match['params']) ? $match['params']['uid'] : ""), $content);
+            $content = str_replace('%HKP_UID%', (array_key_exists('uid', $match['params']) ? $match['params']['uid'] : ''), $content);
+            $content = str_replace('%WKD_UID%', '', $content);
+            header('Content-Type: text/html; charset=utf-8');
+            echo($content);
+            break;
+
+        case 'encryptWKD':
+            $content = file_get_contents('pages/encrypt.html');
+            $content = str_replace('%HKP_UID%', '', $content);
+            $content = str_replace('%WKD_UID%', (array_key_exists('uid', $match['params']) ? $match['params']['uid'] : ''), $content);
             header('Content-Type: text/html; charset=utf-8');
             echo($content);
             break;
 
         case 'proofs':
         case 'proofsUid':
+        case 'proofsHKP':
             $content = file_get_contents('pages/proofs.html');
-            $content = str_replace('%UID%', (array_key_exists('uid', $match['params']) ? $match['params']['uid'] : ""), $content);
+            $content = str_replace('%HKP_UID%', (array_key_exists('uid', $match['params']) ? $match['params']['uid'] : ''), $content);
+            $content = str_replace('%WKD_UID%', '', $content);
+            header('Content-Type: text/html; charset=utf-8');
+            echo($content);
+            break;
+
+        case 'proofsWKD':
+            $content = file_get_contents('pages/proofs.html');
+            $content = str_replace('%HKP_UID%', '', $content);
+            $content = str_replace('%WKD_UID%', (array_key_exists('uid', $match['params']) ? $match['params']['uid'] : ''), $content);
             header('Content-Type: text/html; charset=utf-8');
             echo($content);
             break;
