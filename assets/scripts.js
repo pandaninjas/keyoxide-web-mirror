@@ -249,7 +249,7 @@ async function verifyProof(url, fingerprint) {
 
     // DNS
     if (/^dns:/.test(url)) {
-        output.type = "website";
+        output.type = "domain";
         output.display = url.replace(/dns:/, '').replace(/\?type=TXT/, '');
         output.proofUrl = `https://dns.shivering-isles.com/dns-query?name=${output.display}&type=TXT`;
         output.proofUrlFetch = output.proofUrl;
