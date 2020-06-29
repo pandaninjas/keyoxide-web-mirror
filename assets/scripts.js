@@ -158,6 +158,10 @@ async function verifyProofs(opts) {
         verifications.push(await verifyProof(notation[1], keyData.fingerprint));
     }
 
+    // One-line sorting function (order verifications by type)
+    console.log(keyData.notations);
+    verifications = verifications.sort((a,b) => (a.type > b.type) ? 1 : ((b.type > a.type) ? -1 : 0));
+
     // Generate feedback
     feedback += `<p>`;
     for (var i = 0; i < verifications.length; i++) {
@@ -190,6 +194,10 @@ async function displayProfile(opts) {
         if (notation[0] != "proof@metacode.biz") { continue; }
         verifications.push(await verifyProof(notation[1], keyData.fingerprint));
     }
+
+    // One-line sorting function (order verifications by type)
+    console.log(keyData.notations);
+    verifications = verifications.sort((a,b) => (a.type > b.type) ? 1 : ((b.type > a.type) ? -1 : 0));
 
     // Generate feedback
     feedback += `<div class="profileDataItem profileDataItem--separator profileDataItem--noLabel">`;
