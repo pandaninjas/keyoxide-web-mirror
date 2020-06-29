@@ -181,9 +181,17 @@ async function verifyProofs(opts) {
 }
 
 async function displayProfile(opts) {
-    let keyData = await fetchKeys(opts);
+    let keyData, feedback = "", notation, isVerified, verifications = [];
+    try {
+        keyData = await fetchKeys(opts);
+    } catch (e) {
+        feedback += `<p>There was a problem fetching the keys.</p>`;
+        feedback += `<code>${e}</code>`;
+        document.body.querySelector('#profileData').innerHTML = feedback;
+        document.body.querySelector('#profileName').innerHTML = "Could not load profile";
+        return;
+    }
     let userData = keyData.user.user.userId;
-    let feedback = "", notation, isVerified, verifications = [];
 
     document.body.querySelector('#profileName').innerHTML = userData.name;
     document.title = `${userData.name} - Keyoxide`;
