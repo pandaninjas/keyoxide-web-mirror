@@ -213,23 +213,25 @@ async function displayProfile(opts) {
     feedback += `<div class="profileDataItem__value"><a href="https://keys.openpgp.org/pks/lookup?op=get&options=mr&search=0x${keyData.fingerprint}">${keyData.fingerprint}</a></div>`;
     feedback += `</div>`;
 
-    feedback += `<div class="profileDataItem profileDataItem--separator profileDataItem--noLabel">`;
-    feedback += `<div class="profileDataItem__label"></div>`;
-    feedback += `<div class="profileDataItem__value">proofs</div>`;
-    feedback += `</div>`;
-    for (var i = 0; i < verifications.length; i++) {
-        if (!verifications[i].type) { continue; }
-        feedback += `<div class="profileDataItem">`;
-        feedback += `<div class="profileDataItem__label">${verifications[i].type}</div>`;
-        feedback += `<div class="profileDataItem__value">`;
-        feedback += `<a class="proofDisplay" href="${verifications[i].url}">${verifications[i].display}</a>`;
-        if (verifications[i].isVerified) {
-            feedback += `<a class="proofUrl proofUrl--verified" href="${verifications[i].proofUrl}">verified &#10004;</a>`;
-        } else {
-            feedback += `<a class="proofUrl" href="${verifications[i].proofUrl}">proof</a>`;
+    if (verifications.length > 0) {
+        feedback += `<div class="profileDataItem profileDataItem--separator profileDataItem--noLabel">`;
+        feedback += `<div class="profileDataItem__label"></div>`;
+        feedback += `<div class="profileDataItem__value">proofs</div>`;
+        feedback += `</div>`;
+        for (var i = 0; i < verifications.length; i++) {
+            if (!verifications[i].type) { continue; }
+            feedback += `<div class="profileDataItem">`;
+            feedback += `<div class="profileDataItem__label">${verifications[i].type}</div>`;
+            feedback += `<div class="profileDataItem__value">`;
+            feedback += `<a class="proofDisplay" href="${verifications[i].url}">${verifications[i].display}</a>`;
+            if (verifications[i].isVerified) {
+                feedback += `<a class="proofUrl proofUrl--verified" href="${verifications[i].proofUrl}">verified &#10004;</a>`;
+            } else {
+                feedback += `<a class="proofUrl" href="${verifications[i].proofUrl}">proof</a>`;
+            }
+            feedback += `</div>`;
+            feedback += `</div>`;
         }
-        feedback += `</div>`;
-        feedback += `</div>`;
     }
 
     feedback += `<div class="profileDataItem profileDataItem--separator profileDataItem--noLabel">`;
