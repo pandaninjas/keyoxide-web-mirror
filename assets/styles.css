@@ -59,9 +59,11 @@ h1 {
     padding: 16px 32px;
     background-color: #9dd3f0;
     text-align: center;
+    cursor: default;
 }
 h2, h3 {
     margin-top: 32px;
+    cursor: default;
 }
 p {
 	line-height: 1.3em;
