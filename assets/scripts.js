@@ -159,7 +159,6 @@ async function verifyProofs(opts) {
     }
 
     // One-line sorting function (order verifications by type)
-    console.log(keyData.notations);
     verifications = verifications.sort((a,b) => (a.type > b.type) ? 1 : ((b.type > a.type) ? -1 : 0));
 
     // Generate feedback
@@ -196,7 +195,6 @@ async function displayProfile(opts) {
     }
 
     // One-line sorting function (order verifications by type)
-    console.log(keyData.notations);
     verifications = verifications.sort((a,b) => (a.type > b.type) ? 1 : ((b.type > a.type) ? -1 : 0));
 
     // Generate feedback
