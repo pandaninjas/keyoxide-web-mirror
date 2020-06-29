@@ -26,6 +26,7 @@ $router->map('GET', '/encrypt/[:uid]', function() {}, 'encryptUid');
 $router->map('GET', '/proofs/[:uid]', function() {}, 'proofsUid');
 $router->map('GET', '/hkp/[**:uid]', function() {}, 'profileHKP');
 $router->map('GET', '/wkd/[**:uid]', function() {}, 'profileWKD');
+$router->map('GET', '/util/[:id]', function() {}, 'util');
 $router->map('GET', '/[**:uid]', function() {}, 'profile');
 
 // Router matching
@@ -132,8 +133,13 @@ if(is_array($match) && is_callable($match['target'])) {
             echo($content);
             break;
 
+        case 'util':
+            $id = $match['params']['id'];
+            readfile("pages/util/$id.html");
+            break;
+
         case 'faq':
-            readfile('pages/faq.html');
+            readfile("pages/faq.html");
             break;
     }
 } else {

@@ -504,12 +504,50 @@ async function fetchKeys(opts) {
     return output;
 }
 
+function encodeZBase32(data) {
+    // Source: https://github.com/openpgpjs/openpgpjs/blob/master/src/util.js
+    if (data.length === 0) {
+        return "";
+    }
+    const ALPHABET = "ybndrfg8ejkmcpqxot1uwisza345h769";
+    const SHIFT = 5;
+    const MASK = 31;
+    let buffer = data[0];
+    let index = 1;
+    let bitsLeft = 8;
+    let result = '';
+    while (bitsLeft > 0 || index < data.length) {
+        if (bitsLeft < SHIFT) {
+            if (index < data.length) {
+                buffer <<= 8;
+                buffer |= data[index++] & 0xff;
+                bitsLeft += 8;
+            } else {
+                const pad = SHIFT - bitsLeft;
+                buffer <<= pad;
+                bitsLeft += pad;
+            }
+        }
+        bitsLeft -= SHIFT;
+        result += ALPHABET[MASK & (buffer >> bitsLeft)];
+    }
+    return result;
+}
+
+async function computeWKDLocalPart(message) {
+    const encoder = new TextEncoder();
+    const data = encoder.encode(message);
+    const hash = await crypto.subtle.digest('SHA-1', data);
+    return encodeZBase32(new Uint8Array(hash));
+}
+
 // General purpose
 let elFormVerify = document.body.querySelector("#form-verify"),
     elFormEncrypt = document.body.querySelector("#form-encrypt"),
     elFormProofs = document.body.querySelector("#form-proofs"),
     elProfileUid = document.body.querySelector("#profileUid"),
-    elProfileMode = document.body.querySelector("#profileMode");
+    elProfileMode = document.body.querySelector("#profileMode"),
+    elUtilWKD = document.body.querySelector("#form-util-wkd");
 
 if (elFormVerify) {
     elFormVerify.onsubmit = function (evt) {
@@ -627,4 +665,21 @@ if (elProfileUid) {
             break;
     }
     displayProfile(opts);
+}
+
+if (elUtilWKD) {
+    elUtilWKD.onsubmit = function (evt) {
+        evt.preventDefault();
+    }
+
+    const elInput = document.body.querySelector("#input");
+    const elOutput = document.body.querySelector("#output");
+
+    elInput.addEventListener("input", async function(evt) {
+        if (evt.target.value) {
+            elOutput.value = await computeWKDLocalPart(evt.target.value);
+        } else {
+            elOutput.value = "";
+        }
+    });
 }
