@@ -138,4 +138,11 @@ if(is_array($match) && is_callable($match['target'])) {
     }
 } else {
     // No route was matched
+    $content = file_get_contents("pages/template.html");
+    $pageTitle = "404";
+    $pageContent = "404 - This page could not be found :(";
+    $content = str_replace('%TITLE%', $pageTitle, $content);
+    $content = str_replace('%CONTENT%', $pageContent, $content);
+    header('Content-Type: text/html; charset=utf-8');
+    echo($content);
 }
