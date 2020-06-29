@@ -1,0 +1,26 @@
+<h3>Decentralized OpenPGP identity proofs</h3>
+
+<p>Decentralized OpenPGP identity proofs are the brainchild of Wiktor who wrote the original guide on <a href="https://metacode.biz/openpgp/proofs">his website</a> (a suggested read to get first-hand information).</p>
+
+<p>Unlike proofs provided by for example <a href="https://keybase.io">Keybase</a>, OpenPGP proofs are stored inside the PGP keys themselves instead of being mere signatures. Since this operation requires keys with "certify" capabilities and not simply "sign" capabilities, these OpenPGP proofs could be considered more secure.</p>
+
+<h3>What an OpenPGP proof looks like</h3>
+
+<p>Every OpenPGP identity proof is stored in the PGP key as a notation that looks like this:</p>
+<code>proof@metacode.biz=https://twitter.com/USERNAME/status/1234567891234567891</code>
+
+<p>This particular proof is for a Twitter account (read more in the <a href="/guides/twitter">Twitter guide</a>). Let's analyse the notation:</p>
+
+<ul>
+    <li><strong>proof</strong> means the current notation is for an identity proof.</li>
+    <li><strong>@metacode.biz</strong> is the domain of the person who came up with OpenPGP proofs and serves as a namespace for the notation. The domain is included and used for all proofs to comply with the <a href="https://tools.ietf.org/html/rfc4880#section-5.2.3.16">OpenPGP Message Format standard (RFC 4880)</a>.</li>
+    <li><strong>https://twitter.com/USERNAME/status/1234567891234567891</strong> is the value of the notation. It is a link to the piece of online content that contains a pre-defined message which must always include the fingerprint of the PGP key that will hold the proof.</li>
+</ul>
+
+<p>The proof should always link to a document that can be parsed as JSON to make the verification easy and feasible by the browser. Sometimes however, due to CORS restrictions or API requirements (as is the case for Twitter), no such link is provided by the platform. In these rare exceptional cases, the verification process is delegated to the Keyoxide server which will communicate directly with the platform's servers to get the content of the post.</p>
+
+<h3>Your turn</h3>
+
+<p>If you'd like to add decentralized OpenPGP identity proofs to your key, go to the <a href="/guides">guides</a> and find the right one for your platform of choice. You may find the process to be remarkably easy.</p>
+
+<p>If your platform is not in the list of <a href="/guides">guides</a>, it's not supported yet. See the <a href="/guides/contributing">contributing guide</a> for more information on how to get that platform supported.</p>
