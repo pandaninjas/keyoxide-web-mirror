@@ -9,10 +9,14 @@
     </head>
     <body>
         <div class="container container--profile">
-            <h1 id="profileName"></h1>
+            <!-- <h1 id="profileName"></h1> -->
             <div class="content">
                 <span id="profileUid" style="display: none;">%UID%</span>
                 <span id="profileMode" style="display: none;">%MODE%</span>
+                <div id="profileHeader">
+                    <img id="profileAvatar" src="/assets/img/avatar_placeholder.png" alt="avatar" style="display: none">
+                    <p id="profileName"></p>
+                </div>
                 <div id="profileData"><p>Loading keys &amp; verifying proofs&hellip;</p></div>
             </div>
 
@@ -24,5 +28,6 @@
         </div>
     </body>
     <script src="/assets/openpgp.min.js"></script>
+    <script src="/assets/spark-md5.min.js"></script>
     <script type="text/javascript" src="/assets/scripts.js" charset="utf-8"></script>
 </html>

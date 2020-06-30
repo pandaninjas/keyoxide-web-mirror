@@ -194,6 +194,8 @@ async function displayProfile(opts) {
     let userData = keyData.user.user.userId;
 
     document.body.querySelector('#profileName').innerHTML = userData.name;
+    document.body.querySelector('#profileAvatar').style = "";
+    document.body.querySelector('#profileAvatar').src = `https://www.gravatar.com/avatar/${SparkMD5.hash(userData.email)}?s=128&d=mm`;
     document.title = `${userData.name} - Keyoxide`;
 
     for (var i = 0; i < keyData.notations.length; i++) {

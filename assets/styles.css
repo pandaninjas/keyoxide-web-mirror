@@ -118,6 +118,21 @@ input[type="submit"] {
     text-align: center;
 }
 
+#profileHeader {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: center;
+    margin-bottom: 32px;
+}
+#profileAvatar {
+    border-radius: 100%;
+    margin-right: 32px;
+}
+#profileName {
+    font-size: 1.6em;
+    font-weight: bold;
+}
 .profileDataItem {
     position: relative;
     display: flex;
