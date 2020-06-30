@@ -221,7 +221,7 @@ async function displayProfile(opts) {
         feedback += `</div>`;
 
         feedback += `<div id="profileProofs">`;
-        feedback += `<div class="profileDataItem">`;
+        feedback += `<div class="profileDataItem  profileDataItem--noLabel">`;
         feedback += `<div class="profileDataItem__label"></div>`;
         feedback += `<div class="profileDataItem__value">Verifying proofs&hellip;</div>`;
         feedback += `</div>`;
