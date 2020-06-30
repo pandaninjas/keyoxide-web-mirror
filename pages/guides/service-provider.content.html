@@ -1,0 +1,19 @@
+<p>If you have:</p>
+
+<ul>
+    <li>a website that allows users to create accounts</li>
+    <li>a messaging platform</li>
+    <li>any other type of service that may require users to prove their online identity</li>
+</ul>
+
+<p>Then you may be interested in supporting decentralized identity proofs as they allow your users to securely prove their identity across services. Let's look at some examples:</p>
+
+<ul>
+    <li>Alice and Bob have been talking for years on service A. Alice already has an account on service B. Bob wants to move to service B as well. A simple decentralized proof confirms that the person who is known as Alice on service A is also known as Alice on service B. Bob can safely move to service B and talk to Alice without having to meet in person to confirm their accounts.</li>
+    <li>Alice has received a friend request from Bob29 on service C. Is this the same Bob from service A or not? A simple decentralized proof confirms that the person who is known as Bob on platform A is also known as Bob29 on service C. Turns out 28 Bobs were already using service C.</li>
+    <li>Alice sends a cryptocurrency request to Bob. Is this a legit request? A simple decentralized proof tells Bob that that wallet is not owned by Alice. Bob knows something is up and does not transfer the money to the imposter.</li>
+</ul>
+
+<p>The internet could be a slightly safer place if your service allowed your users to prove their identity. All the service needs to do is make a JSON file available with basic details about the user and set the correct CORS headers.</p>
+
+<p>The <a href="https://github.com/wiktor-k/openpgp-proofs#for-service-providers">documentation</a> on what is precisely required is provided by the original creator of decentralized OpenPGP identity proofs.</p>
