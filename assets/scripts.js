@@ -198,15 +198,6 @@ async function displayProfile(opts) {
     document.body.querySelector('#profileAvatar').src = `https://www.gravatar.com/avatar/${SparkMD5.hash(userData.email)}?s=128&d=mm`;
     document.title = `${userData.name} - Keyoxide`;
 
-    for (var i = 0; i < keyData.notations.length; i++) {
-        notation = keyData.notations[i];
-        if (notation[0] != "proof@metacode.biz") { continue; }
-        verifications.push(await verifyProof(notation[1], keyData.fingerprint));
-    }
-
-    // One-line sorting function (order verifications by type)
-    verifications = verifications.sort((a,b) => (a.type > b.type) ? 1 : ((b.type > a.type) ? -1 : 0));
-
     // Generate feedback
     feedback += `<div class="profileDataItem profileDataItem--separator profileDataItem--noLabel">`;
     feedback += `<div class="profileDataItem__label"></div>`;
@@ -223,25 +214,18 @@ async function displayProfile(opts) {
     feedback += `<div class="profileDataItem__value"><a href="https://keys.openpgp.org/pks/lookup?op=get&options=mr&search=0x${keyData.fingerprint}">${keyData.fingerprint}</a></div>`;
     feedback += `</div>`;
 
-    if (verifications.length > 0) {
+    if (keyData.notations.length > 0) {
         feedback += `<div class="profileDataItem profileDataItem--separator profileDataItem--noLabel">`;
         feedback += `<div class="profileDataItem__label"></div>`;
         feedback += `<div class="profileDataItem__value">proofs</div>`;
         feedback += `</div>`;
-        for (var i = 0; i < verifications.length; i++) {
-            if (!verifications[i].type) { continue; }
-            feedback += `<div class="profileDataItem">`;
-            feedback += `<div class="profileDataItem__label">${verifications[i].type}</div>`;
-            feedback += `<div class="profileDataItem__value">`;
-            feedback += `<a class="proofDisplay" href="${verifications[i].url}">${verifications[i].display}</a>`;
-            if (verifications[i].isVerified) {
-                feedback += `<a class="proofUrl proofUrl--verified" href="${verifications[i].proofUrl}">verified &#10004;</a>`;
-            } else {
-                feedback += `<a class="proofUrl" href="${verifications[i].proofUrl}">proof</a>`;
-            }
-            feedback += `</div>`;
-            feedback += `</div>`;
-        }
+
+        feedback += `<div id="profileProofs">`;
+        feedback += `<div class="profileDataItem">`;
+        feedback += `<div class="profileDataItem__label"></div>`;
+        feedback += `<div class="profileDataItem__value">Verifying proofs&hellip;</div>`;
+        feedback += `</div>`;
+        feedback += `</div>`;
     }
 
     feedback += `<div class="profileDataItem profileDataItem--separator profileDataItem--noLabel">`;
@@ -259,6 +243,39 @@ async function displayProfile(opts) {
 
     // Display feedback
     document.body.querySelector('#profileData').innerHTML = feedback;
+
+    // Verify identity proofs
+    for (var i = 0; i < keyData.notations.length; i++) {
+        notation = keyData.notations[i];
+        if (notation[0] != "proof@metacode.biz") { continue; }
+        verifications.push(await verifyProof(notation[1], keyData.fingerprint));
+    }
+
+    // One-line sorting function (order verifications by type)
+    verifications = verifications.sort((a,b) => (a.type > b.type) ? 1 : ((b.type > a.type) ? -1 : 0));
+
+    feedback = "";
+    if (verifications.length > 0) {
+        for (var i = 0; i < verifications.length; i++) {
+            if (!verifications[i].type) { continue; }
+            feedback += `<div class="profileDataItem">`;
+            feedback += `<div class="profileDataItem__label">${verifications[i].type}</div>`;
+            feedback += `<div class="profileDataItem__value">`;
+            feedback += `<a class="proofDisplay" href="${verifications[i].url}">${verifications[i].display}</a>`;
+            if (verifications[i].isVerified) {
+                feedback += `<a class="proofUrl proofUrl--verified" href="${verifications[i].proofUrl}">verified &#10004;</a>`;
+            } else {
+                feedback += `<a class="proofUrl" href="${verifications[i].proofUrl}">proof</a>`;
+            }
+            feedback += `</div>`;
+            feedback += `</div>`;
+        }
+    } else {
+        feedback = "No proofs could be displayed or verified"
+    }
+
+    // Display feedback
+    document.body.querySelector('#profileProofs').innerHTML = feedback;
 }
 
 async function verifyProof(url, fingerprint) {

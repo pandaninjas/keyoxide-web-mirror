@@ -121,17 +121,23 @@ input[type="submit"] {
 #profileHeader {
     display: flex;
     flex-direction: row;
-    flex-wrap: wrap;
     align-items: center;
     margin-bottom: 32px;
 }
 #profileAvatar {
+    width: 100%;
+    max-width: 128px;
     border-radius: 100%;
     margin-right: 32px;
 }
 #profileName {
     font-size: 1.6em;
     font-weight: bold;
+    display: inline-block;
+    max-width: 100%;
+    white-space: wrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 .profileDataItem {
     position: relative;
@@ -183,6 +189,15 @@ a.proofUrl:hover {
     text-decoration: underline;
 }
 @media (max-width: 680px) {
+    #profileHeader {
+        flex-direction: column;
+    }
+    #profileAvatar {
+        margin: 0;
+    }
+    #profileName {
+        font-size: 1.2em;
+    }
     .profileDataItem {
         flex-direction: column;
 		margin-bottom: 8px;
