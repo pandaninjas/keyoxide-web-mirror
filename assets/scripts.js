@@ -413,6 +413,12 @@ async function verifyProof(url, fingerprint) {
             return output;
         }
     }
+    // XMPP
+    if (/^xmpp:/.test(url)) {
+        output.type = "xmpp";
+        match = url.match(/xmpp:(.*)@(.*)/);
+        output.display = `${match[1]}@${match[2]}`;
+    }
     // Catchall
     try {
         response = await fetch(url, {
