@@ -413,6 +413,29 @@ async function verifyProof(url, fingerprint) {
             return output;
         }
     }
+    // Lobsters
+    if (/^https:\/\/lobste.rs/.test(url)) {
+        output.type = "lobsters";
+        match = url.match(/https:\/\/lobste.rs\/u\/(.*)/);
+        output.display = match[1];
+        output.proofUrlFetch = `/server/verifyLobsters.php?user=${match[1]}&fp=${fingerprint}`;
+        try {
+            response = await fetch(output.proofUrlFetch, {
+                headers: {
+                    Accept: 'application/json'
+                },
+                credentials: 'omit'
+            });
+            if (!response.ok) {
+                throw new Error('Response failed: ' + response.status);
+            }
+            json = await response.json();
+            output.isVerified = json.verified;
+        } catch (e) {
+        } finally {
+            return output;
+        }
+    }
     // XMPP
     if (/^xmpp:/.test(url)) {
         output.type = "xmpp";
