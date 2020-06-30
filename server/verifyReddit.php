@@ -1,7 +1,5 @@
 <?php
 
-include 'secrets.php';
-
 $fingerprint = htmlspecialchars($_GET["fp"]);
 $user = htmlspecialchars($_GET["user"]);
 $comment = htmlspecialchars($_GET["comment"]);
