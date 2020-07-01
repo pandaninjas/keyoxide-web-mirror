@@ -271,7 +271,10 @@ async function displayProfile(opts) {
             feedback += `</div>`;
         }
     } else {
-        feedback = "No proofs could be displayed or verified"
+        feedback += `<div class="profileDataItem  profileDataItem--noLabel">`;
+        feedback += `<div class="profileDataItem__label"></div>`;
+        feedback += `<div class="profileDataItem__value">No identity proofs found</div>`;
+        feedback += `</div>`;
     }
 
     // Display feedback
