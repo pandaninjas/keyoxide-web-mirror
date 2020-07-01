@@ -43,7 +43,7 @@ if(is_array($match) && is_callable($match['target'])) {
         case 'verifyUid':
         case 'verifyHKP':
             $content = file_get_contents('pages/verify.html');
-            $content = str_replace('%HKP_UID%', (array_key_exists('uid', $match['params']) ? $match['params']['uid'] : ''), $content);
+            $content = str_replace('%HKP_UID%', (array_key_exists('uid', $match['params']) ? htmlspecialchars($match['params']['uid']) : ''), $content);
             $content = str_replace('%WKD_UID%', '', $content);
             header('Content-Type: text/html; charset=utf-8');
             echo($content);
@@ -52,7 +52,7 @@ if(is_array($match) && is_callable($match['target'])) {
         case 'verifyWKD':
             $content = file_get_contents('pages/verify.html');
             $content = str_replace('%HKP_UID%', '', $content);
-            $content = str_replace('%WKD_UID%', (array_key_exists('uid', $match['params']) ? $match['params']['uid'] : ''), $content);
+            $content = str_replace('%WKD_UID%', (array_key_exists('uid', $match['params']) ? htmlspecialchars($match['params']['uid']) : ''), $content);
             header('Content-Type: text/html; charset=utf-8');
             echo($content);
             break;
@@ -61,7 +61,7 @@ if(is_array($match) && is_callable($match['target'])) {
         case 'encryptUid':
         case 'encryptHKP':
             $content = file_get_contents('pages/encrypt.html');
-            $content = str_replace('%HKP_UID%', (array_key_exists('uid', $match['params']) ? $match['params']['uid'] : ''), $content);
+            $content = str_replace('%HKP_UID%', (array_key_exists('uid', $match['params']) ? htmlspecialchars($match['params']['uid']) : ''), $content);
             $content = str_replace('%WKD_UID%', '', $content);
             header('Content-Type: text/html; charset=utf-8');
             echo($content);
@@ -70,7 +70,7 @@ if(is_array($match) && is_callable($match['target'])) {
         case 'encryptWKD':
             $content = file_get_contents('pages/encrypt.html');
             $content = str_replace('%HKP_UID%', '', $content);
-            $content = str_replace('%WKD_UID%', (array_key_exists('uid', $match['params']) ? $match['params']['uid'] : ''), $content);
+            $content = str_replace('%WKD_UID%', (array_key_exists('uid', $match['params']) ? htmlspecialchars($match['params']['uid']) : ''), $content);
             header('Content-Type: text/html; charset=utf-8');
             echo($content);
             break;
@@ -79,7 +79,7 @@ if(is_array($match) && is_callable($match['target'])) {
         case 'proofsUid':
         case 'proofsHKP':
             $content = file_get_contents('pages/proofs.html');
-            $content = str_replace('%HKP_UID%', (array_key_exists('uid', $match['params']) ? $match['params']['uid'] : ''), $content);
+            $content = str_replace('%HKP_UID%', (array_key_exists('uid', $match['params']) ? htmlspecialchars($match['params']['uid']) : ''), $content);
             $content = str_replace('%WKD_UID%', '', $content);
             header('Content-Type: text/html; charset=utf-8');
             echo($content);
@@ -88,14 +88,14 @@ if(is_array($match) && is_callable($match['target'])) {
         case 'proofsWKD':
             $content = file_get_contents('pages/proofs.html');
             $content = str_replace('%HKP_UID%', '', $content);
-            $content = str_replace('%WKD_UID%', (array_key_exists('uid', $match['params']) ? $match['params']['uid'] : ''), $content);
+            $content = str_replace('%WKD_UID%', (array_key_exists('uid', $match['params']) ? htmlspecialchars($match['params']['uid']) : ''), $content);
             header('Content-Type: text/html; charset=utf-8');
             echo($content);
             break;
 
         case 'profile':
             $content = file_get_contents('pages/profile.html');
-            $content = str_replace('%UID%', $match['params']['uid'], $content);
+            $content = str_replace('%UID%', htmlspecialchars($match['params']['uid']), $content);
             $content = str_replace('%MODE%', "auto", $content);
             header('Content-Type: text/html; charset=utf-8');
             echo($content);
@@ -103,7 +103,7 @@ if(is_array($match) && is_callable($match['target'])) {
 
         case 'profileHKP':
             $content = file_get_contents('pages/profile.html');
-            $content = str_replace('%UID%', $match['params']['uid'], $content);
+            $content = str_replace('%UID%', htmlspecialchars($match['params']['uid']), $content);
             $content = str_replace('%MODE%', "hkp", $content);
             header('Content-Type: text/html; charset=utf-8');
             echo($content);
@@ -111,7 +111,7 @@ if(is_array($match) && is_callable($match['target'])) {
 
         case 'profileWKD':
             $content = file_get_contents('pages/profile.html');
-            $content = str_replace('%UID%', $match['params']['uid'], $content);
+            $content = str_replace('%UID%', htmlspecialchars($match['params']['uid']), $content);
             $content = str_replace('%MODE%', "wkd", $content);
             header('Content-Type: text/html; charset=utf-8');
             echo($content);
@@ -122,7 +122,7 @@ if(is_array($match) && is_callable($match['target'])) {
             break;
 
         case 'guideId':
-            $id = $match['params']['id'];
+            $id = htmlspecialchars($match['params']['id']);
             $content = file_get_contents("pages/template.html");
             $guideTitle = file_get_contents("pages/guides/$id.title.html");
             $guideContent = file_get_contents("pages/guides/$id.content.html");
@@ -134,7 +134,7 @@ if(is_array($match) && is_callable($match['target'])) {
             break;
 
         case 'util':
-            $id = $match['params']['id'];
+            $id = htmlspecialchars($match['params']['id']);
             readfile("pages/util/$id.html");
             break;
 
