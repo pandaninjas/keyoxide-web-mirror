@@ -2,8 +2,8 @@
 
 include 'secrets.php';
 
-$fingerprint = htmlspecialchars($_GET["fp"]);
-$tweetId = htmlspecialchars($_GET["id"]);
+$fingerprint = urlencode($_GET["fp"]);
+$tweetId = urlencode($_GET["id"]);
 
 $check = "\[Verifying my OpenPGP key: openpgp4fpr:$fingerprint\]";
 

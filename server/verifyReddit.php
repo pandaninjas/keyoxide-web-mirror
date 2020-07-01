@@ -1,8 +1,8 @@
 <?php
 
-$fingerprint = htmlspecialchars($_GET["fp"]);
-$user = htmlspecialchars($_GET["user"]);
-$comment = htmlspecialchars($_GET["comment"]);
+$fingerprint = urlencode($_GET["fp"]);
+$user = urlencode($_GET["user"]);
+$comment = urlencode($_GET["comment"]);
 
 $url = "https://www.reddit.com/user/$user/comments/$comment.json";
 $check = "\[Verifying my OpenPGP key: openpgp4fpr:$fingerprint\\\\\]";

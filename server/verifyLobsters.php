@@ -1,7 +1,7 @@
 <?php
 
-$fingerprint = htmlspecialchars($_GET["fp"]);
-$user = htmlspecialchars($_GET["user"]);
+$fingerprint = urlencode($_GET["fp"]);
+$user = urlencode($_GET["user"]);
 
 $url = "https://lobste.rs/u/$user.json";
 $check = "\[Verifying my OpenPGP key: openpgp4fpr:$fingerprint\]";
