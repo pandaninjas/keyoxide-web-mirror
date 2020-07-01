@@ -123,14 +123,24 @@ if(is_array($match) && is_callable($match['target'])) {
 
         case 'guideId':
             $id = htmlspecialchars($match['params']['id']);
-            $content = file_get_contents("pages/template.html");
-            $guideTitle = file_get_contents("pages/guides/$id.title.html");
-            $guideContent = file_get_contents("pages/guides/$id.content.html");
-            $guideContent = "<p><a href='/guides'>Back to guides</a></p>".$guideContent;
-            $content = str_replace('%TITLE%', $guideTitle, $content);
-            $content = str_replace('%CONTENT%', $guideContent, $content);
-            header('Content-Type: text/html; charset=utf-8');
-            echo($content);
+            if (file_exists("pages/guides/$id.title.html")) {
+                $content = file_get_contents("pages/template.html");
+                $guideTitle = file_get_contents("pages/guides/$id.title.html");
+                $guideContent = file_get_contents("pages/guides/$id.content.html");
+                $guideContent = "<p><a href='/guides'>Back to guides</a></p>".$guideContent;
+                $content = str_replace('%TITLE%', $guideTitle, $content);
+                $content = str_replace('%CONTENT%', $guideContent, $content);
+                header('Content-Type: text/html; charset=utf-8');
+                echo($content);
+            } else {
+                $content = file_get_contents("pages/template.html");
+                $pageTitle = "Guide not found";
+                $pageContent = "<p>404 - This guide could not be found :(</p>";
+                $content = str_replace('%TITLE%', $pageTitle, $content);
+                $content = str_replace('%CONTENT%', $pageContent, $content);
+                header('Content-Type: text/html; charset=utf-8');
+                echo($content);
+            }
             break;
 
         case 'util':
@@ -146,7 +156,7 @@ if(is_array($match) && is_callable($match['target'])) {
     // No route was matched
     $content = file_get_contents("pages/template.html");
     $pageTitle = "404";
-    $pageContent = "404 - This page could not be found :(";
+    $pageContent = "<p>404 - This page could not be found :(</p>";
     $content = str_replace('%TITLE%', $pageTitle, $content);
     $content = str_replace('%CONTENT%', $pageContent, $content);
     header('Content-Type: text/html; charset=utf-8');
