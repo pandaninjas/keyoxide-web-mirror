@@ -24,17 +24,31 @@
             <h1>Encrypt</h1>
             <div class="content">
                 <form id="form-encrypt" method="post">
+                    <h3>Recipient</h3>
+                    <label for="mode">Mode: </label>
+                    <select class="mode" name="mode" id="mode">
+                        <option value="auto" %MODE_AUTO%>Autodetect</option>
+                        <option value="wkd" %MODE_WKD%>Web Key Directory</option>
+                        <option value="hkp" %MODE_HKP%>Keyservers</option>
+                        <option value="plaintext" %MODE_PT%>Plaintext</option>
+                    </select>
+                    <div class="modes modes--auto modes--hkp" style="display: none">
+                        <input type="text" name="wkd" id="wkd" placeholder="Email / key id / fingerprint" value="%WKDUID%">
+                    </div>
+                    <div class="modes modes--auto modes--hkp" style="display: none">
+                        <input type="text" name="wkd" id="wkd" placeholder="Email / key id / fingerprint" value="%WKDUID%">
+                    </div>
                     <h3>Message</h3>
                     <textarea name="message" id="message"></textarea>
-                    <h3>Public Key (1: plaintext)</h3>
+                    <!-- <h3>Public Key (1: plaintext)</h3>
                     <textarea name="publicKey" id="publicKey"></textarea>
                     <h3>Public Key (2: web key directory)</h3>
                     <input type="text" name="wkd" id="wkd" placeholder="name@domain.com" value="%WKD_UID%">
                     <h3>Public Key (3: HKP server)</h3>
                     <input type="text" name="hkp_server" id="hkp_server" placeholder="https://keys.openpgp.org/">
-                    <input type="text" name="hkp_input" id="hkp_input" placeholder="Email / key id / fingerprint" value="%HKP_UID%">
-                    <h3>Result</h3>
-                    <textarea name="messageEncrypted" id="messageEncrypted" readonly></textarea>
+                    <input type="text" name="hkp_input" id="hkp_input" placeholder="Email / key id / fingerprint" value="%HKP_UID%"> -->
+                    <!-- <h3>Result</h3>
+                    <textarea name="messageEncrypted" id="messageEncrypted" readonly></textarea> -->
                     <p id="result"></p>
                     <input type="submit" class="bigBtn" name="submit" value="ENCRYPT MESSAGE">
                 </form>
