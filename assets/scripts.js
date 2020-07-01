@@ -273,7 +273,7 @@ async function displayProfile(opts) {
     } else {
         feedback += `<div class="profileDataItem  profileDataItem--noLabel">`;
         feedback += `<div class="profileDataItem__label"></div>`;
-        feedback += `<div class="profileDataItem__value">No identity proofs found</div>`;
+        feedback += `<div class="profileDataItem__value">No proofs found in key</div>`;
         feedback += `</div>`;
     }
 
