@@ -6,6 +6,8 @@ async function verifySignature(opts) {
 
     // Reset feedback
     elRes.innerHTML = "";
+    elRes.classList.remove('green');
+    elRes.classList.remove('red');
     elResContent.innerHTML = "";
 
     try {
@@ -105,6 +107,8 @@ async function encryptMessage(opts) {
 
     // Reset feedback
     elRes.innerHTML = "";
+    elRes.classList.remove('green');
+    elRes.classList.remove('red');
 
     try {
         // Get key data
@@ -141,6 +145,8 @@ async function verifyProofs(opts) {
 
     // Reset feedback
     elRes.innerHTML = "";
+    elRes.classList.remove('green');
+    elRes.classList.remove('red');
 
     try {
         // Get key data
