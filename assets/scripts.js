@@ -621,7 +621,8 @@ let elFormVerify = document.body.querySelector("#form-verify"),
     elProfileUid = document.body.querySelector("#profileUid"),
     elProfileMode = document.body.querySelector("#profileMode"),
     elModeSelect = document.body.querySelector("#modeSelect"),
-    elUtilWKD = document.body.querySelector("#form-util-wkd");
+    elUtilWKD = document.body.querySelector("#form-util-wkd"),
+    elUtilQR = document.body.querySelector("#form-util-qr");
 
 if (elModeSelect) {
     elModeSelect.onchange = function (evt) {
@@ -797,4 +798,31 @@ if (elUtilWKD) {
             elOutput.value = "";
         }
     });
+}
+
+if (elUtilQR) {
+    elUtilQR.onsubmit = function (evt) {
+        evt.preventDefault();
+    }
+
+    const qrcode = new QRCode("qrcode", {
+        text: "",
+        width: 256,
+        height: 256,
+        colorDark : "#000000",
+        colorLight : "#ffffff",
+        correctLevel : QRCode.CorrectLevel.H
+    });
+
+    const elInput = document.body.querySelector("#input");
+
+    elInput.addEventListener("input", async function(evt) {
+        if (evt.target.value) {
+            qrcode.makeCode(evt.target.value);
+        } else {
+            qrcode.clear();
+        }
+    });
+
+    elInput.dispatchEvent(new Event("input"));
 }

@@ -14,6 +14,7 @@ $templates = new League\Plates\Engine('views');
 $router->map('GET', '/', function() {}, 'index');
 $router->map('GET', '/guides', function() {}, 'guides');
 $router->map('GET', '/guides/[:id]', function() {}, 'guideId');
+$router->map('GET', '/util/qr/[:fp]', function() {}, 'util_qr');
 $router->map('GET', '/util/[:id]', function() {}, 'util');
 $router->map('GET', '/faq', function() {}, 'faq');
 $router->map('GET', '/verify', function() {}, 'verify');
@@ -120,6 +121,11 @@ if(is_array($match) && is_callable($match['target'])) {
         case 'util':
             $id = htmlspecialchars($match['params']['id']);
             echo $templates->render("util/$id");
+            break;
+
+        case 'util_qr':
+            $fp = htmlspecialchars($match['params']['fp']);
+            echo $templates->render("util/qr", ['input' => $fp]);
             break;
 
         case 'faq':

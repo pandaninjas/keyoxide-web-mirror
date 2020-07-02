@@ -202,6 +202,12 @@ a.proofUrl.proofUrl--verified {
 a.proofUrl:hover {
     text-decoration: underline;
 }
+
+#qrcode img {
+    max-width: 100%;
+    margin: 32px auto 16px;
+}
+
 @media (max-width: 680px) {
     #profileHeader {
         flex-direction: column;

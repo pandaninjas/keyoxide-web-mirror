@@ -39,5 +39,6 @@
     </body>
     <script src="/assets/openpgp.min.js"></script>
     <script src="/assets/spark-md5.min.js"></script>
+    <script src="/assets/qrcode.min.js"></script>
     <script type="text/javascript" src="/assets/scripts.js" charset="utf-8"></script>
 </html>
