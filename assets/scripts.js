@@ -226,6 +226,10 @@ async function displayProfile(opts) {
     feedback += `<div class="profileDataItem__label">fingerprint</div>`;
     feedback += `<div class="profileDataItem__value"><a href="https://keys.openpgp.org/pks/lookup?op=get&options=mr&search=0x${keyData.fingerprint}">${keyData.fingerprint}</a></div>`;
     feedback += `</div>`;
+    feedback += `<div class="profileDataItem">`;
+    feedback += `<div class="profileDataItem__label">qrcode</div>`;
+    feedback += `<div class="profileDataItem__value"><a href="/util/qr/${keyData.fingerprint}">fingerprint</a></div>`;
+    feedback += `</div>`;
 
     if (keyData.notations.length > 0) {
         feedback += `<div class="profileDataItem profileDataItem--separator profileDataItem--noLabel">`;
