@@ -215,10 +215,12 @@ async function displayProfile(opts) {
     feedback += `<div class="profileDataItem__value">general information</div>`;
     feedback += `</div>`;
     for (var i = 0; i < keyData.publicKey.users.length; i++) {
-        feedback += `<div class="profileDataItem">`;
-        feedback += `<div class="profileDataItem__label">email</div>`;
-        feedback += `<div class="profileDataItem__value"><a href="mailto:${keyData.publicKey.users[i].userId.email}">${keyData.publicKey.users[i].userId.email}</a></div>`;
-        feedback += `</div>`;
+        if (keyData.publicKey.users[i].userId && 'email' in keyData.publicKey.users[i].userId) {
+            feedback += `<div class="profileDataItem">`;
+            feedback += `<div class="profileDataItem__label">email</div>`;
+            feedback += `<div class="profileDataItem__value"><a href="mailto:${keyData.publicKey.users[i].userId.email}">${keyData.publicKey.users[i].userId.email}</a></div>`;
+            feedback += `</div>`;
+        }
     }
     feedback += `<div class="profileDataItem">`;
     feedback += `<div class="profileDataItem__label">fingerprint</div>`;
