@@ -4,7 +4,7 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link rel="shortcut icon" href="/favicon.png">
-        <title>%TITLE% - Keyoxide</title>
+        <title><?=$this->e($title)?>Keyoxide</title>
         <link rel="stylesheet" href="/assets/styles.css">
     </head>
     <body>
@@ -21,10 +21,7 @@
         </header>
 
         <div class="container">
-            <h1>%TITLE%</h1>
-            <div class="content">
-                %CONTENT%
-            </div>
+            <?=$this->section('content')?>
 
             <footer>
                 <p>
@@ -40,4 +37,7 @@
         </div>
 
     </body>
+    <script src="/assets/openpgp.min.js"></script>
+    <script src="/assets/spark-md5.min.js"></script>
+    <script type="text/javascript" src="/assets/scripts.js" charset="utf-8"></script>
 </html>

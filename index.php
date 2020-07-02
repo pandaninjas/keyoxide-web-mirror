@@ -7,10 +7,14 @@ include_once 'server/functions.php';
 // Init router
 $router = new AltoRouter();
 
+// Init templating
+$templates = new League\Plates\Engine('views');
+
 // Router mapping
 $router->map('GET', '/', function() {}, 'index');
 $router->map('GET', '/guides', function() {}, 'guides');
 $router->map('GET', '/guides/[:id]', function() {}, 'guideId');
+$router->map('GET', '/util/[:id]', function() {}, 'util');
 $router->map('GET', '/faq', function() {}, 'faq');
 $router->map('GET', '/verify', function() {}, 'verify');
 $router->map('GET', '/encrypt', function() {}, 'encrypt');
@@ -21,12 +25,11 @@ $router->map('GET', '/proofs/hkp/[**:uid]', function() {}, 'proofsHKP');
 $router->map('GET', '/verify/wkd/[**:uid]', function() {}, 'verifyWKD');
 $router->map('GET', '/encrypt/wkd/[**:uid]', function() {}, 'encryptWKD');
 $router->map('GET', '/proofs/wkd/[**:uid]', function() {}, 'proofsWKD');
-$router->map('GET', '/verify/[:uid]', function() {}, 'verifyUid');
-$router->map('GET', '/encrypt/[:uid]', function() {}, 'encryptUid');
-$router->map('GET', '/proofs/[:uid]', function() {}, 'proofsUid');
+$router->map('GET', '/verify/[**:uid]', function() {}, 'verifyAUTO');
+$router->map('GET', '/encrypt/[**:uid]', function() {}, 'encryptAUTO');
+$router->map('GET', '/proofs/[**:uid]', function() {}, 'proofsAUTO');
 $router->map('GET', '/hkp/[**:uid]', function() {}, 'profileHKP');
 $router->map('GET', '/wkd/[**:uid]', function() {}, 'profileWKD');
-$router->map('GET', '/util/[:id]', function() {}, 'util');
 $router->map('GET', '/[**:uid]', function() {}, 'profile');
 
 // Router matching
@@ -36,129 +39,94 @@ $match = $router->match();
 if(is_array($match) && is_callable($match['target'])) {
     switch ($match['name']) {
         case 'index':
-            readfile('pages/index.html');
+            echo $templates->render('index');
             break;
 
         case 'verify':
-        case 'verifyUid':
+            echo $templates->render('verify', ['title' => 'Verify — ', 'mode' => 'auto']);
+            break;
+
+        case 'verifyAUTO':
+            echo $templates->render('verify', ['title' => 'Verify — ', 'mode' => 'auto', 'auto_input' => $match['params']['uid']]);
+            break;
+
         case 'verifyHKP':
-            $content = file_get_contents('pages/verify.html');
-            $content = str_replace('%HKP_UID%', (array_key_exists('uid', $match['params']) ? htmlspecialchars($match['params']['uid']) : ''), $content);
-            $content = str_replace('%WKD_UID%', '', $content);
-            header('Content-Type: text/html; charset=utf-8');
-            echo($content);
+            echo $templates->render('verify', ['title' => 'Verify — ', 'mode' => 'hkp', 'hkp_input' => $match['params']['uid']]);
             break;
 
         case 'verifyWKD':
-            $content = file_get_contents('pages/verify.html');
-            $content = str_replace('%HKP_UID%', '', $content);
-            $content = str_replace('%WKD_UID%', (array_key_exists('uid', $match['params']) ? htmlspecialchars($match['params']['uid']) : ''), $content);
-            header('Content-Type: text/html; charset=utf-8');
-            echo($content);
+            echo $templates->render('verify', ['title' => 'Verify — ', 'mode' => 'wkd', 'wkd_input' => $match['params']['uid']]);
             break;
 
         case 'encrypt':
-        case 'encryptUid':
+            echo $templates->render('encrypt', ['title' => 'Encrypt — ', 'mode' => 'auto']);
+            break;
+
+        case 'encryptAUTO':
+            echo $templates->render('encrypt', ['title' => 'Encrypt — ', 'mode' => 'auto', 'auto_input' => $match['params']['uid']]);
+            break;
+
         case 'encryptHKP':
-            $content = file_get_contents('pages/encrypt.html');
-            $content = str_replace('%HKP_UID%', (array_key_exists('uid', $match['params']) ? htmlspecialchars($match['params']['uid']) : ''), $content);
-            $content = str_replace('%WKD_UID%', '', $content);
-            header('Content-Type: text/html; charset=utf-8');
-            echo($content);
+            echo $templates->render('encrypt', ['title' => 'Encrypt — ', 'mode' => 'hkp', 'hkp_input' => $match['params']['uid']]);
             break;
 
         case 'encryptWKD':
-            $content = file_get_contents('pages/encrypt.html');
-            $content = str_replace('%HKP_UID%', '', $content);
-            $content = str_replace('%WKD_UID%', (array_key_exists('uid', $match['params']) ? htmlspecialchars($match['params']['uid']) : ''), $content);
-            header('Content-Type: text/html; charset=utf-8');
-            echo($content);
+            echo $templates->render('encrypt', ['title' => 'Encrypt — ', 'mode' => 'wkd', 'wkd_input' => $match['params']['uid']]);
             break;
 
         case 'proofs':
-        case 'proofsUid':
+            echo $templates->render('proofs', ['title' => 'Proofs — ', 'mode' => 'auto']);
+            break;
+
+        case 'proofsAUTO':
+            echo $templates->render('proofs', ['title' => 'Proofs — ', 'mode' => 'auto', 'auto_input' => $match['params']['uid']]);
+            break;
+
         case 'proofsHKP':
-            $content = file_get_contents('pages/proofs.html');
-            $content = str_replace('%HKP_UID%', (array_key_exists('uid', $match['params']) ? htmlspecialchars($match['params']['uid']) : ''), $content);
-            $content = str_replace('%WKD_UID%', '', $content);
-            header('Content-Type: text/html; charset=utf-8');
-            echo($content);
+            echo $templates->render('proofs', ['title' => 'Proofs — ', 'mode' => 'hkp', 'hkp_input' => $match['params']['uid']]);
             break;
 
         case 'proofsWKD':
-            $content = file_get_contents('pages/proofs.html');
-            $content = str_replace('%HKP_UID%', '', $content);
-            $content = str_replace('%WKD_UID%', (array_key_exists('uid', $match['params']) ? htmlspecialchars($match['params']['uid']) : ''), $content);
-            header('Content-Type: text/html; charset=utf-8');
-            echo($content);
+            echo $templates->render('proofs', ['title' => 'Proofs — ', 'mode' => 'wkd', 'wkd_input' => $match['params']['uid']]);
             break;
 
         case 'profile':
-            $content = file_get_contents('pages/profile.html');
-            $content = str_replace('%UID%', htmlspecialchars($match['params']['uid']), $content);
-            $content = str_replace('%MODE%', "auto", $content);
-            header('Content-Type: text/html; charset=utf-8');
-            echo($content);
+            echo $templates->render('profile', ['mode' => 'auto', 'uid' => htmlspecialchars($match['params']['uid'])]);
             break;
 
         case 'profileHKP':
-            $content = file_get_contents('pages/profile.html');
-            $content = str_replace('%UID%', htmlspecialchars($match['params']['uid']), $content);
-            $content = str_replace('%MODE%', "hkp", $content);
-            header('Content-Type: text/html; charset=utf-8');
-            echo($content);
+            echo $templates->render('profile', ['mode' => 'hkp', 'uid' => htmlspecialchars($match['params']['uid'])]);
             break;
 
         case 'profileWKD':
-            $content = file_get_contents('pages/profile.html');
-            $content = str_replace('%UID%', htmlspecialchars($match['params']['uid']), $content);
-            $content = str_replace('%MODE%', "wkd", $content);
-            header('Content-Type: text/html; charset=utf-8');
-            echo($content);
+            echo $templates->render('profile', ['mode' => 'wkd', 'uid' => htmlspecialchars($match['params']['uid'])]);
             break;
 
         case 'guides':
-            readfile('pages/guides.html');
+            echo $templates->render('guides');
             break;
 
         case 'guideId':
             $id = htmlspecialchars($match['params']['id']);
-            if (file_exists("pages/guides/$id.title.html")) {
-                $content = file_get_contents("pages/template.html");
-                $guideTitle = file_get_contents("pages/guides/$id.title.html");
-                $guideContent = file_get_contents("pages/guides/$id.content.html");
-                $guideContent = "<p><a href='/guides'>Back to guides</a></p>".$guideContent;
-                $content = str_replace('%TITLE%', $guideTitle, $content);
-                $content = str_replace('%CONTENT%', $guideContent, $content);
-                header('Content-Type: text/html; charset=utf-8');
-                echo($content);
+            if (file_exists("views/guides/$id.title.php")) {
+                $guideTitle = file_get_contents("views/guides/$id.title.php");
+                $guideContent = file_get_contents("views/guides/$id.content.php");
+                echo $templates->render('guide', ['guide_title' => $guideTitle, 'guide_content' => $guideContent]);
             } else {
-                $content = file_get_contents("pages/template.html");
-                $pageTitle = "Guide not found";
-                $pageContent = "<p>404 - This guide could not be found :(</p>";
-                $content = str_replace('%TITLE%', $pageTitle, $content);
-                $content = str_replace('%CONTENT%', $pageContent, $content);
-                header('Content-Type: text/html; charset=utf-8');
-                echo($content);
+                echo $templates->render("404");
             }
             break;
 
         case 'util':
             $id = htmlspecialchars($match['params']['id']);
-            readfile("pages/util/$id.html");
+            echo $templates->render("util/$id");
             break;
 
         case 'faq':
-            readfile("pages/faq.html");
+            echo $templates->render("faq");
             break;
     }
 } else {
     // No route was matched
-    $content = file_get_contents("pages/template.html");
-    $pageTitle = "404";
-    $pageContent = "<p>404 - This page could not be found :(</p>";
-    $content = str_replace('%TITLE%', $pageTitle, $content);
-    $content = str_replace('%CONTENT%', $pageContent, $content);
-    header('Content-Type: text/html; charset=utf-8');
-    echo($content);
+    echo $templates->render("404");
 }

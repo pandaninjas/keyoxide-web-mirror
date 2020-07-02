@@ -98,13 +98,13 @@ async function verifySignature(opts) {
 
 async function encryptMessage(opts) {
     // Init
-    const elEnc = document.body.querySelector("#messageEncrypted");
+    const elEnc = document.body.querySelector("#message");
     const elRes = document.body.querySelector("#result");
+    const elBtn = document.body.querySelector("[name='submit']");
     let keyData, feedback, message, encrypted;
 
     // Reset feedback
     elRes.innerHTML = "";
-    elEnc.value = "";
 
     try {
         // Get key data
@@ -130,6 +130,8 @@ async function encryptMessage(opts) {
 
     // Display encrypted data
     elEnc.value = encrypted.data;
+    elEnc.toggleAttribute("readonly");
+    elBtn.setAttribute("disabled", "true");
 };
 
 async function verifyProofs(opts) {
@@ -150,6 +152,9 @@ async function verifyProofs(opts) {
         elRes.classList.add('red');
         return;
     }
+
+    // Display feedback
+    elRes.innerHTML = "Verifying proofs&hellip;";
 
     let notation, isVerified, verifications = [];
     for (var i = 0; i < keyData.notations.length; i++) {
@@ -487,6 +492,15 @@ async function fetchKeys(opts) {
         sigContent: null
     };
 
+    // Autodetect mode
+    if (opts.mode == "auto") {
+        if (/.*@.*\..*/.test(opts.input)) {
+            opts.mode = "wkd";
+        } else {
+            opts.mode = "hkp";
+        }
+    }
+
     // Fetch keys depending on the input mode
     switch (opts.mode) {
         case "plaintext":
@@ -598,7 +612,19 @@ let elFormVerify = document.body.querySelector("#form-verify"),
     elFormProofs = document.body.querySelector("#form-proofs"),
     elProfileUid = document.body.querySelector("#profileUid"),
     elProfileMode = document.body.querySelector("#profileMode"),
+    elModeSelect = document.body.querySelector("#modeSelect"),
     elUtilWKD = document.body.querySelector("#form-util-wkd");
+
+if (elModeSelect) {
+    elModeSelect.onchange = function (evt) {
+        let elAllModes = document.body.querySelectorAll('.modes');
+        elAllModes.forEach(function(el) {
+            el.classList.remove('modes--visible');
+        });
+        document.body.querySelector(`.modes--${elModeSelect.value}`).classList.add('modes--visible');
+    }
+    elModeSelect.dispatchEvent(new Event("change"));
+}
 
 if (elFormVerify) {
     elFormVerify.onsubmit = function (evt) {
@@ -612,20 +638,33 @@ if (elFormVerify) {
         };
 
         opts.signature = document.body.querySelector("#signature").value;
+        opts.mode = document.body.querySelector("#modeSelect").value;
 
-        if (document.body.querySelector("#publicKey").value != "") {
-            opts.input = document.body.querySelector("#publicKey").value;
-            opts.mode = "plaintext";
-        } else if (document.body.querySelector("#wkd").value != "") {
-            opts.input = document.body.querySelector("#wkd").value;
-            opts.mode = "wkd";
-        } else if (document.body.querySelector("#hkp_input").value != "") {
-            opts.input = document.body.querySelector("#hkp_input").value;
-            opts.server =  document.body.querySelector("#hkp_server").value;
-            opts.mode = "hkp";
-        } else {
+        switch (opts.mode) {
+            default:
+            case "auto":
+                opts.input = document.body.querySelector("#auto_input").value;
+                break;
+
+            case "wkd":
+                opts.input = document.body.querySelector("#wkd_input").value;
+                break;
+
+            case "hkp":
+                opts.input = document.body.querySelector("#hkp_input").value;
+                opts.server =  document.body.querySelector("#hkp_server").value;
+                break;
+
+            case "plaintext":
+                opts.input = document.body.querySelector("#plaintext_input").value;
+                break;
+        }
+
+        // If no input was detect
+        if (!opts.input) {
             opts.mode = "signature";
         }
+
         verifySignature(opts);
     };
 }
@@ -642,20 +681,28 @@ if (elFormEncrypt) {
         };
 
         opts.message = document.body.querySelector("#message").value;
+        opts.mode = document.body.querySelector("#modeSelect").value;
 
-        if (document.body.querySelector("#publicKey").value != "") {
-            opts.input = document.body.querySelector("#publicKey").value;
-            opts.mode = "plaintext";
-        } else if (document.body.querySelector("#wkd").value != "") {
-            opts.input = document.body.querySelector("#wkd").value;
-            opts.mode = "wkd";
-        } else if (document.body.querySelector("#hkp_input").value != "") {
-            opts.input = document.body.querySelector("#hkp_input").value;
-            opts.server =  document.body.querySelector("#hkp_server").value;
-            opts.mode = "hkp";
-        } else {
-            opts.mode = "signature";
+        switch (opts.mode) {
+            default:
+            case "auto":
+                opts.input = document.body.querySelector("#auto_input").value;
+                break;
+
+            case "wkd":
+                opts.input = document.body.querySelector("#wkd_input").value;
+                break;
+
+            case "hkp":
+                opts.input = document.body.querySelector("#hkp_input").value;
+                opts.server =  document.body.querySelector("#hkp_server").value;
+                break;
+
+            case "plaintext":
+                opts.input = document.body.querySelector("#plaintext_input").value;
+                break;
         }
+
         encryptMessage(opts);
     };
 }
@@ -670,19 +717,28 @@ if (elFormProofs) {
             server: null,
         };
 
-        if (document.body.querySelector("#publicKey").value != "") {
-            opts.input = document.body.querySelector("#publicKey").value;
-            opts.mode = "plaintext";
-        } else if (document.body.querySelector("#wkd").value != "") {
-            opts.input = document.body.querySelector("#wkd").value;
-            opts.mode = "wkd";
-        } else if (document.body.querySelector("#hkp_input").value != "") {
-            opts.input = document.body.querySelector("#hkp_input").value;
-            opts.server =  document.body.querySelector("#hkp_server").value;
-            opts.mode = "hkp";
-        } else {
-            opts.mode = null;
+        opts.mode = document.body.querySelector("#modeSelect").value;
+
+        switch (opts.mode) {
+            default:
+            case "auto":
+                opts.input = document.body.querySelector("#auto_input").value;
+                break;
+
+            case "wkd":
+                opts.input = document.body.querySelector("#wkd_input").value;
+                break;
+
+            case "hkp":
+                opts.input = document.body.querySelector("#hkp_input").value;
+                opts.server =  document.body.querySelector("#hkp_server").value;
+                break;
+
+            case "plaintext":
+                opts.input = document.body.querySelector("#plaintext_input").value;
+                break;
         }
+
         verifyProofs(opts);
     };
 }

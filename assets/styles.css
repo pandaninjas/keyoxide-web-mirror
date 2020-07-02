@@ -96,6 +96,11 @@ input[type="radio"] {
 input[type="submit"] {
     width: 100%;
 }
+input[type="submit"][disabled="true"] {
+    cursor: default;
+    pointer-events: none;
+    opacity: 0.3;
+}
 .green {
     color: green;
 }
@@ -105,6 +110,15 @@ input[type="submit"] {
 .label {
     display: inline-block;
     margin: 0 0 8px;
+}
+.modesContainer {
+    margin-top: 16px;
+}
+.modes {
+    display: none;
+}
+.modes.modes--visible {
+    display: block;
 }
 
 .container--profile {

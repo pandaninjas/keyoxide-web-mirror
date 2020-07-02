@@ -1,51 +1,12 @@
-<!DOCTYPE html>
-<html lang="en" dir="ltr">
-    <head>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <link rel="shortcut icon" href="/favicon.png">
-        <title>WKD utilities - Keyoxide</title>
-        <link rel="stylesheet" href="/assets/styles.css">
-    </head>
-    <body>
-        <header>
-            <div class="container">
-                <a href="/">Keyoxide</a>
-                <div class="spacer"></div>
-                <nav>
-                    <a href="/verify">verify</a>
-                    <a href="/encrypt">encrypt</a>
-                    <a href="/proofs">proofs</a>
-                </nav>
-            </div>
-        </header>
+<?php $this->layout('template.base', ['title' => $title]) ?>
 
-        <div class="container">
-            <h1>WKD Local Part</h1>
-            <div class="content">
-                <form id="form-util-wkd" method="post">
-                    <p>This tool computes the part of the URL that corresponds to the username when <a href="https://keyoxide.org/guides/web-key-directory">uploading keys using web key directory</a>.</p>
-                    <h3>Input</h3>
-                    <input type="text" name="input" id="input" placeholder="Username">
-                    <h3>Output</h3>
-                    <input type="text" name="output" id="output" placeholder="Waiting for input..." readonly>
-                </form>
-            </div>
-
-            <footer>
-                <p>
-                    Sitemap:
-                    <a href="/">index</a> -
-                    <a href="/encrypt">encrypt</a> -
-                    <a href="/verify">verify</a> -
-                    <a href="/proofs">proofs</a> -
-                    <a href="/guides">guides</a> -
-                    <a href="/faq">faq</a>
-                </p>
-            </footer>
-        </div>
-
-
-    </body>
-    <script type="text/javascript" src="/assets/scripts.js" charset="utf-8"></script>
-</html>
+<h1>WKD Local Part</h1>
+<div class="content">
+    <form id="form-util-wkd" method="post">
+        <p>This tool computes the part of the URL that corresponds to the username when <a href="https://keyoxide.org/guides/web-key-directory">uploading keys using web key directory</a>.</p>
+        <h3>Input</h3>
+        <input type="text" name="input" id="input" placeholder="Username">
+        <h3>Output</h3>
+        <input type="text" name="output" id="output" placeholder="Waiting for input..." readonly>
+    </form>
+</div>
