@@ -822,7 +822,7 @@ if (elUtilQR) {
 
     elInput.addEventListener("input", async function(evt) {
         if (evt.target.value) {
-            qrcode.makeCode(`OPENPGP4FPR:${evt.target.value}`);
+            qrcode.makeCode(`OPENPGP4FPR:${evt.target.value.toUpperCase}`);
         } else {
             qrcode.clear();
         }
