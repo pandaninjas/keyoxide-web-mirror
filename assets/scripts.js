@@ -296,6 +296,11 @@ async function displayProfile(opts) {
     // Display feedback
     document.body.querySelector('#profileData').innerHTML = feedback;
 
+    // Exit if no notations are available
+    if (keyData.notations.length == 0) {
+        return;
+    }
+
     // Verify identity proofs
     for (var i = 0; i < keyData.notations.length; i++) {
         notation = keyData.notations[i];
