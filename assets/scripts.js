@@ -218,6 +218,7 @@ async function displayProfile(opts) {
                 }
             });
         } catch (e) {
+            console.warn(e);
         }
         if (!keyLink) {
             try {
@@ -227,6 +228,7 @@ async function displayProfile(opts) {
                     }
                 });
             } catch (e) {
+                console.warn(e);
             }
         }
         if (!keyLink) {
