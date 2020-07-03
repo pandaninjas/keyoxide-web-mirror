@@ -211,19 +211,25 @@ async function displayProfile(opts) {
         const urlAdvanced = `https://openpgpkey.${domain}/.well-known/openpgpkey/${domain}/hu/${localEncoded}`;
         const urlDirect = `https://${domain}/.well-known/openpgpkey/hu/${localEncoded}`;
 
-        keyLink = await fetch(urlAdvanced).then(function(response) {
-            if (response.status === 200) {
-                return urlAdvanced;
-            } else {
-                return fetch(urlDirect).then(function(response) {
+        try {
+            keyLink = await fetch(urlAdvanced).then(function(response) {
+                if (response.status === 200) {
+                    return urlAdvanced;
+                }
+            });
+        }
+        if (!keyLink) {
+            try {
+                keyLink = await fetch(urlDirect).then(function(response) {
                     if (response.status === 200) {
                         return urlDirect;
-                    } else {
-                        return "#";
                     }
                 });
             }
-        });
+        }
+        if (!keyLink) {
+            keyLink = `https://keys.openpgp.org/pks/lookup?op=get&options=mr&search=0x${keyData.fingerprint}`;
+        }
     } else {
         keyLink = `https://keys.openpgp.org/pks/lookup?op=get&options=mr&search=0x${keyData.fingerprint}`;
     }
