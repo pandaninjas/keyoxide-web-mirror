@@ -192,7 +192,7 @@ async function verifyProofs(opts) {
 }
 
 async function displayProfile(opts) {
-    let keyData, feedback = "", notation, isVerified, verifications = [];
+    let keyData, keyLink, feedback = "", notation, isVerified, verifications = [];
     try {
         keyData = await fetchKeys(opts);
     } catch (e) {
@@ -204,6 +204,31 @@ async function displayProfile(opts) {
     }
     let userData = keyData.user.user.userId;
 
+    // Determine WKD or HKP link
+    if (opts.mode == "wkd") {
+        const [, localPart, domain] = /(.*)@(.*)/.exec(opts.input);
+        const localEncoded = await computeWKDLocalPart(localPart.toLowerCase());
+        const urlAdvanced = `https://openpgpkey.${domain}/.well-known/openpgpkey/${domain}/hu/${localEncoded}`;
+        const urlDirect = `https://${domain}/.well-known/openpgpkey/hu/${localEncoded}`;
+
+        keyLink = await fetch(urlAdvanced).then(function(response) {
+            if (response.status === 200) {
+                return urlAdvanced;
+            } else {
+                return fetch(urlDirect).then(function(response) {
+                    if (response.status === 200) {
+                        return urlDirect;
+                    } else {
+                        return "#";
+                    }
+                });
+            }
+        });
+    } else {
+        keyLink = `https://keys.openpgp.org/pks/lookup?op=get&options=mr&search=0x${keyData.fingerprint}`;
+    }
+
+    // Fill in various data
     document.body.querySelector('#profileName').innerHTML = userData.name;
     document.body.querySelector('#profileAvatar').style = "";
     document.body.querySelector('#profileAvatar').src = `https://www.gravatar.com/avatar/${SparkMD5.hash(userData.email)}?s=128&d=mm`;
@@ -224,7 +249,7 @@ async function displayProfile(opts) {
     }
     feedback += `<div class="profileDataItem">`;
     feedback += `<div class="profileDataItem__label">fingerprint</div>`;
-    feedback += `<div class="profileDataItem__value"><a href="https://keys.openpgp.org/pks/lookup?op=get&options=mr&search=0x${keyData.fingerprint}">${keyData.fingerprint}</a></div>`;
+    feedback += `<div class="profileDataItem__value"><a href="${keyLink}">${keyData.fingerprint}</a></div>`;
     feedback += `</div>`;
     feedback += `<div class="profileDataItem">`;
     feedback += `<div class="profileDataItem__label">qrcode</div>`;
