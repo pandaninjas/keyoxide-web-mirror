@@ -217,6 +217,7 @@ async function displayProfile(opts) {
                     return urlAdvanced;
                 }
             });
+        } catch (e) {
         }
         if (!keyLink) {
             try {
@@ -225,6 +226,7 @@ async function displayProfile(opts) {
                         return urlDirect;
                     }
                 });
+            } catch (e) {
             }
         }
         if (!keyLink) {
