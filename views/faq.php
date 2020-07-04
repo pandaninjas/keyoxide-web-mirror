@@ -3,7 +3,7 @@
 <h1>FAQ</h1>
 <div class="content">
     <h3 id="what-is-keyoxide"><a href="#what-is-keyoxide">#</a> What is Keyoxide?</h3>
-    <p><a href="/">Keyoxide</a> is a lightweight and FOSS solution to make basic cryptography operations accessible to regular humans. It is built to be privacy friendly and secure, it can even be selfhosted.</p>
+    <p><a href="/">Keyoxide</a> is a lightweight and FOSS solution to make basic cryptography operations accessible to regular humans. It is built to be privacy friendly and secure, it can even be self-hosted.</p>
 
     <h3 id="why-does-keyoxide-exist"><a href="#why-does-keyoxide-exist">#</a> Why does Keyoxide exist?</h3>
     <p><a href="/">Keyoxide</a> provides a solution to a modern problem: we humans have developed advanced methods of encrypting data and signing it. Unfortunately, it requires complicated tools that demand a minimal level of understanding cryptography and how keypairs work to leverage these technologies.</p>
