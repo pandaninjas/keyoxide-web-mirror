@@ -18,6 +18,8 @@ steps:
 trigger:
     branch:
         - main
+    event:
+        - push
 
 ---
 
@@ -39,3 +41,5 @@ steps:
 trigger:
     branch:
         - dev
+    event:
+        - push
