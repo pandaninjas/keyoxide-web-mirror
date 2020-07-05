@@ -21,16 +21,19 @@ $router->map('GET', '/verify', function() {}, 'verify');
 $router->map('GET', '/encrypt', function() {}, 'encrypt');
 $router->map('GET', '/proofs', function() {}, 'proofs');
 $router->map('GET', '/verify/hkp/[**:uid]', function() {}, 'verifyHKP');
-$router->map('GET', '/encrypt/hkp/[**:uid]', function() {}, 'encryptHKP');
-$router->map('GET', '/proofs/hkp/[**:uid]', function() {}, 'proofsHKP');
 $router->map('GET', '/verify/wkd/[**:uid]', function() {}, 'verifyWKD');
-$router->map('GET', '/encrypt/wkd/[**:uid]', function() {}, 'encryptWKD');
-$router->map('GET', '/proofs/wkd/[**:uid]', function() {}, 'proofsWKD');
+$router->map('GET', '/verify/keybase/[:uid]/[:fp]', function() {}, 'verifyKeybase');
 $router->map('GET', '/verify/[**:uid]', function() {}, 'verifyAUTO');
+$router->map('GET', '/encrypt/hkp/[**:uid]', function() {}, 'encryptHKP');
+$router->map('GET', '/encrypt/wkd/[**:uid]', function() {}, 'encryptWKD');
+$router->map('GET', '/encrypt/keybase/[:uid]/[:fp]', function() {}, 'encryptKeybase');
 $router->map('GET', '/encrypt/[**:uid]', function() {}, 'encryptAUTO');
+$router->map('GET', '/proofs/hkp/[**:uid]', function() {}, 'proofsHKP');
+$router->map('GET', '/proofs/wkd/[**:uid]', function() {}, 'proofsWKD');
 $router->map('GET', '/proofs/[**:uid]', function() {}, 'proofsAUTO');
 $router->map('GET', '/hkp/[**:uid]', function() {}, 'profileHKP');
 $router->map('GET', '/wkd/[**:uid]', function() {}, 'profileWKD');
+$router->map('GET', '/keybase/[:uid]/[:fp]', function() {}, 'profileKeybase');
 $router->map('GET', '/[**:uid]', function() {}, 'profile');
 
 // Router matching
@@ -59,6 +62,10 @@ if(is_array($match) && is_callable($match['target'])) {
             echo $templates->render('verify', ['title' => 'Verify — ', 'mode' => 'wkd', 'wkd_input' => $match['params']['uid']]);
             break;
 
+        case 'verifyKeybase':
+            echo $templates->render('verify', ['title' => 'Verify — ', 'mode' => 'keybase', 'keybase_username' => htmlspecialchars($match['params']['uid']), 'keybase_fingerprint' => htmlspecialchars($match['params']['fp'])]);
+            break;
+
         case 'encrypt':
             echo $templates->render('encrypt', ['title' => 'Encrypt — ', 'mode' => 'auto']);
             break;
@@ -73,6 +80,10 @@ if(is_array($match) && is_callable($match['target'])) {
 
         case 'encryptWKD':
             echo $templates->render('encrypt', ['title' => 'Encrypt — ', 'mode' => 'wkd', 'wkd_input' => $match['params']['uid']]);
+            break;
+
+        case 'encryptKeybase':
+            echo $templates->render('encrypt', ['title' => 'Encrypt — ', 'mode' => 'keybase', 'keybase_username' => htmlspecialchars($match['params']['uid']), 'keybase_fingerprint' => htmlspecialchars($match['params']['fp'])]);
             break;
 
         case 'proofs':
@@ -101,6 +112,10 @@ if(is_array($match) && is_callable($match['target'])) {
 
         case 'profileWKD':
             echo $templates->render('profile', ['mode' => 'wkd', 'uid' => htmlspecialchars($match['params']['uid'])]);
+            break;
+
+        case 'profileKeybase':
+            echo $templates->render('profile', ['mode' => 'keybase', 'uid' => htmlspecialchars($match['params']['uid']).'/'.htmlspecialchars($match['params']['fp'])]);
             break;
 
         case 'guides':

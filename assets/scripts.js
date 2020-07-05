@@ -205,37 +205,45 @@ async function displayProfile(opts) {
     let userData = keyData.user.user.userId;
 
     // Determine WKD or HKP link
-    if (opts.mode == "wkd") {
-        const [, localPart, domain] = /(.*)@(.*)/.exec(opts.input);
-        const localEncoded = await computeWKDLocalPart(localPart.toLowerCase());
-        const urlAdvanced = `https://openpgpkey.${domain}/.well-known/openpgpkey/${domain}/hu/${localEncoded}`;
-        const urlDirect = `https://${domain}/.well-known/openpgpkey/hu/${localEncoded}`;
+    switch (opts.mode) {
+        case "wkd":
+            const [, localPart, domain] = /(.*)@(.*)/.exec(opts.input);
+            const localEncoded = await computeWKDLocalPart(localPart.toLowerCase());
+            const urlAdvanced = `https://openpgpkey.${domain}/.well-known/openpgpkey/${domain}/hu/${localEncoded}`;
+            const urlDirect = `https://${domain}/.well-known/openpgpkey/hu/${localEncoded}`;
 
-        try {
-            keyLink = await fetch(urlAdvanced).then(function(response) {
-                if (response.status === 200) {
-                    return urlAdvanced;
-                }
-            });
-        } catch (e) {
-            console.warn(e);
-        }
-        if (!keyLink) {
             try {
-                keyLink = await fetch(urlDirect).then(function(response) {
+                keyLink = await fetch(urlAdvanced).then(function(response) {
                     if (response.status === 200) {
-                        return urlDirect;
+                        return urlAdvanced;
                     }
                 });
             } catch (e) {
                 console.warn(e);
             }
-        }
-        if (!keyLink) {
+            if (!keyLink) {
+                try {
+                    keyLink = await fetch(urlDirect).then(function(response) {
+                        if (response.status === 200) {
+                            return urlDirect;
+                        }
+                    });
+                } catch (e) {
+                    console.warn(e);
+                }
+            }
+            if (!keyLink) {
+                keyLink = `https://keys.openpgp.org/pks/lookup?op=get&options=mr&search=0x${keyData.fingerprint}`;
+            }
+            break;
+
+        case "hkp":
             keyLink = `https://keys.openpgp.org/pks/lookup?op=get&options=mr&search=0x${keyData.fingerprint}`;
-        }
-    } else {
-        keyLink = `https://keys.openpgp.org/pks/lookup?op=get&options=mr&search=0x${keyData.fingerprint}`;
+            break;
+
+        case "keybase":
+            keyLink = opts.keyLink;
+            break;
     }
 
     // Fill in various data
@@ -261,10 +269,13 @@ async function displayProfile(opts) {
     feedback += `<div class="profileDataItem__label">fingerprint</div>`;
     feedback += `<div class="profileDataItem__value"><a href="${keyLink}">${keyData.fingerprint}</a></div>`;
     feedback += `</div>`;
-    feedback += `<div class="profileDataItem">`;
-    feedback += `<div class="profileDataItem__label">qrcode</div>`;
-    feedback += `<div class="profileDataItem__value"><a href="/util/qr/${keyData.fingerprint}">fingerprint</a></div>`;
-    feedback += `</div>`;
+
+    if (opts.mode == "hkp") {
+        feedback += `<div class="profileDataItem">`;
+        feedback += `<div class="profileDataItem__label">qrcode</div>`;
+        feedback += `<div class="profileDataItem__value"><a href="/util/qr/${keyData.fingerprint}">fingerprint</a></div>`;
+        feedback += `</div>`;
+    }
 
     if (keyData.notations.length > 0) {
         feedback += `<div class="profileDataItem profileDataItem--separator profileDataItem--noLabel">`;
@@ -589,6 +600,27 @@ async function fetchKeys(opts) {
             }
             break;
 
+        case "keybase":
+            opts.keyLink = `https://keybase.io/${opts.username}/pgp_keys.asc?fingerprint=${opts.fingerprint}`;
+            opts.input = `${opts.username}/${opts.fingerprint}`;
+            try {
+                opts.plaintext = await fetch(opts.keyLink).then(function(response) {
+                    if (response.status === 200) {
+                        return response;
+                    }
+                })
+                .then(response => response.blob())
+                .then(response => response.text());
+            } catch (e) {
+                throw("Error: No public keys could be fetched from the Keybase account.");
+            }
+            output.publicKey = (await openpgp.key.readArmored(opts.plaintext)).keys[0];
+
+            if (!output.publicKey) {
+                throw("Error: No public keys could be read from the Keybase account.");
+            }
+            break;
+
         case "signature":
             sig = (await openpgp.signature.readArmored(opts.signature));
             if ('compressed' in sig.packets[0]) {
@@ -738,10 +770,15 @@ if (elFormVerify) {
             case "plaintext":
                 opts.input = document.body.querySelector("#plaintext_input").value;
                 break;
+
+            case "keybase":
+                opts.username = document.body.querySelector("#keybase_username").value;
+                opts.fingerprint =  document.body.querySelector("#keybase_fingerprint").value;
+                break;
         }
 
         // If no input was detect
-        if (!opts.input) {
+        if (!opts.input && !opts.username) {
             opts.mode = "signature";
         }
 
@@ -780,6 +817,11 @@ if (elFormEncrypt) {
 
             case "plaintext":
                 opts.input = document.body.querySelector("#plaintext_input").value;
+                break;
+
+            case "keybase":
+                opts.username = document.body.querySelector("#keybase_username").value;
+                opts.fingerprint =  document.body.querySelector("#keybase_fingerprint").value;
                 break;
         }
 
@@ -847,6 +889,15 @@ if (elProfileUid) {
         case "wkd":
             opts = {
                 input: profileUid,
+                mode: elProfileMode.innerHTML
+            }
+            break;
+
+        case "keybase":
+            let match = profileUid.match(/(.*)\/(.*)/);
+            opts = {
+                username: match[1],
+                fingerprint: match[2],
                 mode: elProfileMode.innerHTML
             }
             break;
