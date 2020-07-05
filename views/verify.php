@@ -10,6 +10,7 @@
             <option value="wkd" <?php if ($mode=="wkd"): ?>selected<?php endif ?>>Web Key Directory</option>
             <option value="hkp" <?php if ($mode=="hkp"): ?>selected<?php endif ?>>Keyserver</option>
             <option value="plaintext" <?php if ($mode=="plaintext"): ?>selected<?php endif ?>>Plaintext</option>
+            <option value="keybase" <?php if ($mode=="keybase"): ?>selected<?php endif ?>>Keybase</option>
         </select>
         <div class="modesContainer">
             <div class='modes modes--auto <?php if ($mode=="auto"): ?>modes--visible<?php endif ?>'>
@@ -24,6 +25,10 @@
             </div>
             <div class='modes modes--plaintext <?php if ($mode=="plaintext"): ?>modes--visible<?php endif ?>'>
                 <textarea name="plaintext_input" id="plaintext_input"></textarea>
+            </div>
+            <div class='modes modes--keybase <?php if ($mode=="keybase"): ?>modes--visible<?php endif ?>'>
+                <input type="text" name="keybase_username" id="keybase_username" placeholder="username" value="<?=$this->escape($keybase_username)?>">
+                <input type="text" name="keybase_fingerprint" id="keybase_fingerprint" placeholder="fingerprint" value="<?=$this->escape($keybase_fingerprint)?>">
             </div>
         </div>
         <h3>Signature</h3>
