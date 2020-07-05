@@ -361,7 +361,7 @@ async function verifyProof(url, fingerprint) {
                 throw new Error('Response failed: ' + response.status);
             }
             json = await response.json();
-            reVerify = new RegExp(`openpgp4fpr:${fingerprint}`);
+            reVerify = new RegExp(`openpgp4fpr:${fingerprint}`, 'i');
             json.Answer.forEach((item, i) => {
                 if (reVerify.test(item.data)) {
                     output.isVerified = true;
@@ -413,7 +413,7 @@ async function verifyProof(url, fingerprint) {
                 throw new Error('Response failed: ' + response.status);
             }
             json = await response.json();
-            reVerify = new RegExp(`openpgp4fpr:${fingerprint}`);
+            reVerify = new RegExp(`openpgp4fpr:${fingerprint}`, 'i');
             if (reVerify.test(json.about)) {
                 output.isVerified = true;
             }
@@ -464,7 +464,7 @@ async function verifyProof(url, fingerprint) {
                 throw new Error('Response failed: ' + response.status);
             }
             json = await response.json();
-            reVerify = new RegExp(`[Verifying my OpenPGP key: openpgp4fpr:${fingerprint}]`);
+            reVerify = new RegExp(`[Verifying my OpenPGP key: openpgp4fpr:${fingerprint}]`, 'i');
             if (reVerify.test(json.files["openpgp.md"].content)) {
                 output.isVerified = true;
             }
@@ -518,7 +518,7 @@ async function verifyProof(url, fingerprint) {
             // Potentially Mastodon
             match = url.match(/https:\/\/(.*)\/@(.*)/);
             json.attachment.forEach((item, i) => {
-                if (item.value === fingerprint) {
+                if (item.value.toUpperCase() === fingerprint.toUpperCase()) {
                     output.type = "mastodon";
                     output.display = `@${match[2]}@${[match[1]]}`;
                     output.proofUrlFetch = json.url;
