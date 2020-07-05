@@ -109,10 +109,8 @@ if(is_array($match) && is_callable($match['target'])) {
 
         case 'guideId':
             $id = htmlspecialchars($match['params']['id']);
-            if (file_exists("views/guides/$id.title.php")) {
-                $guideTitle = file_get_contents("views/guides/$id.title.php");
-                $guideContent = file_get_contents("views/guides/$id.content.php");
-                echo $templates->render('guide', ['guide_title' => $guideTitle, 'guide_content' => $guideContent]);
+            if (file_exists("views/guides/$id.title.php") && file_exists("views/guides/$id.content.php")) {
+                echo $templates->render('guide', ['id' => $id]);
             } else {
                 echo $templates->render("404");
             }
