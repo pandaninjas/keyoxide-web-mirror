@@ -26,7 +26,7 @@
 
     <h3 id="how-is-this-privacy-friendly-and-secure"><a href="#how-is-this-privacy-friendly-and-secure">#</a> How is this privacy friendly and secure?</h3>
     <p>You can't make an account on <a href="/">Keyoxide</a> because for basic cryptographic operations, we don't need your data or your keys. By not knowing anything about you or using any trackers, this is as privacy-friendly as it gets.</p>
-    <p>As for secure, <a href="/">Keyoxide</a> does all the cryptographic processing on your device and never sends data to the server. Besides, it never uses private keys and should you ever enter those.</p>
+    <p>As for secure, <a href="/">Keyoxide</a> does all the cryptographic processing on your device and never sends data to the server. It also doesn't use private keys for any operation (so make sure to never upload those anywhere).</p>
 
     <h3 id="how-can-i-make-an-account"><a href="#how-can-i-make-an-account">#</a> How can I make an account?</h3>
     <p>Well, you can't and that is the whole point of <a href="/">Keyoxide</a>. We don't want your data or your keys. Uploading your keys and/or data to our servers is required for any of the operations provided by <a href="/">Keyoxide</a>.</p>

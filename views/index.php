@@ -11,6 +11,7 @@
     <h2>Utilities</h2>
     <p>
         <a class="bigBtn" href="/util/wkd">wkd</a>
+        <a class="bigBtn" href="/util/qr">QR</a>
     </p>
     <h2>Getting started</h2>
     <p>
