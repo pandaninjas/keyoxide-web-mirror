@@ -103,6 +103,9 @@ input[type="submit"][disabled="true"] {
     pointer-events: none;
     opacity: 0.3;
 }
+select {
+    margin: 0 0 16px 0;
+}
 .green {
     color: green;
 }
@@ -112,9 +115,6 @@ input[type="submit"][disabled="true"] {
 .label {
     display: inline-block;
     margin: 0 0 8px;
-}
-.modesContainer {
-    margin-top: 16px;
 }
 .modes {
     display: none;
