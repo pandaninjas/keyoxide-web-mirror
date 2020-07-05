@@ -1,6 +1,18 @@
 {
     "name": "Keyoxide.org",
     "description": "FOSS solution for making basic cryptography operations accessible to regular humans https://keyoxide.org",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Yarmo Mackenbach",
+            "email": "yarmo@yarmo.eu",
+            "homepage": "https://yarmo.eu",
+            "role": "Developer"
+        }
+    ],
+    "support": {
+        "email": "yarmo@keyoxide.org"
+    },
     "require": {
         "altorouter/altorouter": "^2.0",
         "league/plates": "3.*"
