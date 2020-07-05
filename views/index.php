@@ -10,6 +10,7 @@
     </p>
     <h2>Utilities</h2>
     <p>
+        <a class="bigBtn" href="/util/profile-url">Profile URL</a>
         <a class="bigBtn" href="/util/wkd">wkd</a>
         <a class="bigBtn" href="/util/qr">QR</a>
     </p>

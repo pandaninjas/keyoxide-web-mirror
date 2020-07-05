@@ -658,6 +658,32 @@ async function computeWKDLocalPart(message) {
     return encodeZBase32(new Uint8Array(hash));
 }
 
+async function generateProfileURL(data) {
+    if (data.input == "") {
+        return "Waiting for input...";
+    }
+    switch (data.source) {
+        case "wkd":
+            return `https://keyoxide.org/${data.input}`;
+            break;
+        case "hkp":
+            if (/.*@.*\..*/.test(data.input)) {
+                return `https://keyoxide.org/hkp/${data.input}`;
+            } else {
+                return `https://keyoxide.org/${data.input}`;
+            }
+            break;
+        case "keybase":
+            const re = /https\:\/\/keybase.io\/(.*)\/pgp_keys\.asc\?fingerprint\=(.*)/;
+            if (!re.test(data.input)) {
+                return "Incorrect Keybase public key URL.";
+            }
+            const match = data.input.match(re);
+            return `https://keyoxide.org/keybase/${match[1]}/${match[2]}`;
+            break;
+    }
+}
+
 // General purpose
 let elFormVerify = document.body.querySelector("#form-verify"),
     elFormEncrypt = document.body.querySelector("#form-encrypt"),
@@ -666,7 +692,8 @@ let elFormVerify = document.body.querySelector("#form-verify"),
     elProfileMode = document.body.querySelector("#profileMode"),
     elModeSelect = document.body.querySelector("#modeSelect"),
     elUtilWKD = document.body.querySelector("#form-util-wkd"),
-    elUtilQR = document.body.querySelector("#form-util-qr");
+    elUtilQR = document.body.querySelector("#form-util-qr"),
+    elUtilProfileURL = document.body.querySelector("#form-util-profile-url");
 
 if (elModeSelect) {
     elModeSelect.onchange = function (evt) {
@@ -866,6 +893,39 @@ if (elUtilQR) {
         } else {
             qrcode.clear();
         }
+    });
+
+    elInput.dispatchEvent(new Event("input"));
+}
+
+if (elUtilProfileURL) {
+    elUtilProfileURL.onsubmit = function (evt) {
+        evt.preventDefault();
+    }
+
+    const elInput = document.body.querySelector("#input"),
+        elSource = document.body.querySelector("#source"),
+        elOutput = document.body.querySelector("#output");
+
+    let data = {
+        input: elInput.value,
+        source: elSource.value
+    };
+
+    elInput.addEventListener("input", async function(evt) {
+        data = {
+            input: elInput.value,
+            source: elSource.value
+        };
+        elOutput.innerText = await generateProfileURL(data);
+    });
+
+    elSource.addEventListener("input", async function(evt) {
+        data = {
+            input: elInput.value,
+            source: elSource.value
+        };
+        elOutput.innerText = await generateProfileURL(data);
     });
 
     elInput.dispatchEvent(new Event("input"));
