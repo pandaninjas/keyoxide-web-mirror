@@ -13,7 +13,7 @@
     <h3>Beyond Keyoxide.org</h3>
     <a href="/guides/openpgp-proofs">How OpenPGP identity proofs work</a><br>
     <a href="/guides/web-key-directory">Uploading keys using web key directory</a><br>
-    <a href="/guides/selfhosting-keyoxide">Selfhosting Keyoxide</a><br>
+    <a href="/guides/self-hosting-keyoxide">Self-hosting Keyoxide</a><br>
     <a href="/guides/service-provider">Are you a service provider?</a><br>
 
     <h3>Adding proofs</h3>

@@ -11,7 +11,7 @@
 
 <p>Open the <a href="/encrypt" target="_blank">keyoxide.org/encrypt</a> page and paste the fingerprint in the <strong>Email / key id / fingerprint</strong> field.</p>
 <p>Write a message in the <strong>Message</strong> field. Scroll down and press the <strong>ENCRYPT MESSAGE</strong> button.</p>
-<p>You have successfully encrypted the message! The encrypted message in the <strong>Message</strong> field can safely be sent via unsecure communication channels knowing that only the person possessing the private key associated with that fingerprint can read it.</p>
+<p>You have successfully encrypted the message! The encrypted message in the <strong>Message</strong> field can safely be sent via unsecured communication channels knowing that only the person possessing the private key associated with that fingerprint can read it.</p>
 
 <h3>Going further</h3>
 
