@@ -3,6 +3,7 @@
     "description": "FOSS solution for making basic cryptography operations accessible to regular humans https://keyoxide.org",
     "homepage": "https://keyoxide.org",
     "license": "MIT",
+    "version": "0.1.0",
     "authors": [
         {
             "name": "Yarmo Mackenbach",
