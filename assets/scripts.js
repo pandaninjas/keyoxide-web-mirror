@@ -609,10 +609,9 @@ async function fetchKeys(opts) {
                         return response;
                     }
                 })
-                .then(response => response.blob())
                 .then(response => response.text());
             } catch (e) {
-                throw("Error: No public keys could be fetched from the Keybase account.");
+                throw(`Error: No public keys could be fetched from the Keybase account (${e}).`);
             }
             output.publicKey = (await openpgp.key.readArmored(opts.plaintext)).keys[0];
 
