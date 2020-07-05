@@ -5,7 +5,7 @@ $user = urlencode($_GET["user"]);
 $comment = urlencode($_GET["comment"]);
 
 $url = "https://www.reddit.com/user/$user/comments/$comment.json";
-$check = "\[Verifying my OpenPGP key: openpgp4fpr:$fingerprint\\\\\]";
+$check = "\[Verifying my OpenPGP key: openpgp4fpr:$fingerprint";
 
 $ch = curl_init();
 curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "GET");
