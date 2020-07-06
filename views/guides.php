@@ -23,6 +23,7 @@
     <a href="/guides/lobsters">Adding a Lobste.rs proof</a><br>
     <a href="/guides/hackernews">Adding a Hackernews proof</a><br>
     <a href="/guides/reddit">Adding a Reddit proof</a><br>
+    <a href="/guides/discourse">Adding a Discourse proof</a><br>
     <a href="/guides/github">Adding a Github proof</a><br>
     <a href="/guides/xmpp">Adding a XMPP proof</a><br>
 </div>
