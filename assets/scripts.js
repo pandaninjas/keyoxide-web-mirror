@@ -514,6 +514,7 @@ async function verifyProof(url, fingerprint) {
         output.display = `${match[1]}@${match[2]}`;
     }
     // Catchall
+    // Mastodon
     try {
         response = await fetch(url, {
             headers: {
@@ -526,7 +527,6 @@ async function verifyProof(url, fingerprint) {
         }
         json = await response.json();
         if ('attachment' in json) {
-            // Potentially Mastodon
             match = url.match(/https:\/\/(.*)\/@(.*)/);
             json.attachment.forEach((item, i) => {
                 if (item.value.toUpperCase() === fingerprint.toUpperCase()) {
@@ -537,10 +537,38 @@ async function verifyProof(url, fingerprint) {
                 }
             });
         }
-    } catch (e) {
-    } finally {
         return output;
+    } catch (e) {
+        console.warn(e);
     }
+    // Discourse
+    try {
+        match = url.match(/https:\/\/(.*)\/u\/(.*)/);
+        output.proofUrlFetch = `/server/verifyDiscourse.php?url=${url}&fp=${fingerprint}`;
+        try {
+            response = await fetch(output.proofUrlFetch, {
+                headers: {
+                    Accept: 'application/json'
+                },
+                credentials: 'omit'
+            });
+            if (!response.ok) {
+                throw new Error('Response failed: ' + response.status);
+            }
+            json = await response.json();
+            if (json.isDiscourse) {
+                output.type = "discourse";
+                output.display = `${json.user}@${match[1]}`;
+                output.isVerified = json.verified;
+                return output;
+            }
+        } catch (e) {
+            console.warn(e);
+        }
+    } catch (e) {
+        console.warn(e);
+    }
+    return output;
 }
 
 async function fetchKeys(opts) {
