@@ -8,6 +8,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 - Discourse identity proof
 - Pleroma identity proof
+### Fixed
+- Removed underscores from verify and encrypt links 
 
 ## [0.1.0] - 2020-07-05
 ### Added
