@@ -514,7 +514,7 @@ async function verifyProof(url, fingerprint) {
         output.display = `${match[1]}@${match[2]}`;
     }
     // Catchall
-    // Mastodon
+    // Fediverse
     try {
         response = await fetch(url, {
             headers: {
@@ -530,14 +530,26 @@ async function verifyProof(url, fingerprint) {
             match = url.match(/https:\/\/(.*)\/@(.*)/);
             json.attachment.forEach((item, i) => {
                 if (item.value.toUpperCase() === fingerprint.toUpperCase()) {
-                    output.type = "mastodon";
-                    output.display = `@${match[2]}@${[match[1]]}`;
+                    output.type = "fediverse";
+                    output.display = `@${json.preferredUsername}@${[match[1]]}`;
                     output.proofUrlFetch = json.url;
                     output.isVerified = true;
                 }
             });
         }
-        return output;
+        if (!output.type && 'summary' in json) {
+            match = url.match(/https:\/\/(.*)\/users\/(.*)/);
+            reVerify = new RegExp(`[Verifying my OpenPGP key: openpgp4fpr:${fingerprint}]`, 'i');
+            if (reVerify.test(json.summary)) {
+                output.type = "fediverse";
+                output.display = `@${json.preferredUsername}@${[match[1]]}`;
+                output.proofUrlFetch = json.url;
+                output.isVerified = true;
+            }
+        }
+        if (output.type) {
+            return output;
+        }
     } catch (e) {
         console.warn(e);
     }
@@ -568,6 +580,8 @@ async function verifyProof(url, fingerprint) {
     } catch (e) {
         console.warn(e);
     }
+
+    // Return output without confirmed proof
     return output;
 }
 

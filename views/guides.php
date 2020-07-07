@@ -19,6 +19,7 @@
     <h3>Adding proofs</h3>
     <a href="/guides/dns">Adding a DNS proof</a><br>
     <a href="/guides/mastodon">Adding a Mastodon proof</a><br>
+    <a href="/guides/pleroma">Adding a Pleroma proof</a><br>
     <a href="/guides/twitter">Adding a Twitter proof</a><br>
     <a href="/guides/lobsters">Adding a Lobste.rs proof</a><br>
     <a href="/guides/hackernews">Adding a Hackernews proof</a><br>
