@@ -17,7 +17,7 @@ For details check out https://keyoxide.org/guides/openpgp-proofs
 <code>notation</code>
 
 <p>Enter the notation (make sure to update the link):</p>
-<code>proof@metacode.biz=https://INSTANCE.ORG/users/@USERNAME</code>
+<code>proof@metacode.biz=https://INSTANCE.ORG/users/USERNAME</code>
 
 <p>Please note that the <strong>/users/</strong> part of the URL is mandatory for the proof to work.</p>
 
