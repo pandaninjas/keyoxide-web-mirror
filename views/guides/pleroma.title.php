@@ -1,1 +1,1 @@
-Adding a pleroma proof
+Adding a Pleroma proof
