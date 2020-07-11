@@ -11,6 +11,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Changed
 - Update design
 - New favicon
+- Improve Keybase guide
 ### Fixed
 - Remove underscores from verify and encrypt links
 - Hide revoked userids
