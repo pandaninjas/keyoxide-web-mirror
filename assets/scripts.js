@@ -175,7 +175,7 @@ async function verifyProofs(opts) {
     // Generate feedback
     feedback += `<p>`;
     for (var i = 0; i < verifications.length; i++) {
-        if (verifications[i].type == "null") { continue; }
+        if (verifications[i].type == null) { continue; }
         feedback += `${verifications[i].type}: `;
         feedback += `<a class="proofDisplay" href="${verifications[i].url}">${verifications[i].display}</a>`;
         if (verifications[i].isVerified) {
