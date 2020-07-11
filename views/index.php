@@ -1,7 +1,7 @@
 <?php $this->layout('template.base', ['title' => $title]) ?>
 
-<h1>Keyoxide</h1>
 <div class="content">
+    <h1>Keyoxide</h1>
     <h2>PGP actions</h2>
     <p>
         <a class="bigBtn" href="/verify">verify signature</a>

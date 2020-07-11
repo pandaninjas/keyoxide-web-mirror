@@ -1,7 +1,7 @@
 <?php $this->layout('template.base', ['title' => $title]) ?>
 
-<h1>Encrypt</h1>
 <div class="content">
+    <h1>Encrypt</h1>
     <form id="form-encrypt" method="post">
         <h3>Recipient</h3>
         <label for="modeSelect">Mode: </label>

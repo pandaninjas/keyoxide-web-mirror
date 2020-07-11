@@ -1,7 +1,7 @@
 <?php $this->layout('template.base', ['title' => $title]) ?>
 
-<h1>FAQ</h1>
 <div class="content">
+    <h1>FAQ</h1>
     <h3 id="what-is-keyoxide"><a href="#what-is-keyoxide">#</a> What is Keyoxide?</h3>
     <p><a href="/">Keyoxide</a> is a lightweight and FOSS solution to make basic cryptography operations accessible to regular humans. It is built to be privacy friendly and secure, it can even be self-hosted.</p>
 

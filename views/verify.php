@@ -1,7 +1,7 @@
 <?php $this->layout('template.base', ['title' => $title]) ?>
 
-<h1>Verify</h1>
 <div class="content">
+    <h1>Verify</h1>
     <form id="form-verify" method="post">
         <h3>Signer</h3>
         <label for="modeSelect">Mode: </label>

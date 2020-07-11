@@ -1,7 +1,7 @@
 <?php $this->layout('template.base', ['title' => $title]) ?>
 
-<h1>Guides</h1>
 <div class="content">
+    <h1>Guides</h1>
     <h3>Using Keyoxide.org</h3>
     <a href="/guides/verify">Verifying a signature</a><br>
     <a href="/guides/encrypt">Encrypting a message</a><br>

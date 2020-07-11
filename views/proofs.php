@@ -1,7 +1,7 @@
 <?php $this->layout('template.base', ['title' => $title]) ?>
 
-<h1>Proofs</h1>
 <div class="content">
+    <h1>Proofs</h1>
     <form id="form-proofs" method="post">
         <h3>Public key</h3>
         <label for="modeSelect">Mode: </label>
