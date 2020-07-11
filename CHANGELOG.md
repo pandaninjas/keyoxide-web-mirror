@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Pleroma identity proof
 ### Changed
 - Updated design
+- New favicon
 ### Fixed
 - Removed underscores from verify and encrypt links
 - Hide revoked userids
