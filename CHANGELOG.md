@@ -9,11 +9,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Discourse identity proof
 - Pleroma identity proof
 ### Changed
-- Updated design
+- Update design
 - New favicon
 ### Fixed
-- Removed underscores from verify and encrypt links
+- Remove underscores from verify and encrypt links
 - Hide revoked userids
+- Hide null proofs
 
 ## [0.1.0] - 2020-07-05
 ### Added
