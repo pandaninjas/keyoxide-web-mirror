@@ -3,6 +3,7 @@
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#9dd3f0">
         <link rel="shortcut icon" href="/favicon.svg">
         <title><?=$this->e($title)?>Keyoxide</title>
         <link rel="stylesheet" href="/assets/styles.css">
