@@ -11,7 +11,7 @@
     <body>
         <header>
             <div class="container">
-                <a href="/" class="logo"><img src="/assets/img/logo.png" alt="Keyoxide logo"></a>
+                <a href="/" class="logo"><img src="/assets/img/logo_96.png" alt="Keyoxide logo"></a>
                 <div class="spacer"></div>
                 <nav>
                     <a href="/verify">verify</a>
