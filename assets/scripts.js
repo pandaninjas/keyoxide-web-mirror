@@ -434,7 +434,7 @@ async function verifyProof(url, fingerprint) {
         }
     }
     // Reddit
-    if (/^https:\/\/www.reddit.com\/user/.test(url)) {
+    if (/^https:\/\/(?:www\.)?reddit\.com\/user/.test(url)) {
         output.type = "reddit";
         match = url.match(/https:\/\/www.reddit.com\/user\/(.*)\/comments\/(.*)\/(.*)\//);
         output.display = match[1];
