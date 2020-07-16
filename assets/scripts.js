@@ -433,6 +433,28 @@ async function verifyProof(url, fingerprint) {
             return output;
         }
     }
+    // dev.to
+    if (/^https:\/\/dev\.to\//.test(url)) {
+        output.type = "dev.to";
+        match = url.match(/https:\/\/dev\.to\/(.*)\/(.*)/);
+        output.display = match[1];
+        output.url = `https://dev.to/${match[1]}`;
+        output.proofUrlFetch = `https://dev.to/api/articles/${match[1]}/${match[2]}`;
+        try {
+            response = await fetch(output.proofUrlFetch);
+            if (!response.ok) {
+                throw new Error('Response failed: ' + response.status);
+            }
+            json = await response.json();
+            reVerify = new RegExp(`[Verifying my OpenPGP key: openpgp4fpr:${fingerprint}]`, 'i');
+            if (reVerify.test(json.body_markdown)) {
+                output.isVerified = true;
+            }
+        } catch (e) {
+        } finally {
+            return output;
+        }
+    }
     // Reddit
     if (/^https:\/\/(?:www\.)?reddit\.com\/user/.test(url)) {
         output.type = "reddit";
