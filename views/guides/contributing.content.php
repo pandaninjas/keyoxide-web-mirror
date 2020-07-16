@@ -1,4 +1,6 @@
-<p>Keyoxide is more than this website. It's a project that aims to make certain cryptographic much more accessible to everyone. Keyoxide is part of a larger community of people working hard to develop tools that add privacy and security to our digital online lives. Remember: privacy is not a luxury.</p>
+<p>Keyoxide is more than this website. It's a project that aims to make cryptography more accessible to everyone. Keyoxide is part of a larger community of people working hard to develop tools that add privacy and security to our digital online lives. Remember: privacy is not a luxury.</p>
+
+<h3>As a developer</h3>
 
 <p>As Keyoxide is an open-source project licensed under the permissive <a href="https://codeberg.org/yarmo/keyoxide/src/branch/main/LICENSE">MIT License</a>, everyone is welcome and encouraged to contribute. This can be done in various forms:</p>
 
@@ -6,6 +8,8 @@
     <li><a href="https://codeberg.org/yarmo/keyoxide/issues">Open an issue</a> to request changes, new features or simply get help.</li>
     <li><a href="https://codeberg.org/yarmo/keyoxide/pulls">Open a PR</a> to directly integrate your own changes and new features.</li>
 </ul>
+
+<h3>Not a developer?</h3>
 
 <p>Not a developer? Not a problem? You could:</p>
 
