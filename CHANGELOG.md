@@ -9,6 +9,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - dev.to identity proof
 ### Fixed
 - Improve proof snippets
+- Prevent null proofs from displaying
 
 ## [0.2.1] - 2020-07-16
 ### Fixed
