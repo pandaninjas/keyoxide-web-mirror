@@ -5,8 +5,7 @@
 <p>Log in to <a href="https://www.reddit.com">www.reddit.com</a> and create a new post with the following text (make sure to replace FINGERPRINT):</p>
 <code>This is an OpenPGP proof that connects my OpenPGP key to this Reddit account.
 For details check out https://keyoxide.org/guides/openpgp-proofs
-<br><br>[Verifying my OpenPGP key: openpgp4fpr:FINGERPRINT]
-</code>
+<br><br>[Verifying my OpenPGP key: openpgp4fpr:FINGERPRINT]</code>
 
 <p>After posting, copy the link to the post.</p>
 

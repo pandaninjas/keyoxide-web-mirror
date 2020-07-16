@@ -5,8 +5,7 @@
 <p>Log in to your Pleroma instance and add the following lines to your <strong>Bio</strong> (make sure to replace FINGERPRINT):</p>
 <code>This is an OpenPGP proof that connects my OpenPGP key to this Pleroma account.
 For details check out https://keyoxide.org/guides/openpgp-proofs
-<br><br>[Verifying my OpenPGP key: openpgp4fpr:FINGERPRINT]
-</code>
+<br><br>[Verifying my OpenPGP key: openpgp4fpr:FINGERPRINT]</code>
 
 <h3>Update the PGP key</h3>
 

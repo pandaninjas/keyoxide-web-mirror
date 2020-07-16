@@ -5,8 +5,7 @@
 <p>Log in to the discourse instance website and add the following text to your <strong>About me</strong> (make sure to replace FINGERPRINT):</p>
 <code>This is an OpenPGP proof that connects my OpenPGP key to this Discourse account.
 For details check out https://keyoxide.org/guides/openpgp-proofs
-<br><br>[Verifying my OpenPGP key: openpgp4fpr:FINGERPRINT]
-</code>
+<br><br>[Verifying my OpenPGP key: openpgp4fpr:FINGERPRINT]</code>
 
 <p>After posting, copy the link to your profile page (it should end with your <strong>/u/USERNAME</strong>).</p>
 

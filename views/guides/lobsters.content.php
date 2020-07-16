@@ -5,8 +5,7 @@
 <p>Log in to <a href="https://lobste.rs">Lobste.rs</a> and append the following text to the <strong>About</strong> section (make sure to replace FINGERPRINT):</p>
 <code>This is an OpenPGP proof that connects my OpenPGP key to this Lobste.rs account.
 For details check out https://keyoxide.org/guides/openpgp-proofs
-<br><br>[Verifying my OpenPGP key: openpgp4fpr:FINGERPRINT]
-</code>
+<br><br>[Verifying my OpenPGP key: openpgp4fpr:FINGERPRINT]</code>
 
 <h3>Update the PGP key</h3>
 
