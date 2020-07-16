@@ -436,7 +436,7 @@ async function verifyProof(url, fingerprint) {
     // Reddit
     if (/^https:\/\/(?:www\.)?reddit\.com\/user/.test(url)) {
         output.type = "reddit";
-        match = url.match(/https:\/\/www.reddit.com\/user\/(.*)\/comments\/(.*)\/(.*)\//);
+        match = url.match(/https:\/\/(?:www\.)?reddit\.com\/user\/(.*)\/comments\/(.*)\/(.*)\//);
         output.display = match[1];
         output.url = `https://www.reddit.com/user/${match[1]}`;
         output.proofUrlFetch = `/server/verifyReddit.php?user=${match[1]}&comment=${match[2]}&fp=${fingerprint}`;
