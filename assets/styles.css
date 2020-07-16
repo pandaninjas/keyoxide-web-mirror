@@ -156,6 +156,17 @@ select {
     text-align: center;
 }
 
+.guides {
+    display: flex;
+    flex-wrap: wrap;
+}
+.guides__section {
+    flex: 1 0 250px;
+}
+.guides__section a {
+    line-height: 1.8em;
+}
+
 #profileHeader {
     display: flex;
     flex-direction: row;

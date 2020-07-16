@@ -2,30 +2,42 @@
 
 <div class="content">
     <h1>Guides</h1>
-    <h3>Using Keyoxide.org</h3>
-    <a href="/guides/verify">Verifying a signature</a><br>
-    <a href="/guides/encrypt">Encrypting a message</a><br>
-    <a href="/guides/proofs">Verifying identity proofs</a><br>
-    <a href="/guides/contributing">Contributing to Keyoxide</a><br>
-    <a href="/guides/migrating-from-keybase">Migrating from Keybase</a><br>
-    <a href="/guides/feature-comparison-keybase">Feature comparison with Keybase</a><br>
 
-    <h3>Beyond Keyoxide.org</h3>
-    <a href="/guides/openpgp-proofs">How OpenPGP identity proofs work</a><br>
-    <a href="/guides/web-key-directory">Uploading keys using web key directory</a><br>
-    <a href="/guides/self-hosting-keyoxide">Self-hosting Keyoxide</a><br>
-    <a href="/guides/service-provider">Are you a service provider?</a><br>
+    <div class="guides">
+        <div class="guides__section">
+            <h3>Using Keyoxide</h3>
+            <a href="/guides/verify">Verifying a signature</a><br>
+            <a href="/guides/encrypt">Encrypting a message</a><br>
+            <a href="/guides/proofs">Verifying identity proofs</a><br>
+            <a href="/guides/contributing">Contributing to Keyoxide</a><br>
+            <a href="/guides/self-hosting-keyoxide">Self-hosting Keyoxide</a><br>
+        </div>
 
-    <h3>Adding proofs</h3>
-    <a href="/guides/dns">Adding a DNS proof</a><br>
-    <a href="/guides/mastodon">Adding a Mastodon proof</a><br>
-    <a href="/guides/pleroma">Adding a Pleroma proof</a><br>
-    <a href="/guides/twitter">Adding a Twitter proof</a><br>
-    <a href="/guides/devto">Adding a dev.to proof</a><br>
-    <a href="/guides/lobsters">Adding a Lobste.rs proof</a><br>
-    <a href="/guides/hackernews">Adding a Hackernews proof</a><br>
-    <a href="/guides/reddit">Adding a Reddit proof</a><br>
-    <a href="/guides/discourse">Adding a Discourse proof</a><br>
-    <a href="/guides/github">Adding a Github proof</a><br>
-    <a href="/guides/xmpp">Adding a XMPP proof</a><br>
+        <div class="guides__section">
+            <h3>OpenPGP and identity proofs</h3>
+            <a href="/guides/openpgp-proofs">How OpenPGP identity proofs work</a><br>
+            <a href="/guides/web-key-directory">Uploading keys using web key directory</a><br>
+        </div>
+
+        <div class="guides__section">
+            <h3>Adding proofs</h3>
+            <a href="/guides/devto">dev.to</a><br>
+            <a href="/guides/discourse">Discourse</a><br>
+            <a href="/guides/dns">domain / DNS</a><br>
+            <a href="/guides/github">Github</a><br>
+            <a href="/guides/hackernews">Hackernews</a><br>
+            <a href="/guides/lobsters">Lobste.rs</a><br>
+            <a href="/guides/mastodon">Mastodon</a><br>
+            <a href="/guides/pleroma">Pleroma</a><br>
+            <a href="/guides/reddit">Reddit</a><br>
+            <a href="/guides/twitter">Twitter</a><br>
+            <a href="/guides/xmpp">XMPP</a><br>
+        </div>
+
+        <div class="guides__section">
+            <h3>Other services</h3>
+            <a href="/guides/feature-comparison-keybase">Feature comparison with Keybase</a><br>
+            <a href="/guides/migrating-from-keybase">Migrating from Keybase</a><br>
+        </div>
+    </div>
 </div>
