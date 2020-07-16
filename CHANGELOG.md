@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Pleroma identity proof
 - New logo
 ### Changed
+- Update openpgpjs to v4.10.6
 - Update design
 - New favicon
 - Improve Keybase guide
