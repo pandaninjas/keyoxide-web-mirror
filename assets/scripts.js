@@ -313,10 +313,13 @@ async function displayProfile(opts) {
     }
 
     // Verify identity proofs
+    let proofResult;
     for (var i = 0; i < keyData.notations.length; i++) {
         notation = keyData.notations[i];
         if (notation[0] != "proof@metacode.biz") { continue; }
-        verifications.push(await verifyProof(notation[1], keyData.fingerprint));
+        proofResult = await verifyProof(notation[1], keyData.fingerprint);
+        if (!proofResult || !proofResult.display) { continue; }
+        verifications.push(proofResult);
     }
 
     // One-line sorting function (order verifications by type)
