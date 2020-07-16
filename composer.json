@@ -1,6 +1,6 @@
 {
     "name": "Keyoxide.org",
-    "description": "FOSS solution for making basic cryptography operations accessible to regular humans https://keyoxide.org",
+    "description": "Easy pgp encryption and distributed identity for all in a fully opensource and privacy-friendly package",
     "homepage": "https://keyoxide.org",
     "license": "MIT",
     "version": "0.2.1",
