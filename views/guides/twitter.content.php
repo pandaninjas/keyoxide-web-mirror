@@ -23,7 +23,7 @@ For details check out https://keyoxide.org/guides/openpgp-proofs
 <p>Save the key:</p>
 <code>save</code>
 
-<p>Upload the key to WKD or <a href="https://keys.openpgp.org">keys.openpgp.org</a> (make sure to replace FINGERPRINT):</p>
-<code>gpg --send-keys FINGERPRINT</code>
+<p>Upload the key to WKD or use the following command to upload the key to <a href="https://keys.openpgp.org">keys.openpgp.org</a> (make sure to replace FINGERPRINT):</p>
+<code>gpg --keyserver hkps://keys.openpgp.org --send-keys FINGERPRINT</code>
 
 <p>And you're done! Reload your profile page, it should now show a verified Twitter account.</p>
