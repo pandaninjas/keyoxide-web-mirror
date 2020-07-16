@@ -5,8 +5,7 @@
 <p>Log in to <a href="https://dev.to">dev.to</a> and create a new post with the following text (make sure to replace FINGERPRINT and USERNAME):</p>
 <code>This is an OpenPGP proof that connects [my OpenPGP key](https://keyoxide.org/FINGERPRINT) to [this dev.to account](https://dev.to/USERNAME).
 For details check out https://keyoxide.org/guides/openpgp-proofs
-
-[Verifying my OpenPGP key: openpgp4fpr:FINGERPRINT]</code>
+<br><br>[Verifying my OpenPGP key: openpgp4fpr:FINGERPRINT]</code>
 
 <p>After posting, copy the link to the post.</p>
 
