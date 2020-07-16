@@ -181,7 +181,7 @@ async function verifyProofs(opts) {
         if (verifications[i].isVerified) {
             feedback += `<a class="proofUrl proofUrl--verified" href="${verifications[i].proofUrl}">verified &#10004;</a>`;
         } else {
-            feedback += `<a class="proofUrl" href="${verifications[i].proofUrl}">proof</a>`;
+            feedback += `<a class="proofUrl" href="${verifications[i].proofUrl}">unverified</a>`;
         }
         feedback += `<br>`;
     }
@@ -333,7 +333,7 @@ async function displayProfile(opts) {
             if (verifications[i].isVerified) {
                 feedback += `<a class="proofUrl proofUrl--verified" href="${verifications[i].proofUrl}">verified &#10004;</a>`;
             } else {
-                feedback += `<a class="proofUrl" href="${verifications[i].proofUrl}">proof</a>`;
+                feedback += `<a class="proofUrl" href="${verifications[i].proofUrl}">unverified</a>`;
             }
             feedback += `</div>`;
             feedback += `</div>`;
