@@ -2,11 +2,11 @@
 
 <h3>As a developer</h3>
 
-<p>As Keyoxide is an open-source project licensed under the permissive <a href="https://codeberg.org/yarmo/keyoxide/src/branch/main/LICENSE">MIT License</a>, everyone is welcome and encouraged to contribute. This can be done in various forms:</p>
+<p>As Keyoxide is an open-source project licensed under the permissive <a href="https://codeberg.org/keyoxide/web/src/branch/main/LICENSE">MIT License</a>, everyone is welcome and encouraged to contribute. This can be done in various forms:</p>
 
 <ul>
-    <li><a href="https://codeberg.org/yarmo/keyoxide/issues">Open an issue</a> to request changes, new features or simply get help.</li>
-    <li><a href="https://codeberg.org/yarmo/keyoxide/pulls">Open a PR</a> to directly integrate your own changes and new features.</li>
+    <li><a href="https://codeberg.org/keyoxide/web/issues">Open an issue</a> to request changes, new features or simply get help.</li>
+    <li><a href="https://codeberg.org/keyoxide/web/pulls">Open a PR</a> to directly integrate your own changes and new features.</li>
 </ul>
 
 <h3>Not a developer?</h3>
