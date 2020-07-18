@@ -537,6 +537,21 @@ async function verifyProof(url, fingerprint) {
         output.type = "xmpp";
         match = url.match(/xmpp:(.*)@(.*)/);
         output.display = `${match[1]}@${match[2]}`;
+        output.proofUrlFetch = `https://xmpp-vcard.keyoxide.org/api/vcard/${output.display}/DESC`;
+        try {
+            response = await fetch(output.proofUrlFetch);
+            if (!response.ok) {
+                throw new Error('Response failed: ' + response.status);
+            }
+            json = await response.json();
+            reVerify = new RegExp(`[Verifying my OpenPGP key: openpgp4fpr:${fingerprint}]`, 'i');
+            if (reVerify.test(json)) {
+                output.isVerified = true;
+            }
+        } catch (e) {
+        } finally {
+            return output;
+        }
     }
     // Catchall
     // Fediverse
