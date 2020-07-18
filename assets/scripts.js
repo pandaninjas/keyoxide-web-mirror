@@ -537,9 +537,9 @@ async function verifyProof(url, fingerprint) {
         output.type = "xmpp";
         match = url.match(/xmpp:(.*)@(.*)/);
         output.display = `${match[1]}@${match[2]}`;
-        output.proofUrlFetch = `https://xmpp-vcard.keyoxide.org/api/vcard/${output.display}/DESC`;
+        output.proofUrl = `https://xmpp-vcard.keyoxide.org/api/vcard/${output.display}/DESC`;
         try {
-            response = await fetch(output.proofUrlFetch);
+            response = await fetch(output.proofUrl);
             if (!response.ok) {
                 throw new Error('Response failed: ' + response.status);
             }
