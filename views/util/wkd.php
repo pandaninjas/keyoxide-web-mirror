@@ -1,7 +1,7 @@
 <?php $this->layout('template.base', ['title' => $title]) ?>
 
-<h1>WKD Local Part</h1>
 <div class="content">
+    <h1>WKD Local Part</h1>
     <form id="form-util-wkd" method="post">
         <p>This tool computes the part of the URL that corresponds to the username when <a href="https://keyoxide.org/guides/web-key-directory">uploading keys using web key directory</a>.</p>
         <h3>Input</h3>

@@ -1,7 +1,7 @@
 <?php $this->layout('template.base', ['title' => $title]) ?>
 
-<h1>Profile URL</h1>
 <div class="content">
+    <h1>Profile URL</h1>
     <form id="form-util-profile-url" method="post">
         <p>This tool generates an URL for your Keyoxide profile page.</p>
         <h3>Public key</h3>
