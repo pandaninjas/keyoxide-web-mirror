@@ -1,5 +1,3 @@
-<p><strong>WARNING: XMPP proofs are a work in progress. XMPP URIs are supported and displayed but NOT verified at the moment.</strong></p>
-
 <p>Let's add a decentralized XMPP proof to your OpenPGP keys.</p>
 
 <h3>Add a message to your XMPP vCard</h3>
