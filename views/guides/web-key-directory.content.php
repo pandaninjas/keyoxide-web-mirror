@@ -22,7 +22,7 @@
 
 <p>While not necessary if the Direct setup works, there is a second setup to make WKD work: the Advanced setup. The paths needed are:</p>
 
-<p><strong>https://openpgpkey.domain.org/.well-known/openpgpkey/policy</strong>: this is an empty file</p>
+<p><strong>https://openpgpkey.domain.org/.well-known/openpgpkey/domain.org/policy</strong>: this is an empty file</p>
 <p><strong>https://openpgpkey.domain.org/.well-known/openpgpkey/domain.org/hu/LOCALPART</strong>: this is the binary public key (so NOT ASCII armored)</p>
 
 <p>Indeed, quite similar to the Direct setup, except for the <strong>openpgpkey</strong> subdomain and the additional <strong>domain.org</strong> in the path of the public key.</p>
