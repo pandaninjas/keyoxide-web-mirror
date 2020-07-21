@@ -2,30 +2,75 @@
 
 <div class="content">
     <h1>Keyoxide</h1>
-    <h2>PGP actions</h2>
-    <p>
-        <a class="bigBtn" href="/verify">verify signature</a>
-        <a class="bigBtn" href="/encrypt">encrypt message</a>
-        <a class="bigBtn" href="/proofs">verify proofs</a>
-    </p>
-    <h2>Utilities</h2>
-    <p>
-        <a class="bigBtn" href="/util/profile-url">Profile URL</a>
-        <a class="bigBtn" href="/util/wkd">wkd</a>
-        <a class="bigBtn" href="/util/qr">QR</a>
-    </p>
-    <h2>Getting started</h2>
-    <p>
-        <a class="bigBtn" href="/guides">guides</a>
-        <a class="bigBtn" href="/faq">FAQ</a>
-    </p>
+    <p>A modern, secure and privacy-friendly platform to establish your <strong>decentralized online identity</strong> and perform <strong>basic cryptographic operations</strong>.</p>
+
+    <div class="flex-column-container">
+        <div class="flex-column">
+            <h2>Cryptographic operations</h2>
+            <p>
+                <a href="/verify">Verify PGP signature</a><br>
+                <a href="/encrypt">Encrypt PGP message</a><br>
+                <a href="/proofs">Verify distributed identity proofs</a>
+            </p>
+        </div>
+
+        <div class="flex-column">
+            <h2>Utilities</h2>
+            <p>
+                <a href="/util/profile-url">Profile URL generator</a><br>
+                <a href="/util/wkd">Web Key Directory</a><br>
+                <a href="/util/qr">Fingerprint QR</a>
+            </p>
+        </div>
+    </div>
+
     <h2>About</h2>
-    <p><a href="/">Keyoxide</a> is a lightweight and FOSS solution to make basic cryptography operations accessible to regular humans.</p>
+    <p><strong>Keyoxide</strong> allows you to link accounts on various online services and platforms together, prove they belong to you and establish an online identity. This puts <strong>you</strong>, the internet citizen, in charge when it comes to defining who you are on the internet instead of large corporations.</p>
+    <p>As an example, here's the <a href="/9f0048ac0b23301e1f77e994909f6bd6f80f485d">developer's Keyoxide profile</a>.</p>
     <p>
-        Made by <a href="https://yarmo.eu">Yarmo Mackenbach</a>.
-        <br>
-        Code hosted on <a href="https://codeberg.org/keyoxide/web">Codeberg</a> (<a href="https://drone.private.foss.best/yarmo/keyoxide/">drone CI/CD</a>).
-        <br>
-        Uses <a href="https://github.com/openpgpjs/openpgpjs">openpgp.js</a> (version <a href="https://github.com/openpgpjs/openpgpjs/releases/tag/v4.10.7">4.10.7</a>).
+        <strong>Keyoxide</strong> is developed by <a href="https://yarmo.eu">Yarmo Mackenbach</a>.
+        The MIT-licensed code is hosted on <a href="https://codeberg.org/keyoxide/web">Codeberg</a>.
+        It uses <a href="https://github.com/openpgpjs/openpgpjs">openpgp.js</a> (version <a href="https://github.com/openpgpjs/openpgpjs/releases/tag/v4.10.7">4.10.7</a>) for all cryptographic operations.
     </p>
+
+    <h2>Features</h2>
+
+    <h3>Decentralized online identity proofs</h3>
+    <ul>
+        <li>You decide which accounts are linked together</li>
+        <li>You decide where this data is stored</li>
+        <li>Keyoxide does not hold your identity data on its servers</li>
+        <li>Keyoxide merely verifies the identity proofs and displays them</li>
+    </ul>
+
+    <h3>Empowering the internet citizen</h3>
+    <ul>
+        <li>A verified identity proof proves ownership of an account and builds trust</li>
+        <li>No bad actor can impersonate you as long as your accounts aren't compromised</li>
+        <li>Your online identity data is safe from greedy internet corporations</li>
+    </ul>
+
+    <h3>User-centric platform</h3>
+    <ul>
+        <li>Easily encrypt messages and verify signatures from the profile page</li>
+        <li>Keyoxide generates QR codes that integrate with <a href="https://www.openkeychain.org/">OpenKeychain</a></li>
+        <li>Keyoxide fetches the key wherever the used decides to store it</li>
+        <li>Keyoxide is self-hostable, meaning you could put it on any server you trust</li>
+    </ul>
+
+    <h3>Secure and privacy-friendly</h3>
+    <ul>
+        <li>Keyoxide doesn't want your personal data, track you or show you ads</li>
+        <li>You never give data to Keyoxide, it simply uses the data you have made public</li>
+        <li>Keyoxide relies on OpenPGP, a widely used public-key cryptography standard (<a href="https://tools.ietf.org/html/rfc4880">RFC-4880</a>)</li>
+        <li>Cryptographic operations are performed in-browser by <a href="https://openpgpjs.org/">OpenPGP.js</a>, a library maintained by <a href="https://protonmail.com/blog/openpgpjs-email-encryption/">ProtonMail</a></li>
+    </ul>
+
+    <h3>Free Open Source Software</h3>
+    <ul>
+        <li>Keyoxide is licensed under the permissive <a href="https://codeberg.org/keyoxide/web/src/branch/dev/LICENSE">MIT license</a></li>
+        <li>The source code is hosted on <a href="https://codeberg.org/keyoxide/web">Codeberg.org</a></li>
+        <li>Even the <a href="https://drone.keyoxide.org/keyoxide/web/">CI/CD activity</a> is publicly visible</li>
+    </ul>
+
 </div>
