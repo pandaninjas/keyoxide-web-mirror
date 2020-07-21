@@ -26,6 +26,6 @@
         <br>
         Code hosted on <a href="https://codeberg.org/keyoxide/web">Codeberg</a> (<a href="https://drone.private.foss.best/yarmo/keyoxide/">drone CI/CD</a>).
         <br>
-        Uses <a href="https://github.com/openpgpjs/openpgpjs">openpgp.js</a> (version <a href="https://github.com/openpgpjs/openpgpjs/releases/tag/v4.10.6">4.10.6</a>).
+        Uses <a href="https://github.com/openpgpjs/openpgpjs">openpgp.js</a> (version <a href="https://github.com/openpgpjs/openpgpjs/releases/tag/v4.10.7">4.10.7</a>).
     </p>
 </div>
