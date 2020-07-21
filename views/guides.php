@@ -39,5 +39,11 @@
             <a href="/guides/feature-comparison-keybase">Feature comparison with Keybase</a><br>
             <a href="/guides/migrating-from-keybase">Migrating from Keybase</a><br>
         </div>
+
+        <div class="guides__section">
+            <h3>Managing proofs in GnuPG</h3>
+            <a href="/guides/managing-proofs-listing">Listing proofs</a><br>
+            <a href="/guides/managing-proofs-deleting">Deleting proofs</a><br>
+        </div>
     </div>
 </div>
