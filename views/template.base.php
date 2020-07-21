@@ -14,9 +14,12 @@
                 <a href="/" class="logo"><img src="/assets/img/logo_96.png" alt="Keyoxide logo"></a>
                 <div class="spacer"></div>
                 <nav>
-                    <a href="/verify">verify</a>
+                    <!-- <a href="/verify">verify</a>
                     <a href="/encrypt">encrypt</a>
-                    <a href="/proofs">proofs</a>
+                    <a href="/proofs">proofs</a> -->
+                    <a href="/">about</a>
+                    <a href="/guides">guides</a>
+                    <a href="/faq">faq</a>
                 </nav>
             </div>
         </header>
@@ -26,14 +29,11 @@
 
             <footer>
                 <p>
-                    Sitemap:
-                    <a href="/">index</a> -
-                    <a href="/encrypt">encrypt</a> -
-                    <a href="/verify">verify</a> -
-                    <a href="/proofs">proofs</a> -
-                    <a href="/guides">guides</a> -
-                    <a href="/faq">faq</a>
+                    <a href="https://codeberg.org/keyoxide">Source code</a> -
+                    <a href="https://drone.keyoxide.org/keyoxide/web/">CI/CD</a> -
+                    <a href="https://fosstodon.org/@keyoxide">Mastodon</a>
                 </p>
+                <p>&copy; 2020 Keyoxide contributors</p>
             </footer>
         </div>
 
