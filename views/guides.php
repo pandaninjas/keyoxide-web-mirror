@@ -21,9 +21,9 @@
 
         <div class="guides__section">
             <h3>Adding proofs</h3>
-            <a href="/guides/devto">dev.to</a><br>
+            <a href="/guides/devto">Dev.to</a><br>
             <a href="/guides/discourse">Discourse</a><br>
-            <a href="/guides/dns">domain / DNS</a><br>
+            <a href="/guides/dns">Domain / DNS</a><br>
             <a href="/guides/github">Github</a><br>
             <a href="/guides/hackernews">Hackernews</a><br>
             <a href="/guides/lobsters">Lobste.rs</a><br>
