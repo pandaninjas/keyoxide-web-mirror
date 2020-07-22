@@ -1,5 +1,5 @@
 {
-    "name": "Keyoxide.org",
+    "name": "keyoxide/web",
     "description": "Easy pgp encryption and distributed identity for all in a fully opensource and privacy-friendly package",
     "homepage": "https://keyoxide.org",
     "license": "MIT",
