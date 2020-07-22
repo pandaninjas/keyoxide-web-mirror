@@ -7,7 +7,7 @@
 For details check out https://keyoxide.org/guides/openpgp-proofs
 <br><br>[Verifying my OpenPGP key: openpgp4fpr:FINGERPRINT]</code>
 
-<h3>Update the PGP key</h3>
+<h3>Update the PGP key (basic edition)</h3>
 
 <p>First, edit the key (make sure to replace FINGERPRINT):</p>
 <code>gpg --edit-key FINGERPRINT</code>
@@ -15,8 +15,10 @@ For details check out https://keyoxide.org/guides/openpgp-proofs
 <p>Add a new notation:</p>
 <code>notation</code>
 
-<p>Enter the notation (make sure to replace JABBERID):</p>
-<code>proof@metacode.biz=xmpp:JABBERID</code>
+<p>Enter the notation (make sure to replace XMPP-ID):</p>
+<code>proof@metacode.biz=xmpp:XMPP-ID</code>
+
+<p>The XMPP-ID looks something like an email address: <strong>user@domain.org</strong>.</p>
 
 <p>Save the key:</p>
 <code>save</code>
@@ -25,3 +27,17 @@ For details check out https://keyoxide.org/guides/openpgp-proofs
 <code>gpg --keyserver hkps://keys.openpgp.org --send-keys FINGERPRINT</code>
 
 <p>And you're done! Reload your profile page, it should now show a XMPP account.</p>
+
+<h3>Update the PGP key (OMEMO edition)</h3>
+
+<p>XMPP communication can be end-to-end encrypted with <a href="https://conversations.im/omemo/">OMEMO</a>. Verifying OMEMO fingerprints is essential to trust your communication and keep it safe from Man-in-the-Middle attacks.</p>
+
+<p><strong>Keyoxide</strong> makes the fingerprint verification process easy for all. Add a special identity proof that not only contains your XMPP-ID but also the fingerprints of all your OMEMO keys.</p>
+
+<p>If your XMPP identity proof is verified, a QR code is shown. Anyone can scan this QR code using XMPP apps like <a href="https://conversations.im/">Conversations</a> (free on <a href="https://f-droid.org/en/packages/eu.siacs.conversations/">F-Droid</a>) to not only add you as a contact, but also verify your OMEMO keys with the highest level of trust.</p>
+
+<p>Making this identity proof yourself can be a tad difficult when using clients like Gajim, but luckily for us, <a href="https://conversations.im/">Conversations</a> can directly generate the proof by going to <strong>Account details > Share > Share as XMPP URI</strong>. The resulting URI should look something like:</p>
+
+<code>xmpp:user@domain.org?omemo-sid-123456789=A1B2C3D4E5F6G7H8I9...</code>
+
+<p>To take advantage of the easy and secure XMPP identity proof including OMEMO fingerprints, follow the <strong>basic edition</strong> guide above but replace XMPP-ID with the URI obtained through the <strong>Conversations</strong> app.</p>
