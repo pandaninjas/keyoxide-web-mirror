@@ -15,7 +15,7 @@ $router->map('GET', '/', function() {}, 'index');
 $router->map('GET', '/guides', function() {}, 'guides');
 $router->map('GET', '/guides/[:id]', function() {}, 'guideId');
 $router->map('GET', '/util/qrfp/[:fp]', function() {}, 'util_qrfp');
-$router->map('GET', '/util/qr/[:txt]', function() {}, 'util_qr');
+$router->map('GET', '/util/qr/[**:uri]', function() {}, 'util_qr');
 $router->map('GET', '/util/[:id]', function() {}, 'util');
 $router->map('GET', '/faq', function() {}, 'faq');
 $router->map('GET', '/verify', function() {}, 'verify');
@@ -143,7 +143,7 @@ if(is_array($match) && is_callable($match['target'])) {
             break;
 
         case 'util_qr':
-            $uri = htmlspecialchars($match['params']['fp']);
+            $uri = htmlspecialchars($match['params']['uri']);
             echo $templates->render("util/qr", ['input' => $uri]);
             break;
 

@@ -338,6 +338,9 @@ async function displayProfile(opts) {
             } else {
                 feedback += `<a class="proofUrl" href="${verifications[i].proofUrl}">unverified</a>`;
             }
+            if (verifications[i].isVerified && verifications[i].qr) {
+                feedback += `<a class="proofQR proofUrl--verified" href="/util/qr/${encodeURIComponent(verifications[i].qr)}" target="_blank">QR</a>`;
+            }
             feedback += `</div>`;
             feedback += `</div>`;
         }
@@ -354,7 +357,7 @@ async function displayProfile(opts) {
 
 async function verifyProof(url, fingerprint) {
     // Init
-    let reVerify, match, output = {url: url, type: null, proofUrl: url, proofUrlFetch: null, isVerified: false, display: null};
+    let reVerify, match, output = {url: url, type: null, proofUrl: url, proofUrlFetch: null, isVerified: false, display: null, qr: null};
 
     // DNS
     if (/^dns:/.test(url)) {
@@ -389,11 +392,11 @@ async function verifyProof(url, fingerprint) {
     // XMPP
     if (/^xmpp:/.test(url)) {
         output.type = "xmpp";
-        console.log(url);
         match = url.match(/xmpp:([a-zA-Z0-9\.\-\_]*)@([a-zA-Z0-9\.\-\_]*)(?:\?(.*))?/);
-        console.log(match);
         output.display = `${match[1]}@${match[2]}`;
         output.proofUrl = `https://xmpp-vcard.keyoxide.org/api/vcard/${output.display}/DESC`;
+        output.qr = url;
+
         try {
             response = await fetch(output.proofUrl);
             if (!response.ok) {
@@ -1044,20 +1047,17 @@ if (elUtilQR) {
         height: 256,
         colorDark : "#000000",
         colorLight : "#ffffff",
-        correctLevel : QRCode.CorrectLevel.H
+        correctLevel : QRCode.CorrectLevel.L
     });
 
     const elInput = document.body.querySelector("#input");
 
-    elInput.addEventListener("input", async function(evt) {
-        if (evt.target.value) {
-            qrcode.makeCode(`${evt.target.value.toUpperCase()}`);
-        } else {
-            qrcode.clear();
-        }
-    });
-
-    elInput.dispatchEvent(new Event("input"));
+    if (elInput.value) {
+        elInput.value = decodeURIComponent(elInput.value);
+        qrcode.makeCode(`${elInput.value}`);
+    } else {
+        qrcode.clear();
+    }
 }
 
 if (elUtilProfileURL) {

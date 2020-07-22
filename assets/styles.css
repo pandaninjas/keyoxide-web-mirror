@@ -83,6 +83,9 @@ footer a {
     background-color: #72bde6;
     background: linear-gradient(0deg, #4da4d2 0%, #82c5ea 100%);
 }
+.full-width {
+    width: 100%;
+}
 
 h1 {
     margin: 0 0 24px 0;
@@ -256,21 +259,16 @@ select {
 .profileDataItem__value a {
     display: inline-block;
     max-width: 100%;
+    margin-right: 8px;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
 }
-a.proofDisplay {
-    margin-right: 8px;
-}
 a.proofUrl {
     color: #777;
 }
-a.proofUrl.proofUrl--verified {
+a.proofUrl.proofUrl--verified, a.proofQR {
     color: #499539;
-}
-a.proofUrl:hover {
-    text-decoration: underline;
 }
 
 #qrcode img {
