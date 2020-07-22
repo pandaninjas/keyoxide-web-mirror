@@ -535,7 +535,9 @@ async function verifyProof(url, fingerprint) {
     // XMPP
     if (/^xmpp:/.test(url)) {
         output.type = "xmpp";
-        match = url.match(/xmpp:(.*)@(.*)/);
+        console.log(url);
+        match = url.match(/xmpp:([a-zA-Z0-9\.\-\_]*)@([a-zA-Z0-9\.\-\_]*)(?:\?(.*))?/);
+        console.log(match);
         output.display = `${match[1]}@${match[2]}`;
         output.proofUrl = `https://xmpp-vcard.keyoxide.org/api/vcard/${output.display}/DESC`;
         try {
