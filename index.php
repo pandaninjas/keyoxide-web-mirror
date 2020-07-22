@@ -14,7 +14,8 @@ $templates = new League\Plates\Engine('views');
 $router->map('GET', '/', function() {}, 'index');
 $router->map('GET', '/guides', function() {}, 'guides');
 $router->map('GET', '/guides/[:id]', function() {}, 'guideId');
-$router->map('GET', '/util/qr/[:fp]', function() {}, 'util_qr');
+$router->map('GET', '/util/qrfp/[:fp]', function() {}, 'util_qrfp');
+$router->map('GET', '/util/qr/[:txt]', function() {}, 'util_qr');
 $router->map('GET', '/util/[:id]', function() {}, 'util');
 $router->map('GET', '/faq', function() {}, 'faq');
 $router->map('GET', '/verify', function() {}, 'verify');
@@ -136,9 +137,14 @@ if(is_array($match) && is_callable($match['target'])) {
             echo $templates->render("util/$id");
             break;
 
-        case 'util_qr':
+        case 'util_qrfp':
             $fp = htmlspecialchars($match['params']['fp']);
-            echo $templates->render("util/qr", ['input' => $fp]);
+            echo $templates->render("util/qrfp", ['input' => $fp]);
+            break;
+
+        case 'util_qr':
+            $uri = htmlspecialchars($match['params']['fp']);
+            echo $templates->render("util/qr", ['input' => $uri]);
             break;
 
         case 'faq':

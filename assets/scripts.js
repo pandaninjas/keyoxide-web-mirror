@@ -273,7 +273,7 @@ async function displayProfile(opts) {
     if (opts.mode == "hkp") {
         feedback += `<div class="profileDataItem">`;
         feedback += `<div class="profileDataItem__label">qrcode</div>`;
-        feedback += `<div class="profileDataItem__value"><a href="/util/qr/${keyData.fingerprint}">fingerprint</a></div>`;
+        feedback += `<div class="profileDataItem__value"><a href="/util/qrfp/${keyData.fingerprint}">fingerprint</a></div>`;
         feedback += `</div>`;
     }
 
