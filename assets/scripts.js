@@ -1055,6 +1055,7 @@ if (elUtilQR) {
     if (elInput.value) {
         elInput.value = decodeURIComponent(elInput.value);
         qrcode.makeCode(`${elInput.value}`);
+        document.body.querySelector("#qrcode--altLink").href = elInput.value;
     } else {
         qrcode.clear();
     }

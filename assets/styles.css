@@ -271,7 +271,9 @@ a.proofUrl.proofUrl--verified, a.proofQR {
     color: #499539;
 }
 
-#qrcode img {
+#qrcode {
+    display: flex;
+    justify-content: center;
     max-width: 100%;
     margin: 32px auto 16px;
 }
