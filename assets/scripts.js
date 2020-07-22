@@ -386,6 +386,29 @@ async function verifyProof(url, fingerprint) {
             return output;
         }
     }
+    // XMPP
+    if (/^xmpp:/.test(url)) {
+        output.type = "xmpp";
+        console.log(url);
+        match = url.match(/xmpp:([a-zA-Z0-9\.\-\_]*)@([a-zA-Z0-9\.\-\_]*)(?:\?(.*))?/);
+        console.log(match);
+        output.display = `${match[1]}@${match[2]}`;
+        output.proofUrl = `https://xmpp-vcard.keyoxide.org/api/vcard/${output.display}/DESC`;
+        try {
+            response = await fetch(output.proofUrl);
+            if (!response.ok) {
+                throw new Error('Response failed: ' + response.status);
+            }
+            json = await response.json();
+            reVerify = new RegExp(`[Verifying my OpenPGP key: openpgp4fpr:${fingerprint}]`, 'i');
+            if (reVerify.test(json)) {
+                output.isVerified = true;
+            }
+        } catch (e) {
+        } finally {
+            return output;
+        }
+    }
     // Twitter
     if (/^https:\/\/twitter.com/.test(url)) {
         output.type = "twitter";
@@ -527,29 +550,6 @@ async function verifyProof(url, fingerprint) {
             }
             json = await response.json();
             output.isVerified = json.verified;
-        } catch (e) {
-        } finally {
-            return output;
-        }
-    }
-    // XMPP
-    if (/^xmpp:/.test(url)) {
-        output.type = "xmpp";
-        console.log(url);
-        match = url.match(/xmpp:([a-zA-Z0-9\.\-\_]*)@([a-zA-Z0-9\.\-\_]*)(?:\?(.*))?/);
-        console.log(match);
-        output.display = `${match[1]}@${match[2]}`;
-        output.proofUrl = `https://xmpp-vcard.keyoxide.org/api/vcard/${output.display}/DESC`;
-        try {
-            response = await fetch(output.proofUrl);
-            if (!response.ok) {
-                throw new Error('Response failed: ' + response.status);
-            }
-            json = await response.json();
-            reVerify = new RegExp(`[Verifying my OpenPGP key: openpgp4fpr:${fingerprint}]`, 'i');
-            if (reVerify.test(json)) {
-                output.isVerified = true;
-            }
         } catch (e) {
         } finally {
             return output;
