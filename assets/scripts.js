@@ -807,6 +807,7 @@ let elFormVerify = document.body.querySelector("#form-verify"),
     elProfileMode = document.body.querySelector("#profileMode"),
     elModeSelect = document.body.querySelector("#modeSelect"),
     elUtilWKD = document.body.querySelector("#form-util-wkd"),
+    elUtilQRFP = document.body.querySelector("#form-util-qrfp"),
     elUtilQR = document.body.querySelector("#form-util-qr"),
     elUtilProfileURL = document.body.querySelector("#form-util-profile-url");
 
@@ -1005,6 +1006,33 @@ if (elUtilWKD) {
     });
 }
 
+if (elUtilQRFP) {
+    elUtilQRFP.onsubmit = function (evt) {
+        evt.preventDefault();
+    }
+
+    const qrcode = new QRCode("qrcode", {
+        text: "",
+        width: 256,
+        height: 256,
+        colorDark : "#000000",
+        colorLight : "#ffffff",
+        correctLevel : QRCode.CorrectLevel.H
+    });
+
+    const elInput = document.body.querySelector("#input");
+
+    elInput.addEventListener("input", async function(evt) {
+        if (evt.target.value) {
+            qrcode.makeCode(`OPENPGP4FPR:${evt.target.value.toUpperCase()}`);
+        } else {
+            qrcode.clear();
+        }
+    });
+
+    elInput.dispatchEvent(new Event("input"));
+}
+
 if (elUtilQR) {
     elUtilQR.onsubmit = function (evt) {
         evt.preventDefault();
@@ -1023,7 +1051,7 @@ if (elUtilQR) {
 
     elInput.addEventListener("input", async function(evt) {
         if (evt.target.value) {
-            qrcode.makeCode(`OPENPGP4FPR:${evt.target.value.toUpperCase()}`);
+            qrcode.makeCode(`${evt.target.value.toUpperCase()}`);
         } else {
             qrcode.clear();
         }
