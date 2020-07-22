@@ -31,7 +31,7 @@
             <a href="/guides/pleroma">Pleroma</a><br>
             <a href="/guides/reddit">Reddit</a><br>
             <a href="/guides/twitter">Twitter</a><br>
-            <a href="/guides/xmpp">XMPP</a><br>
+            <a href="/guides/xmpp">XMPP+OMEMO</a><br>
         </div>
 
         <div class="guides__section">
