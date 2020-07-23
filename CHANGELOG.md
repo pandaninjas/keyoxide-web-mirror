@@ -10,6 +10,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Changed
 - Update design
 - Update index content
+- Remove dependency on external MD5 library
+- Improve WKD URL generator
 
 ## [0.3.1] - 2020-07-21
 ### Changed
