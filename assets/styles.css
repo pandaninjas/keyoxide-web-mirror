@@ -84,7 +84,7 @@ footer a {
     background: linear-gradient(0deg, #4da4d2 0%, #82c5ea 100%);
 }
 .full-width {
-    width: 100%;
+    width: 100% !important;
 }
 
 h1 {

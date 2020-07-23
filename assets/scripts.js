@@ -1004,14 +1004,30 @@ if (elUtilWKD) {
 
     const elInput = document.body.querySelector("#input");
     const elOutput = document.body.querySelector("#output");
+    const elOutputDirect = document.body.querySelector("#output_url_direct");
+    const elOutputAdvanced = document.body.querySelector("#output_url_advanced");
+    let match;
 
     elInput.addEventListener("input", async function(evt) {
         if (evt.target.value) {
-            elOutput.value = await computeWKDLocalPart(evt.target.value);
+            if (/(.*)@(.{1,}\..{1,})/.test(evt.target.value)) {
+                match = evt.target.value.match(/(.*)@(.*)/);
+                elOutput.innerText = await computeWKDLocalPart(match[1]);
+                elOutputDirect.innerText = `https://${match[2]}/.well-known/openpgpkey/hu/${elOutput.innerText}?l=${match[1]}`;
+                elOutputAdvanced.innerText = `https://openpgpkey.${match[2]}/.well-known/openpgpkey/${match[2]}/hu/${elOutput.innerText}?l=${match[1]}`;
+            } else {
+                elOutput.innerText = await computeWKDLocalPart(evt.target.value);
+                elOutputDirect.innerText = "Waiting for input";
+                elOutputAdvanced.innerText = "Waiting for input";
+            }
         } else {
-            elOutput.value = "";
+            elOutput.innerText = "Waiting for input";
+            elOutputDirect.innerText = "Waiting for input";
+            elOutputAdvanced.innerText = "Waiting for input";
         }
     });
+
+    elInput.dispatchEvent(new Event("input"));
 }
 
 if (elUtilQRFP) {

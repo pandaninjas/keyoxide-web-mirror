@@ -18,8 +18,8 @@
             <h2>Utilities</h2>
             <p>
                 <a href="/util/profile-url">Profile URL generator</a><br>
-                <a href="/util/wkd">Web Key Directory</a><br>
-                <a href="/util/qr">Fingerprint QR</a>
+                <a href="/util/wkd">Web Key Directory URL generator</a><br>
+                <a href="/util/qr">Fingerprint QR generator</a>
             </p>
         </div>
     </div>
