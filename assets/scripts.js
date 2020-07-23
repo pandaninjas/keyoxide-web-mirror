@@ -251,7 +251,8 @@ async function displayProfile(opts) {
     // Fill in various data
     document.body.querySelector('#profileName').innerHTML = userData.name;
     document.body.querySelector('#profileAvatar').style = "";
-    document.body.querySelector('#profileAvatar').src = `https://www.gravatar.com/avatar/${SparkMD5.hash(userData.email)}?s=128&d=mm`;
+    let profileHash = openpgp.util.str_to_hex(openpgp.util.Uint8Array_to_str(await openpgp.crypto.hash.md5(openpgp.util.str_to_Uint8Array(userData.email))));
+    document.body.querySelector('#profileAvatar').src = `https://www.gravatar.com/avatar/${profileHash}?s=128&d=mm`;
     document.title = `${userData.name} - Keyoxide`;
 
     // Generate feedback
