@@ -3,7 +3,8 @@
 <div class="content">
     <h1>Web Key Directory generator</h1>
     <form id="form-util-wkd" method="post">
-        <p>This tool computes the part of the URL that corresponds to the username when <a href="https://keyoxide.org/guides/web-key-directory">uploading keys using web key directory</a>.</p>
+        <p>This tool computes the part of the WKD URL that corresponds to the username when <a href="https://keyoxide.org/guides/web-key-directory">uploading keys using web key directory</a>.</p>
+        <p>If you enter the entire WKD identifier (username@domain.org), this tool will also generate the complete URLs.</p>
         <h3>Input</h3>
         <input type="text" name="input" id="input" placeholder="WKD username or identifier">
         <h3>Output</h3>
