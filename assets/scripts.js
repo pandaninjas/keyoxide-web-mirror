@@ -776,10 +776,9 @@ function encodeZBase32(data) {
 }
 
 async function computeWKDLocalPart(message) {
-    const encoder = new TextEncoder();
-    const data = encoder.encode(message);
-    const hash = await crypto.subtle.digest('SHA-1', data);
-    return encodeZBase32(new Uint8Array(hash));
+    const data = openpgp.util.str_to_Uint8Array(message);
+    const hash = await openpgp.crypto.hash.sha1(data);
+    return openpgp.util.encodeZBase32(hash);
 }
 
 async function generateProfileURL(data) {
