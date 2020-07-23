@@ -193,6 +193,8 @@ async function verifyProofs(opts) {
 
 async function displayProfile(opts) {
     let keyData, keyLink, feedback = "", notation, isVerified, verifications = [];
+    let icon_qr = '<svg style="width:24px;height:24px" viewBox="0 0 24 24"><path fill="#ffffff" d="M3,11H5V13H3V11M11,5H13V9H11V5M9,11H13V15H11V13H9V11M15,11H17V13H19V11H21V13H19V15H21V19H19V21H17V19H13V21H11V17H15V15H17V13H15V11M19,19V15H17V19H19M15,3H21V9H15V3M17,5V7H19V5H17M3,3H9V9H3V3M5,5V7H7V5H5M3,15H9V21H3V15M5,17V19H7V17H5Z" /></svg>';
+
     try {
         keyData = await fetchKeys(opts);
     } catch (e) {
@@ -267,15 +269,18 @@ async function displayProfile(opts) {
     }
     feedback += `<div class="profileDataItem">`;
     feedback += `<div class="profileDataItem__label">fingerprint</div>`;
-    feedback += `<div class="profileDataItem__value"><a href="${keyLink}">${keyData.fingerprint}</a></div>`;
-    feedback += `</div>`;
-
+    feedback += `<div class="profileDataItem__value"><a href="${keyLink}">${keyData.fingerprint}</a>`;
     if (opts.mode == "hkp") {
-        feedback += `<div class="profileDataItem">`;
-        feedback += `<div class="profileDataItem__label">qrcode</div>`;
-        feedback += `<div class="profileDataItem__value"><a href="/util/qr/${encodeURIComponent(`OPENPGP4FPR:${keyData.fingerprint.toUpperCase()}`)}" target="_blank">fingerprint</a></div>`;
-        feedback += `</div>`;
+        feedback += `<a class="proofQR green" href="/util/qr/${encodeURIComponent(`OPENPGP4FPR:${keyData.fingerprint.toUpperCase()}`)}" target="_blank" title="QR Code">${icon_qr}</a>`;
     }
+    feedback += `</div></div>`;
+
+    // if (opts.mode == "hkp") {
+    //     feedback += `<div class="profileDataItem">`;
+    //     feedback += `<div class="profileDataItem__label">qrcode</div>`;
+    //     feedback += `<div class="profileDataItem__value"><a class="green" href="/util/qr/${encodeURIComponent(`OPENPGP4FPR:${keyData.fingerprint.toUpperCase()}`)}" target="_blank">fingerprint</a></div>`;
+    //     feedback += `</div>`;
+    // }
 
     if (keyData.notations.length > 0) {
         feedback += `<div class="profileDataItem profileDataItem--separator profileDataItem--noLabel">`;
@@ -339,7 +344,7 @@ async function displayProfile(opts) {
                 feedback += `<a class="proofUrl" href="${verifications[i].proofUrl}">unverified</a>`;
             }
             if (verifications[i].isVerified && verifications[i].qr) {
-                feedback += `<a class="proofQR proofUrl--verified" href="/util/qr/${encodeURIComponent(verifications[i].qr)}" target="_blank">QR</a>`;
+                feedback += `<a class="proofQR green" href="/util/qr/${encodeURIComponent(verifications[i].qr)}" target="_blank" title="QR Code">${icon_qr}</a>`;
             }
             feedback += `</div>`;
             feedback += `</div>`;
@@ -1052,10 +1057,10 @@ if (elUtilQR) {
 
     const elInput = document.body.querySelector("#input");
 
-    if (elInput.value) {
-        elInput.value = decodeURIComponent(elInput.value);
-        qrcode.makeCode(`${elInput.value}`);
-        document.body.querySelector("#qrcode--altLink").href = elInput.value;
+    if (elInput.innerText) {
+        elInput.innerText = decodeURIComponent(elInput.innerText);
+        qrcode.makeCode(`${elInput.innerText}`);
+        document.body.querySelector("#qrcode--altLink").href = elInput.innerText;
     } else {
         qrcode.clear();
     }

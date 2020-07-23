@@ -166,8 +166,8 @@ input[type="submit"][disabled="true"] {
 select {
     margin: 0 0 16px 0;
 }
-.green {
-    color: green;
+.green, a.proofUrl.proofUrl--verified {
+    color: #499539;
 }
 .red {
     color: red;
@@ -267,8 +267,13 @@ select {
 a.proofUrl {
     color: #777;
 }
-a.proofUrl.proofUrl--verified, a.proofQR {
-    color: #499539;
+a.proofQR {
+    line-height: 0;
+    background-color: #499539;
+    border-radius: 2px;
+}
+a.proofQR:hover {
+    background-color: #6abb5a;
 }
 
 #qrcode {
