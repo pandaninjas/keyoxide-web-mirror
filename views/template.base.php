@@ -14,9 +14,6 @@
                 <a href="/" class="logo"><img src="/assets/img/logo_96.png" alt="Keyoxide logo"></a>
                 <div class="spacer"></div>
                 <nav>
-                    <!-- <a href="/verify">verify</a>
-                    <a href="/encrypt">encrypt</a>
-                    <a href="/proofs">proofs</a> -->
                     <a href="/">about</a>
                     <a href="/guides">guides</a>
                     <a href="/faq">faq</a>
