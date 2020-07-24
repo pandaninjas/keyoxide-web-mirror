@@ -140,6 +140,7 @@ code {
     background-color: #eee;
     border: solid 1px #ddd;
     user-select: all;
+    word-break: break-all;
 }
 textarea {
     width: 100%;
