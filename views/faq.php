@@ -29,7 +29,7 @@
     <p>As for secure, <a href="/">Keyoxide</a> does all the cryptographic processing on your device and never sends data to the server. It also doesn't use private keys for any operation (so make sure to never upload those anywhere).</p>
 
     <h3 id="how-can-i-make-an-account"><a href="#how-can-i-make-an-account">#</a> How can I make an account?</h3>
-    <p>Well, you can't and that is the whole point of <a href="/">Keyoxide</a>. We don't want your data or your keys. Uploading your keys and/or data to our servers is required for any of the operations provided by <a href="/">Keyoxide</a>.</p>
+    <p>Well, you can't and that is the whole point of <a href="/">Keyoxide</a>. We don't want your data or your keys. Uploading your keys and/or data to our servers is never required for any of the operations provided by <a href="/">Keyoxide</a>.</p>
 
     <h3 id="can-i-get-a-sweet-profile-page"><a href="#can-i-get-a-sweet-profile-page">#</a> Can I get a sweet profile page?</h3>
     <p>That, we can help you with! Just append your fingerprint to the domain (like so: <a href="https://keyoxide.org/9F0048AC0B23301E1F77E994909F6BD6F80F485D">https://keyoxide.org/9F0048AC0B23301E1F77E994909F6BD6F80F485D</a>) to generate a profile page.</p>
