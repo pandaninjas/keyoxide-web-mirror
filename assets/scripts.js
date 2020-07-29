@@ -464,9 +464,25 @@ async function verifyProof(url, fingerprint) {
                 output.isVerified = true;
             }
         } catch (e) {
-        } finally {
-            return output;
         }
+
+        if(output.isVerified == false) {
+            output.proofUrlFetch = `/server/verifyHackerNews.php?user=${match[1]}&fp=${fingerprint}`;
+            try {
+                response = await fetch(output.proofUrlFetch, {
+                    headers: {
+                        Accept: 'application/json'
+                    },
+                    credentials: 'omit'
+                });
+                if (!response.ok) {
+                    throw new Error('Response failed: ' + response.status);
+                }
+                json = await response.json();
+                output.isVerified = json.verified;
+            } catch (e) { }
+        }
+        return output;
     }
     // dev.to
     if (/^https:\/\/dev\.to\//.test(url)) {
