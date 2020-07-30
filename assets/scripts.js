@@ -496,7 +496,7 @@ async function verifyProof(url, fingerprint) {
         } catch (e) {
         }
 
-        if(output.isVerified == false) {
+        if (!output.isVerified) {
             output.proofUrlFetch = `/server/verifyHackerNews.php?user=${match[1]}&fp=${fingerprint}`;
             try {
                 response = await fetch(output.proofUrlFetch, {
@@ -510,7 +510,8 @@ async function verifyProof(url, fingerprint) {
                 }
                 json = await response.json();
                 output.isVerified = json.verified;
-            } catch (e) { }
+            } catch (e) {
+            }
         }
         return output;
     }
