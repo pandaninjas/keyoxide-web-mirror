@@ -4,8 +4,6 @@
 **/*.png
 **/*.svg
 
-.licenseignore
-.gitignore
 composer.json
 composer.lock
 package.json
