@@ -2,8 +2,8 @@
     "name": "keyoxide/web",
     "description": "Easy pgp encryption and distributed identity for all in a fully opensource and privacy-friendly package",
     "homepage": "https://keyoxide.org",
-    "license": "MIT",
-    "version": "0.4.0",
+    "license": "AGPL-3.0-or-later",
+    "version": "1.0.0",
     "authors": [
         {
             "name": "Yarmo Mackenbach",
