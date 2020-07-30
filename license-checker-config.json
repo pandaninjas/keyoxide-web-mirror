@@ -6,7 +6,7 @@
             "prepend": "<!--",
             "append": " -->"
         },
-        "dotfile|.licenseignore|.gitignore": {
+        "dotfile|licenseignore|gitignore|yml": {
             "eachLine": {
                 "prepend": "# "
             }
