@@ -1,0 +1,14 @@
+.git/
+node_modules/
+vendor/
+
+**/*.md
+**/*.png
+**/*.svg
+
+.licenseignore
+.gitignore
+composer.json
+composer.lock
+package.json
+package-lock.json
