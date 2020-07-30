@@ -6,7 +6,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 ### Fixed
-- Profile for keys without name
+- Profile view for keys without name
 
 ## [1.0.0] - 2020-07-30
 ### Added
