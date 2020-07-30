@@ -8,6 +8,8 @@
     "license-check-and-add": "^3.0.4"
   },
   "scripts": {
+    "license:check": "./node_modules/license-check-and-add/dist/src/cli.js check",
+    "license:add": "./node_modules/license-check-and-add/dist/src/cli.js add",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
