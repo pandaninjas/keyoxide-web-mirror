@@ -234,6 +234,7 @@ async function displayProfile(opts) {
         return;
     }
     let userData = keyData.user.user.userId;
+    let userName = keyData.userData.name ? userData.name : keyData.publicKey.users[i].userId.email;
 
     // Determine WKD or HKP link
     switch (opts.mode) {
@@ -278,11 +279,11 @@ async function displayProfile(opts) {
     }
 
     // Fill in various data
-    document.body.querySelector('#profileName').innerHTML = userData.name;
+    document.body.querySelector('#profileName').innerHTML = userName;
     document.body.querySelector('#profileAvatar').style = "";
     const profileHash = openpgp.util.str_to_hex(openpgp.util.Uint8Array_to_str(await openpgp.crypto.hash.md5(openpgp.util.str_to_Uint8Array(userData.email))));
     document.body.querySelector('#profileAvatar').src = `https://www.gravatar.com/avatar/${profileHash}?s=128&d=mm`;
-    document.title = `${userData.name} - Keyoxide`;
+    document.title = `${userName} - Keyoxide`;
 
     // Generate feedback
     feedback += `<div class="profileDataItem profileDataItem--separator profileDataItem--noLabel">`;
