@@ -1,0 +1,27 @@
+{
+  "name": "keyoxide-web",
+  "version": "0.4.0",
+  "description": "A modern, secure and privacy-friendly platform to establish your decentralized online identity",
+  "main": "index.js",
+  "dependencies": {},
+  "devDependencies": {
+    "license-check-and-add": "^3.0.4"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@codeberg.org:keyoxide/web.git"
+  },
+  "keywords": [
+    "pgp",
+    "gpg",
+    "openpgp",
+    "encryption",
+    "decentralized",
+    "identity"
+  ],
+  "author": "Yarmo Mackenbach <yarmo@yarmo.eu>",
+  "license": "AGPL-3.0-or-later"
+}
