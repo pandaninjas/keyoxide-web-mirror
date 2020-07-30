@@ -234,7 +234,7 @@ async function displayProfile(opts) {
         return;
     }
     let userData = keyData.user.user.userId;
-    let userName = keyData.userData.name ? userData.name : keyData.publicKey.users[i].userId.email;
+    let userName = userData.name ? userData.name : keyData.publicKey.users[i].userId.email;
 
     // Determine WKD or HKP link
     switch (opts.mode) {
