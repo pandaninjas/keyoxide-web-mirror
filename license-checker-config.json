@@ -3,8 +3,11 @@
     "license": "LICENSE.HEADER",
     "licenseFormats": {
         "php": {
-            "prepend": "<!--",
-            "append": " -->"
+            "prepend": "<?php",
+            "append": "?>",
+            "eachLine": {
+                "prepend": "// "
+            }
         },
         "dotfile|licenseignore|gitignore|yml": {
             "eachLine": {

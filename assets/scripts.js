@@ -234,6 +234,7 @@ async function displayProfile(opts) {
         return;
     }
     let userData = keyData.user.user.userId;
+    let userName = userData.name ? userData.name : userData.email;
 
     // Determine WKD or HKP link
     switch (opts.mode) {
@@ -278,11 +279,11 @@ async function displayProfile(opts) {
     }
 
     // Fill in various data
-    document.body.querySelector('#profileName').innerHTML = userData.name;
+    document.body.querySelector('#profileName').innerHTML = userName;
     document.body.querySelector('#profileAvatar').style = "";
     const profileHash = openpgp.util.str_to_hex(openpgp.util.Uint8Array_to_str(await openpgp.crypto.hash.md5(openpgp.util.str_to_Uint8Array(userData.email))));
     document.body.querySelector('#profileAvatar').src = `https://www.gravatar.com/avatar/${profileHash}?s=128&d=mm`;
-    document.title = `${userData.name} - Keyoxide`;
+    document.title = `${userName} - Keyoxide`;
 
     // Generate feedback
     feedback += `<div class="profileDataItem profileDataItem--separator profileDataItem--noLabel">`;
@@ -493,9 +494,26 @@ async function verifyProof(url, fingerprint) {
                 output.isVerified = true;
             }
         } catch (e) {
-        } finally {
-            return output;
         }
+
+        if (!output.isVerified) {
+            output.proofUrlFetch = `/server/verifyHackerNews.php?user=${match[1]}&fp=${fingerprint}`;
+            try {
+                response = await fetch(output.proofUrlFetch, {
+                    headers: {
+                        Accept: 'application/json'
+                    },
+                    credentials: 'omit'
+                });
+                if (!response.ok) {
+                    throw new Error('Response failed: ' + response.status);
+                }
+                json = await response.json();
+                output.isVerified = json.verified;
+            } catch (e) {
+            }
+        }
+        return output;
     }
     // dev.to
     if (/^https:\/\/dev\.to\//.test(url)) {

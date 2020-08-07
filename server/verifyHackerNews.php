@@ -27,28 +27,31 @@
 // if any, to sign a "copyright disclaimer" for the program, if necessary. For
 // more information on this, and how to apply and follow the GNU AGPL, see <https://www.gnu.org/licenses/>.
 ?>
-<p>Let's add a decentralized Mastodon proof to your OpenPGP keys.</p>
+ <?php
 
-<h3>Update the Mastodon account</h3>
+$fingerprint = urlencode($_GET["fp"]);
+$user = urlencode($_GET["user"]);
 
-<p>Log in to your Mastodon instance and click on <strong>Edit profile</strong>.</p>
-<p>Add a new item under <strong>Profile metadata</strong> with the label <strong>OpenPGP</strong> and your PGP fingerprint as the content.</p>
+$url = "https://hacker-news.firebaseio.com/v0/user/$user.json";
+$check = "\[Verifying my OpenPGP key: openpgp4fpr:$fingerprint\]";
 
-<h3>Update the PGP key</h3>
+$ch = curl_init();
+curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "GET");
+curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+curl_setopt($ch, CURLOPT_URL, $url);
+$result = curl_exec($ch);
+curl_close($ch);
+$data = json_decode($result, true);
 
-<p>First, edit the key (make sure to replace FINGERPRINT):</p>
-<code>gpg --edit-key FINGERPRINT</code>
+$response = array();
+$response["verified"] = false;
+$response["fingerprint"] = $fingerprint;
+$response["user"] = $user;
 
-<p>Add a new notation:</p>
-<code>notation</code>
+if (preg_match("/{$check}/i", $data["about"])) {
+    $response["verified"] = true;
+}
 
-<p>Enter the notation (make sure to update the link):</p>
-<code>proof@metacode.biz=https://INSTANCE.ORG/@USERNAME</code>
+echo json_encode($response);
 
-<p>Save the key:</p>
-<code>save</code>
-
-<p>Upload the key to WKD or use the following command to upload the key to <a href="https://keys.openpgp.org">keys.openpgp.org</a> (make sure to replace FINGERPRINT):</p>
-<code>gpg --keyserver hkps://keys.openpgp.org --send-keys FINGERPRINT</code>
-
-<p>And you're done! Reload your profile page, it should now show a verified Mastodon account.</p>
+?>
