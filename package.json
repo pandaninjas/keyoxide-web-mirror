@@ -12,6 +12,7 @@
     "license-check-and-add": "^3.0.4"
   },
   "scripts": {
+    "main": "node public/index.js",
     "license:check": "./node_modules/license-check-and-add/dist/src/cli.js check",
     "license:add": "./node_modules/license-check-and-add/dist/src/cli.js add",
     "license:remove": "./node_modules/license-check-and-add/dist/src/cli.js remove",
