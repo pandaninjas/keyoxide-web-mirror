@@ -3,7 +3,11 @@
   "version": "1.0.0",
   "description": "A modern, secure and privacy-friendly platform to establish your decentralized online identity",
   "main": "index.js",
-  "dependencies": {},
+  "dependencies": {
+    "express": "^4.17.1",
+    "jstransformer-markdown-it": "^2.1.0",
+    "pug": "^3.0.0"
+  },
   "devDependencies": {
     "license-check-and-add": "^3.0.4"
   },
@@ -25,6 +29,6 @@
     "decentralized",
     "identity"
   ],
-  "author": "Yarmo Mackenbach <yarmo@yarmo.eu>",
+  "author": "Yarmo Mackenbach <yarmo@yarmo.eu> (https://yarmo.eu)",
   "license": "AGPL-3.0-or-later"
 }
