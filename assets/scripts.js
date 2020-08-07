@@ -481,7 +481,7 @@ async function verifyProof(url, fingerprint) {
     }
     // HN
     if (/^https:\/\/news.ycombinator.com/.test(url)) {
-        output.type = "hn";
+        output.type = "hackernews";
         match = url.match(/https:\/\/news.ycombinator.com\/user\?id=(.*)/);
         output.display = match[1];
         output.proofUrlFetch = `https://hacker-news.firebaseio.com/v0/user/${match[1]}.json`;
