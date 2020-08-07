@@ -273,6 +273,8 @@ select {
     min-height: 32px;
     padding: 0 8px;
     max-width: 20%;
+    font-size: 0.9em;
+    line-height: 1.6em;
     color: #777;
     text-align: right;
     white-space: nowrap;

@@ -235,6 +235,7 @@ async function displayProfile(opts) {
     }
     let userData = keyData.user.user.userId;
     let userName = userData.name ? userData.name : userData.email;
+    let userMail = userData.email ? userData.email : null;
 
     // Determine WKD or HKP link
     switch (opts.mode) {
@@ -290,8 +291,14 @@ async function displayProfile(opts) {
     feedback += `<div class="profileDataItem__label"></div>`;
     feedback += `<div class="profileDataItem__value">general information</div>`;
     feedback += `</div>`;
+    if (userMail) {
+      feedback += `<div class="profileDataItem">`;
+      feedback += `<div class="profileDataItem__label">primary email</div>`;
+      feedback += `<div class="profileDataItem__value"><a href="mailto:${userMail}">${userMail}</a></div>`;
+      feedback += `</div>`;
+    }
     for (var i = 0; i < keyData.publicKey.users.length; i++) {
-        if (keyData.publicKey.users[i].userId && 'email' in keyData.publicKey.users[i].userId && keyData.publicKey.users[i].userId.email && keyData.publicKey.users[i].revocationSignatures.length == 0) {
+        if (keyData.publicKey.users[i].userId && 'email' in keyData.publicKey.users[i].userId && keyData.publicKey.users[i].userId.email && keyData.publicKey.users[i].revocationSignatures.length == 0 && keyData.publicKey.users[i].userId.email != userMail) {
             feedback += `<div class="profileDataItem">`;
             feedback += `<div class="profileDataItem__label">email</div>`;
             feedback += `<div class="profileDataItem__value"><a href="mailto:${keyData.publicKey.users[i].userId.email}">${keyData.publicKey.users[i].userId.email}</a></div>`;
