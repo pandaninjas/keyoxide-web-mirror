@@ -1,4 +1,4 @@
-var router = require('express').Router();
+const router = require('express').Router();
 
 router.get('/profile-url', function(req, res) {
     res.render('util/profile-url')

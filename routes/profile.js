@@ -1,4 +1,4 @@
-var router = require('express').Router();
+const router = require('express').Router();
 
 router.get('/wkd/:input', function(req, res) {
     res.render('profile', { mode: "wkd", uid: req.params.input })
