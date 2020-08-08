@@ -32,6 +32,7 @@
 **/*.png
 **/*.svg
 **/*.env
+**/*.pug
 
 \.drone\.yml
 composer.json
