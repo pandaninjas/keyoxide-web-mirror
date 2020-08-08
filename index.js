@@ -14,6 +14,7 @@ app.use('/static', express.static('static'));
 app.use('/favicon.svg', express.static('favicon.svg'));
 
 app.use('/', require('./routes/main'));
+app.use('/dep', require('./routes/dep'));
 app.use('/encrypt', require('./routes/encrypt'));
 app.use('/verify', require('./routes/verify'));
 app.use('/proofs', require('./routes/proofs'));
