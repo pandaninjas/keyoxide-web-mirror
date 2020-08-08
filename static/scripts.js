@@ -461,19 +461,16 @@ async function verifyProof(url, fingerprint) {
         match = url.match(/https:\/\/twitter\.com\/(.*)\/status\/(.*)/);
         output.display = `@${match[1]}`;
         output.url = `https://twitter.com/${match[1]}`;
-        output.proofUrlFetch = `/server/verifyTweet.php?id=${match[2]}&fp=${fingerprint}`;
+        output.proofUrlFetch = `/server/verify/twitter
+?tweetId=${encodeURIComponent(match[2])}
+&fingerprint=${fingerprint}`;
         try {
-            response = await fetch(output.proofUrlFetch, {
-                headers: {
-                    Accept: 'application/json'
-                },
-                credentials: 'omit'
-            });
+            response = await fetch(output.proofUrlFetch);
             if (!response.ok) {
                 throw new Error('Response failed: ' + response.status);
             }
             json = await response.json();
-            output.isVerified = json.verified;
+            output.isVerified = json.isVerified;
         } catch (e) {
         } finally {
             return output;
@@ -484,7 +481,8 @@ async function verifyProof(url, fingerprint) {
         output.type = "hackernews";
         match = url.match(/https:\/\/news.ycombinator.com\/user\?id=(.*)/);
         output.display = match[1];
-        output.proofUrlFetch = `https://hacker-news.firebaseio.com/v0/user/${match[1]}.json`;
+        output.proofUrl = `https://hacker-news.firebaseio.com/v0/user/${match[1]}.json`;
+        output.proofUrlFetch = output.proofUrl;
         try {
             response = await fetch(output.proofUrlFetch, {
                 headers: {
@@ -504,14 +502,14 @@ async function verifyProof(url, fingerprint) {
         }
 
         if (!output.isVerified) {
-            output.proofUrlFetch = `/server/verifyHackerNews.php?user=${match[1]}&fp=${fingerprint}`;
+            output.proofUrlFetch = `/server/verify/proxy
+?url=${encodeURIComponent(output.proofUrl)}
+&fingerprint=${fingerprint}
+&checkRelation=contains
+&checkPath=about
+&checkClaimFormat=message`;
             try {
-                response = await fetch(output.proofUrlFetch, {
-                    headers: {
-                        Accept: 'application/json'
-                    },
-                    credentials: 'omit'
-                });
+                response = await fetch(output.proofUrlFetch);
                 if (!response.ok) {
                     throw new Error('Response failed: ' + response.status);
                 }
@@ -550,19 +548,20 @@ async function verifyProof(url, fingerprint) {
         match = url.match(/https:\/\/(?:www\.)?reddit\.com\/user\/(.*)\/comments\/(.*)\/(.*)\//);
         output.display = match[1];
         output.url = `https://www.reddit.com/user/${match[1]}`;
-        output.proofUrlFetch = `/server/verifyReddit.php?user=${match[1]}&comment=${match[2]}&fp=${fingerprint}`;
+        output.proofUrl = `https://www.reddit.com/user/${match[1]}/comments/${match[2]}.json`;
+        output.proofUrlFetch = `/server/verify/proxy
+?url=${encodeURIComponent(output.proofUrl)}
+&fingerprint=${fingerprint}
+&checkRelation=contains
+&checkPath=data,children,data,selftext
+&checkClaimFormat=message`;
         try {
-            response = await fetch(output.proofUrlFetch, {
-                headers: {
-                    Accept: 'application/json'
-                },
-                credentials: 'omit'
-            });
+            response = await fetch(output.proofUrlFetch);
             if (!response.ok) {
                 throw new Error('Response failed: ' + response.status);
             }
             json = await response.json();
-            output.isVerified = json.verified;
+            output.isVerified = json.isVerified;
         } catch (e) {
         } finally {
             return output;
@@ -600,19 +599,20 @@ async function verifyProof(url, fingerprint) {
         output.type = "lobsters";
         match = url.match(/https:\/\/lobste.rs\/u\/(.*)/);
         output.display = match[1];
-        output.proofUrlFetch = `/server/verifyLobsters.php?user=${match[1]}&fp=${fingerprint}`;
+        output.proofUrl = `https://lobste.rs/u/${match[1]}.json`;
+        output.proofUrlFetch = `/server/verify/proxy
+?url=${encodeURIComponent(output.proofUrl)}
+&fingerprint=${fingerprint}
+&checkRelation=contains
+&checkPath=about
+&checkClaimFormat=message`;
         try {
-            response = await fetch(output.proofUrlFetch, {
-                headers: {
-                    Accept: 'application/json'
-                },
-                credentials: 'omit'
-            });
+            response = await fetch(output.proofUrlFetch);
             if (!response.ok) {
                 throw new Error('Response failed: ' + response.status);
             }
             json = await response.json();
-            output.isVerified = json.verified;
+            output.isVerified = json.isVerified;
         } catch (e) {
         } finally {
             return output;
@@ -661,22 +661,23 @@ async function verifyProof(url, fingerprint) {
     // Discourse
     try {
         match = url.match(/https:\/\/(.*)\/u\/(.*)/);
-        output.proofUrlFetch = `/server/verifyDiscourse.php?url=${url}&fp=${fingerprint}`;
+        output.proofUrl = `${url}.json`;
+        output.proofUrlFetch = `/server/verify/proxy
+?url=${encodeURIComponent(output.proofUrl)}
+&fingerprint=${fingerprint}
+&checkRelation=contains
+&checkPath=user,bio_raw
+&checkClaimFormat=message`;
         try {
-            response = await fetch(output.proofUrlFetch, {
-                headers: {
-                    Accept: 'application/json'
-                },
-                credentials: 'omit'
-            });
+            response = await fetch(output.proofUrlFetch);
             if (!response.ok) {
                 throw new Error('Response failed: ' + response.status);
             }
             json = await response.json();
-            if (json.isDiscourse) {
+            if (json.isVerified) {
                 output.type = "discourse";
-                output.display = `${json.user}@${match[1]}`;
-                output.isVerified = json.verified;
+                output.display = `${match[2]}@${match[1]}`;
+                output.isVerified = json.isVerified;
                 return output;
             }
         } catch (e) {
