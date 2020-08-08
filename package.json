@@ -4,7 +4,10 @@
   "description": "A modern, secure and privacy-friendly platform to establish your decentralized online identity",
   "main": "index.js",
   "dependencies": {
+    "bent": "^7.3.9",
+    "dotenv": "^8.2.0",
     "express": "^4.17.1",
+    "express-validator": "^6.6.1",
     "jstransformer-markdown-it": "^2.1.0",
     "markdown-it-anchor": "^5.3.0",
     "markdown-it-table-of-contents": "^0.4.4",
