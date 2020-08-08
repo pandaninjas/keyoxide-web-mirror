@@ -17,6 +17,7 @@ app.use('/', require('./routes/main'));
 app.use('/encrypt', require('./routes/encrypt'));
 app.use('/verify', require('./routes/verify'));
 app.use('/proofs', require('./routes/proofs'));
+app.use('/util', require('./routes/util'));
 app.use('/', require('./routes/profile'));
 
 app.listen(port, () => {
