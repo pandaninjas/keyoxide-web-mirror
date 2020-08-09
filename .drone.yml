@@ -35,8 +35,10 @@ steps:
           tags: dev
 
 trigger:
+    branch:
+        - dev
     event:
-        - tag
+        - push
 
 ---
 
@@ -59,10 +61,7 @@ steps:
           - docker run -d -e "TWITTER_API_AUTH=$${TWITTER_API_AUTH}" --name keyoxide -h keyoxide --network dc_web keyoxide/keyoxide:stable
 
 trigger:
-    branch:
-        - main
     event:
-        - push
         - tag
 
 depends_on:
