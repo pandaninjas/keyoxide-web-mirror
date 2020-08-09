@@ -14,6 +14,41 @@ steps:
           repo: keyoxide/keyoxide
           tags: stable
 
+trigger:
+    branch:
+        - main
+    event:
+        - push
+
+---
+
+kind: pipeline
+type: exec
+name: deploy-stable
+
+steps:
+    - name: pull docker container
+      commands:
+          - docker pull keyoxide/keyoxide:stable
+    - name: stop and remove existing docker container
+      commands:
+          - docker stop keyoxide || true && docker rm keyoxide || true
+    - name: run new docker container
+      environment:
+          TWITTER_API_AUTH:
+              from_secret: twitter_api_auth
+      commands:
+          - docker run -d -e "TWITTER_API_AUTH=$${TWITTER_API_AUTH}" --name keyoxide -h keyoxide --network dc_web keyoxide/keyoxide:stable
+
+trigger:
+    branch:
+        - main
+    event:
+        - push
+
+depends_on:
+    - build-stable-container
+
 ---
 
 kind: pipeline
@@ -29,6 +64,12 @@ steps:
               from_secret: docker_password
           repo: keyoxide/keyoxide
           tags: dev
+
+trigger:
+    branch:
+        - dev
+    event:
+        - push
 
 ---
 
