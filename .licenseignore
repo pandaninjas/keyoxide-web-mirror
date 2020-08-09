@@ -26,7 +26,6 @@
 # if any, to sign a "copyright disclaimer" for the program, if necessary. For
 # more information on this, and how to apply and follow the GNU AGPL, see <https://www.gnu.org/licenses/>.
 **/\.git
-**/vendor
 
 **/*.md
 **/*.png
@@ -35,8 +34,6 @@
 **/*.pug
 
 \.drone\.yml
-composer.json
-composer.lock
 package.json
 package-lock.json
 \.editorconfig
