@@ -2,7 +2,7 @@
 
 kind: pipeline
 type: exec
-name: deploy to prod
+name: deploy-prod
 
 steps:
     - name: composer
@@ -24,8 +24,24 @@ trigger:
 ---
 
 kind: pipeline
+name: build-dev-container
+
+steps:
+    - name: docker
+      image: plugins/docker
+      settings:
+          username:
+              from_secret: docker_username
+          password:
+              from_secret: docker_password
+          repo: keyoxide/keyoxide
+          tags: dev
+
+---
+
+kind: pipeline
 type: exec
-name: deploy to dev
+name: deploy-dev
 
 steps:
     - name: build docker container
@@ -47,6 +63,9 @@ steps:
               from_secret: twitter_api_auth
       commands:
           - docker run -d -e "TWITTER_API_AUTH=$${TWITTER_API_AUTH}" --name keyoxide-web -h keyoxide --network dc_web keyoxide-web
+
+depends_on:
+    - build-dev-container
 
 trigger:
     branch:
