@@ -4,7 +4,7 @@ kind: pipeline
 name: build-stable-container
 
 steps:
-    - name: docker
+    - name: build stable container
       image: plugins/docker
       settings:
           username:
@@ -12,11 +12,34 @@ steps:
           password:
               from_secret: docker_password
           repo: keyoxide/keyoxide
-          tags: stable
+          auto_tag: true
 
 trigger:
     branch:
         - main
+    event:
+        - push
+        - tag
+
+---
+
+kind: pipeline
+name: build-dev-container
+
+steps:
+    - name: build dev container
+      image: plugins/docker
+      settings:
+          username:
+              from_secret: docker_username
+          password:
+              from_secret: docker_password
+          repo: keyoxide/keyoxide
+          tags: dev
+
+trigger:
+    branch:
+        - dev
     event:
         - push
 
@@ -45,31 +68,10 @@ trigger:
         - main
     event:
         - push
+        - tag
 
 depends_on:
     - build-stable-container
-
----
-
-kind: pipeline
-name: build-dev-container
-
-steps:
-    - name: docker
-      image: plugins/docker
-      settings:
-          username:
-              from_secret: docker_username
-          password:
-              from_secret: docker_password
-          repo: keyoxide/keyoxide
-          tags: dev
-
-trigger:
-    branch:
-        - dev
-    event:
-        - push
 
 ---
 
