@@ -1,19 +1,41 @@
 ---
 
 kind: pipeline
-type: exec
-name: deploy-prod
+name: build-stable-container
 
 steps:
-    - name: composer
+    - name: docker
+      image: plugins/docker
+      settings:
+          username:
+              from_secret: docker_username
+          password:
+              from_secret: docker_password
+          repo: keyoxide/keyoxide
+          tags: stable
+
+---
+
+kind: pipeline
+type: exec
+name: deploy-stable
+
+steps:
+    - name: pull docker container
       commands:
-          - composer install
-    - name: deploy to server
+          - docker pull keyoxide/keyoxide:stable
+    - name: stop and remove existing docker container
+      commands:
+          - docker stop keyoxide || true && docker rm keyoxide || true
+    - name: run new docker container
       environment:
-          DEPLOY_COMMAND:
-              from_secret: deploy_command_prod
+          TWITTER_API_AUTH:
+              from_secret: twitter_api_auth
       commands:
-          - $${DEPLOY_COMMAND}
+          - docker run -d -e "TWITTER_API_AUTH=$${TWITTER_API_AUTH}" --name keyoxide -h keyoxide --network dc_web keyoxide/keyoxide:stable
+
+depends_on:
+    - build-stable-container
 
 trigger:
     branch:
@@ -49,13 +71,13 @@ steps:
           - docker pull keyoxide/keyoxide:dev
     - name: stop and remove existing docker container
       commands:
-          - docker stop keyoxide-web || true && docker rm keyoxide-web || true
+          - docker stop keyoxide-dev || true && docker rm keyoxide-dev || true
     - name: run new docker container
       environment:
           TWITTER_API_AUTH:
               from_secret: twitter_api_auth
       commands:
-          - docker run -d -e "TWITTER_API_AUTH=$${TWITTER_API_AUTH}" --name keyoxide-web -h keyoxide --network dc_web keyoxide/keyoxide:dev
+          - docker run -d -e "TWITTER_API_AUTH=$${TWITTER_API_AUTH}" --name keyoxide-dev -h keyoxide --network dc_web keyoxide/keyoxide:dev
 
 depends_on:
     - build-dev-container
