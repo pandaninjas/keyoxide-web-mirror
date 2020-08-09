@@ -55,7 +55,7 @@ steps:
           TWITTER_API_AUTH:
               from_secret: twitter_api_auth
       commands:
-          - docker run -d -e "TWITTER_API_AUTH=$${TWITTER_API_AUTH}" --name keyoxide-web -h keyoxide --network dc_web keyoxide-web
+          - docker run -d -e "TWITTER_API_AUTH=$${TWITTER_API_AUTH}" --name keyoxide-web -h keyoxide --network dc_web keyoxide/keyoxide:dev
 
 depends_on:
     - build-dev-container
