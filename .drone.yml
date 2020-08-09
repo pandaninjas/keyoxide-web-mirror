@@ -44,12 +44,6 @@ type: exec
 name: deploy-dev
 
 steps:
-    - name: build docker container
-      commands:
-          - docker build -t keyoxide/keyoxide:dev ./
-    - name: push to docker hub
-      commands:
-          - docker push keyoxide/keyoxide:dev
     - name: pull docker container
       commands:
           - docker pull keyoxide/keyoxide:dev
