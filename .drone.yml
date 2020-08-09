@@ -34,14 +34,15 @@ steps:
       commands:
           - docker run -d -e "TWITTER_API_AUTH=$${TWITTER_API_AUTH}" --name keyoxide -h keyoxide --network dc_web keyoxide/keyoxide:stable
 
-depends_on:
-    - build-stable-container
 
 trigger:
     branch:
         - main
     event:
         - push
+
+depends_on:
+    - build-stable-container
 
 ---
 
@@ -79,11 +80,11 @@ steps:
       commands:
           - docker run -d -e "TWITTER_API_AUTH=$${TWITTER_API_AUTH}" --name keyoxide-dev -h keyoxide --network dc_web keyoxide/keyoxide:dev
 
-depends_on:
-    - build-dev-container
-
 trigger:
     branch:
         - dev
     event:
         - push
+
+depends_on:
+    - build-dev-container
