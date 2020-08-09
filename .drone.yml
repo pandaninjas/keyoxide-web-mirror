@@ -1,6 +1,22 @@
 ---
 
 kind: pipeline
+name: build-stable-container
+
+steps:
+    - name: docker
+      image: plugins/docker
+      settings:
+          username:
+              from_secret: docker_username
+          password:
+              from_secret: docker_password
+          repo: keyoxide/keyoxide
+          tags: stable
+
+---
+
+kind: pipeline
 name: build-dev-container
 
 steps:
