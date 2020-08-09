@@ -28,15 +28,25 @@ type: exec
 name: deploy to dev
 
 steps:
-    - name: composer
+    - name: build docker container
       commands:
-          - composer install
-    - name: deploy to server
+          - docker build -t keyoxide/keyoxide:dev ./
+    - name: push to docker hub
+      commands:
+          - docker push keyoxide/keyoxide:dev
+    - name: pull docker container
+      commands:
+          - docker pull keyoxide/keyoxide:dev
+    - name: stop and remove existing docker container
+      commands:
+          - docker stop keyoxide-web
+          - docker rm keyoxide-web
+    - name: run new docker container
       environment:
-          DEPLOY_COMMAND:
-              from_secret: deploy_command_dev
+          TWITTER_API_AUTH:
+              from_secret: twitter_api_auth
       commands:
-          - $${DEPLOY_COMMAND}
+          - docker run -d -e "TWITTER_API_AUTH=$${TWITTER_API_AUTH}" --name keyoxide-web -h keyoxide --network dc_web keyoxide-web
 
 trigger:
     branch:
