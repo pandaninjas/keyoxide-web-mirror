@@ -15,10 +15,7 @@ steps:
           auto_tag: true
 
 trigger:
-    branch:
-        - main
     event:
-        - push
         - tag
 
 ---
@@ -38,10 +35,8 @@ steps:
           tags: dev
 
 trigger:
-    branch:
-        - dev
     event:
-        - push
+        - tag
 
 ---
 
