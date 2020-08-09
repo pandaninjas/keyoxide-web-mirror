@@ -31,9 +31,12 @@
 **/*.md
 **/*.png
 **/*.svg
+**/*.env
+**/*.pug
 
 \.drone\.yml
 composer.json
 composer.lock
 package.json
 package-lock.json
+\.editorconfig

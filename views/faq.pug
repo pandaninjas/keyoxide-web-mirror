@@ -1,0 +1,151 @@
+extends template.base.pug
+
+block content
+  .content
+    h1 FAQ
+    h3#what-is-keyoxide
+      a(href='#what-is-keyoxide') #
+      |  What is Keyoxide?
+    p
+      a(href='/') Keyoxide
+      |  is a lightweight and FOSS solution to make basic cryptography operations accessible to regular humans. It is built to be privacy friendly and secure, it can even be self-hosted.
+    h3#why-does-keyoxide-exist
+      a(href='#why-does-keyoxide-exist') #
+      |  Why does Keyoxide exist?
+    p
+      a(href='/') Keyoxide
+      |  provides a solution to a modern problem: we humans have developed advanced methods of encrypting data and signing it. Unfortunately, it requires complicated tools that demand a minimal level of understanding cryptography and how keypairs work to leverage these technologies.
+    p
+      | Sadly, this means that true privacy and secrecy in this modern age of surveillance capitalism is reserved to a subset of the world population.
+    p
+      | Luckily, there is one thing we can do. Some cryptographic operations are more accessible than others and less prone to leaking private data. By building a service around only those operations, we hope a wider general audience can benefit from modern cryptography.
+    h3#what-cryptographic-operations-can-keyoxide-handle
+      a(href='#what-cryptographic-operations-can-keyoxide-handle') #
+      |  What cryptographic operations can Keyoxide handle?
+    p
+      a(href='/') Keyoxide
+      |  can: 
+      a(href='/verify') verify signatures
+      |  and 
+      a(href='/encrypt') encrypt messages
+      | .
+      br
+      a(href='/') Keyoxide
+      |  can&apos;t: sign messages or decrypt messages.
+    h3#why-so-few-cryptographic-operations
+      a(href='#why-so-few-cryptographic-operations') #
+      |  Why so few cryptographic operations?
+    p
+      | Good question. First, what cryptographic operations are generally available? There&apos;s 
+      strong encryption
+      |  and its counterpart, 
+      strong decryption
+      | , but also 
+      strong signing
+      |  and its counterpart, 
+      strong signature verification
+      | .
+    p
+      strong Decryption
+      |  and 
+      strong signing
+      |  require private keys. 
+      strong Encryption
+      |  and 
+      strong signature verification
+      |  only require public keys.
+    p
+      | If you happen to be in possession of a private key, there is one thing you should know: that key is private! It shouldn&apos;t leave your computer and most certainly should never be uploaded to any website!
+    p
+      | So yes, alternative services may offer more cryptographic operations but at the highest cost of surrendering your private keys to servers you generally shouldn&apos;t trust and companies that may be under geopolitical influence.
+    p
+      a(href='/') Keyoxide
+      |  offers a simple solution to the trust issue: we don&apos;t want your keys, therefore you don&apos;t even need to trust us. Everything that this service offers is possible thanks to publicly available keys.
+    h3#how-does-keyoxide-work-without-keys
+      a(href='#how-does-keyoxide-work-without-keys') #
+      |  How does Keyoxide work without keys?
+    p
+      | We still need keys, of course, but only the harmless public keys. And yes, we could have built a website where one can make an account and upload public keys, in a similar fashion as alternative services.
+    p
+      | But why would we? There&apos;s already an entire infrastructure out there in the form of websites that host their own keys (plaintext or web key directory) or dedicated &quot;HTTP Key Protocol&quot; or HKP servers, designed specifically for public key hosting. Why reinvent the wheel?
+    h3#how-is-this-privacy-friendly-and-secure
+      a(href='#how-is-this-privacy-friendly-and-secure') #
+      |  How is this privacy friendly and secure?
+    p
+      | You can&apos;t make an account on 
+      a(href='/') Keyoxide
+      |  because for basic cryptographic operations, we don&apos;t need your data or your keys. By not knowing anything about you or using any trackers, this is as privacy-friendly as it gets.
+    p
+      | As for secure, 
+      a(href='/') Keyoxide
+      |  does all the cryptographic processing on your device and never sends data to the server. It also doesn&apos;t use private keys for any operation (so make sure to never upload those anywhere).
+    h3#how-can-i-make-an-account
+      a(href='#how-can-i-make-an-account') #
+      |  How can I make an account?
+    p
+      | Well, you can&apos;t and that is the whole point of 
+      a(href='/') Keyoxide
+      | . We don&apos;t want your data or your keys. Uploading your keys and/or data to our servers is never required for any of the operations provided by 
+      a(href='/') Keyoxide
+      | .
+    h3#can-i-get-a-sweet-profile-page
+      a(href='#can-i-get-a-sweet-profile-page') #
+      |  Can I get a sweet profile page?
+    p
+      | That, we can help you with! Just append your fingerprint to the domain (like so: 
+      a(href='https://keyoxide.org/9F0048AC0B23301E1F77E994909F6BD6F80F485D') https://keyoxide.org/9F0048AC0B23301E1F77E994909F6BD6F80F485D
+      | ) to generate a profile page.
+    h3#where-is-the-app
+      a(href='#where-is-the-app') #
+      |  Where is the app?
+    p
+      | There&apos;s no app. Why would you want yet another app for what is essentially just a form with a big blue button?
+    h3#where-do-i-put-my-private-key
+      a(href='#where-do-i-put-my-private-key') #
+      |  Where do I put my private key?
+    p
+      strong DON&apos;T
+      | ! We don&apos;t want it!
+    p
+      | Alternative services may ask you for your private keys so that they can offer additional functionality. Please understand that your private key is yours and ONLY yours. You should never upload it to any online service, in fact it should never leave your computer.
+    h3(id="what-is-the-use-if-i-can't-decrypt-or-sign-messages")
+      a(href="#what-is-the-use-if-i-can't-decrypt-or-sign-messages") #
+      |  What is the use if I can&apos;t decrypt or sign messages?
+    p
+      | If you want to be on the receiving end of securely encrypted messages, you should either learn the basics of modern cryptography and know your way around your computer&apos;s command line or switch to end-to-end encrypted instant messaging providers.
+    p
+      | Simply put, if you have private keys, you probably won&apos;t be using 
+      a(href='/') Keyoxide
+      | . You will benefit from using command line tools or GUIs like 
+      a(href='https://www.openpgp.org/software/kleopatra/') Kleopatra
+      | .
+    p
+      a(href='/') Keyoxide
+      |  is designed for those without extensive knowledge about cryptography and who wish to encrypt messages to, or verify the authenticity of messages coming from the people with that extensive knowledge.
+    h3#but-other-services-provide-a-social-network-function
+      a(href='#but-other-services-provide-a-social-network-function') #
+      |  But other services provide a social network function!
+    p
+      | It doesn&apos;t need to be centralized to have a &quot;social network&quot; function. 
+      a(href='/') Keyoxide
+      |  simply uses the already existing &quot;social network&quot; of websites hosting their own keys and servers dedicated to hosting large amounts of keys.
+    h3#pgp-must-die
+      a(href='#pgp-must-die') #
+      |  PGP must die!
+    p
+      | Not a question but we get your point. While there are 
+      a(href='https://restoreprivacy.com/let-pgp-die/') legitimate reasons PGP should cease to exist
+      | , it is still widely used and without any clear sign of imminent extinction, it needs proper tooling.
+    p
+      | It should be noted that while PGP can indeed be harmful when applied to email encryption, there are other legitimate ways of leveraging PGP to encrypt and/or sign messages.
+    p
+      | That being said, 
+      a(href='/') Keyoxide
+      |  aims to integrate different cryptographic technologies and therefore ease the transition away from PGP.
+    h3#what-is-on-the-roadmap
+      a(href='#what-is-on-the-roadmap') #
+      |  What is on the roadmap?
+    ul
+      li Support more decentralized proofs
+      li Write more guides
+      li Integrate other encryption programs
