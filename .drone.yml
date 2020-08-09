@@ -12,6 +12,15 @@ steps:
           password:
               from_secret: docker_password
           repo: keyoxide/keyoxide
+          tags: stable
+    - name: build tag container
+      image: plugins/docker
+      settings:
+          username:
+              from_secret: docker_username
+          password:
+              from_secret: docker_password
+          repo: keyoxide/keyoxide
           auto_tag: true
           tags: stable
 
