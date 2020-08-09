@@ -49,8 +49,7 @@ steps:
           - docker pull keyoxide/keyoxide:dev
     - name: stop and remove existing docker container
       commands:
-          - docker stop keyoxide-web
-          - docker rm keyoxide-web
+          - docker stop keyoxide-web || true && docker rm keyoxide-web || true
     - name: run new docker container
       environment:
           TWITTER_API_AUTH:
