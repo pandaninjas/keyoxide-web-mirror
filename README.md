@@ -2,7 +2,7 @@
 
 [![Build Status](https://drone.keyoxide.org/api/badges/keyoxide/web/status.svg?branch=main)](https://drone.keyoxide.org/keyoxide/web)
 ![License](https://img.shields.io/badge/license-AGPL--v3-blue)
-![Docker Image Version (latest semver)](https://img.shields.io/docker/v/keyoxide/keyoxide)
+![Docker Image Version (latest semver)](https://img.shields.io/docker/v/keyoxide/keyoxide?sort=semver)
 ![Docker Pulls](https://img.shields.io/docker/pulls/keyoxide/keyoxide)
 ![Mastodon Follow](https://img.shields.io/mastodon/follow/247838?domain=https%3A%2F%2Ffosstodon.org&style=social)
 
