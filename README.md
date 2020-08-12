@@ -4,7 +4,7 @@
 [![License](https://img.shields.io/badge/license-AGPL--v3-blue)](https://codeberg.org/keyoxide/web/src/branch/main/LICENSE)
 [![Docker Image Version (latest semver)](https://img.shields.io/docker/v/keyoxide/keyoxide?sort=semver)](https://hub.docker.com/r/keyoxide/keyoxide)
 [![Docker Pulls](https://img.shields.io/docker/pulls/keyoxide/keyoxide)](https://hub.docker.com/r/keyoxide/keyoxide)
-[![Mastodon Follow](https://img.shields.io/mastodon/follow/247838?domain=https%3A%2F%2Ffosstodon.org&style=social)](fosstodon.org/@keyoxide)
+[![Mastodon Follow](https://img.shields.io/mastodon/follow/247838?domain=https%3A%2F%2Ffosstodon.org&style=social)](https://fosstodon.org/@keyoxide)
 
 [Keyoxide](https://keyoxide.org) is a modern, secure and decentralized platform to prove your online identity.
 
