@@ -28,7 +28,7 @@ To add support for Twitter account verification, make a [developer account](http
 
 To run Keyoxide using docker-compose, add the following snippet to your `docker-compose.yml`:
 
-```
+```yml
 keyoxide:
   image: keyoxide/keyoxide:stable
   ports:
