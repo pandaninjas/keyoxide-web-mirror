@@ -8,6 +8,8 @@
 
 [Keyoxide](https://keyoxide.org) is a modern, secure and decentralized platform to prove your online identity.
 
+
+
 ## Self-hosting
 
 Self-hosting Keyoxide is an important aspect of the project. Users need to trust the Keyoxide instance they're using to reliably verify identities. Making Keyoxide itself decentralized means no one needs to trust a central server. If a friend or family member is hosting a Keyoxide instance, it becomes much easier to trust the instance!
@@ -36,3 +38,13 @@ keyoxide:
   environment:
     - TWITTER_API_AUTH=XXXXXXXXXXXXXXXXXX
 ```
+
+## Contributing
+
+Contributing to Keyoxide can happen in many forms:
+
+- Finding and reporting bugs
+- Suggesting new features
+- Improving documentation
+- Writing code to fix bugs and features
+- Promoting decentralized identity and web3.0
