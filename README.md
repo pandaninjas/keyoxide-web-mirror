@@ -41,6 +41,8 @@ keyoxide:
 
 ## Contributing
 
+Anyone can contribute if they'd like! No need to be a programmer or technically-oriented for that matter.
+
 Contributing to Keyoxide can happen in many forms:
 
 - Finding and reporting bugs
@@ -48,3 +50,5 @@ Contributing to Keyoxide can happen in many forms:
 - Improving documentation
 - Writing code to fix bugs and features
 - Promoting decentralized identity and web3.0
+
+Please note that this project has a [Code of Conduct](https://codeberg.org/keyoxide/web/src/branch/main/CODE_OF_CONDUCT.md) that all contributors agree to abide when participating.
