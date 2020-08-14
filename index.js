@@ -41,6 +41,7 @@ md.use(require('markdown-it-title'));
 
 app.set('view engine', 'pug');
 app.set('port', process.env.PORT || 3000);
+
 app.use('/favicon.svg', express.static('favicon.svg'));
 
 app.use(stringReplace({
@@ -49,6 +50,7 @@ app.use(stringReplace({
     contentTypeFilterRegexp: /application\/javascript/,
 }));
 
+app.locals.env = process.env;
 app.use('/', require('./routes/main'));
 app.use('/static', require('./routes/static'));
 app.use('/server', require('./routes/server'));
