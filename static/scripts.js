@@ -188,12 +188,18 @@ async function verifyProofs(opts) {
         return;
     }
 
+    let notations = [];
+    for (var i = 0; i < keyData.publicKey.users.length; i++) {
+        notations = notations.concat(keyData.publicKey.users[i].selfCertifications[0].notations);
+    }
+    notations = Array.from(new Set(notations)); // Deduplicate (ES6)
+
     // Display feedback
     elRes.innerHTML = "Verifying proofs&hellip;";
 
     let notation, isVerified, verifications = [];
-    for (var i = 0; i < keyData.notations.length; i++) {
-        notation = keyData.notations[i];
+    for (var i = 0; i < notations.length; i++) {
+        notation = notations[i];
         if (notation[0] != "proof@metacode.biz") { continue; }
         verifications.push(await verifyProof(notation[1], keyData.fingerprint));
     }
@@ -233,9 +239,16 @@ async function displayProfile(opts) {
         document.body.querySelector('#profileName').innerHTML = "Could not load profile";
         return;
     }
+
     let userData = keyData.user.user.userId;
     let userName = userData.name ? userData.name : userData.email;
     let userMail = userData.email ? userData.email : null;
+
+    let notations = [];
+    for (var i = 0; i < keyData.publicKey.users.length; i++) {
+        notations = notations.concat(keyData.publicKey.users[i].selfCertifications[0].notations);
+    }
+    notations = Array.from(new Set(notations)); // Deduplicate (ES6)
 
     // Determine WKD or HKP link
     switch (opts.mode) {
@@ -320,7 +333,7 @@ async function displayProfile(opts) {
     //     feedback += `</div>`;
     // }
 
-    if (keyData.notations.length > 0) {
+    if (notations.length > 0) {
         feedback += `<div class="profileDataItem profileDataItem--separator profileDataItem--noLabel">`;
         feedback += `<div class="profileDataItem__label"></div>`;
         feedback += `<div class="profileDataItem__value">proofs</div>`;
@@ -351,14 +364,14 @@ async function displayProfile(opts) {
     document.body.querySelector('#profileData').innerHTML = feedback;
 
     // Exit if no notations are available
-    if (keyData.notations.length == 0) {
+    if (notations.length == 0) {
         return;
     }
 
     // Verify identity proofs
     let proofResult;
-    for (var i = 0; i < keyData.notations.length; i++) {
-        notation = keyData.notations[i];
+    for (var i = 0; i < notations.length; i++) {
+        notation = notations[i];
         if (notation[0] != "proof@metacode.biz") { continue; }
         proofResult = await verifyProof(notation[1], keyData.fingerprint);
         if (!proofResult || !proofResult.display) { continue; }
