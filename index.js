@@ -39,6 +39,7 @@ md.use(require("markdown-it-anchor"));
 md.use(require("markdown-it-table-of-contents"), { "includeLevel": [2, 3], "listType": "ol" });
 md.use(require('markdown-it-title'));
 
+app.set('env', process.env.NODE_ENV || "production");
 app.set('view engine', 'pug');
 app.set('port', process.env.PORT || 3000);
 app.set('domain', process.env.DOMAIN || "keyoxide.org");
