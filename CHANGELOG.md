@@ -8,6 +8,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 - Custom XMPP vCard fetch server setting
 - Custom Express port setting
+- Custom domain setting
 - Include Keyoxide version number in footer
 ### Changed
 - Improve static link handling to dependencies
