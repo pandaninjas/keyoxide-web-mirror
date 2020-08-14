@@ -39,11 +39,10 @@ md.use(require("markdown-it-table-of-contents"), { "includeLevel": [2, 3], "list
 md.use(require('markdown-it-title'));
 
 app.set('view engine', 'pug');
-app.use('/static', express.static('static'));
 app.use('/favicon.svg', express.static('favicon.svg'));
 
 app.use('/', require('./routes/main'));
-app.use('/dep', require('./routes/dep'));
+app.use('/static', require('./routes/static'));
 app.use('/server', require('./routes/server'));
 app.use('/encrypt', require('./routes/encrypt'));
 app.use('/verify', require('./routes/verify'));
