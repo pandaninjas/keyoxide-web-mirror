@@ -33,6 +33,8 @@ const fs = require('fs');
 const app = express();
 const port = 3000;
 const env = {};
+const { stringReplace } = require('string-replace-middleware');
+require('dotenv').config();
 
 md.use(require("markdown-it-anchor"));
 md.use(require("markdown-it-table-of-contents"), { "includeLevel": [2, 3], "listType": "ol" });
@@ -40,6 +42,12 @@ md.use(require('markdown-it-title'));
 
 app.set('view engine', 'pug');
 app.use('/favicon.svg', express.static('favicon.svg'));
+
+app.use(stringReplace({
+    PLACEHOLDER__XMPP_VCARD_SERVER_DOMAIN: process.env.XMPP_VCARD_SERVER_DOMAIN ? process.env.XMPP_VCARD_SERVER_DOMAIN : 'xmpp-vcard.keyoxide.org'
+}, {
+    contentTypeFilterRegexp: /application\/javascript/,
+}));
 
 app.use('/', require('./routes/main'));
 app.use('/static', require('./routes/static'));
@@ -51,5 +59,5 @@ app.use('/util', require('./routes/util'));
 app.use('/', require('./routes/profile'));
 
 app.listen(port, () => {
-  console.log(`Example app listening at http://localhost:${port}`);
+    console.log(`Example app listening at http://localhost:${port}`);
 });

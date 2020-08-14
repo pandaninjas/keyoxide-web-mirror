@@ -13,7 +13,8 @@
     "markdown-it-table-of-contents": "^0.4.4",
     "markdown-it-title": "^3.0.0",
     "openpgp": "^4.10.7",
-    "pug": "^3.0.0"
+    "pug": "^3.0.0",
+    "string-replace-middleware": "^1.0.2"
   },
   "devDependencies": {
     "license-check-and-add": "^3.0.4"

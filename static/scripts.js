@@ -437,7 +437,7 @@ async function verifyProof(url, fingerprint) {
         output.type = "xmpp";
         match = url.match(/xmpp:([a-zA-Z0-9\.\-\_]*)@([a-zA-Z0-9\.\-\_]*)(?:\?(.*))?/);
         output.display = `${match[1]}@${match[2]}`;
-        output.proofUrl = `https://xmpp-vcard.keyoxide.org/api/vcard/${output.display}/DESC`;
+        output.proofUrl = `https://PLACEHOLDER__XMPP_VCARD_SERVER_DOMAIN/api/vcard/${output.display}/DESC`;
         output.qr = url;
 
         try {
