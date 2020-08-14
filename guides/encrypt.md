@@ -14,7 +14,7 @@ If you already have a public key (or its fingerprint) you would like to use to e
 
 ## Encrypt a message
 
-Open the [keyoxide.org/encrypt](/encrypt) page and paste the fingerprint in the **Email / key id / fingerprint** field.
+Open the [/encrypt](/encrypt) page and paste the fingerprint in the **Email / key id / fingerprint** field.
 
 Write a message in the **Message** field. Scroll down and press the **ENCRYPT MESSAGE** button.
 

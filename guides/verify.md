@@ -36,7 +36,7 @@ Copy the above signature.
 
 ## Verify the signature
 
-Open the [keyoxide.org/verify](/verify) page and paste the signature in the corresponding field. Scroll down and press the **VERIFY SIGNATURE** button.
+Open the [/verify](/verify) page and paste the signature in the corresponding field. Scroll down and press the **VERIFY SIGNATURE** button.
 
 Keyoxide lets you know the signature was verified and signed by a certain person.
 

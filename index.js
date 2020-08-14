@@ -41,6 +41,7 @@ md.use(require('markdown-it-title'));
 
 app.set('view engine', 'pug');
 app.set('port', process.env.PORT || 3000);
+app.set('domain', process.env.DOMAIN || "keyoxide.org");
 
 app.use('/favicon.svg', express.static('favicon.svg'));
 
