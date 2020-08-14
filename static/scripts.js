@@ -837,18 +837,20 @@ async function computeWKDLocalPart(message) {
 }
 
 async function generateProfileURL(data) {
+    let hostname = window.location.hostname;
+
     if (data.input == "") {
         return "Waiting for input...";
     }
     switch (data.source) {
         case "wkd":
-            return `https://keyoxide.org/${data.input}`;
+            return `https://${hostname}/${data.input}`;
             break;
         case "hkp":
             if (/.*@.*\..*/.test(data.input)) {
-                return `https://keyoxide.org/hkp/${data.input}`;
+                return `https://${hostname}/hkp/${data.input}`;
             } else {
-                return `https://keyoxide.org/${data.input}`;
+                return `https://${hostname}/${data.input}`;
             }
             break;
         case "keybase":
@@ -857,7 +859,7 @@ async function generateProfileURL(data) {
                 return "Incorrect Keybase public key URL.";
             }
             const match = data.input.match(re);
-            return `https://keyoxide.org/keybase/${match[1]}/${match[2]}`;
+            return `https://${hostname}/keybase/${match[1]}/${match[2]}`;
             break;
     }
 }
