@@ -44,7 +44,7 @@ app.set('view engine', 'pug');
 app.use('/favicon.svg', express.static('favicon.svg'));
 
 app.use(stringReplace({
-    PLACEHOLDER__XMPP_VCARD_SERVER_DOMAIN: process.env.XMPP_VCARD_SERVER_DOMAIN ? process.env.XMPP_VCARD_SERVER_DOMAIN : 'xmpp-vcard.keyoxide.org'
+    PLACEHOLDER__XMPP_VCARD_SERVER_DOMAIN: process.env.XMPP_VCARD_SERVER_DOMAIN || 'xmpp-vcard.keyoxide.org'
 }, {
     contentTypeFilterRegexp: /application\/javascript/,
 }));
