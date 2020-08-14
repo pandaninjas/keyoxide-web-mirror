@@ -454,7 +454,7 @@ async function verifyProof(url, fingerprint) {
         output.qr = url;
 
         try {
-            response = await fetch(output.proofUrl);
+            response = await fetchWithTimeout(output.proofUrl);
             if (!response.ok) {
                 throw new Error('Response failed: ' + response.status);
             }
@@ -875,6 +875,15 @@ async function generateProfileURL(data) {
             return `https://${hostname}/keybase/${match[1]}/${match[2]}`;
             break;
     }
+}
+
+async function fetchWithTimeout(url, timeout = 3000) {
+    return Promise.race([
+        fetch(url),
+        new Promise((_, reject) =>
+            setTimeout(() => reject(new Error('timeout')), timeout)
+        )
+    ]);
 }
 
 // General purpose
