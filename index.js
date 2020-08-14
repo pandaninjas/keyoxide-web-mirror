@@ -35,6 +35,8 @@ const env = {};
 const { stringReplace } = require('string-replace-middleware');
 require('dotenv').config();
 
+let packageData = JSON.parse(fs.readFileSync('package.json'));
+
 md.use(require("markdown-it-anchor"));
 md.use(require("markdown-it-table-of-contents"), { "includeLevel": [2, 3], "listType": "ol" });
 md.use(require('markdown-it-title'));
@@ -43,6 +45,7 @@ app.set('env', process.env.NODE_ENV || "production");
 app.set('view engine', 'pug');
 app.set('port', process.env.PORT || 3000);
 app.set('domain', process.env.DOMAIN || "keyoxide.org");
+app.set('keyoxide_version', packageData.version);
 
 app.use('/favicon.svg', express.static('favicon.svg'));
 
@@ -52,7 +55,6 @@ app.use(stringReplace({
     contentTypeFilterRegexp: /application\/javascript/,
 }));
 
-app.locals.env = process.env;
 app.use('/', require('./routes/main'));
 app.use('/static', require('./routes/static'));
 app.use('/server', require('./routes/server'));
