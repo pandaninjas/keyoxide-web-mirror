@@ -12,6 +12,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Include Keyoxide version number in footer
 ### Changed
 - Improve static link handling to dependencies
+- Get notations from all available UIDs
 ### Fixed
 - Fix hardcoded URLs
 
