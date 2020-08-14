@@ -13,6 +13,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Changed
 - Improve static link handling to dependencies
 - Get notations from all available UIDs
+- Add timeout to some fetch calls
 ### Fixed
 - Fix hardcoded URLs
 
