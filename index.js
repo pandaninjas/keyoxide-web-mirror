@@ -31,7 +31,6 @@ const express = require('express');
 const md = require('markdown-it')({typographer: true});
 const fs = require('fs');
 const app = express();
-const port = 3000;
 const env = {};
 const { stringReplace } = require('string-replace-middleware');
 require('dotenv').config();
@@ -41,6 +40,7 @@ md.use(require("markdown-it-table-of-contents"), { "includeLevel": [2, 3], "list
 md.use(require('markdown-it-title'));
 
 app.set('view engine', 'pug');
+app.set('port', process.env.PORT || 3000);
 app.use('/favicon.svg', express.static('favicon.svg'));
 
 app.use(stringReplace({
@@ -58,6 +58,6 @@ app.use('/proofs', require('./routes/proofs'));
 app.use('/util', require('./routes/util'));
 app.use('/', require('./routes/profile'));
 
-app.listen(port, () => {
-    console.log(`Example app listening at http://localhost:${port}`);
+app.listen(app.get('port'), () => {
+    console.log(`Node server listening at http://localhost:${app.get('port')}`);
 });
