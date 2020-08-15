@@ -64,6 +64,7 @@ router.get('/verify/proxy', [
 
 router.get('/verify/twitter', [
   query('tweetId').isInt().exists(),
+  query('account').exists(),
   query('fingerprint').isHexadecimal().exists()
 ], async function(req, res) {
     const errors = validationResult(req);
@@ -73,6 +74,7 @@ router.get('/verify/twitter', [
 
     let params = {
         tweetId: req.query.tweetId,
+        account: req.query.account,
         fingerprint: req.query.fingerprint
     }
 
