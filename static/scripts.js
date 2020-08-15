@@ -188,10 +188,15 @@ async function verifyProofs(opts) {
         return;
     }
 
-    let notations = [];
+    let notations = [], notationsRaw = [];
     for (var i = 0; i < keyData.publicKey.users.length; i++) {
-        notations = notations.concat(keyData.publicKey.users[i].selfCertifications[0].notations);
+        notationsRaw = notationsRaw.concat(keyData.publicKey.users[i].selfCertifications[0].notations);
     }
+    notationsRaw.forEach((item, i) => {
+        if (item[0] == "proof@metacode.biz") {
+            notations.push(item[1]);
+        }
+    });
     notations = Array.from(new Set(notations)); // Deduplicate (ES6)
 
     // Display feedback
@@ -200,8 +205,7 @@ async function verifyProofs(opts) {
     let notation, isVerified, verifications = [];
     for (var i = 0; i < notations.length; i++) {
         notation = notations[i];
-        if (notation[0] != "proof@metacode.biz") { continue; }
-        verifications.push(await verifyProof(notation[1], keyData.fingerprint));
+        verifications.push(await verifyProof(notation, keyData.fingerprint));
     }
 
     // One-line sorting function (order verifications by type)
@@ -244,10 +248,15 @@ async function displayProfile(opts) {
     let userName = userData.name ? userData.name : userData.email;
     let userMail = userData.email ? userData.email : null;
 
-    let notations = [];
+    let notations = [], notationsRaw = [];
     for (var i = 0; i < keyData.publicKey.users.length; i++) {
-        notations = notations.concat(keyData.publicKey.users[i].selfCertifications[0].notations);
+        notationsRaw = notationsRaw.concat(keyData.publicKey.users[i].selfCertifications[0].notations);
     }
+    notationsRaw.forEach((item, i) => {
+        if (item[0] == "proof@metacode.biz") {
+            notations.push(item[1]);
+        }
+    });
     notations = Array.from(new Set(notations)); // Deduplicate (ES6)
 
     // Determine WKD or HKP link
@@ -372,8 +381,7 @@ async function displayProfile(opts) {
     let proofResult;
     for (var i = 0; i < notations.length; i++) {
         notation = notations[i];
-        if (notation[0] != "proof@metacode.biz") { continue; }
-        proofResult = await verifyProof(notation[1], keyData.fingerprint);
+        proofResult = await verifyProof(notation, keyData.fingerprint);
         if (!proofResult || !proofResult.display) { continue; }
         verifications.push(proofResult);
     }
