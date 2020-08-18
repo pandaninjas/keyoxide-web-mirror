@@ -57,13 +57,13 @@ router.get('/guides', (req, res) => {
 });
 
 router.get('/guides/:guideId', (req, res) => {
-  let data = fs.readFileSync(`./guides/${req.params.guideId}.md`, "utf8", (err, data) => {
-    if (err) throw err;
-    return data;
-  });
+    let data = fs.readFileSync(`./guides/${req.params.guideId}.md`, "utf8", (err, data) => {
+        if (err) throw err;
+        return data;
+    });
 
-  let content = md.render(data, env);
-  res.render(`guide`, { title: `${env.title} - Keyoxide`, content: content })
+    let content = md.render(data, env);
+    res.render(`guide`, { title: `${env.title} - Keyoxide`, content: content })
 });
 
 module.exports = router;
