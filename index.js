@@ -28,7 +28,6 @@ if any, to sign a "copyright disclaimer" for the program, if necessary. For
 more information on this, and how to apply and follow the GNU AGPL, see <https://www.gnu.org/licenses/>.
 */
 const express = require('express');
-const md = require('markdown-it')({typographer: true});
 const fs = require('fs');
 const app = express();
 const env = {};
@@ -36,10 +35,6 @@ const { stringReplace } = require('string-replace-middleware');
 require('dotenv').config();
 
 let packageData = JSON.parse(fs.readFileSync('package.json'));
-
-md.use(require("markdown-it-anchor"));
-md.use(require("markdown-it-table-of-contents"), { "includeLevel": [2, 3], "listType": "ol" });
-md.use(require('markdown-it-title'));
 
 app.set('env', process.env.NODE_ENV || "production");
 app.set('view engine', 'pug');
