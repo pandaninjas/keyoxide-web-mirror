@@ -30,7 +30,6 @@ more information on this, and how to apply and follow the GNU AGPL, see <https:/
 const router = require('express').Router();
 const md = require('markdown-it')({typographer: true});
 const fs = require('fs');
-const env = {};
 
 md.use(require("markdown-it-anchor"));
 md.use(require("markdown-it-table-of-contents"), { "includeLevel": [2, 3], "listType": "ol" });
@@ -57,6 +56,8 @@ router.get('/guides', (req, res) => {
 });
 
 router.get('/guides/:guideId', (req, res) => {
+    const env = {};
+
     let data = fs.readFileSync(`./guides/${req.params.guideId}.md`, "utf8", (err, data) => {
         if (err) throw err;
         return data;
