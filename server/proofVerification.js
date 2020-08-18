@@ -56,6 +56,7 @@ const Proxy = async (params) => {
 
     const obj = await getJSON(res.params.url);
     res.isVerified = VerifyJsonProof(obj, res.params.checkPath, res.params.checkClaim, res.params.checkRelation);
+    res.success = true;
 
     return res;
 };
@@ -80,6 +81,7 @@ const Twitter = async (params) => {
     const get = bent('GET', 'json', {'Content-Type': 'application/json', 'Authorization': `Bearer ${twitter_api_auth}`});
     const obj = await get(proofUrl);
     res.isVerified = re.test(obj.data.text);
+    res.success = true;
 
     return res;
 };
