@@ -615,6 +615,37 @@ async function verifyProof(url, fingerprint) {
             return output;
         }
     }
+    // GitLab
+    if (/^https:\/\/gitlab.com/.test(url)) {
+        output.type = "gitlab";
+        match = url.match(/https:\/\/gitlab.com\/(.*)\/(.*)/);
+        output.display = match[1];
+        output.url = `https://gitlab.com/${match[1]}`;
+        output.proofUrlFetch = `https://gitlab.com/api/v4/projects?custom_attributes[search]=${match[1]}/${match[2]}&custom_attributes[search_namespaces]=true`;
+        try {
+            response = await fetch(output.proofUrlFetch, {
+                headers: {
+                    Accept: 'application/json'
+                },
+                credentials: 'omit'
+            });
+            if (!response.ok) {
+                throw new Error('Response failed: ' + response.status);
+            }
+            json = await response.json();
+            let project = json.find(proj => proj.web_url === url);
+            if (!project) {
+                throw new Error('No project at ' + url);
+            }
+            reVerify = new RegExp(`[Verifying my OpenPGP key: openpgp4fpr:${fingerprint}]`, 'i');
+            if (reVerify.test(project.descroption)) {
+                output.isVerified = true;
+            }
+        } catch (e) {
+        } finally {
+            return output;
+        }
+    }
     // Lobsters
     if (/^https:\/\/lobste.rs/.test(url)) {
         output.type = "lobsters";
