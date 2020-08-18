@@ -9,6 +9,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Add environment variable to set Onion-Location header
 ### Fixed
 - Fix env template DOMAIN name
+- Fix non-updating guide titles
 
 ## [2.1.1] - 2020-08-15
 ### Fixed
