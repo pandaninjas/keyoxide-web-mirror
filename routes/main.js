@@ -37,8 +37,7 @@ md.use(require("markdown-it-table-of-contents"), { "includeLevel": [2, 3], "list
 md.use(require('markdown-it-title'));
 
 
-if(process.env.ONION_URL)
-{
+if (process.env.ONION_URL) {
     router.get('/*', (req, res, next) => {
         res.header('Onion-Location', process.env.ONION_URL);
         next();
