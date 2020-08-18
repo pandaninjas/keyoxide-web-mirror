@@ -41,6 +41,7 @@ app.set('view engine', 'pug');
 app.set('port', process.env.PORT || 3000);
 app.set('domain', process.env.DOMAIN || "keyoxide.org");
 app.set('keyoxide_version', packageData.version);
+app.set('onion_url', process.env.ONION_URL);
 
 app.use('/favicon.svg', express.static('favicon.svg'));
 
