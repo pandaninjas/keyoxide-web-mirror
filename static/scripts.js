@@ -621,8 +621,7 @@ async function verifyProof(url, fingerprint) {
         match = url.match(/https:\/\/(.*)\/(.*)\/gitlab_proof/);
         output.display = match[2];
         output.url = `https://${match[1]}/${match[2]}`;
-        output.proofUrlFetch = `https://gitlab.com/api/v4/users?username=${match[2]}`;
-        // output.proofUrlFetch = `https://gitlab.com/api/v4/projects?custom_attributes[search]=${match[2]}/gitlab_proof&custom_attributes[search_namespaces]=true`;
+        output.proofUrlFetch = `https://${match[1]}/api/v4/users?username=${match[2]}`;
         try {
             const opts = {
                 headers: {
@@ -641,7 +640,7 @@ async function verifyProof(url, fingerprint) {
                 throw new Error('No user with username ' + match[2]);
             }
             // Get project
-            output.proofUrlFetch = `https://gitlab.com/api/v4/users/${user.id}/projects`;
+            output.proofUrlFetch = `https://${match[1]}/api/v4/users/${user.id}/projects`;
             response = await fetch(output.proofUrlFetch, opts);
             if (!response.ok) {
                 throw new Error('Response failed: ' + response.status);
