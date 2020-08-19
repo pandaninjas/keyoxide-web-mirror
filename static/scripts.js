@@ -616,24 +616,38 @@ async function verifyProof(url, fingerprint) {
         }
     }
     // GitLab
-    if (/^https:\/\/gitlab.com/.test(url)) {
+    if (/\/gitlab_proof$/.test(url)) {
         output.type = "gitlab";
-        match = url.match(/https:\/\/gitlab.com\/(.*)\/(.*)/);
-        output.display = match[1];
-        output.url = `https://gitlab.com/${match[1]}`;
-        output.proofUrlFetch = `https://gitlab.com/api/v4/projects?custom_attributes[search]=${match[1]}/${match[2]}&custom_attributes[search_namespaces]=true`;
+        match = url.match(/https:\/\/(.*)\/(.*)\/gitlab_proof/);
+        output.display = match[2];
+        output.url = `https://${match[1]}/${match[2]}`;
+        output.proofUrlFetch = `https://gitlab.com/api/v4/users?username=${match[2]}`;
+        // output.proofUrlFetch = `https://gitlab.com/api/v4/projects?custom_attributes[search]=${match[2]}/gitlab_proof&custom_attributes[search_namespaces]=true`;
         try {
-            response = await fetch(output.proofUrlFetch, {
+            const opts = {
                 headers: {
                     Accept: 'application/json'
                 },
                 credentials: 'omit'
-            });
+            };
+            // Get user
+            response = await fetch(output.proofUrlFetch, opts);
             if (!response.ok) {
                 throw new Error('Response failed: ' + response.status);
             }
             json = await response.json();
-            let project = json.find(proj => proj.web_url === url);
+            const user = json.find(user => user.username === match[2]);
+            if (!user) {
+                throw new Error('No user with username ' + match[2]);
+            }
+            // Get project
+            output.proofUrlFetch = `https://gitlab.com/api/v4/users/${user.id}/projects`;
+            response = await fetch(output.proofUrlFetch, opts);
+            if (!response.ok) {
+                throw new Error('Response failed: ' + response.status);
+            }
+            json = await response.json();
+            const project = json.find(proj => proj.path === 'gitlab_proof');
             if (!project) {
                 throw new Error('No project at ' + url);
             }
