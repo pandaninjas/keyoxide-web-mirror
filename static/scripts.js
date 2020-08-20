@@ -616,6 +616,50 @@ async function verifyProof(url, fingerprint) {
             return output;
         }
     }
+    // GitLab
+    if (/\/gitlab_proof$/.test(url)) {
+        output.type = "gitlab";
+        match = url.match(/https:\/\/(.*)\/(.*)\/gitlab_proof/);
+        output.display = match[2];
+        output.url = `https://${match[1]}/${match[2]}`;
+        output.proofUrlFetch = `https://${match[1]}/api/v4/users?username=${match[2]}`;
+        try {
+            const opts = {
+                headers: {
+                    Accept: 'application/json'
+                },
+                credentials: 'omit'
+            };
+            // Get user
+            response = await fetch(output.proofUrlFetch, opts);
+            if (!response.ok) {
+                throw new Error('Response failed: ' + response.status);
+            }
+            json = await response.json();
+            const user = json.find(user => user.username === match[2]);
+            if (!user) {
+                throw new Error('No user with username ' + match[2]);
+            }
+            // Get project
+            output.proofUrlFetch = `https://${match[1]}/api/v4/users/${user.id}/projects`;
+            response = await fetch(output.proofUrlFetch, opts);
+            if (!response.ok) {
+                throw new Error('Response failed: ' + response.status);
+            }
+            json = await response.json();
+            const project = json.find(proj => proj.path === 'gitlab_proof');
+            if (!project) {
+                throw new Error('No project at ' + url);
+            }
+            reVerify = new RegExp(`[Verifying my OpenPGP key: openpgp4fpr:${fingerprint}]`, 'i');
+            if (reVerify.test(project.descroption)) {
+                output.isVerified = true;
+            }
+        } catch (e) {
+        } finally {
+            return output;
+        }
+    }
     // Lobsters
     if (/^https:\/\/lobste.rs/.test(url)) {
         output.type = "lobsters";
