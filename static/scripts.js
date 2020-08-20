@@ -248,9 +248,17 @@ async function displayProfile(opts) {
     let userName = userData.name ? userData.name : userData.email;
     let userMail = userData.email ? userData.email : null;
 
+    let imgUri = null;
+    keyData.publicKey.users.forEach((user, i) => {
+    });
+
     let notations = [], notationsRaw = [];
     for (var i = 0; i < keyData.publicKey.users.length; i++) {
         notationsRaw = notationsRaw.concat(keyData.publicKey.users[i].selfCertifications[0].notations);
+
+        if (keyData.publicKey.users[i].userAttribute != null && keyData.publicKey.users[i].userAttribute.attributes[0][0] === String.fromCharCode(1)) {
+            imgUri = "data:image/jpeg;base64," + btoa(keyData.publicKey.users[i].userAttribute.attributes[0].substring(17));
+        }
     }
     notationsRaw.forEach((item, i) => {
         if (item[0] == "proof@metacode.biz") {
@@ -305,7 +313,11 @@ async function displayProfile(opts) {
     document.body.querySelector('#profileName').innerHTML = userName;
     document.body.querySelector('#profileAvatar').style = "";
     const profileHash = openpgp.util.str_to_hex(openpgp.util.Uint8Array_to_str(await openpgp.crypto.hash.md5(openpgp.util.str_to_Uint8Array(userData.email))));
-    document.body.querySelector('#profileAvatar').src = `https://www.gravatar.com/avatar/${profileHash}?s=128&d=mm`;
+    if (imgUri) {
+        document.body.querySelector('#profileAvatar').src = imgUri;
+    } else {
+        document.body.querySelector('#profileAvatar').src = `https://www.gravatar.com/avatar/${profileHash}?s=128&d=mm`;
+    }
     document.title = `${userName} - Keyoxide`;
 
     // Generate feedback
