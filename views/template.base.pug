@@ -20,6 +20,10 @@ main.container
   block content
 
   footer
+    if settings.onion_url
+      p
+        | This website is available via Tor : 
+        a(href=`${settings.onion_url}`) #{settings.onion_url}
     p
       | Keyoxide 
       a(href="https://codeberg.org/keyoxide/web/releases")= settings.keyoxide_version
