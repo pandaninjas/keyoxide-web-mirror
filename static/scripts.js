@@ -484,6 +484,7 @@ async function verifyProof(url, fingerprint) {
         output.url = `https://twitter.com/${match[1]}`;
         output.proofUrlFetch = `/server/verify/twitter
 ?tweetId=${encodeURIComponent(match[2])}
+&account=${encodeURIComponent(match[1])}
 &fingerprint=${fingerprint}`;
         try {
             response = await fetch(output.proofUrlFetch);

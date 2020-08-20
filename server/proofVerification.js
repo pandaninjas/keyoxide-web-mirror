@@ -71,7 +71,11 @@ const Twitter = async (params) => {
 
     let twitter_api_auth = process.env.TWITTER_API_AUTH;
     if (!twitter_api_auth) {
-        res.errors.push("No Twitter API auth token provided");
+        let proofUrl = `https://mobile.twitter.com/${res.params.account}/status/${res.params.tweetId}`;
+        let re = new RegExp(`[Verifying my OpenPGP key: openpgp4fpr:${res.params.fingerprint}]`, "gi");
+        const get = bent('GET');
+        const obj = await get(proofUrl);
+        res.isVerified = re.test(obj.data);
         return res;
     }
 
