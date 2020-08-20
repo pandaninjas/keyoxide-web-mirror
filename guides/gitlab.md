@@ -6,9 +6,9 @@ Let's add a decentralized GitLab proof to your OpenPGP keys. This will also work
 
 ## Post a GitLab proof message
 
-Log in to [gitlab.com](https://gitlab.com) or some other GitLab instance and click on **New project**.
+Log in to [gitlab.com](https://gitlab.com) or any other GitLab instance and click on **New project**.
 
-Set the project name to anything you want.
+Set the project name to a name of your choosing.
 
 Set the project slug to **gitlab_proof**.
 
@@ -38,7 +38,7 @@ Save the key:
 
 `save`
 
-Upload the key to WKD or use the following command to upload the key to [key.openpgp.org](https://keys.openpgp.org) (make sure to replace FINGERPRINT):
+Upload the key to WKD or use the following command to upload the key to [keys.openpgp.org](https://keys.openpgp.org) (make sure to replace FINGERPRINT):
 
 `gpg --keyserver hkps://keys.openpgp.org --send-keys FINGERPRINT`
 
