@@ -601,6 +601,32 @@ async function verifyProof(url, fingerprint) {
             return output;
         }
     }
+    // Gitea
+    if (/\/gitea_proof$/.test(url)) {
+        output.type = "gitea";
+        match = url.match(/https:\/\/(.*)\/(.*)\/gitea_proof/);
+        output.display = match[2];
+        output.url = `https://${match[1]}/${match[2]}`;
+        output.proofUrl = `https://${match[1]}/api/v1/repos/${match[2]}/gitea_proof`;
+        output.proofUrlFetch = `/server/verify/proxy
+?url=${encodeURIComponent(output.proofUrl)}
+&fingerprint=${fingerprint}
+&checkRelation=eq
+&checkPath=description
+&checkClaimFormat=message`;
+        output.proofUrl = url; // Actually set the proof URL to something user-friendly
+        try {
+            response = await fetch(output.proofUrlFetch);
+            if (!response.ok) {
+                throw new Error('Response failed: ' + response.status);
+            }
+            json = await response.json();
+            output.isVerified = json.isVerified;
+        } catch (e) {
+        } finally {
+            return output;
+        }
+    }
     // Github
     if (/^https:\/\/gist.github.com/.test(url)) {
         output.type = "github";
@@ -664,7 +690,7 @@ async function verifyProof(url, fingerprint) {
                 throw new Error('No project at ' + url);
             }
             reVerify = new RegExp(`[Verifying my OpenPGP key: openpgp4fpr:${fingerprint}]`, 'i');
-            if (reVerify.test(project.descroption)) {
+            if (reVerify.test(project.description)) {
                 output.isVerified = true;
             }
         } catch (e) {
