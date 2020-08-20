@@ -18,6 +18,12 @@ Set the project description to (make sure to replace FINGERPRINT):
 [Verifying my OpenPGP key: openpgp4fpr:FINGERPRINT]
 ```
 
+Optional: edit the README.md to this:
+
+```
+This is an OpenPGP proof that connects my OpenPGP key to this GitLab account. For details check out https://keyoxide.org/guides/openpgp-proofs
+```
+
 After creating the project, copy the link to the project.
 
 ## Update the PGP key
