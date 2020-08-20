@@ -68,6 +68,8 @@ footer {
     color: #777;
     margin: 64px 0;
     padding: 0 32px;
+    font-size: 0.9em;
+    overflow-wrap: break-word;
 }
 footer a {
     color: #777;
