@@ -7,6 +7,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 ### Added
 - Add environment variable to set Onion-Location header
+- Support images embedded in keys
 ### Fixed
 - Fix env template DOMAIN name
 - Fix non-updating guide titles
