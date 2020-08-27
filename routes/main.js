@@ -64,7 +64,7 @@ router.get('/guides/:guideId', (req, res) => {
     });
 
     let content = md.render(data, env);
-    res.render(`guide`, { title: `${env.title} - Keyoxide`, content: content })
+    res.render(`basic`, { title: `${env.title} - Keyoxide`, content: content });
 });
 
 module.exports = router;
