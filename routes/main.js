@@ -47,12 +47,21 @@ router.get('/', (req, res) => {
     res.render('index')
 });
 
+router.get('/getting-started', (req, res) => {
+    const env = {};
+
+    let data = fs.readFileSync(`./content/getting-started.md`, "utf8");
+
+    let content = md.render(data, env);
+    res.render(`basic`, { title: `Getting started - Keyoxide`, content: content });
+});
+
 router.get('/faq', (req, res) => {
-    res.render('faq');
+    res.render('faq', { title: `Frequently Asked Questions - Keyoxide` });
 });
 
 router.get('/guides', (req, res) => {
-    res.render('guides');
+    res.render('guides', { title: `Guides - Keyoxide` });
 });
 
 router.get('/guides/:guideId', (req, res) => {
