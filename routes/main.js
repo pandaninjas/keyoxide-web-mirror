@@ -58,7 +58,7 @@ router.get('/guides', (req, res) => {
 router.get('/guides/:guideId', (req, res) => {
     const env = {};
 
-    let data = fs.readFileSync(`./guides/${req.params.guideId}.md`, "utf8", (err, data) => {
+    let data = fs.readFileSync(`./content/guides/${req.params.guideId}.md`, "utf8", (err, data) => {
         if (err) throw err;
         return data;
     });
