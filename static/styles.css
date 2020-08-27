@@ -162,6 +162,9 @@ a {
 a.bigBtn {
     margin-right: 8px;
 }
+a.header-anchor {
+    text-decoration: none;
+}
 ul {
     list-style: "-  ";
 }

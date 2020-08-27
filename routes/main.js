@@ -31,7 +31,7 @@ const router = require('express').Router();
 const md = require('markdown-it')({typographer: true});
 const fs = require('fs');
 
-md.use(require("markdown-it-anchor"));
+md.use(require("markdown-it-anchor"), { "level": 2, "permalink": true, "permalinkClass": 'header-anchor', "permalinkSymbol": '¶', "permalinkBefore": false });
 md.use(require("markdown-it-table-of-contents"), { "includeLevel": [2, 3], "listType": "ol" });
 md.use(require('markdown-it-title'));
 
