@@ -66,7 +66,7 @@ Alternative services may ask you for your private keys so that they can offer ad
 
 ## Where is the app?
 
-There is no app yet. This is planned for the near-future.
+There is no app yet. This is on the [roadmap](#what-is-on-the-roadmap%3F).
 
 ## PGP must die!
 
