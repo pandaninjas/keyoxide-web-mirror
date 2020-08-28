@@ -49,7 +49,6 @@ router.get('/', (req, res) => {
 
 router.get('/getting-started', (req, res) => {
     const env = {};
-
     let data = fs.readFileSync(`./content/getting-started.md`, "utf8");
 
     let content = md.render(data, env);
@@ -57,7 +56,12 @@ router.get('/getting-started', (req, res) => {
 });
 
 router.get('/faq', (req, res) => {
-    res.render('faq', { title: `Frequently Asked Questions - Keyoxide` });
+    const env = {};
+    let data = fs.readFileSync(`./content/faq.md`, "utf8");
+    data = data.replace('${domain}', req.app.get('domain'));
+
+    let content = md.render(data, env);
+    res.render(`basic`, { title: `Frequently Asked Questions - Keyoxide`, content: content });
 });
 
 router.get('/guides', (req, res) => {
@@ -66,7 +70,6 @@ router.get('/guides', (req, res) => {
 
 router.get('/guides/:guideId', (req, res) => {
     const env = {};
-
     let data = fs.readFileSync(`./content/guides/${req.params.guideId}.md`, "utf8", (err, data) => {
         if (err) throw err;
         return data;
