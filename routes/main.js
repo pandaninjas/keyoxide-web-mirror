@@ -35,7 +35,6 @@ md.use(require("markdown-it-anchor"), { "level": 2, "permalink": true, "permalin
 md.use(require("markdown-it-table-of-contents"), { "includeLevel": [2, 3], "listType": "ol" });
 md.use(require('markdown-it-title'));
 
-
 if (process.env.ONION_URL) {
     router.get('/*', (req, res, next) => {
         res.header('Onion-Location', process.env.ONION_URL);
@@ -44,27 +43,23 @@ if (process.env.ONION_URL) {
 }
 
 router.get('/', (req, res) => {
-    res.render('index')
+    res.render('index');
 });
 
 router.get('/getting-started', (req, res) => {
-    const env = {};
-    let data = fs.readFileSync(`./content/getting-started.md`, "utf8");
-
-    let content = md.render(data, env);
+    let rawContent = fs.readFileSync(`./content/getting-started.md`, "utf8");
+    const content = md.render(rawContent);
     res.render(`basic`, { title: `Getting started - Keyoxide`, content: content });
 });
 
 router.get('/faq', (req, res) => {
-    const mdFAQ = require('markdown-it')({typographer: true});
-    mdFAQ.use(require("markdown-it-anchor"), { "level": 2, "permalink": true, "permalinkClass": 'header-anchor', "permalinkSymbol": '¶', "permalinkBefore": false });
-    mdFAQ.use(require("markdown-it-table-of-contents"), { "includeLevel": [2], "listType": "ul" });
+    const mdAlt = require('markdown-it')({typographer: true});
+    mdAlt.use(require("markdown-it-anchor"), { "level": 2, "permalink": true, "permalinkClass": 'header-anchor', "permalinkSymbol": '¶', "permalinkBefore": false });
+    mdAlt.use(require("markdown-it-table-of-contents"), { "includeLevel": [2], "listType": "ul" });
 
-    const env = {};
-    let data = fs.readFileSync(`./content/faq.md`, "utf8");
-    data = data.replace('${domain}', req.app.get('domain'));
-
-    let content = mdFAQ.render(data, env);
+    let rawContent = fs.readFileSync(`./content/faq.md`, "utf8");
+    rawContent = rawContent.replace('${domain}', req.app.get('domain'));
+    const content = mdAlt.render(rawContent);
     res.render(`basic`, { title: `Frequently Asked Questions - Keyoxide`, content: content });
 });
 
@@ -73,13 +68,11 @@ router.get('/guides', (req, res) => {
 });
 
 router.get('/guides/:guideId', (req, res) => {
-    const env = {};
-    let data = fs.readFileSync(`./content/guides/${req.params.guideId}.md`, "utf8", (err, data) => {
+    let rawContent = fs.readFileSync(`./content/guides/${req.params.guideId}.md`, "utf8", (err, data) => {
         if (err) throw err;
         return data;
     });
-
-    let content = md.render(data, env);
+    const content = md.render(rawContent);
     res.render(`basic`, { title: `${env.title} - Keyoxide`, content: content });
 });
 
