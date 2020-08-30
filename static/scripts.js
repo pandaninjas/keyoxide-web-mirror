@@ -1205,22 +1205,27 @@ if (elUtilQRFP) {
         evt.preventDefault();
     }
 
-    const qrcode = new QRCode("qrcode", {
-        text: "",
+    const qrTarget = document.getElementById('qrcode');
+    const qrContext = qrTarget.getContext('2d');
+    const qrOpts = {
+        errorCorrectionLevel: 'H',
+        margin: 1,
         width: 256,
-        height: 256,
-        colorDark : "#000000",
-        colorLight : "#ffffff",
-        correctLevel : QRCode.CorrectLevel.H
-    });
+        height: 256
+    };
 
     const elInput = document.body.querySelector("#input");
 
     elInput.addEventListener("input", async function(evt) {
         if (evt.target.value) {
-            qrcode.makeCode(`OPENPGP4FPR:${evt.target.value.toUpperCase()}`);
+            QRCode.toCanvas(qrTarget, evt.target.value, qrOpts, function (error) {
+                if (error) {
+                    qrContext.clearRect(0, 0, qrTarget.width, qrTarget.height);
+                    console.error(error);
+                }
+            });
         } else {
-            qrcode.clear();
+            qrContext.clearRect(0, 0, qrTarget.width, qrTarget.height);
         }
     });
 
@@ -1232,23 +1237,31 @@ if (elUtilQR) {
         evt.preventDefault();
     }
 
-    const qrcode = new QRCode("qrcode", {
-        text: "",
+    const qrTarget = document.getElementById('qrcode');
+    const qrContext = qrTarget.getContext('2d');
+    const qrOpts = {
+        errorCorrectionLevel: 'L',
+        margin: 1,
         width: 256,
-        height: 256,
-        colorDark : "#000000",
-        colorLight : "#ffffff",
-        correctLevel : QRCode.CorrectLevel.L
-    });
+        height: 256
+    };
 
     const elInput = document.body.querySelector("#input");
 
     if (elInput.innerText) {
         elInput.innerText = decodeURIComponent(elInput.innerText);
-        qrcode.makeCode(`${elInput.innerText}`);
-        document.body.querySelector("#qrcode--altLink").href = elInput.innerText;
+
+        QRCode.toCanvas(qrTarget, elInput.innerText, qrOpts, function (error) {
+            if (error) {
+                document.body.querySelector("#qrcode--altLink").href = "#";
+                qrContext.clearRect(0, 0, qrTarget.width, qrTarget.height);
+                console.error(error);
+            } else {
+                document.body.querySelector("#qrcode--altLink").href = elInput.innerText;
+            }
+        });
     } else {
-        qrcode.clear();
+        qrContext.clearRect(0, 0, qrTarget.width, qrTarget.height);
     }
 }
 

@@ -351,6 +351,8 @@ a.proofQR:hover {
     display: flex;
     justify-content: center;
     max-width: 100%;
+    width: auto !important;
+    height: auto !important;
     margin: 32px auto;
 }
 

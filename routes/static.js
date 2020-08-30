@@ -33,6 +33,16 @@ const router = require('express').Router();
 router.get('/openpgp.min.js', function(req, res) {
     res.sendFile(`node_modules/openpgp/dist/openpgp.min.js`, { root: `${__dirname}/../` })
 });
+router.get('/openpgp.min.js.map', function(req, res) {
+    res.sendFile(`node_modules/openpgp/dist/openpgp.min.js.map`, { root: `${__dirname}/../` })
+});
+
+router.get('/qrcode.min.js', function(req, res) {
+    res.sendFile(`node_modules/qrcode/build/qrcode.min.js`, { root: `${__dirname}/../` })
+});
+router.get('/qrcode.min.js.map', function(req, res) {
+    res.sendFile(`node_modules/qrcode/build/qrcode.min.js.map`, { root: `${__dirname}/../` })
+});
 
 router.use('/', express.static('static'));
 
