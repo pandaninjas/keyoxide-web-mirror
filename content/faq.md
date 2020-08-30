@@ -58,6 +58,17 @@ You can't and that is the whole point of [Keyoxide](/). Your data and your keys 
 
 That, we can help you with! Just append the fingerprint of your keypair to the domain like so: [https://${domain}/9f0048ac0b23301e1f77e994909f6bd6f80f485d](/9f0048ac0b23301e1f77e994909f6bd6f80f485d) to generate a profile page.
 
+## Where is my profile avatar?
+
+There are currently two methods of getting an avatar displayed on your profile page:
+
+1. automatically fetched from Gravatar using your primary email address;
+2. extracted from the public key.
+
+While the first method is the simplest, the slightly-more-complicated second method provides an additional layer of privacy protection by not having to upload your profile picture to a 3rd party.
+
+One caveat: [keys.openpgp.org](https://keys.openpgp.org) strips images from public keys. So the second method will only work in conjunction with [Web Key Directory](/guides/web-key-directory).
+
 ## Where do I upload my private key?
 
 **DON'T**! We don't want it!
