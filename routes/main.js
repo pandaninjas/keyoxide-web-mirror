@@ -56,11 +56,15 @@ router.get('/getting-started', (req, res) => {
 });
 
 router.get('/faq', (req, res) => {
+    const mdFAQ = require('markdown-it')({typographer: true});
+    mdFAQ.use(require("markdown-it-anchor"), { "level": 2, "permalink": true, "permalinkClass": 'header-anchor', "permalinkSymbol": '¶', "permalinkBefore": false });
+    mdFAQ.use(require("markdown-it-table-of-contents"), { "includeLevel": [2], "listType": "ul" });
+
     const env = {};
     let data = fs.readFileSync(`./content/faq.md`, "utf8");
     data = data.replace('${domain}', req.app.get('domain'));
 
-    let content = md.render(data, env);
+    let content = mdFAQ.render(data, env);
     res.render(`basic`, { title: `Frequently Asked Questions - Keyoxide`, content: content });
 });
 
