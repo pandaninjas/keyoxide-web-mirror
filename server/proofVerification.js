@@ -92,6 +92,7 @@ const Twitter = async (params) => {
 
 const VerifyJsonProof = (data, checkPath, checkClaim, checkRelation) => {
     let isVerified = false;
+    let re;
 
     if (!data) {
         return isVerified;
@@ -101,14 +102,14 @@ const VerifyJsonProof = (data, checkPath, checkClaim, checkRelation) => {
         switch (checkRelation) {
             default:
             case 'contains':
-                let re = new RegExp(checkClaim, "gi");
+                re = new RegExp(checkClaim, "gi");
                 return re.test(data);
                 break;
             case 'eq':
                 return data.toLowerCase() == checkClaim.toLowerCase();
                 break;
             case 'oneOf':
-                let re = new RegExp(checkClaim, "gi");
+                re = new RegExp(checkClaim, "gi");
                 return re.test(data.join("|"));
                 break;
         }
