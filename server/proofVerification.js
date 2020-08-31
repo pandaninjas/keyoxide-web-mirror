@@ -105,10 +105,11 @@ const VerifyJsonProof = (data, checkPath, checkClaim, checkRelation) => {
                 return re.test(data);
                 break;
             case 'eq':
-                return data == checkClaim;
+                return data.toLowerCase() == checkClaim.toLowerCase();
                 break;
             case 'oneOf':
-                return data.includes(checkClaim);
+                let re = new RegExp(checkClaim, "gi");
+                return re.test(data.join("|"));
                 break;
         }
     }
