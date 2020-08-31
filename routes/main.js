@@ -68,11 +68,12 @@ router.get('/guides', (req, res) => {
 });
 
 router.get('/guides/:guideId', (req, res) => {
+    let env = {};
     let rawContent = fs.readFileSync(`./content/guides/${req.params.guideId}.md`, "utf8", (err, data) => {
         if (err) throw err;
         return data;
     });
-    const content = md.render(rawContent);
+    const content = md.render(rawContent, env);
     res.render(`basic`, { title: `${env.title} - Keyoxide`, content: content });
 });
 
