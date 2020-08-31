@@ -6,6 +6,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [2.2.2] - 2020-08-31
+### Fixed
+- Fix missing env variable
+
 ## [2.2.1] - 2020-08-30
 ### Added
 - Add a Getting Started page
