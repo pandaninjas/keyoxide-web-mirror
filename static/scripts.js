@@ -605,7 +605,7 @@ async function verifyProof(url, fingerprint) {
     if (/\/gitea_proof$/.test(url)) {
         output.type = "gitea";
         match = url.match(/https:\/\/(.*)\/(.*)\/gitea_proof/);
-        output.display = match[2];
+        output.display = `${match[2]}@${match[1]}`;
         output.url = `https://${match[1]}/${match[2]}`;
         output.proofUrl = `https://${match[1]}/api/v1/repos/${match[2]}/gitea_proof`;
         output.proofUrlFetch = `/server/verify/proxy
@@ -658,7 +658,7 @@ async function verifyProof(url, fingerprint) {
     if (/\/gitlab_proof$/.test(url)) {
         output.type = "gitlab";
         match = url.match(/https:\/\/(.*)\/(.*)\/gitlab_proof/);
-        output.display = match[2];
+        output.display = `${match[2]}@${match[1]}`;
         output.url = `https://${match[1]}/${match[2]}`;
         output.proofUrlFetch = `https://${match[1]}/api/v4/users?username=${match[2]}`;
         try {
