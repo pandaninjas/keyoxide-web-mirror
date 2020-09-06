@@ -738,7 +738,8 @@ async function verifyProof(url, fingerprint) {
         if ('attachment' in json) {
             match = url.match(/https:\/\/(.*)\/@(.*)/);
             json.attachment.forEach((item, i) => {
-                if (item.value.toUpperCase() === fingerprint.toUpperCase()) {
+                reVerify = new RegExp(fingerprint, 'i');
+                if (reVerify.test(item.value)) {
                     output.type = "fediverse";
                     output.display = `@${json.preferredUsername}@${[match[1]]}`;
                     output.proofUrlFetch = json.url;
