@@ -249,8 +249,6 @@ async function displayProfile(opts) {
     let userMail = userData.email ? userData.email : null;
 
     let imgUri = null;
-    keyData.publicKey.users.forEach((user, i) => {
-    });
 
     let notations = [], notationsRaw = [];
     for (var i = 0; i < keyData.publicKey.users.length; i++) {
