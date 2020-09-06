@@ -5,8 +5,11 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
+
+## [2.2.5] - 2020-09-06
 ### Changed
 - Add domain to proof displays for gitea and gitlab
+- Allow Mastodon backlinks to be URLs containing fingerprint
 
 ## [2.2.4] - 2020-08-31
 ### Fixed
