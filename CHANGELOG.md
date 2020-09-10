@@ -6,6 +6,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [2.2.6] - 2020-09-10
+### Fixed
+- Fix handling of keys without selfCertifications
+
 ## [2.2.5] - 2020-09-06
 ### Changed
 - Add domain to proof displays for gitea and gitlab
