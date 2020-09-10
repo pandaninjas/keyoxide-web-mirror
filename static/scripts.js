@@ -252,6 +252,8 @@ async function displayProfile(opts) {
 
     let notations = [], notationsRaw = [];
     for (var i = 0; i < keyData.publicKey.users.length; i++) {
+        if (keyData.publicKey.users[i].selfCertifications.length == 0) { continue; }
+
         notationsRaw = notationsRaw.concat(keyData.publicKey.users[i].selfCertifications[0].notations);
 
         if (keyData.publicKey.users[i].userAttribute != null && keyData.publicKey.users[i].userAttribute.attributes[0][0] === String.fromCharCode(1)) {
