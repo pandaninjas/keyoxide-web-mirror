@@ -6,6 +6,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [2.2.7] - 2020-09-10
+### Fixed
+- Remove newlines before checking equality
+
 ## [2.2.6] - 2020-09-10
 ### Fixed
 - Fix handling of keys without selfCertifications

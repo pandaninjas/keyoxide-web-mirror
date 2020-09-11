@@ -106,7 +106,7 @@ const VerifyJsonProof = (data, checkPath, checkClaim, checkRelation) => {
                 return re.test(data);
                 break;
             case 'eq':
-                return data.toLowerCase() == checkClaim.toLowerCase();
+                return data.replace(/\r?\n|\r/, '').toLowerCase() == checkClaim.toLowerCase();
                 break;
             case 'oneOf':
                 re = new RegExp(checkClaim, "gi");
