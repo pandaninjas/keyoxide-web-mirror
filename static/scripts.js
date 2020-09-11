@@ -491,7 +491,7 @@ async function verifyProof(url, fingerprint) {
     // Twitter
     if (/^https:\/\/twitter.com/.test(url)) {
         output.type = "twitter";
-        match = url.match(/https:\/\/twitter\.com\/(.*)\/status\/(.*)/);
+        match = url.match(/https:\/\/twitter\.com\/(.*)\/status\/([0-9]*)(?:\?.*)?/);
         output.display = `@${match[1]}`;
         output.url = `https://twitter.com/${match[1]}`;
         output.proofUrlFetch = `/server/verify/twitter
