@@ -6,6 +6,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [2.2.8] - 2020-09-11
+### Fixed
+- Fix handling of Twitter URLs with parameters
+
 ## [2.2.7] - 2020-09-10
 ### Fixed
 - Remove newlines before checking equality
