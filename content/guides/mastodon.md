@@ -8,8 +8,8 @@ Let's add a decentralized Mastodon proof to your OpenPGP keys.
 
 Log in to your Mastodon instance and click on **Edit profile**.
 
-Add a new item under **Profile metadata** with the label **OpenPGP** and your PGP fingerprint as the content,
-or with the label **Keyoxide** and your keyoxide profile url as the content.
+Add a new item under **Profile metadata** with the label **OpenPGP** and your PGP fingerprint as the content, or with the label **Keyoxide** and your Keyoxide profile URL as the content.
+
 ## Update the PGP key
 
 First, edit the key (make sure to replace FINGERPRINT):
