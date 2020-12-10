@@ -30,6 +30,12 @@ more information on this, and how to apply and follow the GNU AGPL, see <https:/
 const express = require('express');
 const router = require('express').Router();
 
+router.get('/doip.min.js', function(req, res) {
+    res.sendFile(`node_modules/doipjs/dist/doip.min.js`, { root: `${__dirname}/../` })
+});
+router.get('/doip.js', function(req, res) {
+    res.sendFile(`node_modules/doipjs/dist/doip.js`, { root: `${__dirname}/../` })
+});
 router.get('/openpgp.min.js', function(req, res) {
     res.sendFile(`node_modules/openpgp/dist/openpgp.min.js`, { root: `${__dirname}/../` })
 });
