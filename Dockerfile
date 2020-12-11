@@ -1,15 +1,9 @@
-FROM node:12
-
-# Create app directory
-WORKDIR /usr/src/app
-
-# Install app dependencies
-COPY package*.json ./
-
-RUN npm install
-
-# Bundle app source
-COPY . .
-
+FROM node:14
+RUN mkdir /app
+WORKDIR /app
+COPY package.json /app
+COPY yarn.lock /app
+RUN yarn --production --pure-lockfile
+COPY . /app
 EXPOSE 3000
-CMD [ "node", "index.js" ]
+CMD yarn start
