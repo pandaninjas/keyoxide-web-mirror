@@ -231,11 +231,13 @@ async function verifyProofs(opts) {
 }
 
 async function displayProfile(opts) {
-    let keyData, keyLink, feedback = "", notation, isVerified, verifications = [];
+    let keyData, keyLink, fingerprint, feedback = "", notation, isVerified, verifications = [];
     let icon_qr = '<svg style="width:24px;height:24px" viewBox="0 0 24 24"><path fill="#ffffff" d="M3,11H5V13H3V11M11,5H13V9H11V5M9,11H13V15H11V13H9V11M15,11H17V13H19V11H21V13H19V15H21V19H19V21H17V19H13V21H11V17H15V15H17V13H15V11M19,19V15H17V19H19M15,3H21V9H15V3M17,5V7H19V5H17M3,3H9V9H3V3M5,5V7H7V5H5M3,15H9V21H3V15M5,17V19H7V17H5Z" /></svg>';
 
     try {
-        keyData = await fetchKeys(opts);
+        keyData = await doip.keys.fetch.uri(`${opts.mode}:${opts.input}`);
+        fingerprint = keyData.keyPacket.getFingerprint();
+        // keyData = await fetchKeys(opts);
     } catch (e) {
         feedback += `<p>There was a problem fetching the keys.</p>`;
         feedback += `<code>${e}</code>`;
@@ -244,28 +246,12 @@ async function displayProfile(opts) {
         return;
     }
 
-    let userData = keyData.user.user.userId;
-    let userName = userData.name ? userData.name : userData.email;
-    let userMail = userData.email ? userData.email : null;
+    const userPrimary = await keyData.getPrimaryUser();
+    const userData = userPrimary.user.userId;
+    const userName = userData.name ? userData.name : userData.email;
+    const userMail = userData.email ? userData.email : null;
 
     let imgUri = null;
-
-    let notations = [], notationsRaw = [];
-    for (var i = 0; i < keyData.publicKey.users.length; i++) {
-        if (keyData.publicKey.users[i].selfCertifications.length == 0) { continue; }
-
-        notationsRaw = notationsRaw.concat(keyData.publicKey.users[i].selfCertifications[0].notations);
-
-        if (keyData.publicKey.users[i].userAttribute != null && keyData.publicKey.users[i].userAttribute.attributes[0][0] === String.fromCharCode(1)) {
-            imgUri = "data:image/jpeg;base64," + btoa(keyData.publicKey.users[i].userAttribute.attributes[0].substring(17));
-        }
-    }
-    notationsRaw.forEach((item, i) => {
-        if (item[0] == "proof@metacode.biz") {
-            notations.push(item[1]);
-        }
-    });
-    notations = Array.from(new Set(notations)); // Deduplicate (ES6)
 
     // Determine WKD or HKP link
     switch (opts.mode) {
@@ -325,49 +311,21 @@ async function displayProfile(opts) {
     feedback += `<div class="profileDataItem__label"></div>`;
     feedback += `<div class="profileDataItem__value">general information</div>`;
     feedback += `</div>`;
-    if (userMail) {
-      feedback += `<div class="profileDataItem">`;
-      feedback += `<div class="profileDataItem__label">primary email</div>`;
-      feedback += `<div class="profileDataItem__value"><a href="mailto:${userMail}">${userMail}</a></div>`;
-      feedback += `</div>`;
-    }
-    for (var i = 0; i < keyData.publicKey.users.length; i++) {
-        if (keyData.publicKey.users[i].userId && 'email' in keyData.publicKey.users[i].userId && keyData.publicKey.users[i].userId.email && keyData.publicKey.users[i].revocationSignatures.length == 0 && keyData.publicKey.users[i].userId.email != userMail) {
-            feedback += `<div class="profileDataItem">`;
-            feedback += `<div class="profileDataItem__label">email</div>`;
-            feedback += `<div class="profileDataItem__value"><a href="mailto:${keyData.publicKey.users[i].userId.email}">${keyData.publicKey.users[i].userId.email}</a></div>`;
-            feedback += `</div>`;
-        }
-    }
+
     feedback += `<div class="profileDataItem">`;
     feedback += `<div class="profileDataItem__label">fingerprint</div>`;
-    feedback += `<div class="profileDataItem__value"><a href="${keyLink}">${keyData.fingerprint}</a>`;
+    feedback += `<div class="profileDataItem__value"><a href="${keyLink}">${fingerprint}</a>`;
     if (opts.mode == "hkp") {
-        feedback += `<a class="proofQR green" href="/util/qr/${encodeURIComponent(`OPENPGP4FPR:${keyData.fingerprint.toUpperCase()}`)}" target="_blank" title="QR Code">${icon_qr}</a>`;
+        feedback += `<a class="proofQR green" href="/util/qr/${encodeURIComponent(`OPENPGP4FPR:${fingerprint.toUpperCase()}`)}" target="_blank" title="QR Code">${icon_qr}</a>`;
     }
     feedback += `</div></div>`;
 
-    // if (opts.mode == "hkp") {
-    //     feedback += `<div class="profileDataItem">`;
-    //     feedback += `<div class="profileDataItem__label">qrcode</div>`;
-    //     feedback += `<div class="profileDataItem__value"><a class="green" href="/util/qr/${encodeURIComponent(`OPENPGP4FPR:${keyData.fingerprint.toUpperCase()}`)}" target="_blank">fingerprint</a></div>`;
-    //     feedback += `</div>`;
-    // }
-
-    if (notations.length > 0) {
-        feedback += `<div class="profileDataItem profileDataItem--separator profileDataItem--noLabel">`;
-        feedback += `<div class="profileDataItem__label"></div>`;
-        feedback += `<div class="profileDataItem__value">proofs</div>`;
-        feedback += `</div>`;
-
-        feedback += `<div id="profileProofs">`;
-        feedback += `<div class="profileDataItem  profileDataItem--noLabel">`;
-        feedback += `<div class="profileDataItem__label"></div>`;
-        feedback += `<div class="profileDataItem__value">Verifying proofs&hellip;</div>`;
-        feedback += `</div>`;
-        feedback += `</div>`;
-    }
-
+    feedback += `<div id="profileProofs">`;
+    feedback += `<div class="profileDataItem profileDataItem--noLabel">`;
+    feedback += `<div class="profileDataItem__label"></div>`;
+    feedback += `<div class="profileDataItem__value">Verifying proofs&hellip;</div>`;
+    feedback += `</div>`;
+    feedback += `</div>`;
     feedback += `<div class="profileDataItem profileDataItem--separator profileDataItem--noLabel">`;
     feedback += `<div class="profileDataItem__label"></div>`;
     feedback += `<div class="profileDataItem__value">actions</div>`;
@@ -384,48 +342,151 @@ async function displayProfile(opts) {
     // Display feedback
     document.body.querySelector('#profileData').innerHTML = feedback;
 
-    // Exit if no notations are available
-    if (notations.length == 0) {
+    try {
+        verifications = await doip.claims.verify(keyData, fingerprint, {'proxyPolicy':'adaptive'})
+    } catch (e) {
+        feedback += `<p>There was a problem verifying the claims.</p>`;
+        feedback += `<code>${e}</code>`;
+        document.body.querySelector('#profileData').innerHTML = feedback;
+        document.body.querySelector('#profileName').innerHTML = "Could not load profile";
         return;
     }
 
-    // Verify identity proofs
-    let proofResult;
-    for (var i = 0; i < notations.length; i++) {
-        notation = notations[i];
-        proofResult = await verifyProof(notation, keyData.fingerprint);
-        if (!proofResult || !proofResult.display) { continue; }
-        verifications.push(proofResult);
+    // Exit if no notations are available
+    if (verifications.length == 0) {
+        return;
     }
-
-    // One-line sorting function (order verifications by type)
-    verifications = verifications.sort((a,b) => (a.type > b.type) ? 1 : ((b.type > a.type) ? -1 : 0));
 
     feedback = "";
-    if (verifications.length > 0) {
-        for (var i = 0; i < verifications.length; i++) {
-            if (!verifications[i].type) { continue; }
-            feedback += `<div class="profileDataItem">`;
-            feedback += `<div class="profileDataItem__label">${verifications[i].type}</div>`;
-            feedback += `<div class="profileDataItem__value">`;
-            feedback += `<a class="proofDisplay" href="${verifications[i].url}"  rel="me">${verifications[i].display}</a>`;
-            if (verifications[i].isVerified) {
-                feedback += `<a class="proofUrl proofUrl--verified" href="${verifications[i].proofUrl}">verified &#10004;</a>`;
-            } else {
-                feedback += `<a class="proofUrl" href="${verifications[i].proofUrl}">unverified</a>`;
+    if (userMail) {
+        verifications.forEach((userId, i) => {
+            if (keyData.users[i].userId.email != userMail) {
+                return;
             }
-            if (verifications[i].isVerified && verifications[i].qr) {
-                feedback += `<a class="proofQR green" href="/util/qr/${encodeURIComponent(verifications[i].qr)}" target="_blank" title="QR Code">${icon_qr}</a>`;
+
+            feedback += `<div class="profileDataItem profileDataItem--separator profileDataItem--noLabel">`;
+            feedback += `<div class="profileDataItem__label"></div>`;
+            // feedback += `<div class="profileDataItem__value"><a href="mailto:${keyData.users[i].userId.email}">${keyData.users[i].userId.email}</a> (primary)</div>`;
+            feedback += `<div class="profileDataItem__value">${keyData.users[i].userId.email} (primary)</div>`;
+            feedback += `</div>`;
+
+            if (userId.length == 0) {
+                feedback += `<div class="profileDataItem  profileDataItem--noLabel">`;
+                feedback += `<div class="profileDataItem__label"></div>`;
+                feedback += `<div class="profileDataItem__value">No claims associated</div>`;
+                feedback += `</div>`;
+                return;
             }
-            feedback += `</div>`;
-            feedback += `</div>`;
-        }
-    } else {
-        feedback += `<div class="profileDataItem  profileDataItem--noLabel">`;
-        feedback += `<div class="profileDataItem__label"></div>`;
-        feedback += `<div class="profileDataItem__value">No proofs found in key</div>`;
-        feedback += `</div>`;
+
+            userId = userId.sort((a,b) => (a.serviceproviderData.serviceprovider.name > b.serviceproviderData.serviceprovider.name) ? 1 : ((b.serviceproviderData.serviceprovider.name > a.serviceproviderData.serviceprovider.name) ? -1 : 0));
+
+            userId.forEach((claim, i) => {
+                const claimData = claim.serviceproviderData;
+                if (!claimData.serviceprovider.name) {
+                    return;
+                }
+                feedback += `<div class="profileDataItem">`;
+                feedback += `<div class="profileDataItem__label">${claimData.serviceprovider.name}</div>`;
+                feedback += `<div class="profileDataItem__value">`;
+                feedback += `<a class="proofDisplay" href="${claimData.profile.uri}"  rel="me">${claimData.profile.display}</a>`;
+                if (claim.isVerified) {
+                    feedback += `<a class="proofUrl proofUrl--verified" href="${claimData.proof.uri}">verified &#10004;</a>`;
+                } else {
+                    feedback += `<a class="proofUrl" href="${claimData.proof.uri}">unverified</a>`;
+                }
+                if (claim.isVerified && claimData.profile.qr) {
+                    feedback += `<a class="proofQR green" href="/util/qr/${encodeURIComponent(claimData.profile.qr)}" target="_blank" title="QR Code">${icon_qr}</a>`;
+                }
+                feedback += `</div>`;
+                feedback += `</div>`;
+            });
+        });
     }
+
+    verifications.forEach((userId, i) => {
+        if (userMail && keyData.users[i].userId.email == userMail) {
+            return;
+        }
+
+        feedback += `<div class="profileDataItem profileDataItem--separator profileDataItem--noLabel">`;
+        feedback += `<div class="profileDataItem__label"></div>`;
+        feedback += `<div class="profileDataItem__value">${keyData.users[i].userId.email}</div>`;
+        feedback += `</div>`;
+
+        if (userId.length == 0) {
+            feedback += `<div class="profileDataItem  profileDataItem--noLabel">`;
+            feedback += `<div class="profileDataItem__label"></div>`;
+            feedback += `<div class="profileDataItem__value">No claims associated</div>`;
+            feedback += `</div>`;
+            return;
+        }
+
+        userId = userId.sort((a,b) => (a.serviceproviderData.serviceprovider.name > b.serviceproviderData.serviceprovider.name) ? 1 : ((b.serviceproviderData.serviceprovider.name > a.serviceproviderData.serviceprovider.name) ? -1 : 0));
+
+        userId.forEach((claim, i) => {
+            const claimData = claim.serviceproviderData;
+            if (!claimData.serviceprovider.name) {
+                return;
+            }
+            feedback += `<div class="profileDataItem">`;
+            feedback += `<div class="profileDataItem__label">${claimData.serviceprovider.name}</div>`;
+            feedback += `<div class="profileDataItem__value">`;
+            feedback += `<a class="proofDisplay" href="${claimData.profile.uri}"  rel="me">${claimData.profile.display}</a>`;
+            if (claim.isVerified) {
+                feedback += `<a class="proofUrl proofUrl--verified" href="${claimData.proof.uri}">verified &#10004;</a>`;
+            } else {
+                feedback += `<a class="proofUrl" href="${claimData.proof.uri}">unverified</a>`;
+            }
+            if (claim.isVerified && claimData.profile.qr) {
+                feedback += `<a class="proofQR green" href="/util/qr/${encodeURIComponent(claimData.profile.qr)}" target="_blank" title="QR Code">${icon_qr}</a>`;
+            }
+            feedback += `</div>`;
+            feedback += `</div>`;
+        });
+    });
+
+      // userId.forEach((claim, i) => {
+      //   feedback += `<div class="profileDataItem">`;
+      //   feedback += `<div class="profileDataItem__label">${verifications[i].type}</div>`;
+      //   feedback += `<div class="profileDataItem__value">`;
+      //   feedback += `<a class="proofDisplay" href="${verifications[i].url}"  rel="me">${verifications[i].display}</a>`;
+      //   if (verifications[i].isVerified) {
+      //       feedback += `<a class="proofUrl proofUrl--verified" href="${verifications[i].proofUrl}">verified &#10004;</a>`;
+      //   } else {
+      //       feedback += `<a class="proofUrl" href="${verifications[i].proofUrl}">unverified</a>`;
+      //   }
+      //   if (verifications[i].isVerified && verifications[i].qr) {
+      //       feedback += `<a class="proofQR green" href="/util/qr/${encodeURIComponent(verifications[i].qr)}" target="_blank" title="QR Code">${icon_qr}</a>`;
+      //   }
+      //   feedback += `</div>`;
+      //   feedback += `</div>`;
+      // });
+
+
+    // if (verifications.length > 0) {
+    //     for (var i = 0; i < verifications.length; i++) {
+    //         if (!verifications[i].type) { continue; }
+    //         feedback += `<div class="profileDataItem">`;
+    //         feedback += `<div class="profileDataItem__label">${verifications[i].type}</div>`;
+    //         feedback += `<div class="profileDataItem__value">`;
+    //         feedback += `<a class="proofDisplay" href="${verifications[i].url}"  rel="me">${verifications[i].display}</a>`;
+    //         if (verifications[i].isVerified) {
+    //             feedback += `<a class="proofUrl proofUrl--verified" href="${verifications[i].proofUrl}">verified &#10004;</a>`;
+    //         } else {
+    //             feedback += `<a class="proofUrl" href="${verifications[i].proofUrl}">unverified</a>`;
+    //         }
+    //         if (verifications[i].isVerified && verifications[i].qr) {
+    //             feedback += `<a class="proofQR green" href="/util/qr/${encodeURIComponent(verifications[i].qr)}" target="_blank" title="QR Code">${icon_qr}</a>`;
+    //         }
+    //         feedback += `</div>`;
+    //         feedback += `</div>`;
+    //     }
+    // } else {
+    //     feedback += `<div class="profileDataItem  profileDataItem--noLabel">`;
+    //     feedback += `<div class="profileDataItem__label"></div>`;
+    //     feedback += `<div class="profileDataItem__value">No proofs found in key</div>`;
+    //     feedback += `</div>`;
+    // }
 
     // Display feedback
     document.body.querySelector('#profileProofs').innerHTML = feedback;
@@ -795,7 +856,7 @@ async function verifyProof(url, fingerprint) {
     } catch (e) {
         console.warn(e);
     }
-    
+
     // Return output without confirmed proof
     return output;
 }
