@@ -445,49 +445,6 @@ async function displayProfile(opts) {
         });
     });
 
-      // userId.forEach((claim, i) => {
-      //   feedback += `<div class="profileDataItem">`;
-      //   feedback += `<div class="profileDataItem__label">${verifications[i].type}</div>`;
-      //   feedback += `<div class="profileDataItem__value">`;
-      //   feedback += `<a class="proofDisplay" href="${verifications[i].url}"  rel="me">${verifications[i].display}</a>`;
-      //   if (verifications[i].isVerified) {
-      //       feedback += `<a class="proofUrl proofUrl--verified" href="${verifications[i].proofUrl}">verified &#10004;</a>`;
-      //   } else {
-      //       feedback += `<a class="proofUrl" href="${verifications[i].proofUrl}">unverified</a>`;
-      //   }
-      //   if (verifications[i].isVerified && verifications[i].qr) {
-      //       feedback += `<a class="proofQR green" href="/util/qr/${encodeURIComponent(verifications[i].qr)}" target="_blank" title="QR Code">${icon_qr}</a>`;
-      //   }
-      //   feedback += `</div>`;
-      //   feedback += `</div>`;
-      // });
-
-
-    // if (verifications.length > 0) {
-    //     for (var i = 0; i < verifications.length; i++) {
-    //         if (!verifications[i].type) { continue; }
-    //         feedback += `<div class="profileDataItem">`;
-    //         feedback += `<div class="profileDataItem__label">${verifications[i].type}</div>`;
-    //         feedback += `<div class="profileDataItem__value">`;
-    //         feedback += `<a class="proofDisplay" href="${verifications[i].url}"  rel="me">${verifications[i].display}</a>`;
-    //         if (verifications[i].isVerified) {
-    //             feedback += `<a class="proofUrl proofUrl--verified" href="${verifications[i].proofUrl}">verified &#10004;</a>`;
-    //         } else {
-    //             feedback += `<a class="proofUrl" href="${verifications[i].proofUrl}">unverified</a>`;
-    //         }
-    //         if (verifications[i].isVerified && verifications[i].qr) {
-    //             feedback += `<a class="proofQR green" href="/util/qr/${encodeURIComponent(verifications[i].qr)}" target="_blank" title="QR Code">${icon_qr}</a>`;
-    //         }
-    //         feedback += `</div>`;
-    //         feedback += `</div>`;
-    //     }
-    // } else {
-    //     feedback += `<div class="profileDataItem  profileDataItem--noLabel">`;
-    //     feedback += `<div class="profileDataItem__label"></div>`;
-    //     feedback += `<div class="profileDataItem__value">No proofs found in key</div>`;
-    //     feedback += `</div>`;
-    // }
-
     // Display feedback
     document.body.querySelector('#profileProofs').innerHTML = feedback;
 }
