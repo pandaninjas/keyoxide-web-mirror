@@ -357,6 +357,8 @@ async function displayProfile(opts) {
         return;
     }
 
+    let primaryClaims
+
     feedback = "";
     if (userMail) {
         verifications.forEach((userId, i) => {
@@ -379,6 +381,8 @@ async function displayProfile(opts) {
             }
 
             userId = userId.sort((a,b) => (a.serviceproviderData.serviceprovider.name > b.serviceproviderData.serviceprovider.name) ? 1 : ((b.serviceproviderData.serviceprovider.name > a.serviceproviderData.serviceprovider.name) ? -1 : 0));
+
+            primaryClaims = userId
 
             userId.forEach((claim, i) => {
                 const claimData = claim.serviceproviderData;
@@ -422,6 +426,14 @@ async function displayProfile(opts) {
         }
 
         userId = userId.sort((a,b) => (a.serviceproviderData.serviceprovider.name > b.serviceproviderData.serviceprovider.name) ? 1 : ((b.serviceproviderData.serviceprovider.name > a.serviceproviderData.serviceprovider.name) ? -1 : 0));
+
+        if (primaryClaims && primaryClaims.toString() == userId.toString()) {
+            feedback += `<div class="profileDataItem  profileDataItem--noLabel">`;
+            feedback += `<div class="profileDataItem__label"></div>`;
+            feedback += `<div class="profileDataItem__value">Identical to primary</div>`;
+            feedback += `</div>`;
+            return;
+        }
 
         userId.forEach((claim, i) => {
             const claimData = claim.serviceproviderData;
