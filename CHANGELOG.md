@@ -8,7 +8,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [2.3.0] - 2020-12-15
 ### Changed
-- Identity claim verifications are now handled
+- Identity claim verifications are now handled by doipjs
 
 ### Fixed
 - Fix Reddit proofs
