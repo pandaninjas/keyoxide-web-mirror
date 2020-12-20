@@ -6,6 +6,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [2.3.1] - 2020-12-20
+### Fixed
+- Handling of claim verifications that timed out
+
 ## [2.3.0] - 2020-12-15
 ### Changed
 - Identity claim verifications are now handled by doipjs
