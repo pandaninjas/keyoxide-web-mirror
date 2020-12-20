@@ -380,6 +380,7 @@ async function displayProfile(opts) {
                 return;
             }
 
+            userId = userId.filter((a) => (a && a.errors.length == 0 && a.serviceproviderData))
             userId = userId.sort((a,b) => (a.serviceproviderData.serviceprovider.name > b.serviceproviderData.serviceprovider.name) ? 1 : ((b.serviceproviderData.serviceprovider.name > a.serviceproviderData.serviceprovider.name) ? -1 : 0));
 
             primaryClaims = userId
@@ -425,6 +426,7 @@ async function displayProfile(opts) {
             return;
         }
 
+        userId = userId.filter((a) => (a && a.errors.length == 0 && a.serviceproviderData))
         userId = userId.sort((a,b) => (a.serviceproviderData.serviceprovider.name > b.serviceproviderData.serviceprovider.name) ? 1 : ((b.serviceproviderData.serviceprovider.name > a.serviceproviderData.serviceprovider.name) ? -1 : 0));
 
         if (primaryClaims && primaryClaims.toString() == userId.toString()) {
