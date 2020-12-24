@@ -282,12 +282,12 @@ async function displayProfile(opts) {
                 }
             }
             if (!keyLink) {
-                keyLink = `https://keys.openpgp.org/pks/lookup?op=get&options=mr&search=0x${keyData.fingerprint}`;
+                keyLink = `https://keys.openpgp.org/pks/lookup?op=get&options=mr&search=0x${fingerprint}`;
             }
             break;
 
         case "hkp":
-            keyLink = `https://keys.openpgp.org/pks/lookup?op=get&options=mr&search=0x${keyData.fingerprint}`;
+            keyLink = `https://keys.openpgp.org/pks/lookup?op=get&options=mr&search=0x${fingerprint}`;
             break;
 
         case "keybase":
