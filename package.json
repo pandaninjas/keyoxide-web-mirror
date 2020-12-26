@@ -1,11 +1,11 @@
 {
   "name": "keyoxide-web",
-  "version": "2.3.2",
+  "version": "2.3.3",
   "description": "A modern, secure and privacy-friendly platform to establish your decentralized online identity",
   "main": "index.js",
   "dependencies": {
     "bent": "^7.3.12",
-    "doipjs": "^0.8.1",
+    "doipjs": "^0.8.3",
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
     "express-validator": "^6.8.0",
