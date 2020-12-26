@@ -369,7 +369,7 @@ async function displayProfile(opts) {
             feedback += `<div class="profileDataItem profileDataItem--separator profileDataItem--noLabel">`;
             feedback += `<div class="profileDataItem__label"></div>`;
             // feedback += `<div class="profileDataItem__value"><a href="mailto:${keyData.users[i].userId.email}">${keyData.users[i].userId.email}</a> (primary)</div>`;
-            feedback += `<div class="profileDataItem__value">${keyData.users[i].userId.email} (primary)</div>`;
+            feedback += `<div class="profileDataItem__value">${keyData.users[i].userId.email} <small class="primary">primary</small></div>`;
             feedback += `</div>`;
 
             if (userId.length === 0) {

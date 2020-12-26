@@ -303,6 +303,7 @@ select {
 #profileData {
     background-color: #dceef957;
     padding: 15px;
+    border-radius: 15px;
 }
 
 .profileDataItem {
@@ -346,6 +347,16 @@ select {
     overflow: hidden;
     text-overflow: ellipsis;
 }
+
+.profileDataItem__value small {
+    color: white;
+    background: #2178ff;
+    border-radius: 6px;
+    padding: 2.8px 5px;
+    font-size: 0.65em;
+    vertical-align: middle;
+}
+
 a.proofUrl {
     color: #777;
 }
