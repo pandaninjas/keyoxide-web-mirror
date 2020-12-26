@@ -75,7 +75,8 @@ footer a {
     color: #777;
 }
 .container {
-    max-width: 720px;
+    /*max-width: 720px;*/
+    max-width: 770px;
     width: 100%;
     margin: 0 auto;
 }
@@ -279,6 +280,9 @@ select {
     flex-direction: row;
     align-items: center;
     margin-bottom: 32px;
+    background-color: #c4e3f657;
+    padding: 15px;
+    border-radius: 15px;
 }
 #profileAvatar {
     width: 100%;
@@ -295,6 +299,12 @@ select {
     overflow: hidden;
     text-overflow: ellipsis;
 }
+
+#profileData {
+    background-color: #dceef957;
+    padding: 15px;
+}
+
 .profileDataItem {
     position: relative;
     display: flex;
@@ -319,6 +329,7 @@ select {
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
+    text-transform: capitalize;
 }
 .profileDataItem__value {
     display: inline-block;
@@ -378,9 +389,18 @@ a.proofQR:hover {
     .profileDataItem__value {
         min-height: 28px;
     }
-	.profileDataItem--noLabel .profileDataItem__label {
+    	.profileDataItem--noLabel .profileDataItem__label {
 		display: none;
 	}
+        
+    #profileData .profileDataItem__value a:first-child {
+        max-width: 85%;
+    }
+    
+    #profileData #profileProofs .profileDataItem__value a:first-child {
+        display: block;
+    }
+
 
     input[type="text"] {
         width: 100%;
