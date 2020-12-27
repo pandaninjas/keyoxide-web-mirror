@@ -357,11 +357,17 @@ async function displayProfile(opts) {
         return;
     }
 
-    let primaryClaims
+    let primaryClaims;
 
     feedback = "";
     if (userMail) {
         verifications.forEach((userId, i) => {
+            if (!keyData.users[i].userId) {
+                keyData.users[i].userId = {
+                    email: 'email not specified'
+                };
+            }
+
             if (keyData.users[i].userId.email !== userMail) {
                 return;
             }
