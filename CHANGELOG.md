@@ -8,7 +8,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [2.3.3] - 2020-12-26
 ### Fixed
-- Variable used in URL returned undefined
+- Handling null userIds
 
 ## [2.3.2] - 2020-12-24
 ### Fixed
