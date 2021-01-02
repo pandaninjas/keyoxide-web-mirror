@@ -6,6 +6,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [2.3.4] - 2021-01-02
+### Fixed
+- Twitter claims
+
 ## [2.3.3] - 2020-12-26
 ### Fixed
 - Handling null userIds
