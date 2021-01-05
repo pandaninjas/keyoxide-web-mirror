@@ -703,10 +703,10 @@ doctypes@^1.1.0:
   resolved "https://registry.yarnpkg.com/doctypes/-/doctypes-1.1.0.tgz#ea80b106a87538774e8a3a4a5afe293de489e0a9"
   integrity sha1-6oCxBqh1OHdOijpKWv4pPeSJ4Kk=
 
-doipjs@^0.8.4:
-  version "0.8.4"
-  resolved "https://registry.yarnpkg.com/doipjs/-/doipjs-0.8.4.tgz#41046de8b9c69afd633d452e09f92a80930f2e0a"
-  integrity sha512-eJdrwClJ5fU3D4oIl+cGMSLEaHJ2AJnF4KvlO095aq+ztJQWi5WYwnqM6j5ASj9pMUlA3OAyYKhIPdZSlUF5uA==
+doipjs@^0.8.5:
+  version "0.8.5"
+  resolved "https://registry.yarnpkg.com/doipjs/-/doipjs-0.8.5.tgz#f27770551304314db2921dd019a983367c9258e6"
+  integrity sha512-zTIwAHUKn8t/EL36ZUIJ1Oyp+S0B2ifthPUJw7hC+8XBrHVxf9Q8koCQ92TF1CWY6eKT3eAlEEkR0BwqLpwWhw==
   dependencies:
     bent "^7.3.12"
     browserify "^17.0.0"
