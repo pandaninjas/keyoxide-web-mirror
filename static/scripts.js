@@ -235,9 +235,14 @@ async function displayProfile(opts) {
     let icon_qr = '<svg style="width:24px;height:24px" viewBox="0 0 24 24"><path fill="#ffffff" d="M3,11H5V13H3V11M11,5H13V9H11V5M9,11H13V15H11V13H9V11M15,11H17V13H19V11H21V13H19V15H21V19H19V21H17V19H13V21H11V17H15V15H17V13H15V11M19,19V15H17V19H19M15,3H21V9H15V3M17,5V7H19V5H17M3,3H9V9H3V3M5,5V7H7V5H5M3,15H9V21H3V15M5,17V19H7V17H5Z" /></svg>';
 
     try {
-        keyData = await doip.keys.fetch.uri(`${opts.mode}:${opts.input}`);
+        let keyURI;
+        if (opts.mode === 'hkp' && opts.server) {
+            keyURI = `${opts.mode}:${opts.server}:${opts.input}`
+        } else {
+            keyURI = `${opts.mode}:${opts.input}`
+        }
+        keyData = await doip.keys.fetch.uri(keyURI);
         fingerprint = keyData.keyPacket.getFingerprint();
-        // keyData = await fetchKeys(opts);
     } catch (e) {
         feedback += `<p>There was a problem fetching the keys.</p>`;
         feedback += `<code>${e}</code>`;
@@ -1026,6 +1031,7 @@ let elFormVerify = document.body.querySelector("#form-verify"),
     elFormProofs = document.body.querySelector("#form-proofs"),
     elProfileUid = document.body.querySelector("#profileUid"),
     elProfileMode = document.body.querySelector("#profileMode"),
+    elProfileServer = document.body.querySelector("#profileServer"),
     elModeSelect = document.body.querySelector("#modeSelect"),
     elUtilWKD = document.body.querySelector("#form-util-wkd"),
     elUtilQRFP = document.body.querySelector("#form-util-qrfp"),
@@ -1171,7 +1177,7 @@ if (elFormProofs) {
 }
 
 if (elProfileUid) {
-    let match, opts, profileUid = elProfileUid.innerHTML;
+    let opts, profileUid = elProfileUid.innerHTML;
     switch (elProfileMode.innerHTML) {
         default:
         case "auto":
@@ -1191,6 +1197,13 @@ if (elProfileUid) {
             break;
 
         case "hkp":
+            opts = {
+                input: profileUid,
+                server: elProfileServer.innerHTML,
+                mode: elProfileMode.innerHTML
+            }
+            break;
+
         case "wkd":
             opts = {
                 input: profileUid,

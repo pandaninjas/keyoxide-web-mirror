@@ -37,6 +37,10 @@ router.get('/hkp/:input', function(req, res) {
     res.render('profile', { mode: "hkp", uid: req.params.input })
 });
 
+router.get('/hkp/:server/:input', function(req, res) {
+    res.render('profile', { mode: "hkp", uid: req.params.input, server: req.params.server })
+});
+
 router.get('/keybase/:username/:fingerprint', function(req, res) {
     res.render('profile', { mode: "keybase", uid: `${req.params.username}/${req.params.fingerprint}` })
 });
