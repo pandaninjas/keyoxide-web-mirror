@@ -29,24 +29,28 @@ more information on this, and how to apply and follow the GNU AGPL, see <https:/
 */
 const router = require('express').Router();
 
+router.get('/sig', function(req, res) {
+    res.render('profile', { mode: 'sig' })
+});
+
 router.get('/wkd/:input', function(req, res) {
-    res.render('profile', { mode: "wkd", uid: req.params.input })
+    res.render('profile', { mode: 'wkd', uid: req.params.input })
 });
 
 router.get('/hkp/:input', function(req, res) {
-    res.render('profile', { mode: "hkp", uid: req.params.input })
+    res.render('profile', { mode: 'hkp', uid: req.params.input })
 });
 
 router.get('/hkp/:server/:input', function(req, res) {
-    res.render('profile', { mode: "hkp", uid: req.params.input, server: req.params.server })
+    res.render('profile', { mode: 'hkp', uid: req.params.input, server: req.params.server })
 });
 
 router.get('/keybase/:username/:fingerprint', function(req, res) {
-    res.render('profile', { mode: "keybase", uid: `${req.params.username}/${req.params.fingerprint}` })
+    res.render('profile', { mode: 'keybase', uid: `${req.params.username}/${req.params.fingerprint}` })
 });
 
 router.get('/:input', function(req, res) {
-    res.render('profile', { mode: "auto", uid: req.params.input })
+    res.render('profile', { mode: 'auto', uid: req.params.input })
 });
 
 module.exports = router;

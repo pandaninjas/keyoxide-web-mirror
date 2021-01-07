@@ -231,24 +231,71 @@ async function verifyProofs(opts) {
 }
 
 async function displayProfile(opts) {
-    let keyData, keyLink, fingerprint, feedback = "", notation, isVerified, verifications = [];
+    let keyData, keyLink, sigVerification, sigKeyUri, fingerprint, feedback = "", verifications = [];
     let icon_qr = '<svg style="width:24px;height:24px" viewBox="0 0 24 24"><path fill="#ffffff" d="M3,11H5V13H3V11M11,5H13V9H11V5M9,11H13V15H11V13H9V11M15,11H17V13H19V11H21V13H19V15H21V19H19V21H17V19H13V21H11V17H15V15H17V13H15V11M19,19V15H17V19H19M15,3H21V9H15V3M17,5V7H19V5H17M3,3H9V9H3V3M5,5V7H7V5H5M3,15H9V21H3V15M5,17V19H7V17H5Z" /></svg>';
 
-    try {
-        let keyURI;
-        if (opts.mode === 'hkp' && opts.server) {
-            keyURI = `${opts.mode}:${opts.server}:${opts.input}`
-        } else {
-            keyURI = `${opts.mode}:${opts.input}`
+    // Reset the avatar
+    document.body.querySelector('#profileAvatar').style = 'display: none';
+    document.body.querySelector('#profileAvatar').src = '/static/img/avatar_placeholder.png';
+
+    if (opts.mode == 'sig') {
+        try {
+            sigVerification = await doip.signatures.verify(opts.input);
+
+            if (sigVerification.errors.length > 0) {
+                throw(sigVerification.errors.join(', '))
+            }
+
+            keyData = sigVerification.publicKey
+            fingerprint = sigVerification.fingerprint
+
+            const sigData = await openpgp.cleartext.readArmored(opts.input);
+            const sigText = sigData.getText();
+            let sigKeys = [];
+            sigText.split('\n').forEach((line, i) => {
+                const match = line.match(/^(.*)\=(.*)$/i);
+                if (!match || !match[1]) {
+                    return;
+                }
+                switch (match[1].toLowerCase()) {
+                    case 'key':
+                        sigKeys.push(match[2]);
+                        break;
+                
+                    default:
+                        break;
+                }
+            });
+
+            if (sigKeys.length === 0) {
+                throw('No key URI found');
+            }
+
+            sigKeyUri = sigKeys[0];
+        } catch (e) {
+            feedback += `<p>There was a problem reading the signature.</p>`;
+            feedback += `<code>${e}</code>`;
+            document.body.querySelector('#profileData').innerHTML = feedback;
+            document.body.querySelector('#profileName').innerHTML = "Could not load profile";
+            return;
         }
-        keyData = await doip.keys.fetch.uri(keyURI);
-        fingerprint = keyData.keyPacket.getFingerprint();
-    } catch (e) {
-        feedback += `<p>There was a problem fetching the keys.</p>`;
-        feedback += `<code>${e}</code>`;
-        document.body.querySelector('#profileData').innerHTML = feedback;
-        document.body.querySelector('#profileName').innerHTML = "Could not load profile";
-        return;
+    } else {
+        try {
+            let keyURI;
+            if (opts.mode === 'hkp' && opts.server) {
+                keyURI = `${opts.mode}:${opts.server}:${opts.input}`
+            } else {
+                keyURI = `${opts.mode}:${opts.input}`
+            }
+            keyData = await doip.keys.fetch.uri(keyURI);
+            fingerprint = keyData.keyPacket.getFingerprint();
+        } catch (e) {
+            feedback += `<p>There was a problem fetching the keys.</p>`;
+            feedback += `<code>${e}</code>`;
+            document.body.querySelector('#profileData').innerHTML = feedback;
+            document.body.querySelector('#profileName').innerHTML = "Could not load profile";
+            return;
+        }
     }
 
     const userPrimary = await keyData.getPrimaryUser();
@@ -259,9 +306,17 @@ async function displayProfile(opts) {
     let imgUri = null;
 
     // Determine WKD or HKP link
-    switch (opts.mode) {
+    let keyUriMode = opts.mode;
+    let keyUriId = opts.input;
+    if (opts.mode === 'sig') {
+        const keyUriMatch = sigKeyUri.match(/(.*):(.*)/);
+        keyUriMode = keyUriMatch[1];
+        keyUriId = keyUriMatch[2];
+    }
+    
+    switch (keyUriMode) {
         case "wkd":
-            const [, localPart, domain] = /(.*)@(.*)/.exec(opts.input);
+            const [, localPart, domain] = /(.*)@(.*)/.exec(keyUriId);
             const localEncoded = await computeWKDLocalPart(localPart.toLowerCase());
             const urlAdvanced = `https://openpgpkey.${domain}/.well-known/openpgpkey/${domain}/hu/${localEncoded}`;
             const urlDirect = `https://${domain}/.well-known/openpgpkey/hu/${localEncoded}`;
@@ -337,18 +392,22 @@ async function displayProfile(opts) {
     feedback += `</div>`;
     feedback += `<div class="profileDataItem profileDataItem--noLabel">`;
     feedback += `<div class="profileDataItem__label"></div>`;
-    feedback += `<div class="profileDataItem__value"><a href="/verify/${opts.mode}/${opts.input}">verify signature</a></div>`;
+    feedback += `<div class="profileDataItem__value"><a href="/verify/${keyUriMode}/${keyUriId}">verify signature</a></div>`;
     feedback += `</div>`;
     feedback += `<div class="profileDataItem profileDataItem--noLabel">`;
     feedback += `<div class="profileDataItem__label"></div>`;
-    feedback += `<div class="profileDataItem__value"><a href="/encrypt/${opts.mode}/${opts.input}">encrypt message</a></div>`;
+    feedback += `<div class="profileDataItem__value"><a href="/encrypt/${keyUriMode}/${keyUriId}">encrypt message</a></div>`;
     feedback += `</div>`;
 
     // Display feedback
     document.body.querySelector('#profileData').innerHTML = feedback;
 
     try {
-        verifications = await doip.claims.verify(keyData, fingerprint, {'proxyPolicy':'adaptive'})
+        if (sigVerification) {
+            verifications = sigVerification.claims
+        } else {
+            verifications = await doip.claims.verify(keyData, fingerprint, {'proxyPolicy':'adaptive'})
+        }
     } catch (e) {
         feedback += `<p>There was a problem verifying the claims.</p>`;
         feedback += `<code>${e}</code>`;
@@ -362,25 +421,102 @@ async function displayProfile(opts) {
         return;
     }
 
-    let primaryClaims
-
     feedback = "";
-    if (userMail) {
-        verifications.forEach((userId, i) => {
-            if (!keyData.users[i].userId) {
-                keyData.users[i].userId = {
-                    email: 'email not specified'
-                }
-            }
 
-            if (keyData.users[i].userId.email != userMail) {
+    if (opts.mode === 'sig') {
+        feedback += `<div class="profileDataItem profileDataItem--separator profileDataItem--noLabel">`;
+        feedback += `<div class="profileDataItem__label"></div>`;
+        feedback += `<div class="profileDataItem__value">proofs</div>`;
+        feedback += `</div>`;
+
+        verifications = verifications.filter((a) => (a && a.errors.length == 0 && a.serviceproviderData))
+        verifications = verifications.sort((a,b) => (a.serviceproviderData.serviceprovider.name > b.serviceproviderData.serviceprovider.name) ? 1 : ((b.serviceproviderData.serviceprovider.name > a.serviceproviderData.serviceprovider.name) ? -1 : 0));
+
+        verifications.forEach((claim, i) => {
+            const claimData = claim.serviceproviderData;
+            if (!claimData.serviceprovider.name) {
+                return;
+            }
+            feedback += `<div class="profileDataItem">`;
+            feedback += `<div class="profileDataItem__label">${claimData.serviceprovider.name}</div>`;
+            feedback += `<div class="profileDataItem__value">`;
+            feedback += `<a class="proofDisplay" href="${claimData.profile.uri}"  rel="me">${claimData.profile.display}</a>`;
+            if (claim.isVerified) {
+                feedback += `<a class="proofUrl proofUrl--verified" href="${claimData.proof.uri}">verified &#10004;</a>`;
+            } else {
+                feedback += `<a class="proofUrl" href="${claimData.proof.uri}">unverified</a>`;
+            }
+            if (claim.isVerified && claimData.profile.qr) {
+                feedback += `<a class="proofQR green" href="/util/qr/${encodeURIComponent(claimData.profile.qr)}" target="_blank" title="QR Code">${icon_qr}</a>`;
+            }
+            feedback += `</div>`;
+            feedback += `</div>`;
+        });
+    } else {
+        let primaryClaims;
+
+        if (userMail) {
+            verifications.forEach((userId, i) => {
+                if (!keyData.users[i].userId) {
+                    keyData.users[i].userId = {
+                        email: 'email not specified'
+                    }
+                }
+
+                if (keyData.users[i].userId.email != userMail) {
+                    return;
+                }
+
+                feedback += `<div class="profileDataItem profileDataItem--separator profileDataItem--noLabel">`;
+                feedback += `<div class="profileDataItem__label"></div>`;
+                // feedback += `<div class="profileDataItem__value"><a href="mailto:${keyData.users[i].userId.email}">${keyData.users[i].userId.email}</a> (primary)</div>`;
+                feedback += `<div class="profileDataItem__value">${keyData.users[i].userId.email} (primary)</div>`;
+                feedback += `</div>`;
+
+                if (userId.length == 0) {
+                    feedback += `<div class="profileDataItem  profileDataItem--noLabel">`;
+                    feedback += `<div class="profileDataItem__label"></div>`;
+                    feedback += `<div class="profileDataItem__value">No claims associated</div>`;
+                    feedback += `</div>`;
+                    return;
+                }
+                
+                userId = userId.filter((a) => (a && a.errors.length == 0 && a.serviceproviderData))
+                userId = userId.sort((a,b) => (a.serviceproviderData.serviceprovider.name > b.serviceproviderData.serviceprovider.name) ? 1 : ((b.serviceproviderData.serviceprovider.name > a.serviceproviderData.serviceprovider.name) ? -1 : 0));
+
+                primaryClaims = userId;
+
+                userId.forEach((claim, i) => {
+                    const claimData = claim.serviceproviderData;
+                    if (!claimData.serviceprovider.name) {
+                        return;
+                    }
+                    feedback += `<div class="profileDataItem">`;
+                    feedback += `<div class="profileDataItem__label">${claimData.serviceprovider.name}</div>`;
+                    feedback += `<div class="profileDataItem__value">`;
+                    feedback += `<a class="proofDisplay" href="${claimData.profile.uri}"  rel="me">${claimData.profile.display}</a>`;
+                    if (claim.isVerified) {
+                        feedback += `<a class="proofUrl proofUrl--verified" href="${claimData.proof.uri}">verified &#10004;</a>`;
+                    } else {
+                        feedback += `<a class="proofUrl" href="${claimData.proof.uri}">unverified</a>`;
+                    }
+                    if (claim.isVerified && claimData.profile.qr) {
+                        feedback += `<a class="proofQR green" href="/util/qr/${encodeURIComponent(claimData.profile.qr)}" target="_blank" title="QR Code">${icon_qr}</a>`;
+                    }
+                    feedback += `</div>`;
+                    feedback += `</div>`;
+                });
+            });
+        }
+
+        verifications.forEach((userId, i) => {
+            if (userMail && keyData.users[i].userId.email == userMail) {
                 return;
             }
 
             feedback += `<div class="profileDataItem profileDataItem--separator profileDataItem--noLabel">`;
             feedback += `<div class="profileDataItem__label"></div>`;
-            // feedback += `<div class="profileDataItem__value"><a href="mailto:${keyData.users[i].userId.email}">${keyData.users[i].userId.email}</a> (primary)</div>`;
-            feedback += `<div class="profileDataItem__value">${keyData.users[i].userId.email} (primary)</div>`;
+            feedback += `<div class="profileDataItem__value">${keyData.users[i].userId.email}</div>`;
             feedback += `</div>`;
 
             if (userId.length == 0) {
@@ -394,7 +530,13 @@ async function displayProfile(opts) {
             userId = userId.filter((a) => (a && a.errors.length == 0 && a.serviceproviderData))
             userId = userId.sort((a,b) => (a.serviceproviderData.serviceprovider.name > b.serviceproviderData.serviceprovider.name) ? 1 : ((b.serviceproviderData.serviceprovider.name > a.serviceproviderData.serviceprovider.name) ? -1 : 0));
 
-            primaryClaims = userId
+            if (primaryClaims && primaryClaims.toString() == userId.toString()) {
+                feedback += `<div class="profileDataItem  profileDataItem--noLabel">`;
+                feedback += `<div class="profileDataItem__label"></div>`;
+                feedback += `<div class="profileDataItem__value">Identical to primary</div>`;
+                feedback += `</div>`;
+                return;
+            }
 
             userId.forEach((claim, i) => {
                 const claimData = claim.serviceproviderData;
@@ -418,57 +560,6 @@ async function displayProfile(opts) {
             });
         });
     }
-
-    verifications.forEach((userId, i) => {
-        if (userMail && keyData.users[i].userId.email == userMail) {
-            return;
-        }
-
-        feedback += `<div class="profileDataItem profileDataItem--separator profileDataItem--noLabel">`;
-        feedback += `<div class="profileDataItem__label"></div>`;
-        feedback += `<div class="profileDataItem__value">${keyData.users[i].userId.email}</div>`;
-        feedback += `</div>`;
-
-        if (userId.length == 0) {
-            feedback += `<div class="profileDataItem  profileDataItem--noLabel">`;
-            feedback += `<div class="profileDataItem__label"></div>`;
-            feedback += `<div class="profileDataItem__value">No claims associated</div>`;
-            feedback += `</div>`;
-            return;
-        }
-
-        userId = userId.filter((a) => (a && a.errors.length == 0 && a.serviceproviderData))
-        userId = userId.sort((a,b) => (a.serviceproviderData.serviceprovider.name > b.serviceproviderData.serviceprovider.name) ? 1 : ((b.serviceproviderData.serviceprovider.name > a.serviceproviderData.serviceprovider.name) ? -1 : 0));
-
-        if (primaryClaims && primaryClaims.toString() == userId.toString()) {
-            feedback += `<div class="profileDataItem  profileDataItem--noLabel">`;
-            feedback += `<div class="profileDataItem__label"></div>`;
-            feedback += `<div class="profileDataItem__value">Identical to primary</div>`;
-            feedback += `</div>`;
-            return;
-        }
-
-        userId.forEach((claim, i) => {
-            const claimData = claim.serviceproviderData;
-            if (!claimData.serviceprovider.name) {
-                return;
-            }
-            feedback += `<div class="profileDataItem">`;
-            feedback += `<div class="profileDataItem__label">${claimData.serviceprovider.name}</div>`;
-            feedback += `<div class="profileDataItem__value">`;
-            feedback += `<a class="proofDisplay" href="${claimData.profile.uri}"  rel="me">${claimData.profile.display}</a>`;
-            if (claim.isVerified) {
-                feedback += `<a class="proofUrl proofUrl--verified" href="${claimData.proof.uri}">verified &#10004;</a>`;
-            } else {
-                feedback += `<a class="proofUrl" href="${claimData.proof.uri}">unverified</a>`;
-            }
-            if (claim.isVerified && claimData.profile.qr) {
-                feedback += `<a class="proofQR green" href="/util/qr/${encodeURIComponent(claimData.profile.qr)}" target="_blank" title="QR Code">${icon_qr}</a>`;
-            }
-            feedback += `</div>`;
-            feedback += `</div>`;
-        });
-    });
 
     // Display feedback
     document.body.querySelector('#profileProofs').innerHTML = feedback;
@@ -1029,6 +1120,7 @@ async function fetchWithTimeout(url, timeout = 3000) {
 let elFormVerify = document.body.querySelector("#form-verify"),
     elFormEncrypt = document.body.querySelector("#form-encrypt"),
     elFormProofs = document.body.querySelector("#form-proofs"),
+    elFormSignatureProfile = document.body.querySelector("#form-generate-signature-profile"),
     elProfileUid = document.body.querySelector("#profileUid"),
     elProfileMode = document.body.querySelector("#profileMode"),
     elProfileServer = document.body.querySelector("#profileServer"),
@@ -1180,6 +1272,19 @@ if (elProfileUid) {
     let opts, profileUid = elProfileUid.innerHTML;
     switch (elProfileMode.innerHTML) {
         default:
+        case "sig":
+            elFormSignatureProfile.onsubmit = function (evt) {
+                evt.preventDefault();
+
+                opts = {
+                    input: document.body.querySelector("#plaintext_input").value,
+                    mode: elProfileMode.innerHTML
+                }
+
+                displayProfile(opts)
+            }
+            break;
+
         case "auto":
             if (/.*@.*/.test(profileUid)) {
                 // Match email for wkd
@@ -1220,7 +1325,10 @@ if (elProfileUid) {
             }
             break;
     }
-    displayProfile(opts);
+
+    if (elProfileMode.innerHTML !== 'sig') {
+        displayProfile(opts);
+    }
 }
 
 if (elUtilWKD) {
