@@ -369,6 +369,11 @@ a.proofQR:hover {
     background-color: #6abb5a;
 }
 
+#form-generate-signature-profile {
+    margin-bottom: 2em;
+    font-size: 0.9rem;
+}
+
 #qrcode {
     display: flex;
     justify-content: center;
