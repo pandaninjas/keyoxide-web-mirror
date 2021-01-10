@@ -241,37 +241,8 @@ async function displayProfile(opts) {
     if (opts.mode == 'sig') {
         try {
             sigVerification = await doip.signatures.verify(opts.input);
-
-            if (sigVerification.errors.length > 0) {
-                throw(sigVerification.errors.join(', '))
-            }
-
-            keyData = sigVerification.publicKey
-            fingerprint = sigVerification.fingerprint
-
-            const sigData = await openpgp.cleartext.readArmored(opts.input);
-            const sigText = sigData.getText();
-            let sigKeys = [];
-            sigText.split('\n').forEach((line, i) => {
-                const match = line.match(/^(.*)\=(.*)$/i);
-                if (!match || !match[1]) {
-                    return;
-                }
-                switch (match[1].toLowerCase()) {
-                    case 'key':
-                        sigKeys.push(match[2]);
-                        break;
-                
-                    default:
-                        break;
-                }
-            });
-
-            if (sigKeys.length === 0) {
-                throw('No key URI found');
-            }
-
-            sigKeyUri = sigKeys[0];
+            keyData = sigVerification.publicKey.data;
+            fingerprint = sigVerification.publicKey.fingerprint;
         } catch (e) {
             feedback += `<p>There was a problem reading the signature.</p>`;
             feedback += `<code>${e}</code>`;
@@ -307,11 +278,13 @@ async function displayProfile(opts) {
 
     // Determine WKD or HKP link
     let keyUriMode = opts.mode;
+    let keyUriServer = null;
     let keyUriId = opts.input;
     if (opts.mode === 'sig') {
-        const keyUriMatch = sigKeyUri.match(/(.*):(.*)/);
+        const keyUriMatch = sigVerification.publicKey.uri.match(/([^:]*)(?:\:(.*))?:(.*)/);
         keyUriMode = keyUriMatch[1];
-        keyUriId = keyUriMatch[2];
+        keyUriServer = keyUriMatch[2];
+        keyUriId = keyUriMatch[3];
     }
     
     switch (keyUriMode) {
@@ -342,12 +315,12 @@ async function displayProfile(opts) {
                 }
             }
             if (!keyLink) {
-                keyLink = `https://keys.openpgp.org/pks/lookup?op=get&options=mr&search=0x${fingerprint}`;
+                keyLink = `https://${keyUriServer ? keyUriServer : 'keys.openpgp.org'}/pks/lookup?op=get&options=mr&search=0x${fingerprint}`;
             }
             break;
 
         case "hkp":
-            keyLink = `https://keys.openpgp.org/pks/lookup?op=get&options=mr&search=0x${fingerprint}`;
+            keyLink = `https://${keyUriServer ? keyUriServer : 'keys.openpgp.org'}/pks/lookup?op=get&options=mr&search=0x${fingerprint}`;
             break;
 
         case "keybase":
