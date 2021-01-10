@@ -2,6 +2,9 @@ extends template.base.pug
 
 block content
   .content
+    noscript
+      p Keyoxide requires JavaScript to function.
+    
     h1 Verify
     form#form-verify(method='post')
       h3 Signer

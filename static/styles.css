@@ -361,6 +361,18 @@ a.proofQR:hover {
     margin: 32px auto;
 }
 
+noscript {
+    display: block;
+    margin-bottom: 2rem;
+    padding: 8px;
+    background-color: #f0e68c;
+    text-align: center;
+}
+noscript p {
+    margin: 0;
+    font-size: 1rem;
+}
+
 @media (max-width: 680px) {
     #profileHeader {
         flex-direction: column;
