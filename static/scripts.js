@@ -245,7 +245,11 @@ async function displayProfile(opts) {
             fingerprint = sigVerification.publicKey.fingerprint;
         } catch (e) {
             feedback += `<p>There was a problem reading the signature.</p>`;
-            feedback += `<code>${e}</code>`;
+            if ('errors' in e) {
+                feedback += `<code>${e.errors.join(', ')}</code>`;
+            } else {
+                feedback += `<code>${e}</code>`;
+            }
             document.body.querySelector('#profileData').innerHTML = feedback;
             document.body.querySelector('#profileName').innerHTML = "Could not load profile";
             return;
