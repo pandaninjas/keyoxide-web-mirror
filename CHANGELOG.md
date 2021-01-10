@@ -7,8 +7,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 ### Added
 - Support for signature profiles
+- Robots.txt
+- Noindex meta tags on profile pages
 ### Changed
 - Allow setting of custom HKP server
+## Fixed
+- Render error messages when error is object
 
 ## [2.3.4] - 2021-01-02
 ### Fixed
