@@ -415,7 +415,7 @@ async function displayProfile(opts) {
                 return;
             }
             feedback += `<div class="profileDataItem">`;
-            feedback += `<div class="profileDataItem__label">${claimData.serviceprovider.name}</div>`;
+            feedback += `<div class="profileDataItem__label">${capitalizeLetteredServices(claimData.serviceprovider.name)}</div>`;
             feedback += `<div class="profileDataItem__value">`;
             feedback += `<a class="proofDisplay" href="${claimData.profile.uri}"  rel="me">${claimData.profile.display}</a>`;
             if (claim.isVerified) {
@@ -469,7 +469,7 @@ async function displayProfile(opts) {
                         return;
                     }
                     feedback += `<div class="profileDataItem">`;
-                    feedback += `<div class="profileDataItem__label">${claimData.serviceprovider.name}</div>`;
+                    feedback += `<div class="profileDataItem__label">${capitalizeLetteredServices(claimData.serviceprovider.name)}</div>`;
                     feedback += `<div class="profileDataItem__value">`;
                     feedback += `<a class="proofDisplay" href="${claimData.profile.uri}"  rel="me">${claimData.profile.display}</a>`;
                     if (claim.isVerified) {
