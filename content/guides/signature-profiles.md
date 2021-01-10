@@ -4,6 +4,16 @@ Let's create a signature profile. This is a profile that can be verified by Keyo
 
 [[toc]]
 
+## Why put claims in a signed document/signature profile?
+
+Storing claims inside the key as notations is a powerful method. Wherever the public key goes, so go the identity claims. This allows one to use the existing vast network of key sharing tools to also share these identity claims.
+
+There are drawbacks to this: you lose granularity. You cannot pick and choose the claims you want to send to certain people or use for certain purposes. There is also the possibility that notations in keys could be scraped as the keys are publicly available.
+
+Putting (certain) claims in a signature profile solves both drawbacks. You can choose which claims to be associated with each other and you can choose which persons can see this by only sending it to them. You can even encrypt the signature profile! Since the signature profile is not publicly available (unless you make it so), there is no possibility to scrape the contents of it.
+
+Note that there is one catch: the person you send it to could publish it. Only send claims you wish to keep secret to people you trust!
+
 ## Writing the plaintext document
 
 Using terminal tools like vim, emacs, nano or graphical tools like notepad, create a new document. The content should eventually look like this:
@@ -32,13 +42,13 @@ You will now sign this document, making it untemperable and possible to prove be
 Assuming you have an OpenPGP key with signing capabilities, execute the following command in the terminal:
 
 ```
-gpg -u EMAIL_ADDRESS --sender EMAIL_ADDRESS --clear-sign FILENAME
+gpg -u EMAIL_ADDRESS --clear-sign FILENAME
 ```
 
 Replace EMAIL_ADDRESS and FILENAME with the correct values. As an example:
 
 ```
-gpg -u test@doip.rocks --sender test@doip.rocks --clear-sign sigpro.txt
+gpg -u test@doip.rocks --clear-sign sigpro.txt
 ```
 
 This will generate a file named **sigpro.txt.asc** with the following content:
@@ -79,15 +89,5 @@ Keyoxide always first checks whether it can fetch the public key using [Web Key 
 If this fails, Keyoxide tries to fetch the key using a keyserver. By default, it will use [keys.openpgp.org](https://keys.openpgp.org) (which tends to be the most reliable of keyservers). To set your preferred keyserver, execute the following command instead:
 
 ```
-gpg -u EMAIL_ADDRESS --sender EMAIL_ADDRESS --sig-keyserver-url https://KEYSERVER_DOMAIN/ --clear-sign FILENAME
+gpg -u EMAIL_ADDRESS --sig-keyserver-url https://KEYSERVER_DOMAIN/ --clear-sign FILENAME
 ```
-
-## Why put claims in a signed document/signature profile?
-
-Storing claims inside the key as notations is a powerful method. Wherever the public key goes, so go the identity claims. This allows one to use the existing vast network of key sharing tools to also share these identity claims.
-
-There are drawbacks to this: you lose granularity. You cannot pick and choose the claims you want to send to certain people or use for certain purposes. There is also the possibility that notations in keys could be scraped as the keys are pubicly available.
-
-Putting (certain) claims in a signature profile solves both drawbacks. You can choose which claims to be associated with each other and you can choose which persons can see this by only sending it to them. You can even encrypt the signature profile! Since the signature profile is not publicly available (unless you make it so), there is no possibility to scrape the contents of it.
-
-Note that there is one catch: the person you send it to could publish it. Only send claims you wish to keep secret to people you trust!
