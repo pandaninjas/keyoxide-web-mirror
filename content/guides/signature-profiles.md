@@ -19,17 +19,17 @@ Note that there is one catch: the person you send it to could publish it. Only s
 Using terminal tools like vim, emacs, nano or graphical tools like notepad, create a new document. The content should eventually look like this:
 
 ```
-Hey there! Here's a signature profile with doip-related proofs.
+Hey there! Here's a signature profile with proofs related to the DOIP project (https://doip.rocks).
 
-openpgp4fpr:3637202523e7c1309ab79e99ef2dc5827b445f4b
+Verify this profile at https://keyoxide.org/sig
+
 proof=dns:doip.rocks
+proof=https://fosstodon.org/@keyoxide
 ```
 
 You can add as much "regular" text as you'd like. The point of these signature profiles is that they are both human-friendly and machine-readable. In this case, the first line is meant for humans.
 
-The second thing to add is the fingerprint of the key that will sign this message. This is done by typing **openpgp4fpr:** followed by the fingerprint.
-
-Note: this line is also intended for humans and corresponds to the text that is usually used to verify the claims. Though it can be handy for humans when reading the signature profile, the line is not strictly necessary.
+The second thing to add is a link to a website that can verify these signature profiles. If you know or host a different instance, you can choose to link that instance instead! If not, you are welcome to leave the link as is. Note that this link is not mandatory but could prove very helpful to the recipients.
 
 Finally, you can add proofs by adding a new line beginning with **proof=** followed by the claim that is given by the [guides](/guides). So, for example, **proof=dns:doip.rocks** verifies a domain name and **proof@metacode.biz=https://twitter.com/USERNAME/status/1234567891234567891** verifies a Twitter account.
 
@@ -57,24 +57,25 @@ This will generate a file named **sigpro.txt.asc** with the following content:
 -----BEGIN PGP SIGNED MESSAGE-----
 Hash: SHA512
 
-Hey there! Here's a signature profile with doip-related proofs.
+Hey there! Here's a signature profile with proofs related to the DOIP project (https://doip.rocks).
 
-openpgp4fpr:3637202523e7c1309ab79e99ef2dc5827b445f4b
+Verify this profile at https://keyoxide.org/sig
+
 proof=dns:doip.rocks
+proof=https://fosstodon.org/@keyoxide
 -----BEGIN PGP SIGNATURE-----
 
-iQHfBAEBCgBJFiEENjcgJSPnwTCat56Z7y3FgntEX0sFAl/5rvsaGGh0dHBzOi8v
-a2V5cy5vcGVucGdwLm9yZy8QHHRlc3RAZG9pcC5yb2NrcwAKCRDvLcWCe0RfSz45
-C/9msqmNZlTXa99Oec82Za24LPCKuUDLwNEdnO4s8uzDmjFcNSGeM55RxfVJOOPX
-zT4b91GgHy/q8+4THZbsF+3Lu6CCUTe33cDQVpdcPA8Gpm7ipjLM2xSdhspqOzhu
-PvWJzk8H7CIk+iuv9IYatr7caR8x1G/NN+r0YpkKyI27oVQu4oOBvGPl30R/6734
-JuFCY6oRe9spXzCZ7qbPVzqzuflPZHvgGMIj29x8lmtPgOAYhMbdhZi5RvfP9jDB
-huUdRPE9ATk09hztOHaMNTTbxOLGtEQXog3ef5iYLUT3/KjG8a79Cqq51OS+6zVC
-lUbUGQISCBJ68qfLbxXMGcL6kPiOm9XQbGZI+QcZI7vOSafPr/+FKbFonIgjTFNY
-WJSTyVzhAcH0OPl/vL0DMjNIInIUelYUmaBM+MEXIgLcwtSoICLJDRpCybVjzoZi
-evqL4ZA7Th3KZYcF6buPvBdl8tg8nsK2KWHDPCpYRW/RYN3D0QZkx9v/Cxks400U
-MIQ=
-=WGb1
+iQHEBAEBCgAuFiEENjcgJSPnwTCat56Z7y3FgntEX0sFAl/7L0MQHHRlc3RAZG9p
+cC5yb2NrcwAKCRDvLcWCe0RfS3iYC/0QQqz2lzSNrkApdIN9OJFfd/sP2qeGr/uH
+98YHa+ucwBxer6yrAaTYYuBJg1uyzdxQhqF2jWno7FwN4crnj15AN5XGemjpmqat
+py9wG6vCVjC81q/BWMIMZ7RJ/m8F8Kz556xHiU8KbqLNDqFVcT35/PhJsw71XVCI
+N3HgrgD7CY/vIsZ3WIH7mne3q9O7X4TJQtFoZZ/l9lKj7qk3LrSFnL6q+JxUr2Im
+xfYZKaSz6lmLf+vfPc59JuQtV1z0HSNDQkpKEjmLeIlc+ZNAdSQRjkfi+UDK7eKV
+KGOlkcslroJO6rT3ruqx9L3hHtrM8dKQFgtRSaofB51HCyhNzmipbBHnLnKQrcf6
+o8nn9OkP7F9NfbBE6xYIUCkgnv1lQbzeXsLLVuEKMW8bvZOmI7jTcthqnwzEIHj/
+G4p+zPGgO+6Pzuhn47fxH+QZ0KPA8o2vx0DvOkZT6HEqG+EqpIoC/a7wD68n789c
+K2NLCVb9oIGarPfhIdPV3QbrA5eXRRQ=
+=QyNy
 -----END PGP SIGNATURE-----
 ```
 
