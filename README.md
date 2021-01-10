@@ -20,23 +20,6 @@ The Docker container allows you to easily self-host the [Keyoxide](https://keyox
 
 Keyoxide will now be available by visiting http://localhost:3000.
 
-To add support for Twitter account verification, make a [developer account](https://developer.twitter.com/en), [obtain a Bearer token](https://developer.twitter.com/en/docs/basics/authentication/oauth-2-0) and run:
-
-`docker run -d -p 3000:3000 -e "TWITTER_API_AUTH=XXXXXXXXXXXXXXXXXX" keyoxide/keyoxide:stable`
-
-### Docker-compose
-
-To run Keyoxide using docker-compose, add the following snippet to your `docker-compose.yml`:
-
-```yml
-keyoxide:
-  image: keyoxide/keyoxide:stable
-  ports:
-    - 3000:3000
-  environment:
-    - TWITTER_API_AUTH=XXXXXXXXXXXXXXXXXX
-```
-
 ## Contributing
 
 Anyone can contribute if they'd like! No need to be a programmer or technically-oriented for that matter.
