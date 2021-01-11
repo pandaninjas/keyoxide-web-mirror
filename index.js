@@ -44,6 +44,7 @@ app.set('keyoxide_version', packageData.version);
 app.set('onion_url', process.env.ONION_URL);
 
 app.use('/favicon.svg', express.static('favicon.svg'));
+app.use('/robots.txt', express.static('robots.txt'));
 
 app.use(stringReplace({
     PLACEHOLDER__XMPP_VCARD_SERVER_DOMAIN: process.env.XMPP_VCARD_SERVER_DOMAIN || 'xmpp-vcard.keyoxide.org'
