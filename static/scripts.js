@@ -346,7 +346,7 @@ async function displayProfile(opts) {
     // Generate feedback
     feedback += `<div class="profileDataItem profileDataItem--separator profileDataItem--noLabel">`;
     feedback += `<div class="profileDataItem__label"></div>`;
-    feedback += `<div class="profileDataItem__value">general information</div>`;
+    feedback += `<div class="profileDataItem__value">General information</div>`;
     feedback += `</div>`;
 
     feedback += `<div class="profileDataItem">`;
@@ -365,15 +365,15 @@ async function displayProfile(opts) {
     feedback += `</div>`;
     feedback += `<div class="profileDataItem profileDataItem--separator profileDataItem--noLabel">`;
     feedback += `<div class="profileDataItem__label"></div>`;
-    feedback += `<div class="profileDataItem__value">actions</div>`;
+    feedback += `<div class="profileDataItem__value">Actions</div>`;
     feedback += `</div>`;
     feedback += `<div class="profileDataItem profileDataItem--noLabel">`;
     feedback += `<div class="profileDataItem__label"></div>`;
-    feedback += `<div class="profileDataItem__value"><a href="/verify/${keyUriMode}/${keyUriId}">verify signature</a></div>`;
+    feedback += `<div class="profileDataItem__value"><a href="/verify/${keyUriMode}/${keyUriId}">Verify signature</a></div>`;
     feedback += `</div>`;
     feedback += `<div class="profileDataItem profileDataItem--noLabel">`;
     feedback += `<div class="profileDataItem__label"></div>`;
-    feedback += `<div class="profileDataItem__value"><a href="/encrypt/${keyUriMode}/${keyUriId}">encrypt message</a></div>`;
+    feedback += `<div class="profileDataItem__value"><a href="/encrypt/${keyUriMode}/${keyUriId}">Encrypt message</a></div>`;
     feedback += `</div>`;
 
     // Display feedback
@@ -415,7 +415,7 @@ async function displayProfile(opts) {
                 return;
             }
             feedback += `<div class="profileDataItem">`;
-            feedback += `<div class="profileDataItem__label">${claimData.serviceprovider.name}</div>`;
+            feedback += `<div class="profileDataItem__label">${capitalizeLetteredServices(claimData.serviceprovider.name)}</div>`;
             feedback += `<div class="profileDataItem__value">`;
             feedback += `<a class="proofDisplay" href="${claimData.profile.uri}"  rel="me">${claimData.profile.display}</a>`;
             if (claim.isVerified) {
@@ -447,7 +447,7 @@ async function displayProfile(opts) {
                 feedback += `<div class="profileDataItem profileDataItem--separator profileDataItem--noLabel">`;
                 feedback += `<div class="profileDataItem__label"></div>`;
                 // feedback += `<div class="profileDataItem__value"><a href="mailto:${keyData.users[i].userId.email}">${keyData.users[i].userId.email}</a> (primary)</div>`;
-                feedback += `<div class="profileDataItem__value">${keyData.users[i].userId.email} (primary)</div>`;
+                feedback += `<div class="profileDataItem__value">${keyData.users[i].userId.email} <small class="primary">primary</small></div>`;
                 feedback += `</div>`;
 
                 if (userId.length == 0) {
@@ -469,7 +469,7 @@ async function displayProfile(opts) {
                         return;
                     }
                     feedback += `<div class="profileDataItem">`;
-                    feedback += `<div class="profileDataItem__label">${claimData.serviceprovider.name}</div>`;
+                    feedback += `<div class="profileDataItem__label">${capitalizeLetteredServices(claimData.serviceprovider.name)}</div>`;
                     feedback += `<div class="profileDataItem__value">`;
                     feedback += `<a class="proofDisplay" href="${claimData.profile.uri}"  rel="me">${claimData.profile.display}</a>`;
                     if (claim.isVerified) {
@@ -496,7 +496,7 @@ async function displayProfile(opts) {
             feedback += `<div class="profileDataItem__value">${keyData.users[i].userId.email}</div>`;
             feedback += `</div>`;
 
-            if (userId.length == 0) {
+            if (userId.length === 0) {
                 feedback += `<div class="profileDataItem  profileDataItem--noLabel">`;
                 feedback += `<div class="profileDataItem__label"></div>`;
                 feedback += `<div class="profileDataItem__value">No claims associated</div>`;
@@ -521,7 +521,7 @@ async function displayProfile(opts) {
                     return;
                 }
                 feedback += `<div class="profileDataItem">`;
-                feedback += `<div class="profileDataItem__label">${claimData.serviceprovider.name}</div>`;
+                feedback += `<div class="profileDataItem__label">${capitalizeLetteredServices(claimData.serviceprovider.name)}</div>`;
                 feedback += `<div class="profileDataItem__value">`;
                 feedback += `<a class="proofDisplay" href="${claimData.profile.uri}"  rel="me">${claimData.profile.display}</a>`;
                 if (claim.isVerified) {
@@ -1437,4 +1437,12 @@ if (elUtilProfileURL) {
     });
 
     elInput.dispatchEvent(new Event("input"));
+}
+
+function capitalizeLetteredServices(serviceName) {
+    var servName = serviceName.toLowerCase();
+    if (servName === 'dns' || servName === 'xmpp') {
+        return servName.toUpperCase();
+    }
+    return serviceName;
 }
