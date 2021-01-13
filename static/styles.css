@@ -203,11 +203,14 @@ pre {
     white-space: pre-wrap;
 }
 code {
-    display: block;
-    padding: 8px;
+    padding: 2px;
     background-color: #eee;
     border: solid 1px #ddd;
     user-select: all;
+}
+pre code {
+    display: block;
+    padding: 8px;
     word-break: break-word;
     /* word-break: break-all; */
 }
