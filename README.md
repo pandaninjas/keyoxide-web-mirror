@@ -38,9 +38,12 @@ Please note that this project has a [Code of Conduct](https://codeberg.org/keyox
 
 To run Keyoxide locally on your machine for development:
 
-- install NodeJS
-  - directly from their [website](https://nodejs.org/en/), or
-  - using [nvm](https://github.com/nvm-sh/nvm): `nvm install --lts; nvm use --lts`
-- run the server with `npm run dev`
+- install either
+  - NodeJS
+    - directly from their [website](https://nodejs.org/en/), or
+    - using [nvm](https://github.com/nvm-sh/nvm): `nvm install --lts; nvm use --lts`
+  - [yarn](https://yarnpkg.com/)
+- install dependencies with `npm install` or `yarn`
+- run the server with `npm dev` or `yarn dev`
 
 Keyoxide will now be available at [https://localhost:3000](https://localhost:3000)
