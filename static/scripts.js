@@ -1020,36 +1020,6 @@ async function fetchKeys(opts) {
     return output;
 }
 
-function encodeZBase32(data) {
-    // Source: https://github.com/openpgpjs/openpgpjs/blob/master/src/util.js
-    if (data.length === 0) {
-        return "";
-    }
-    const ALPHABET = "ybndrfg8ejkmcpqxot1uwisza345h769";
-    const SHIFT = 5;
-    const MASK = 31;
-    let buffer = data[0];
-    let index = 1;
-    let bitsLeft = 8;
-    let result = '';
-    while (bitsLeft > 0 || index < data.length) {
-        if (bitsLeft < SHIFT) {
-            if (index < data.length) {
-                buffer <<= 8;
-                buffer |= data[index++] & 0xff;
-                bitsLeft += 8;
-            } else {
-                const pad = SHIFT - bitsLeft;
-                buffer <<= pad;
-                bitsLeft += pad;
-            }
-        }
-        bitsLeft -= SHIFT;
-        result += ALPHABET[MASK & (buffer >> bitsLeft)];
-    }
-    return result;
-}
-
 async function computeWKDLocalPart(message) {
     const data = openpgp.util.str_to_Uint8Array(message);
     const hash = await openpgp.crypto.hash.sha1(data);
