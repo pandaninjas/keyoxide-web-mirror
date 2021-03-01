@@ -1,5 +1,3 @@
-# FAQ
-
 [[toc]]
 
 ## What is Keyoxide?

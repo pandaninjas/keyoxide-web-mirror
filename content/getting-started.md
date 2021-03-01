@@ -1,5 +1,3 @@
-# Getting started
-
 Glad you made it here :)
 
 Let's get you started on setting up your online identity and profile page.

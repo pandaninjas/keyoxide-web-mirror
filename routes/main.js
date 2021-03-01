@@ -43,13 +43,25 @@ if (process.env.ONION_URL) {
 }
 
 router.get('/', (req, res) => {
-    res.render('index');
+    let highlights = []
+    for (let index = 1; index < 4; index++) {
+        if (process.env[`KX_HIGHLIGHTS_${index}_NAME`]
+            && process.env[`KX_HIGHLIGHTS_${index}_FINGERPRINT`]) {
+            highlights.push({
+                name: process.env[`KX_HIGHLIGHTS_${index}_NAME`],
+                description: process.env[`KX_HIGHLIGHTS_${index}_DESCRIPTION`],
+                fingerprint: process.env[`KX_HIGHLIGHTS_${index}_FINGERPRINT`],
+            })
+        }
+    }
+
+    res.render('index', {highlights: highlights});
 });
 
 router.get('/getting-started', (req, res) => {
     let rawContent = fs.readFileSync(`./content/getting-started.md`, "utf8");
     const content = md.render(rawContent);
-    res.render(`basic`, { title: `Getting started - Keyoxide`, content: content });
+    res.render(`long-form-content`, { title: `Getting started`, content: content });
 });
 
 router.get('/faq', (req, res) => {
@@ -60,7 +72,7 @@ router.get('/faq', (req, res) => {
     let rawContent = fs.readFileSync(`./content/faq.md`, "utf8");
     rawContent = rawContent.replace('${domain}', req.app.get('domain'));
     const content = mdAlt.render(rawContent);
-    res.render(`basic`, { title: `Frequently Asked Questions - Keyoxide`, content: content });
+    res.render(`long-form-content`, { title: `Frequently Asked Questions`, content: content });
 });
 
 router.get('/guides', (req, res) => {
@@ -69,12 +81,18 @@ router.get('/guides', (req, res) => {
 
 router.get('/guides/:guideId', (req, res) => {
     let env = {};
-    let rawContent = fs.readFileSync(`./content/guides/${req.params.guideId}.md`, "utf8", (err, data) => {
-        if (err) throw err;
-        return data;
-    });
+    let rawContent
+    try {
+        rawContent = fs.readFileSync(`./content/guides/${req.params.guideId}.md`, "utf8", (err, data) => {
+            if (err) throw err;
+            return data;
+        });
+    } catch (error) {
+        res.render(`404`)
+        return
+    }
     const content = md.render(rawContent, env);
-    res.render(`basic`, { title: `${env.title} - Keyoxide`, content: content });
+    res.render(`long-form-content`, { title: `${env.title}`, content: content });
 });
 
 module.exports = router;
