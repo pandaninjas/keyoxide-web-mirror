@@ -81,18 +81,15 @@ router.get('/guides', (req, res) => {
 
 router.get('/guides/:guideId', (req, res) => {
     let env = {};
-    let rawContent
-    try {
-        rawContent = fs.readFileSync(`./content/guides/${req.params.guideId}.md`, "utf8", (err, data) => {
-            if (err) throw err;
-            return data;
-        });
-    } catch (error) {
-        res.render(`404`)
-        return
-    }
-    const content = md.render(rawContent, env);
-    res.render(`long-form-content`, { title: `${env.title}`, content: content });
+    fs.readFile(`./content/guides/${req.params.guideId}.md`, "utf8", (err, data) => {
+        if (err) {
+            res.render(`404`);
+            return
+        }
+
+        const content = md.render(data, env);
+        res.render(`long-form-content`, { title: `${env.title} - Keyoxide`, content: content });
+    });
 });
 
 module.exports = router;

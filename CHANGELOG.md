@@ -6,6 +6,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [2.5.0] - 2021-03-09
+### Added
+- IRC service provider
+- Matrix service provider
+### Fixed
+- Gracefully handle fetching non-existing guides
+
 ## [2.4.2] - 2021-03-02
 ### Fixed
 - Twitter claim verification

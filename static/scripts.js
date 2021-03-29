@@ -1431,7 +1431,7 @@ if (elUtilProfileURL) {
 
 function capitalizeLetteredServices(serviceName) {
     const servName = serviceName.toLowerCase();
-    if (servName === 'dns' || servName === 'xmpp') {
+    if (servName === 'dns' || servName === 'xmpp' || servName === 'irc') {
         return servName.toUpperCase();
     }
     return serviceName;
