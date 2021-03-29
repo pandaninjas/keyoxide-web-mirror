@@ -95,12 +95,8 @@ footer {
   max-width: 1440px;
   margin: 0 auto;
 }
-section.long_form {
+.narrow {
   width: 100%;
-  max-width: 720px;
-  margin: 0 auto;
-}
-section.profile, .demo {
   max-width: 720px;
   margin: 0 auto;
 }
@@ -156,7 +152,7 @@ section.profile p, .demo p {
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
-  
+
 }
 .card--small-profile a {
   display: block;
@@ -358,6 +354,12 @@ section.profile p, .demo p {
 .buttons a:hover {
   background-color: #ccc;
 }
+.modes {
+    display: none;
+}
+.modes.modes--visible {
+    display: block;
+}
 
 h1 {
   font-size: 1.6em;
@@ -475,6 +477,15 @@ textarea {
 
 form {
   margin: 0 0 5.6rem;
+}
+form label {
+  margin: 0 8px 0 0;
+}
+form .modesContainer {
+  margin: 16px 0;
+}
+form .modesContainer input {
+  margin: 0 8px 0 0;
 }
 form input[type="submit"] {
   display: block;

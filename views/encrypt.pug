@@ -1,0 +1,22 @@
+extends templates/base.pug
+
+block js
+  script(type='application/javascript' src='/static/openpgp.min.js' charset='utf-8')
+  script(type='application/javascript' src='/static/doip.js' charset='utf-8')
+  script(type='application/javascript' src='/static/scripts.js' charset='utf-8')
+
+block content
+  section.narrow
+    noscript
+      p Keyoxide requires JavaScript to function.
+
+    h1 Encrypt
+    form#form-encrypt(method='post')
+      h3 Recipient
+      label(for='modeSelect') Mode:
+      include partials/key_selector
+
+      h3 Message
+      textarea#message(name='message')
+      p#result
+      input.bigBtn(type='submit' name='submit' value='ENCRYPT MESSAGE')

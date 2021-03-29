@@ -6,7 +6,7 @@ block js
   script(type='application/javascript' src='/static/scripts.js' charset='utf-8')
 
 block content
-  section.profile
+  section.profile.narrow
     noscript
       p Keyoxide requires JavaScript to function.
     span#profileUid(style='display: none;') #{uid}
@@ -19,7 +19,7 @@ block content
           label(for="plaintext_input")  Please enter the raw profile signature below and press "Generate profile".
           textarea#plaintext_input(name='plaintext_input')
           input(type='submit', name='submit', value='Generate profile')
-    
+
     #profileHeader.card.card--profileHeader
 
     #profileProofs.card
