@@ -36,6 +36,7 @@ router.get('/doip.min.js', function(req, res) {
 router.get('/doip.js', function(req, res) {
     res.sendFile(`node_modules/doipjs/dist/doip.js`, { root: `${__dirname}/../` })
 });
+
 router.get('/openpgp.min.js', function(req, res) {
     res.sendFile(`node_modules/openpgp/dist/openpgp.min.js`, { root: `${__dirname}/../` })
 });
@@ -48,6 +49,13 @@ router.get('/qrcode.min.js', function(req, res) {
 });
 router.get('/qrcode.min.js.map', function(req, res) {
     res.sendFile(`node_modules/qrcode/build/qrcode.min.js.map`, { root: `${__dirname}/../` })
+});
+
+router.get('/dialog-polyfill.js', function(req, res) {
+    res.sendFile(`node_modules/dialog-polyfill/dist/dialog-polyfill.js`, { root: `${__dirname}/../` })
+});
+router.get('/dialog-polyfill.css', function(req, res) {
+    res.sendFile(`node_modules/dialog-polyfill/dist/dialog-polyfill.css`, { root: `${__dirname}/../` })
 });
 
 router.use('/', express.static('static'));
