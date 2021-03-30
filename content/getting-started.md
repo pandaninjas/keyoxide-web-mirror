@@ -10,33 +10,9 @@ Well, you can't.
 
 But you don't need to!
 
-Keyoxide is not your typical "web application" requiring you to create an account and log in to perform tasks. That sounds strange but this approach has many advantages! Let's first review some concepts of how Keyoxide does its magic.
+Keyoxide is not your typical "web application" requiring you to create an account and log in to perform tasks. That sounds strange but this approach has many advantages!
 
-If you just want to know what to do, jump to [Generating an OpenPGP key](#generating-an-openpgp-key).
-
-## How websites store and handle data
-
-### Centralized model
-
-Creating an account on a traditional or "centralized" website like Facebook allows them to store your data on their servers and generate a profile page with that data. The problem with this approach is that you don't own your data: Facebook owns your data. And once it's on their servers, it's hard to get rid of it.
-
-Fortunately for you, we can do better.
-
-### Decentralized model
-
-Keyoxide still needs data to show on your profile page but it doesn't want to store that data on its server. Instead, Keyoxide goes looking for your data where you have decided to store it. This has the distinct advantage that you remain in control of that data! Remove it and it's no longer accessible to Keyoxide.
-
-Also, no need to create yet another account on yet another website \o/
-
-## Cryptographic keys
-
-Proofs are created and managed inside cryptographic keys that act as "secure transport vessels", which are stored on special servers that already contain the cryptographic keys of many people. Keyoxide simply goes looking for your key and read the content.
-
-What makes cryptographic keys so useful for us is that they are actually made of two keys: a "private key" that only you have on your device and a "public key" that you can give away to everyone. Only you can add and edit proofs but everyone can read them.
-
-An important note: the guide below follows a few best practices but does make assumptions, for example on how your key is stored online. If you know what you are doing, you are encouraged to go your own route! If you are less familiar with the OpenPGP ecosystem, you might feel safer following this guide.
-
-Enough theory! Let's go decentralized!
+If you'd like to know more about the theoretical concepts, have a look at the [About Keyoxide page](/about).
 
 ## Generating an OpenPGP key
 

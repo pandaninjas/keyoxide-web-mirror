@@ -58,6 +58,12 @@ router.get('/', (req, res) => {
     res.render('index', {highlights: highlights});
 });
 
+router.get('/about', (req, res) => {
+    let rawContent = fs.readFileSync(`./content/about.md`, "utf8");
+    const content = md.render(rawContent);
+    res.render(`long-form-content`, { title: `About Keyoxide`, content: content });
+});
+
 router.get('/getting-started', (req, res) => {
     let rawContent = fs.readFileSync(`./content/getting-started.md`, "utf8");
     const content = md.render(rawContent);

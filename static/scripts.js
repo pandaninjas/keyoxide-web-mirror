@@ -167,69 +167,6 @@ async function encryptMessage(opts) {
     elBtn.setAttribute("disabled", "true");
 };
 
-// async function verifyProofs(opts) {
-//     // Init
-//     const elRes = document.body.querySelector("#result");
-//     let keyData, feedback = "", message, encrypted;
-
-//     // Reset feedback
-//     elRes.innerHTML = "";
-//     elRes.classList.remove('green');
-//     elRes.classList.remove('red');
-
-//     try {
-//         // Get key data
-//         keyData = await fetchKeys(opts);
-//     } catch (e) {
-//         console.error(e);
-//         elRes.innerHTML = e;
-//         elRes.classList.remove('green');
-//         elRes.classList.add('red');
-//         return;
-//     }
-
-//     let notations = [], notationsRaw = [];
-//     for (var i = 0; i < keyData.publicKey.users.length; i++) {
-//         notationsRaw = notationsRaw.concat(keyData.publicKey.users[i].selfCertifications[0].notations);
-//     }
-//     notationsRaw.forEach((item, i) => {
-//         if (item[0] == "proof@metacode.biz") {
-//             notations.push(item[1]);
-//         }
-//     });
-//     notations = Array.from(new Set(notations)); // Deduplicate (ES6)
-
-//     // Display feedback
-//     elRes.innerHTML = "Verifying proofs&hellip;";
-
-//     let notation, isVerified, verifications = [];
-//     for (var i = 0; i < notations.length; i++) {
-//         notation = notations[i];
-//         verifications.push(await verifyProof(notation, keyData.fingerprint));
-//     }
-
-//     // One-line sorting function (order verifications by type)
-//     verifications = verifications.sort((a,b) => (a.type > b.type) ? 1 : ((b.type > a.type) ? -1 : 0));
-
-//     // Generate feedback
-//     feedback += `<p>`;
-//     for (var i = 0; i < verifications.length; i++) {
-//         if (verifications[i].type == null) { continue; }
-//         feedback += `${verifications[i].type}: `;
-//         feedback += `<a class="proofDisplay" href="${verifications[i].url}" rel="me">${verifications[i].display}</a>`;
-//         if (verifications[i].isVerified) {
-//             feedback += `<a class="proofUrl proofUrl--verified" href="${verifications[i].proofUrl}">verified &#10004;</a>`;
-//         } else {
-//             feedback += `<a class="proofUrl" href="${verifications[i].proofUrl}">unverified</a>`;
-//         }
-//         feedback += `<br>`;
-//     }
-//     feedback += `</p>`;
-
-//     // Display feedback
-//     elRes.innerHTML = feedback;
-// }
-
 async function displayProfile(opts) {
     /// UTILITY FUNCTIONS
     // Sort claims by name and filter for errors
@@ -285,7 +222,7 @@ async function displayProfile(opts) {
         `;
     }
     // Generate a HTML string for each userId and associated claims
-    const generateProfileUserIdHTML = (userId, claims, opts) => {
+    const generateProfileUserIdHTML = (userId, claims, dialogIds, opts) => {
         // Init output
         let output = '';
 
@@ -325,7 +262,7 @@ async function displayProfile(opts) {
 
         //  Generate output for each claim
         claims.forEach((claim, i) => {
-            const claimData = claim.serviceproviderData
+            const claimData = claim.serviceproviderData;
             if (!claimData.serviceprovider.name) {
                 return;
             }
@@ -341,17 +278,71 @@ async function displayProfile(opts) {
                                 <span>${capitalizeLetteredServices(claimData.serviceprovider.name)}</span>
                                 <a href="${claimData.profile.uri}">View&nbsp;account</a>
                                 <a href="${claimData.proof.uri}">View&nbsp;proof</a>
-                                <a href="#">Details</a>
+                                <button onClick="document.querySelector('#dialog--${dialogIds[i]}').showModal();">Details</button>
                             </p>
                         </div>
                     </div>
                     <div class="claim__verification claim__verification--${claim.isVerified ? "true" : "false"}">${claim.isVerified ? "✔" : "✕"}</div>
                 </div>
             `;
-            // if (claim.isVerified && claimData.profile.qr) {
-            //     feedback += `<a class="proofQR green" href="/util/qr/${encodeURIComponent(claimData.profile.qr)}" target="_blank" title="QR Code">${icon_qr}</a>`;
-            // }
-        })
+        });
+
+        return output;
+    }
+    // Generate a HTML string for each userId and associated claims
+    const generateClaimDialogHTML = (claims, dialogIds) => {
+        //  Generate dialog for each claim
+        let output = '';
+
+        claims.forEach((claim, i) => {
+            const claimData = claim.serviceproviderData;
+            output += `
+                <dialog id="dialog--${dialogIds[i]}">
+                    <div>
+                        <p>
+                            The claim's service provider is <strong>${claimData.serviceprovider.name}</strong>.
+                        </p>
+                        <p>
+                            The claim points to: <a href="${claimData.profile.uri}">${claimData.profile.uri}</a>.
+                        </p>
+                        <p>
+                            The supposed proof is located at: <a href="${claimData.proof.uri}">${claimData.proof.uri}</a>.
+                        </p>
+            `;
+            if (claimData.proof.fetch) {
+                output += `
+                        <p class="warning">
+                            Due to technical restraints, the machine had to fetch the proof from: <a href="${claimData.proof.fetch}">${claimData.proof.fetch}</a>. This link may not work for you.
+                        </p>
+                `;
+            }
+            if (claimData.customRequestHandler) {
+                output += `
+                        <p class="warning">
+                            This claim's verification process was more complex than most verifications. The link(s) above may offer only limited insight into the verification process.
+                        </p>
+                `;
+            }
+            output += `
+                        <p>
+                            The claim <strong>${claim.isVerified ? 'has been' : 'could not be'} verified</strong> by this proof.
+                        </p>
+                `;
+            if (claim.errors.length > 0) {
+                output += `
+                        <p class="warning">
+                            The verification encountered errors: ${JSON.stringify(claim.errors)}.
+                        </p>
+                `;
+            }
+            output += `
+                        <form method="dialog">
+                            <input type="submit" value="Close" />
+                        </form>
+                    </div>
+                </dialog>
+            `;
+        });
 
         return output;
     }
@@ -499,43 +490,26 @@ async function displayProfile(opts) {
         return;
     }
 
+    let feedbackDialog = "";
+    let dialogIds = null;
     feedback = "";
 
     if (opts.mode === 'sig') {
         const claims = sortClaims(verifications);
-        feedback += generateProfileUserIdHTML(userData, claims, {isPrimary: false});
 
-        // feedback += `<div class="profileDataItem profileDataItem--separator profileDataItem--noLabel">`;
-        // feedback += `<div class="profileDataItem__label"></div>`;
-        // feedback += `<div class="profileDataItem__value">proofs</div>`;
-        // feedback += `</div>`;
+        dialogIds = new Uint32Array(claims.length);
+        window.crypto.getRandomValues(dialogIds);
 
-        // verifications = verifications.filter((a) => (a && a.errors.length == 0 && a.serviceproviderData))
-        // verifications = verifications.sort((a,b) => (a.serviceproviderData.serviceprovider.name > b.serviceproviderData.serviceprovider.name) ? 1 : ((b.serviceproviderData.serviceprovider.name > a.serviceproviderData.serviceprovider.name) ? -1 : 0));
-
-        // verifications.forEach((claim, i) => {
-        //     const claimData = claim.serviceproviderData;
-        //     if (!claimData.serviceprovider.name) {
-        //         return;
-        //     }
-        //     feedback += `<div class="profileDataItem">`;
-        //     feedback += `<div class="profileDataItem__label">${capitalizeLetteredServices(claimData.serviceprovider.name)}</div>`;
-        //     feedback += `<div class="profileDataItem__value">`;
-        //     feedback += `<a class="proofDisplay" href="${claimData.profile.uri}"  rel="me">${claimData.profile.display}</a>`;
-        //     if (claim.isVerified) {
-        //         feedback += `<a class="proofUrl proofUrl--verified" href="${claimData.proof.uri}">verified &#10004;</a>`;
-        //     } else {
-        //         feedback += `<a class="proofUrl" href="${claimData.proof.uri}">unverified</a>`;
-        //     }
-        //     if (claim.isVerified && claimData.profile.qr) {
-        //         feedback += `<a class="proofQR green" href="/util/qr/${encodeURIComponent(claimData.profile.qr)}" target="_blank" title="QR Code">${icon_qr}</a>`;
-        //     }
-        //     feedback += `</div>`;
-        //     feedback += `</div>`;
-        // });
+        feedback += generateProfileUserIdHTML(userData, claims, dialogIds, {isPrimary: false});
+        feedbackDialog += generateClaimDialogHTML(claims, dialogIds);
     } else {
         const primaryClaims = getPrimaryClaims(userData, keyData.users, verifications);
-        feedback += generateProfileUserIdHTML(userData, primaryClaims, {isPrimary: true});
+
+        dialogIds = new Uint32Array(primaryClaims.length);
+        window.crypto.getRandomValues(dialogIds);
+
+        feedback += generateProfileUserIdHTML(userData, primaryClaims, dialogIds, {isPrimary: true});
+        feedbackDialog += generateClaimDialogHTML(primaryClaims, dialogIds);
 
         keyData.users.forEach((user, i) => {
             if (!user.userId || userData.email && user.userId && user.userId.email === userData.email) {
@@ -548,388 +522,70 @@ async function displayProfile(opts) {
                 isIdenticaltoPrimary: primaryClaims && primaryClaims.toString() === claims.toString()
             }
 
-            feedback += generateProfileUserIdHTML(user.userId, claims, opts);
+            dialogIds = new Uint32Array(claims.length);
+            window.crypto.getRandomValues(dialogIds);
+
+            feedback += generateProfileUserIdHTML(user.userId, claims, dialogIds, opts);
+            feedbackDialog += generateClaimDialogHTML(claims, dialogIds);
         })
     }
 
     feedback += `
+        <dialog id="dialog--whatisthis">
+            <div>
+                <p>
+                    Keyoxide allows anyone to prove that they have accounts on certain websites and, by doing so, establish an online identity. To guarantee the validity of these identity verifications and prevent impersonation, Keyoxide uses secure and well-known encryption paradigms. All claims are verified using bidirectional linking.
+                </p>
+                <p>
+                    You are currently viewing someone's Keyoxide profile, including the verification results of their identity claims.
+                </p>
+                <p>
+                    More detailed information is available on the <a href="/">What is Keyoxide</a> page.
+                </p>
+                <form method="dialog">
+                    <input type="submit" value="Close" />
+                </form>
+            </div>
+        </dialog>
+        <dialog id="dialog--localverification">
+            <div>
+                <p>
+                    The profile page you are currently viewing depends at least partially on a server you may not know, operated by someone you may not have reason to trust.
+                </p>
+                <p>
+                    You can choose to perform the identity verification again, but this time completely locally, removing the need to trust unknown servers.
+                </p>
+                <p>
+                    On linux/mac/windows, run:
+                </p>
+                <pre><code>keyoxide verify ${opts.mode}:${opts.input}</code></pre>
+                <form method="dialog">
+                    <input type="submit" value="Close" />
+                </form>
+            </div>
+        </dialog>
         <p class="subtle-links">
-            <a href="#">What is this?</a>
-            <a href="#">Perform local verification</a>
+            <button onclick="document.querySelector('#dialog--whatisthis').showModal()">What is this?</button>
+            <button onclick="document.querySelector('#dialog--localverification').showModal()">Perform local verification</button>
         </p>`;
 
     // Display feedback
     document.body.querySelector('#profileProofs').innerHTML = feedback;
+    if (feedbackDialog) {
+        document.body.querySelector('#profileDialogs').innerHTML = feedbackDialog;
+    }
+
+    // Register modals
+    document.querySelectorAll('dialog').forEach(function(d) {
+        dialogPolyfill.registerDialog(d);
+        d.addEventListener('click', function(ev) {
+            if (ev && ev.target != d) {
+                return;
+            }
+            d.close();
+        });
+    });
 }
-
-// async function verifyProof(url, fingerprint) {
-//     // Init
-//     let reVerify, match, output = {url: url, type: null, proofUrl: url, proofUrlFetch: null, isVerified: false, display: null, qr: null};
-
-//     try {
-//         // DNS
-//         if (/^dns:/.test(url)) {
-//             output.type = "domain";
-//             output.display = url.replace(/dns:/, '').replace(/\?type=TXT/, '');
-//             output.proofUrl = `https://dns.shivering-isles.com/dns-query?name=${output.display}&type=TXT`;
-//             output.proofUrlFetch = output.proofUrl;
-//             output.url = `https://${output.display}`;
-
-//             try {
-//                 response = await fetch(output.proofUrlFetch, {
-//                     headers: {
-//                         Accept: 'application/json'
-//                     },
-//                     credentials: 'omit'
-//                 });
-//                 if (!response.ok) {
-//                     throw new Error('Response failed: ' + response.status);
-//                 }
-//                 json = await response.json();
-//                 reVerify = new RegExp(`openpgp4fpr:${fingerprint}`, 'i');
-//                 json.Answer.forEach((item, i) => {
-//                     if (reVerify.test(item.data)) {
-//                         output.isVerified = true;
-//                     }
-//                 });
-//             } catch (e) {
-//             } finally {
-//                 return output;
-//             }
-//         }
-//         // XMPP
-//         if (/^xmpp:/.test(url)) {
-//             output.type = "xmpp";
-//             match = url.match(/xmpp:([a-zA-Z0-9\.\-\_]*)@([a-zA-Z0-9\.\-\_]*)(?:\?(.*))?/);
-//             output.display = `${match[1]}@${match[2]}`;
-//             output.proofUrl = `https://PLACEHOLDER__XMPP_VCARD_SERVER_DOMAIN/api/vcard/${output.display}/DESC`;
-//             output.qr = url;
-
-//             try {
-//                 response = await fetchWithTimeout(output.proofUrl);
-//                 if (!response.ok) {
-//                     throw new Error('Response failed: ' + response.status);
-//                 }
-//                 json = await response.json();
-//                 reVerify = new RegExp(`[Verifying my OpenPGP key: openpgp4fpr:${fingerprint}]`, 'i');
-//                 if (reVerify.test(json)) {
-//                     output.isVerified = true;
-//                 }
-//             } catch (e) {
-//             } finally {
-//                 return output;
-//             }
-//         }
-//         // Twitter
-//         if (/^https:\/\/twitter.com/.test(url)) {
-//             output.type = "twitter";
-//             match = url.match(/https:\/\/twitter\.com\/(.*)\/status\/([0-9]*)(?:\?.*)?/);
-//             output.display = `@${match[1]}`;
-//             output.url = `https://twitter.com/${match[1]}`;
-//             output.proofUrlFetch = `/server/verify/twitter
-// ?tweetId=${encodeURIComponent(match[2])}
-// &account=${encodeURIComponent(match[1])}
-// &fingerprint=${fingerprint}`;
-//             try {
-//                 response = await fetch(output.proofUrlFetch);
-//                 if (!response.ok) {
-//                     throw new Error('Response failed: ' + response.status);
-//                 }
-//                 json = await response.json();
-//                 output.isVerified = json.isVerified;
-//             } catch (e) {
-//             } finally {
-//                 return output;
-//             }
-//         }
-//         // HN
-//         if (/^https:\/\/news.ycombinator.com/.test(url)) {
-//             output.type = "hackernews";
-//             match = url.match(/https:\/\/news.ycombinator.com\/user\?id=(.*)/);
-//             output.display = match[1];
-//             output.proofUrl = `https://hacker-news.firebaseio.com/v0/user/${match[1]}.json`;
-//             output.proofUrlFetch = output.proofUrl;
-//             try {
-//                 response = await fetch(output.proofUrlFetch, {
-//                     headers: {
-//                         Accept: 'application/json'
-//                     },
-//                     credentials: 'omit'
-//                 });
-//                 if (!response.ok) {
-//                     throw new Error('Response failed: ' + response.status);
-//                 }
-//                 json = await response.json();
-//                 reVerify = new RegExp(`openpgp4fpr:${fingerprint}`, 'i');
-//                 if (reVerify.test(json.about)) {
-//                     output.isVerified = true;
-//                 }
-//             } catch (e) {
-//             }
-
-//             if (!output.isVerified) {
-//                 output.proofUrlFetch = `/server/verify/proxy
-// ?url=${encodeURIComponent(output.proofUrl)}
-// &fingerprint=${fingerprint}
-// &checkRelation=contains
-// &checkPath=about
-// &checkClaimFormat=message`;
-//                 try {
-//                     response = await fetch(output.proofUrlFetch);
-//                     if (!response.ok) {
-//                         throw new Error('Response failed: ' + response.status);
-//                     }
-//                     json = await response.json();
-//                     output.isVerified = json.verified;
-//                 } catch (e) {
-//                 }
-//             }
-//             return output;
-//         }
-//         // dev.to
-//         if (/^https:\/\/dev\.to\//.test(url)) {
-//             output.type = "dev.to";
-//             match = url.match(/https:\/\/dev\.to\/(.*)\/(.*)/);
-//             output.display = match[1];
-//             output.url = `https://dev.to/${match[1]}`;
-//             output.proofUrlFetch = `https://dev.to/api/articles/${match[1]}/${match[2]}`;
-//             try {
-//                 response = await fetch(output.proofUrlFetch);
-//                 if (!response.ok) {
-//                     throw new Error('Response failed: ' + response.status);
-//                 }
-//                 json = await response.json();
-//                 reVerify = new RegExp(`[Verifying my OpenPGP key: openpgp4fpr:${fingerprint}]`, 'i');
-//                 if (reVerify.test(json.body_markdown)) {
-//                     output.isVerified = true;
-//                 }
-//             } catch (e) {
-//             } finally {
-//                 return output;
-//             }
-//         }
-//         // Reddit
-//         if (/^https:\/\/(?:www\.)?reddit\.com\/user/.test(url)) {
-//             output.type = "reddit";
-//             match = url.match(/https:\/\/(?:www\.)?reddit\.com\/user\/(.*)\/comments\/(.*)\/([^/]*)/);
-//             output.display = match[1];
-//             output.url = `https://www.reddit.com/user/${match[1]}`;
-//             output.proofUrl = `https://www.reddit.com/user/${match[1]}/comments/${match[2]}.json`;
-//             output.proofUrlFetch = `/server/verify/proxy
-// ?url=${encodeURIComponent(output.proofUrl)}
-// &fingerprint=${fingerprint}
-// &checkRelation=contains
-// &checkPath=data,children,data,selftext
-// &checkClaimFormat=message`;
-//             try {
-//                 response = await fetch(output.proofUrlFetch);
-//                 if (!response.ok) {
-//                     throw new Error('Response failed: ' + response.status);
-//                 }
-//                 json = await response.json();
-//                 output.isVerified = json.isVerified;
-//             } catch (e) {
-//             } finally {
-//                 return output;
-//             }
-//         }
-//         // Gitea
-//         if (/\/gitea_proof$/.test(url)) {
-//             output.type = "gitea";
-//             match = url.match(/https:\/\/(.*)\/(.*)\/gitea_proof/);
-//             output.display = `${match[2]}@${match[1]}`;
-//             output.url = `https://${match[1]}/${match[2]}`;
-//             output.proofUrl = `https://${match[1]}/api/v1/repos/${match[2]}/gitea_proof`;
-//             output.proofUrlFetch = `/server/verify/proxy
-// ?url=${encodeURIComponent(output.proofUrl)}
-// &fingerprint=${fingerprint}
-// &checkRelation=eq
-// &checkPath=description
-// &checkClaimFormat=message`;
-//             output.proofUrl = url; // Actually set the proof URL to something user-friendly
-//             try {
-//                 response = await fetch(output.proofUrlFetch);
-//                 if (!response.ok) {
-//                     throw new Error('Response failed: ' + response.status);
-//                 }
-//                 json = await response.json();
-//                 output.isVerified = json.isVerified;
-//             } catch (e) {
-//             } finally {
-//                 return output;
-//             }
-//         }
-//         // Github
-//         if (/^https:\/\/gist.github.com/.test(url)) {
-//             output.type = "github";
-//             match = url.match(/https:\/\/gist.github.com\/(.*)\/(.*)/);
-//             output.display = match[1];
-//             output.url = `https://github.com/${match[1]}`;
-//             output.proofUrlFetch = `https://api.github.com/gists/${match[2]}`;
-//             try {
-//                 response = await fetch(output.proofUrlFetch, {
-//                     headers: {
-//                         Accept: 'application/json'
-//                     },
-//                     credentials: 'omit'
-//                 });
-//                 if (!response.ok) {
-//                     throw new Error('Response failed: ' + response.status);
-//                 }
-//                 json = await response.json();
-//                 reVerify = new RegExp(`[Verifying my OpenPGP key: openpgp4fpr:${fingerprint}]`, 'i');
-//                 if (reVerify.test(json.files["openpgp.md"].content)) {
-//                     output.isVerified = true;
-//                 }
-//             } catch (e) {
-//             } finally {
-//                 return output;
-//             }
-//         }
-//         // GitLab
-//         if (/\/gitlab_proof$/.test(url)) {
-//             output.type = "gitlab";
-//             match = url.match(/https:\/\/(.*)\/(.*)\/gitlab_proof/);
-//             output.display = `${match[2]}@${match[1]}`;
-//             output.url = `https://${match[1]}/${match[2]}`;
-//             output.proofUrlFetch = `https://${match[1]}/api/v4/users?username=${match[2]}`;
-//             try {
-//                 const opts = {
-//                     headers: {
-//                         Accept: 'application/json'
-//                     },
-//                     credentials: 'omit'
-//                 };
-//                 // Get user
-//                 response = await fetch(output.proofUrlFetch, opts);
-//                 if (!response.ok) {
-//                     throw new Error('Response failed: ' + response.status);
-//                 }
-//                 json = await response.json();
-//                 const user = json.find(user => user.username === match[2]);
-//                 if (!user) {
-//                     throw new Error('No user with username ' + match[2]);
-//                 }
-//                 // Get project
-//                 output.proofUrlFetch = `https://${match[1]}/api/v4/users/${user.id}/projects`;
-//                 response = await fetch(output.proofUrlFetch, opts);
-//                 if (!response.ok) {
-//                     throw new Error('Response failed: ' + response.status);
-//                 }
-//                 json = await response.json();
-//                 const project = json.find(proj => proj.path === 'gitlab_proof');
-//                 if (!project) {
-//                     throw new Error('No project at ' + url);
-//                 }
-//                 reVerify = new RegExp(`[Verifying my OpenPGP key: openpgp4fpr:${fingerprint}]`, 'i');
-//                 if (reVerify.test(project.description)) {
-//                     output.isVerified = true;
-//                 }
-//             } catch (e) {
-//             } finally {
-//                 return output;
-//             }
-//         }
-//         // Lobsters
-//         if (/^https:\/\/lobste.rs/.test(url)) {
-//             output.type = "lobsters";
-//             match = url.match(/https:\/\/lobste.rs\/u\/(.*)/);
-//             output.display = match[1];
-//             output.proofUrl = `https://lobste.rs/u/${match[1]}.json`;
-//             output.proofUrlFetch = `/server/verify/proxy
-// ?url=${encodeURIComponent(output.proofUrl)}
-// &fingerprint=${fingerprint}
-// &checkRelation=contains
-// &checkPath=about
-// &checkClaimFormat=message`;
-//             try {
-//                 response = await fetch(output.proofUrlFetch);
-//                 if (!response.ok) {
-//                     throw new Error('Response failed: ' + response.status);
-//                 }
-//                 json = await response.json();
-//                 output.isVerified = json.isVerified;
-//             } catch (e) {
-//             } finally {
-//                 return output;
-//             }
-//         }
-//         // Catchall
-//         // Fediverse
-//         try {
-//             response = await fetch(url, {
-//                 headers: {
-//                     Accept: 'application/json'
-//                 },
-//                 credentials: 'omit'
-//             });
-//             if (!response.ok) {
-//                 throw new Error('Response failed: ' + response.status);
-//             }
-//             json = await response.json();
-//             if ('attachment' in json) {
-//                 match = url.match(/https:\/\/(.*)\/@(.*)/);
-//                 json.attachment.forEach((item, i) => {
-//                     reVerify = new RegExp(fingerprint, 'i');
-//                     if (reVerify.test(item.value)) {
-//                         output.type = "fediverse";
-//                         output.display = `@${json.preferredUsername}@${[match[1]]}`;
-//                         output.proofUrlFetch = json.url;
-//                         output.isVerified = true;
-//                     }
-//                 });
-//             }
-//             if (!output.type && 'summary' in json) {
-//                 match = url.match(/https:\/\/(.*)\/users\/(.*)/);
-//                 reVerify = new RegExp(`[Verifying my OpenPGP key: openpgp4fpr:${fingerprint}]`, 'i');
-//                 if (reVerify.test(json.summary)) {
-//                     output.type = "fediverse";
-//                     output.display = `@${json.preferredUsername}@${[match[1]]}`;
-//                     output.proofUrlFetch = json.url;
-//                     output.isVerified = true;
-//                 }
-//             }
-//             if (output.type) {
-//                 return output;
-//             }
-//         } catch (e) {
-//             console.warn(e);
-//         }
-//         // Discourse
-//         try {
-//             match = url.match(/https:\/\/(.*)\/u\/(.*)/);
-//             output.proofUrl = `${url}.json`;
-//             output.proofUrlFetch = `/server/verify/proxy
-// ?url=${encodeURIComponent(output.proofUrl)}
-// &fingerprint=${fingerprint}
-// &checkRelation=contains
-// &checkPath=user,bio_raw
-// &checkClaimFormat=message`;
-//             try {
-//                 response = await fetch(output.proofUrlFetch);
-//                 if (!response.ok) {
-//                     throw new Error('Response failed: ' + response.status);
-//                 }
-//                 json = await response.json();
-//                 if (json.isVerified) {
-//                     output.type = "discourse";
-//                     output.display = `${match[2]}@${match[1]}`;
-//                     output.isVerified = json.isVerified;
-//                     return output;
-//                 }
-//             } catch (e) {
-//                 console.warn(e);
-//             }
-//         } catch (e) {
-//             console.warn(e);
-//         }
-//     } catch (e) {
-//         console.warn(e);
-//     }
-
-//     // Return output without confirmed proof
-//     return output;
-// }
 
 async function fetchKeys(opts) {
     // Init

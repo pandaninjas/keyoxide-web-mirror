@@ -386,7 +386,7 @@ h3 {
   margin: 1.6rem 0;
   font-size: 1.3em;
   line-height: 1.6rem;
-  color: var(--grey-600);
+  color: var(--grey-700);
   font-weight: normal;
   /* text-align: center; */
   cursor: default;
@@ -399,12 +399,12 @@ h3 small {
   border-radius: 4px;
 }
 h4 {
-  margin: 3.2rem 0 1.6rem 0;
-  font-size: 1.3em;
+  margin: 1.6rem 0;
+  font-size: 1em;
   line-height: 1.6rem;
-  color: var(--grey-800);
-  color: var(--purple-700);
-  font-weight: normal;
+  color: var(--grey-600);
+  /* color: var(--purple-700); */
+  font-weight: bold;
   cursor: default;
 }
 h4 small {
@@ -416,6 +416,11 @@ h4 small {
 }
 p {
   margin: 1.6rem 0;
+}
+p.warning {
+  padding: 8px;
+  background-color: #fffadc;
+  border: solid 1px #ffeea8;
 }
 a {
   color: var(--blue-700);
@@ -437,7 +442,7 @@ main h1:first-of-type {
   /* font-size: 1rem; */
   /* font-weight: bold; */
   text-align: left;
-  color: var(--grey-700);
+  /* color: var(--grey-700); */
 }
 footer h1 {
   margin-bottom: 0.8rem;
@@ -451,7 +456,7 @@ footer a {
 }
 
 code {
-  padding: 8px;
+  padding: 2px 4px;
   background-color: var(--purple-100);
   border: 1px solid var(--purple-500);
 }
@@ -459,8 +464,9 @@ pre {
   padding: 8px 12px;
   background-color: var(--purple-100);
   border: 1px solid var(--purple-500);
-  overflow-x: scroll;
+  overflow-x: auto;
   line-height: 1.2rem;
+  font-size: 1rem;
 }
 pre code {
   padding: 0;
@@ -491,7 +497,6 @@ form input[type="submit"] {
   display: block;
   width: 100%;
   padding: 0.4rem 0.8rem;
-  /* color: #fff; */
   text-decoration: none;
   text-transform: uppercase;
   background-color: #fff;
@@ -502,4 +507,27 @@ form input[type="submit"] {
 form input[type="submit"]:hover {
   background-color: var(--blue-700);
   color: #fff;
+}
+
+dialog {
+  width: 100% !important;
+  max-width: 800px !important;
+  padding: 0 !important;
+  word-wrap: anywhere;
+}
+dialog > div {
+  padding: 1em;
+}
+dialog form[method="Dialog"] {
+  margin: 1em 0 0;
+}
+dialog form[method="Dialog"] input {
+  width: auto;
+}
+dialog p {
+  font-size: 1rem !important;
+  margin: 1rem 0;
+}
+dialog p:first-of-type {
+  margin-top: 0;
 }

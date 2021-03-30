@@ -3,7 +3,11 @@ extends templates/base.pug
 block js
   script(type='application/javascript' src='/static/openpgp.min.js' charset='utf-8')
   script(type='application/javascript' src='/static/doip.js' charset='utf-8')
+  script(type='application/javascript' src='/static/dialog-polyfill.js' charset='utf-8')
   script(type='application/javascript' src='/static/scripts.js' charset='utf-8')
+
+block css
+  link(rel='stylesheet' href='/static/dialog-polyfill.css')
 
 block content
   section.profile.narrow
@@ -12,6 +16,8 @@ block content
     span#profileUid(style='display: none;') #{uid}
     span#profileServer(style='display: none;') #{server}
     span#profileMode(style='display: none;') #{mode}
+
+    #profileDialogs
 
     if (mode == 'sig')
       #profileSigInput.card
