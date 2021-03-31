@@ -1,0 +1,13 @@
+extends ../templates/base.pug
+
+block js
+  script(type='application/javascript' src='/static/qrcode.min.js' charset='utf-8')
+  script(type='application/javascript' src='/static/scripts.js' charset='utf-8')
+
+block content
+  section.narrow
+    h1 QR Code
+    form#form-util-qr(method='post')
+      code#input.full-width !{input}
+    canvas#qrcode
+    a#qrcode--altLink(href='#') Press this link to directly open the URI
