@@ -6,11 +6,15 @@ Let's list the identity proofs stored in our OpenPGP keys.
 
 First, edit the key (make sure to replace FINGERPRINT):
 
-`gpg --edit-key FINGERPRINT`
+```
+gpg --edit-key FINGERPRINT
+```
 
 List detailed preferences:
 
-`showpref`
+```
+showpref
+```
 
 You should now see your key details, uid, and proofs assigned to your keys:
 
@@ -26,4 +30,6 @@ You should now see your key details, uid, and proofs assigned to your keys:
 
 Exit gpg:
 
-`quit`
+```
+quit
+```

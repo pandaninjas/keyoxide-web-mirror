@@ -10,7 +10,9 @@ The idea is that you use someone's public key to encrypt a message. From then on
 
 If you already have a public key (or its fingerprint) you would like to use to encrypt a message, great! If not, you could use the following fingerprint:
 
-`9f0048ac0b23301e1f77e994909f6bd6f80f485d`
+```
+9f0048ac0b23301e1f77e994909f6bd6f80f485d
+```
 
 ## Encrypt a message
 

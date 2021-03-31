@@ -18,25 +18,35 @@ This is an OpenPGP proof that connects my OpenPGP key to this XMPP account. For 
 
 First, edit the key (make sure to replace FINGERPRINT):
 
-`gpg --edit-key FINGERPRINT`
+```
+gpg --edit-key FINGERPRINT
+```
 
 Add a new notation:
 
-`notation`
+```
+notation
+```
 
 Enter the notation (make sure to replace XMPP-ID):
 
-`proof@metacode.biz=xmpp:XMPP-ID`
+```
+proof@metacode.biz=xmpp:XMPP-ID
+```
 
 The XMPP-ID looks something like an email address: **user@domain.org**.
 
 Save the key:
 
-`save`
+```
+save
+```
 
 Upload the key to WKD or use the following command to upload the key to [keys.openpgp.org](https://keys.openpgp.org) (make sure to replace FINGERPRINT):
 
-`gpg --keyserver hkps://keys.openpgp.org --send-keys FINGERPRINT`
+```
+gpg --keyserver hkps://keys.openpgp.org --send-keys FINGERPRINT
+```
 
 And you're done! Reload your profile page, it should now show a XMPP account.
 
@@ -50,6 +60,8 @@ If your XMPP identity proof is verified, a QR code is shown. Anyone can scan thi
 
 Making this identity proof yourself can be a tad difficult when using clients like Gajim, but luckily for us, [Conversations](https://conversations.im/) can directly generate the proof by going to **Account details > Share > Share as XMPP URI**. The resulting URI should look something like:
 
-`xmpp:user@domain.org?omemo-sid-123456789=A1B2C3D4E5F6G7H8I9...`
+```
+xmpp:user@domain.org?omemo-sid-123456789=A1B2C3D4E5F6G7H8I9...
+```
 
 To take advantage of the easy and secure XMPP identity proof including OMEMO fingerprints, follow the **basic edition** guide above but replace XMPP-ID with the URI obtained through the **Conversations** app.

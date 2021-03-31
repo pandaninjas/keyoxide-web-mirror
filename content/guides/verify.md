@@ -46,13 +46,17 @@ Sometimes, you want to know if a specific person or public key was used to creat
 
 Copy the following fingerprint:
 
-`653909A2F0E37C106F5FAF546C8857E0D8E8F074`
+```
+653909A2F0E37C106F5FAF546C8857E0D8E8F074
+```
 
 Paste it in the **Email / key id / fingerprint** field under **Public Key (3: HKP server)** and press the big button again. It could not be verified. Guess it wasn't Wiktor who signed that message.
 
 Now, copy the following fingerprint:
 
-`9f0048ac0b23301e1f77e994909f6bd6f80f485d`
+```
+9f0048ac0b23301e1f77e994909f6bd6f80f485d
+```
 
 Paste it in the same field and press the big button again. It did verify! It was Yarmo all along.
 

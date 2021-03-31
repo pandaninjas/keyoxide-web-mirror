@@ -22,7 +22,9 @@ The LOCALPART above is actually the username hashed using the SHA-1 algorithm an
 
 So if you wish to make your key available as **jimothy@dm.com**, according to the [small utility](/util/wkd), the URL would become:
 
-`https://dm.com/.well-known/openpgpkey/hu/n9utc41qty791upt63rm5xtiudabmw6m`
+```
+https://dm.com/.well-known/openpgpkey/hu/n9utc41qty791upt63rm5xtiudabmw6m
+```
 
 ## The Advanced setup
 
@@ -36,7 +38,9 @@ Indeed, quite similar to the Direct setup, except for the **openpgpkey** subdoma
 
 The public key for **jimothy@dm.com** would be available at:
 
-`https://openpgpkey.dm.com/.well-known/openpgpkey/hu/dm.com/n9utc41qty791upt63rm5xtiudabmw6m`
+```
+https://openpgpkey.dm.com/.well-known/openpgpkey/hu/dm.com/n9utc41qty791upt63rm5xtiudabmw6m
+```
 
 ## WKD-as-a-service
 

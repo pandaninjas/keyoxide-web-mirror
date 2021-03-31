@@ -18,22 +18,32 @@ This is an OpenPGP proof that connects my OpenPGP key to this Lobste.rs account.
 
 First, edit the key (make sure to replace FINGERPRINT):
 
-`gpg --edit-key FINGERPRINT`
+```
+gpg --edit-key FINGERPRINT
+```
 
 Add a new notation:
 
-`notation`
+```
+notation
+```
 
 Enter the notation (make sure to replace USERNAME):
 
-`proof@metacode.biz=https://lobste.rs/u/USERNAME`
+```
+proof@metacode.biz=https://lobste.rs/u/USERNAME
+```
 
 Save the key:
 
-`save`
+```
+save
+```
 
 Upload the key to WKD or use the following command to upload the key to [keys.openpgp.org](https://keys.openpgp.org) (make sure to replace FINGERPRINT):
 
-`gpg --keyserver hkps://keys.openpgp.org --send-keys FINGERPRINT`
+```
+gpg --keyserver hkps://keys.openpgp.org --send-keys FINGERPRINT
+```
 
 And you're done! Reload your profile page, it should now show a verified Lobste.rs account.

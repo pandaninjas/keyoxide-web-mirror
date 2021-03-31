@@ -18,24 +18,34 @@ This is an OpenPGP proof that connects my OpenPGP key to this Pleroma account. F
 
 First, edit the key (make sure to replace FINGERPRINT):
 
-`gpg --edit-key FINGERPRINT`
+```
+gpg --edit-key FINGERPRINT
+```
 
 Add a new notation:
 
-`notation`
+```
+notation
+```
 
 Enter the notation (make sure to update the link):
 
-`proof@metacode.biz=https://INSTANCE.ORG/users/USERNAME`
+```
+proof@metacode.biz=https://INSTANCE.ORG/users/USERNAME
+```
 
 Please note that the **/users/** part of the URL is mandatory for the proof to work.
 
 Save the key:
 
-`save`
+```
+save
+```
 
 Upload the key to WKD or use the following command to upload the key to [keys.openpgp.org](https://keys.openpgp.org) (make sure to replace FINGERPRINT):
 
-`gpg --keyserver hkps://keys.openpgp.org --send-keys FINGERPRINT`
+```
+gpg --keyserver hkps://keys.openpgp.org --send-keys FINGERPRINT
+```
 
 And you're done! Reload your profile page, it should now show a verified Fediverse account (Pleroma is part of the [Fediverse](#https://en.wikipedia.org/wiki/Fediverse)).

@@ -30,22 +30,32 @@ After creating the project, copy the link to the project.
 
 First, edit the key (make sure to replace FINGERPRINT):
 
-`gpg --edit-key FINGERPRINT`
+```
+gpg --edit-key FINGERPRINT
+```
 
 Add a new notation:
 
-`notation`
+```
+notation
+```
 
 Enter the notation (make sure to update with the link to the project copied above):
 
-`proof@metacode.biz=https://gitlab.example.com/USERNAME/gitlab_proof`
+```
+proof@metacode.biz=https://gitlab.example.com/USERNAME/gitlab_proof
+```
 
 Save the key:
 
-`save`
+```
+save
+```
 
 Upload the key to WKD or use the following command to upload the key to [keys.openpgp.org](https://keys.openpgp.org) (make sure to replace FINGERPRINT):
 
-`gpg --keyserver hkps://keys.openpgp.org --send-keys FINGERPRINT`
+```
+gpg --keyserver hkps://keys.openpgp.org --send-keys FINGERPRINT
+```
 
 And you're done! Reload your profile page, it should now show a verified GitLab account.
