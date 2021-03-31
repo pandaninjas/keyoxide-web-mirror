@@ -262,6 +262,7 @@ async function displayProfile(opts) {
 
         //  Generate output for each claim
         claims.forEach((claim, i) => {
+            console.log(claim);
             const claimData = claim.serviceproviderData;
             if (!claimData.serviceprovider.name) {
                 return;
@@ -278,6 +279,13 @@ async function displayProfile(opts) {
                                 <span>${capitalizeLetteredServices(claimData.serviceprovider.name)}</span>
                                 <a href="${claimData.profile.uri}">View&nbsp;account</a>
                                 <a href="${claimData.proof.uri}">View&nbsp;proof</a>
+                                `;
+            if (claimData.profile.qr) {
+                output += `
+                    <a href="/util/qr/${encodeURIComponent(claimData.profile.qr)}">View&nbsp;QR</a>
+                `;
+            }
+            output += `
                                 <button onClick="document.querySelector('#dialog--${dialogIds[i]}').showModal();">Details</button>
                             </p>
                         </div>
@@ -350,7 +358,6 @@ async function displayProfile(opts) {
     /// MAIN
     // Init variables
     let keyData, keyLink, sigVerification, sigKeyUri, fingerprint, feedback = "", verifications = [];
-    let icon_qr = '<svg style="width:24px;height:24px" viewBox="0 0 24 24"><path fill="#ffffff" d="M3,11H5V13H3V11M11,5H13V9H11V5M9,11H13V15H11V13H9V11M15,11H17V13H19V11H21V13H19V15H21V19H19V21H17V19H13V21H11V17H15V15H17V13H15V11M19,19V15H17V19H19M15,3H21V9H15V3M17,5V7H19V5H17M3,3H9V9H3V3M5,5V7H7V5H5M3,15H9V21H3V15M5,17V19H7V17H5Z" /></svg>';
 
     const doipOpts = {
         proxyPolicy: 'adaptive',

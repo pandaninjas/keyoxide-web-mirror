@@ -531,3 +531,8 @@ dialog p {
 dialog p:first-of-type {
   margin-top: 0;
 }
+
+#qrcode {
+  display: block;
+  margin: 0 auto 16px;
+}
