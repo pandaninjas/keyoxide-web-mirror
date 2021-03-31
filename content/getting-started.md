@@ -1,4 +1,6 @@
-Glad you made it here :)
+Glad you made it here!
+
+If you'd like to know more about how Keyoxide works before getting started, please have a look at the [About Keyoxide](/about) page.
 
 Let's get you started on setting up your online identity and profile page.
 

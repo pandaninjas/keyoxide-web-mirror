@@ -138,6 +138,21 @@ Some services like Gitlab or DNS require complicated verification processes or c
 
 Since this is the internet we are talking about, you should always be skeptical about data that comes from some unknown server. In order to mitigate this, each profile page on this website will invite you to perform the identity verification again but locally, using a native client appropriate to your device if one exists.
 
+
+### Claims
+
+Claims are the pieces of data to lets you claim an online property. A claim can only be verified by a proof.
+
+Claims are stored inside cryptographic keys as so-called &quot;notations&quot;: these can be seen as custom data entries. Typically, claims are structured as follows:
+
+`proof@metacode.biz=https://platform.com/username`
+
+- *proof* tells us we are looking at the location of a potential proof the current claim.
+- *@metacode.biz* tells us this is a specific type of proof, as defined on the [metacode.biz website](https://metacode.biz/openpgp/proofs). This part should NOT be changed when adding a new proof to your key.
+- The rest of the proof is simply a URL to the profile page of your account on a website.
+
+It is important to note that not all websites are supported. For now, supporting a single online platform involves a bit of work. It is also important to note not all platforms can be supported. You can always suggest new platforms to support by [creating an issue here](https://codeberg.org/keyoxide/doipjs) or contacting me at [yarmo@keyoxide.org](mailto:yarmo@keyoxide.org).
+
 ### Keyoxide instances
 
 The Keyoxide website was built with the idea that other people could put it on their servers as well. We call these "instances". The Keyoxide project's lead developer has put an instance on [https://keyoxide.org](https://keyoxide.org) but that is not the only way to access Keyoxide. Everyone could put it on their servers.
