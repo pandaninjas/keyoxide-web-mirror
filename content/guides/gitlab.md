@@ -6,7 +6,7 @@ Let's add a decentralized GitLab proof to your OpenPGP keys. This will also work
 
 ## Post a GitLab proof message
 
-Log in to [gitlab.com](https://gitlab.com) or any other GitLab instance and click on **New project**.
+Log in to [gitlab.com](https://gitlab.com) or any other GitLab instance (your profile must be "public", not "private") and click on **New project**.
 
 Set the project name to a name of your choosing.
 
