@@ -101,6 +101,8 @@ footer {
   margin: 0 auto;
 }
 section.profile .card, .demo .card {
+  padding-left: 0;
+  padding-right: 0;
   background-color: transparent;
   border: 0;
   box-shadow: 0 0 0 transparent;
