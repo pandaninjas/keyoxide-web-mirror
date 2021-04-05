@@ -269,6 +269,7 @@ section.profile p, .demo p {
 }
 .claim .claim__links p, p.subtle-links {
   display: flex;
+  align-items: center;
   flex-wrap: wrap;
   font-size: 1rem;
   color: var(--grey-700);
@@ -291,13 +292,13 @@ section.profile p, .demo p {
   min-width: 48px;
   height: 48px;
   border-radius: 100%;
-  background-color: var(--red-400);
+  background-color: var(--red-600);
   color: #fff;
   font-size: 2rem;
   user-select: none;
 }
 .claim .claim__verification--true {
-  background-color: var(--green-400);
+  background-color: var(--green-600);
 }
 @media screen and (max-width: 640px) {
   .claim .claim__description p {
@@ -366,20 +367,20 @@ h1 {
   font-size: 1.6em;
   margin: 3.2rem 0 1.6rem;
   font-weight: normal;
-  color: var(--purple-500);
+  color: var(--purple-700);
   cursor: default;
 }
 h2 {
   font-size: 1.4em;
   margin: 3.2rem 0 1.6rem;
   font-weight: normal;
-  color: var(--purple-500);
+  color: var(--purple-700);
   cursor: default;
 }
 h2 small {
   margin-left: 0.8rem;
   padding: 3px 6px;
-  background-color: var(--purple-400);
+  background-color: var(--purple-600);
   color: #fff;
   border-radius: 4px;
 }
