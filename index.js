@@ -55,9 +55,6 @@ app.use(stringReplace({
 app.use('/', require('./routes/main'));
 app.use('/static', require('./routes/static'));
 app.use('/server', require('./routes/server'));
-app.use('/encrypt', require('./routes/encrypt'));
-app.use('/verify', require('./routes/verify'));
-app.use('/proofs', require('./routes/proofs'));
 app.use('/util', require('./routes/util'));
 app.use('/', require('./routes/profile'));
 

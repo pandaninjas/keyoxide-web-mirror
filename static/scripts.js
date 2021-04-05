@@ -215,8 +215,8 @@ async function displayProfile(opts) {
                     <a href="${data.key.url}">${data.fingerprint}</a>
                 </p>
                 <div class="buttons">
-                    <a href="/encrypt/${data.key.mode}/${data.key.id}">Encrypt message</a>
-                    <a href="/verify/${data.key.mode}/${data.key.id}">Verify signature</a>
+                    <button onClick="document.querySelector('#dialog--encryptMessage').showModal();">Encrypt message</button>
+                    <button onClick="document.querySelector('#dialog--verifySignature').showModal();">Verify signature</button>
                 </div>
             </div>
         `;
@@ -262,7 +262,6 @@ async function displayProfile(opts) {
 
         //  Generate output for each claim
         claims.forEach((claim, i) => {
-            console.log(claim);
             const claimData = claim.serviceproviderData;
             if (!claimData.serviceprovider.name) {
                 return;
@@ -592,6 +591,59 @@ async function displayProfile(opts) {
             d.close();
         });
     });
+
+    // Register form listeners
+    const elFormEncrypt = document.body.querySelector("#dialog--encryptMessage form");
+    elFormEncrypt.onsubmit = async function (evt) {
+        evt.preventDefault();
+
+        try {
+            // Encrypt the message
+            encrypted = await openpgp.encrypt({
+                message: openpgp.message.fromText(elFormEncrypt.querySelector('.input').value),
+                publicKeys: keyData
+            });
+            elFormEncrypt.querySelector('.output').value = encrypted.data;
+        } catch (e) {
+            console.error(e);
+            elFormEncrypt.querySelector('.output').value = `Could not encrypt message!\n==========================\n${e.message ? e.message : e}`;
+        }
+    };
+    const elFormVerify = document.body.querySelector("#dialog--verifySignature form");
+    elFormVerify.onsubmit = async function (evt) {
+        evt.preventDefault();
+
+        try {
+            // Try two different methods of signature reading
+            let signature = null, verified = null, readError = null;
+            try {
+                signature = await openpgp.message.readArmored(elFormVerify.querySelector('.input').value);
+            } catch(e) {
+                readError = e;
+            }
+            try {
+                signature = await openpgp.cleartext.readArmored(elFormVerify.querySelector('.input').value);
+            } catch(e) {
+                readError = e;
+            }
+            if (signature == null) { throw(readError) };
+
+            // Verify the signature
+            verified = await openpgp.verify({
+                message: signature,
+                publicKeys: keyData
+            });
+
+            if (verified.signatures[0].valid) {
+                elFormVerify.querySelector('.output').value = `The message was signed by the profile's key.`;
+            } else {
+                elFormVerify.querySelector('.output').value = `The message was NOT signed by the profile's key.`;
+            }
+        } catch (e) {
+            console.error(e);
+            elFormVerify.querySelector('.output').value = `Could not verify signature!\n===========================\n${e.message ? e.message : e}`;
+        }
+    };
 }
 
 async function fetchKeys(opts) {
@@ -747,10 +799,7 @@ async function fetchWithTimeout(url, timeout = 3000) {
 }
 
 // General purpose
-let elFormVerify = document.body.querySelector("#form-verify"),
-    elFormEncrypt = document.body.querySelector("#form-encrypt"),
-    elFormProofs = document.body.querySelector("#form-proofs"),
-    elFormSignatureProfile = document.body.querySelector("#form-generate-signature-profile"),
+let elFormSignatureProfile = document.body.querySelector("#formGenerateSignatureProfile"),
     elProfileUid = document.body.querySelector("#profileUid"),
     elProfileMode = document.body.querySelector("#profileMode"),
     elProfileServer = document.body.querySelector("#profileServer"),
@@ -769,133 +818,6 @@ if (elModeSelect) {
         document.body.querySelector(`.modes--${elModeSelect.value}`).classList.add('modes--visible');
     }
     elModeSelect.dispatchEvent(new Event("change"));
-}
-
-if (elFormVerify) {
-    elFormVerify.onsubmit = function (evt) {
-        evt.preventDefault();
-
-        let opts = {
-            signature: null,
-            mode: null,
-            input: null,
-            server: null,
-        };
-
-        opts.signature = document.body.querySelector("#signature").value;
-        opts.mode = document.body.querySelector("#modeSelect").value;
-
-        switch (opts.mode) {
-            default:
-            case "auto":
-                opts.input = document.body.querySelector("#auto_input").value;
-                break;
-
-            case "wkd":
-                opts.input = document.body.querySelector("#wkd_input").value;
-                break;
-
-            case "hkp":
-                opts.input = document.body.querySelector("#hkp_input").value;
-                opts.server =  document.body.querySelector("#hkp_server").value;
-                break;
-
-            case "plaintext":
-                opts.input = document.body.querySelector("#plaintext_input").value;
-                break;
-
-            case "keybase":
-                opts.username = document.body.querySelector("#keybase_username").value;
-                opts.fingerprint =  document.body.querySelector("#keybase_fingerprint").value;
-                break;
-        }
-
-        // If no input was detect
-        if (!opts.input && !opts.username) {
-            opts.mode = "signature";
-        }
-
-        verifySignature(opts);
-    };
-}
-
-if (elFormEncrypt) {
-    elFormEncrypt.onsubmit = function (evt) {
-        evt.preventDefault();
-
-        let opts = {
-            message: null,
-            mode: null,
-            input: null,
-            server: null,
-        };
-
-        opts.message = document.body.querySelector("#message").value;
-        opts.mode = document.body.querySelector("#modeSelect").value;
-
-        switch (opts.mode) {
-            default:
-            case "auto":
-                opts.input = document.body.querySelector("#auto_input").value;
-                break;
-
-            case "wkd":
-                opts.input = document.body.querySelector("#wkd_input").value;
-                break;
-
-            case "hkp":
-                opts.input = document.body.querySelector("#hkp_input").value;
-                opts.server =  document.body.querySelector("#hkp_server").value;
-                break;
-
-            case "plaintext":
-                opts.input = document.body.querySelector("#plaintext_input").value;
-                break;
-
-            case "keybase":
-                opts.username = document.body.querySelector("#keybase_username").value;
-                opts.fingerprint =  document.body.querySelector("#keybase_fingerprint").value;
-                break;
-        }
-
-        encryptMessage(opts);
-    };
-}
-
-if (elFormProofs) {
-    elFormProofs.onsubmit = function (evt) {
-        evt.preventDefault();
-
-        let opts = {
-            mode: null,
-            input: null,
-            server: null,
-        };
-
-        opts.mode = document.body.querySelector("#modeSelect").value;
-
-        switch (opts.mode) {
-            default:
-            case "auto":
-                opts.input = document.body.querySelector("#auto_input").value;
-                break;
-
-            case "wkd":
-                opts.input = document.body.querySelector("#wkd_input").value;
-                break;
-
-            case "hkp":
-                opts.input = document.body.querySelector("#hkp_input").value;
-                opts.server =  document.body.querySelector("#hkp_server").value;
-                break;
-
-            case "plaintext":
-                opts.input = document.body.querySelector("#plaintext_input").value;
-                break;
-        }
-
-        verifyProofs(opts);
-    };
 }
 
 if (elProfileUid) {

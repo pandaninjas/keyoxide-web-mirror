@@ -17,11 +17,29 @@ block content
     span#profileServer(style='display: none;') #{server}
     span#profileMode(style='display: none;') #{mode}
 
+    dialog#dialog--encryptMessage
+      div
+        form(method='post')
+          textarea.input(name='message' placeholder='Message')
+          input(type='submit' name='submit' value='ENCRYPT MESSAGE')
+          textarea.output(name='message' placeholder='Waiting for input' readonly)
+        form(method="dialog")
+          input(type="submit" value="Close")
+
+    dialog#dialog--verifySignature
+      div
+        form(method='post')
+          textarea.input(name='signature' placeholder='Signature')
+          input(type='submit' name='submit' value='VERIFY SIGNATURE')
+          textarea.output(name='message' placeholder='Waiting for input' readonly)
+        form(method="dialog")
+          input(type="submit" value="Close")
+
     #profileDialogs
 
     if (mode == 'sig')
-      #profileSigInput.card
-        form#form-generate-signature-profile(method='post')
+      #profileSigInput.card.card--form
+        form#formGenerateSignatureProfile(method='post')
           label(for="plaintext_input")  Please enter the raw profile signature below and press "Generate profile".
           textarea#plaintext_input(name='plaintext_input')
           input(type='submit', name='submit', value='Generate profile')
