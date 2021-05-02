@@ -81,6 +81,31 @@ const generateHKPProfile = async (id, keyserverDomain) => {
     })
 }
 
+const generateKeybaseProfile = async (username, fingerprint) => {
+    return keys.fetchKeybase(id, keyserverDomain)
+    .then(async key => {
+        let keyData = await doip.keys.process(key.publicKey)
+        keyData.key.fetchMethod = 'hkp'
+        keyData.key.uri = key.fetchURL
+        keyData = processKeyData(keyData)
+
+        return {
+            key: key,
+            keyData: keyData,
+            extra: await computeExtraData(key, keyData),
+            errors: []
+        }
+    })
+    .catch(err => {
+        return {
+            key: null,
+            keyData: null,
+            extra: null,
+            errors: [err.message]
+        }
+    })
+}
+
 const processKeyData = (keyData) => {
     keyData.users.forEach(user => {
         // Match claims
@@ -120,3 +145,4 @@ const computeExtraData = async (key, keyData) => {
 
 exports.generateWKDProfile = generateWKDProfile
 exports.generateHKPProfile = generateHKPProfile
+exports.generateKeybaseProfile = generateKeybaseProfile

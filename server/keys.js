@@ -118,5 +118,28 @@ const fetchHKP = (id, keyserverDomain) => {
     })
 }
 
+const fetchKeybase = (username, fingerprint) => {
+    return new Promise(async (resolve, reject) => {
+        let output = {
+            publicKey: null,
+            fetchURL: null
+        }
+
+        try {
+            output.publicKey = await doip.keys.fetchKeybase(username, fingerprint)
+            output.fetchURL = `https://keybase.io/${username}`
+        } catch(error) {
+            reject(new Error("No public keys could be fetched from Keybase"))
+        }
+
+        if (!output.publicKey) {
+            reject(new Error("No public keys could be fetched from Keybase"))
+        }
+
+        resolve(output)
+    })
+}
+
 exports.fetchWKD = fetchWKD
 exports.fetchHKP = fetchHKP
+exports.fetchKeybase = fetchKeybase

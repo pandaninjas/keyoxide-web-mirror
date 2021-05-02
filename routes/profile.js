@@ -59,7 +59,11 @@ router.get('/hkp/:server/:id', async (req, res) => {
 })
 
 router.get('/keybase/:username/:fingerprint', async (req, res) => {
-    res.render('profile', { mode: 'keybase', uid: `${req.params.username}/${req.params.fingerprint}` })
+    const data = await kx.generateKeybaseProfile(req.params.username, req.params.fingerprint)
+    if (data.errors.length > 0) {
+        return res.render('profile-failed', { data: data })
+    }
+    res.render('profile', { data: data })
 })
 
 router.get('/:id', async (req, res) => {
@@ -68,6 +72,9 @@ router.get('/:id', async (req, res) => {
         data = await kx.generateWKDProfile(req.params.id)
     } else {
         data = await kx.generateHKPProfile(req.params.id)
+    }
+    if (data.errors.length > 0) {
+        return res.render('profile-failed', { data: data })
     }
     res.render('profile', { data: data })
 })
