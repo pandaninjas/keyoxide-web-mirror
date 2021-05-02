@@ -109,7 +109,7 @@ class Claim extends HTMLElement {
             const subsection0_text = subsection0.appendChild(document.createElement('div'));
 
             const message = subsection0_text.appendChild(document.createElement('p'));
-            message.innerHTML = `None of the matched service providers could be verified. Keyoxide is not able to determine which is the correct service provider and why the verification process failed.`;
+            message.innerHTML = `None of the matched service providers could be verified. Keyoxide was not able to determine which was the correct service provider or why the verification process failed.`;
             return;
         }
 
