@@ -55,7 +55,7 @@ router.get('/', (req, res) => {
         }
     }
 
-    res.render('index', {highlights: highlights});
+    res.render('index', { highlights: highlights, demoData: require('../server/demo.js').data });
 });
 
 router.get('/about', (req, res) => {

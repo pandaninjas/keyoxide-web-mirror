@@ -1,5 +1,11 @@
 extends templates/base.pug
 
+block js
+  //- script(type='application/javascript' src='/static/dialog-polyfill.js' charset='utf-8')
+  script(type='application/javascript' src='/static/openpgp.min.js' charset='utf-8')
+  script(type='application/javascript' src='/static/doip.js' charset='utf-8')
+  script(type='application/javascript' src='/static/kx-claim.js' charset='utf-8')
+
 block content
   if highlights.length > 0
     h2 Highlights
@@ -18,20 +24,6 @@ block content
       while n < 3-highlights.length
         .card.card--small-profile-dummy
         - n++
-
-  .demo.narrow
-    .card.card--profile
-      .claim
-        .claim__main
-          .claim__description
-            p @alice@example.instance
-          .claim__links
-            p
-              span Fediverse
-              a(href="#") View account
-              a(href="#") View proof
-              a(href="#") Details
-        .claim__verification.claim__verification--true ✔
 
   h2 About Keyoxide
   .hcards.hcards--features.hcards--max-3
@@ -54,6 +46,10 @@ block content
       h3 Transparent funding
       p Funded by donations. Keyoxide stands against VC and surveillance capitalism.
 
+
+  h2 Example identity claim
+  .narrow
+    kx-claim(data-claim= demoData)
 
   h2 Links
   .hcards
