@@ -6,10 +6,11 @@
   "dependencies": {
     "bent": "^7.3.12",
     "dialog-polyfill": "^0.5.6",
-    "doipjs": "^0.11.2",
+    "doipjs": "^0.12.4",
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
     "express-validator": "^6.8.0",
+    "got": "^11.8.2",
     "jstransformer-markdown-it": "^2.1.0",
     "markdown-it-anchor": "^5.3.0",
     "markdown-it-table-of-contents": "^0.4.4",
@@ -25,11 +26,10 @@
   },
   "scripts": {
     "start": "node ./",
-    "dev": "NODE_ENV=development ./node_modules/nodemon/bin/nodemon.js --config nodemon.json ./",
-    "license:check": "./node_modules/license-check-and-add/dist/src/cli.js check",
-    "license:add": "./node_modules/license-check-and-add/dist/src/cli.js add",
-    "license:remove": "./node_modules/license-check-and-add/dist/src/cli.js remove",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "dev": "NODE_ENV=development ./node_modules/.bin/nodemon --config nodemon.json ./",
+    "license:check": "./node_modules/.bin/license-check-and-add check",
+    "license:add": "./node_modules/.bin/license-check-and-add add",
+    "license:remove": "./node_modules/.bin/license-check-and-add remove"
   },
   "repository": {
     "type": "git",
