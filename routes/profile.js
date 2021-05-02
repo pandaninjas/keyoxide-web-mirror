@@ -62,8 +62,14 @@ router.get('/keybase/:username/:fingerprint', async (req, res) => {
     res.render('profile', { mode: 'keybase', uid: `${req.params.username}/${req.params.fingerprint}` })
 })
 
-router.get('/:input', async (req, res) => {
-    res.render('profile', { mode: 'auto', uid: req.params.input })
+router.get('/:id', async (req, res) => {
+    let data
+    if (req.params.id.includes('@')) {
+        data = await kx.generateWKDProfile(req.params.id)
+    } else {
+        data = await kx.generateHKPProfile(req.params.id)
+    }
+    res.render('profile', { data: data })
 })
 
 module.exports = router

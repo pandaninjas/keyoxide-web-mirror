@@ -27,18 +27,18 @@ You should also get your employer (if you work as a programmer) or school,
 if any, to sign a "copyright disclaimer" for the program, if necessary. For
 more information on this, and how to apply and follow the GNU AGPL, see <https://www.gnu.org/licenses/>.
 */
-const router = require('express').Router();
-const md = require('markdown-it')({typographer: true});
-const fs = require('fs');
+const router = require('express').Router()
+const md = require('markdown-it')({typographer: true})
+const fs = require('fs')
 
-md.use(require("markdown-it-anchor"), { "level": 2, "permalink": true, "permalinkClass": 'header-anchor', "permalinkSymbol": '¶', "permalinkBefore": false });
-md.use(require("markdown-it-table-of-contents"), { "includeLevel": [2, 3], "listType": "ol" });
-md.use(require('markdown-it-title'));
+md.use(require("markdown-it-anchor"), { "level": 2, "permalink": true, "permalinkClass": 'header-anchor', "permalinkSymbol": '¶', "permalinkBefore": false })
+md.use(require("markdown-it-table-of-contents"), { "includeLevel": [2, 3], "listType": "ol" })
+md.use(require('markdown-it-title'))
 
 if (process.env.ONION_URL) {
     router.get('/*', (req, res, next) => {
-        res.header('Onion-Location', process.env.ONION_URL);
-        next();
+        res.header('Onion-Location', process.env.ONION_URL)
+        next()
     });
 }
 
@@ -55,47 +55,47 @@ router.get('/', (req, res) => {
         }
     }
 
-    res.render('index', { highlights: highlights, demoData: require('../server/demo.js').data });
-});
+    res.render('index', { highlights: highlights, demoData: require('../server/demo.js').data })
+})
 
 router.get('/about', (req, res) => {
-    let rawContent = fs.readFileSync(`./content/about.md`, "utf8");
-    const content = md.render(rawContent);
-    res.render(`long-form-content`, { title: `About Keyoxide`, content: content });
-});
+    let rawContent = fs.readFileSync(`./content/about.md`, "utf8")
+    const content = md.render(rawContent)
+    res.render(`long-form-content`, { title: `About Keyoxide`, content: content })
+})
 
 router.get('/getting-started', (req, res) => {
-    let rawContent = fs.readFileSync(`./content/getting-started.md`, "utf8");
-    const content = md.render(rawContent);
-    res.render(`long-form-content`, { title: `Getting started`, content: content });
-});
+    let rawContent = fs.readFileSync(`./content/getting-started.md`, "utf8")
+    const content = md.render(rawContent)
+    res.render(`long-form-content`, { title: `Getting started`, content: content })
+})
 
 router.get('/faq', (req, res) => {
-    const mdAlt = require('markdown-it')({typographer: true});
-    mdAlt.use(require("markdown-it-anchor"), { "level": 2, "permalink": true, "permalinkClass": 'header-anchor', "permalinkSymbol": '¶', "permalinkBefore": false });
-    mdAlt.use(require("markdown-it-table-of-contents"), { "includeLevel": [2], "listType": "ul" });
+    const mdAlt = require('markdown-it')({typographer: true})
+    mdAlt.use(require("markdown-it-anchor"), { "level": 2, "permalink": true, "permalinkClass": 'header-anchor', "permalinkSymbol": '¶', "permalinkBefore": false })
+    mdAlt.use(require("markdown-it-table-of-contents"), { "includeLevel": [2], "listType": "ul" })
 
-    let rawContent = fs.readFileSync(`./content/faq.md`, "utf8");
-    rawContent = rawContent.replace('${domain}', req.app.get('domain'));
-    const content = mdAlt.render(rawContent);
-    res.render(`long-form-content`, { title: `Frequently Asked Questions`, content: content });
-});
+    let rawContent = fs.readFileSync(`./content/faq.md`, "utf8")
+    rawContent = rawContent.replace('${domain}', req.app.get('domain'))
+    const content = mdAlt.render(rawContent)
+    res.render(`long-form-content`, { title: `Frequently Asked Questions`, content: content })
+})
 
 router.get('/guides', (req, res) => {
-    res.render('guides', { title: `Guides - Keyoxide` });
-});
+    res.render('guides', { title: `Guides - Keyoxide` })
+})
 
 router.get('/guides/:guideId', (req, res) => {
-    let env = {};
+    let env = {}
     fs.readFile(`./content/guides/${req.params.guideId}.md`, "utf8", (err, data) => {
         if (err) {
-            res.render(`404`);
+            res.render(`404`)
             return
         }
 
-        const content = md.render(data, env);
-        res.render(`long-form-content`, { title: `${env.title} - Keyoxide`, content: content });
-    });
-});
+        const content = md.render(data, env)
+        res.render(`long-form-content`, { title: `${env.title} - Keyoxide`, content: content })
+    })
+})
 
-module.exports = router;
+module.exports = router
