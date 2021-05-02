@@ -71,7 +71,7 @@ details.kx-item summary .verificationStatus {
   display: flex;
   align-items: center;
   justify-content: center;
-  min-width: 48px;
+  width: 48px;
   height: 48px;
   border-radius: 100%;
   color: #fff;
@@ -90,7 +90,7 @@ details.kx-item summary .verificationStatus::after {
 }
 details.kx-item summary .verificationStatus .inProgress {
   opacity: 0;
-  transition: all 0.4s ease;
+  transition: opacity 0.4s ease;
   pointer-events: none;
 }
 details.kx-item summary .verificationStatus[data-value="success"] {
@@ -121,31 +121,12 @@ details.kx-item .subsection > img {
   opacity: 0.4;
 }
 
-@media screen and (max-width: 640px) {
-  details.kx-item summary .claim__description p {
-      font-size: 1.2rem;
-  }
-  details.kx-item summary .claim__links a, p.subtle-links a {
-      font-size: 0.9rem;
-  }
-}
-@media screen and (max-width: 480px) {
-  summary .claim__description p {
-      font-size: 1rem;
-  }
-  details.kx-item summary .verificationStatus {
-      min-width: 36px;
-      height: 36px;
-      font-size: 1.6rem;
-  }
-}
-
 details.kx-item .inProgress {
   font-size: 10px;
   margin: 50px auto;
   text-indent: -9999em;
-  width: 4.8em;
-  height: 4.8em;
+  width: 48px;
+  height: 48px;
   border-radius: 50%;
   background: var(--purple-400);
   background: -moz-linear-gradient(left, var(--purple-400) 10%, rgba(255, 255, 255, 0) 42%);
@@ -182,6 +163,29 @@ details.kx-item .inProgress:after {
   left: 0;
   bottom: 0;
   right: 0;
+}
+
+@media screen and (max-width: 640px) {
+  details.kx-item summary .claim__description p {
+    font-size: 1.2rem;
+  }
+  details.kx-item summary .claim__links a, p.subtle-links a {
+    font-size: 0.9rem;
+  }
+}
+@media screen and (max-width: 480px) {
+  summary .claim__description p {
+    font-size: 1rem;
+  }
+  details.kx-item summary .verificationStatus {
+    width: 36px;
+    height: 36px;
+    font-size: 1.6rem;
+  }
+  details.kx-item .inProgress {
+    width: 36px;
+    height: 36px;
+  }
 }
 
 @-webkit-keyframes load3 {
