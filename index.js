@@ -27,37 +27,35 @@ You should also get your employer (if you work as a programmer) or school,
 if any, to sign a "copyright disclaimer" for the program, if necessary. For
 more information on this, and how to apply and follow the GNU AGPL, see <https://www.gnu.org/licenses/>.
 */
-const express = require('express');
-const fs = require('fs');
-const app = express();
-const env = {};
-const { stringReplace } = require('string-replace-middleware');
-require('dotenv').config();
+const express = require('express')
+const fs = require('fs')
+const app = express()
+const { stringReplace } = require('string-replace-middleware')
+require('dotenv').config()
 
-let packageData = JSON.parse(fs.readFileSync('package.json'));
+const packageData = JSON.parse(fs.readFileSync('package.json'))
 
-app.set('env', process.env.NODE_ENV || "production");
-app.set('view engine', 'pug');
-app.set('port', process.env.PORT || 3000);
-app.set('domain', process.env.DOMAIN || "keyoxide.org");
-app.set('keyoxide_version', packageData.version);
-app.set('onion_url', process.env.ONION_URL);
+app.set('env', process.env.NODE_ENV || "production")
+app.set('view engine', 'pug')
+app.set('port', process.env.PORT || 3000)
+app.set('domain', process.env.DOMAIN || "keyoxide.org")
+app.set('keyoxide_version', packageData.version)
+app.set('onion_url', process.env.ONION_URL)
 
-app.use('/favicon.svg', express.static('favicon.svg'));
-app.use('/robots.txt', express.static('robots.txt'));
+app.use('/favicon.svg', express.static('favicon.svg'))
+app.use('/robots.txt', express.static('robots.txt'))
 
 app.use(stringReplace({
-    PLACEHOLDER__XMPP_VCARD_SERVER_DOMAIN: process.env.XMPP_VCARD_SERVER_DOMAIN || 'xmpp-vcard.keyoxide.org'
+    PLACEHOLDER__PROXY_HOSTNAME: process.env.PROXY_HOSTNAME || 'null'
 }, {
     contentTypeFilterRegexp: /application\/javascript/,
-}));
+}))
 
-app.use('/', require('./routes/main'));
-app.use('/static', require('./routes/static'));
-app.use('/server', require('./routes/server'));
-app.use('/util', require('./routes/util'));
-app.use('/', require('./routes/profile'));
+app.use('/', require('./routes/main'))
+app.use('/static', require('./routes/static'))
+app.use('/util', require('./routes/util'))
+app.use('/', require('./routes/profile'))
 
 app.listen(app.get('port'), () => {
-    console.log(`Node server listening at http://localhost:${app.get('port')}`);
-});
+    console.log(`Node server listening at http://localhost:${app.get('port')}`)
+})

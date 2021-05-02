@@ -27,30 +27,43 @@ You should also get your employer (if you work as a programmer) or school,
 if any, to sign a "copyright disclaimer" for the program, if necessary. For
 more information on this, and how to apply and follow the GNU AGPL, see <https://www.gnu.org/licenses/>.
 */
-const router = require('express').Router();
+const router = require('express').Router()
+const kx = require('../server')
 
-router.get('/sig', function(req, res) {
+router.get('/sig', (req, res) => {
     res.render('profile', { mode: 'sig' })
-});
+})
 
-router.get('/wkd/:input', function(req, res) {
-    res.render('profile', { mode: 'wkd', uid: req.params.input })
-});
+router.get('/wkd/:id', async (req, res) => {
+    const data = await kx.generateWKDProfile(req.params.id)
+    if (data.errors.length > 0) {
+        return res.render('profile-failed', { data: data })
+    }
+    res.render('profile', { data: data })
+})
 
-router.get('/hkp/:input', function(req, res) {
-    res.render('profile', { mode: 'hkp', uid: req.params.input })
-});
+router.get('/hkp/:id', async (req, res) => {
+    const data = await kx.generateHKPProfile(req.params.id)
+    if (data.errors.length > 0) {
+        return res.render('profile-failed', { data: data })
+    }
+    res.render('profile', { data: data })
+})
 
-router.get('/hkp/:server/:input', function(req, res) {
-    res.render('profile', { mode: 'hkp', uid: req.params.input, server: req.params.server })
-});
+router.get('/hkp/:server/:id', async (req, res) => {
+    const data = await kx.generateHKPProfile(req.params.id, req.params.server)
+    if (data.errors.length > 0) {
+        return res.render('profile-failed', { data: data })
+    }
+    res.render('profile', { data: data })
+})
 
-router.get('/keybase/:username/:fingerprint', function(req, res) {
+router.get('/keybase/:username/:fingerprint', async (req, res) => {
     res.render('profile', { mode: 'keybase', uid: `${req.params.username}/${req.params.fingerprint}` })
-});
+})
 
-router.get('/:input', function(req, res) {
+router.get('/:input', async (req, res) => {
     res.render('profile', { mode: 'auto', uid: req.params.input })
-});
+})
 
-module.exports = router;
+module.exports = router

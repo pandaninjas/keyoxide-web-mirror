@@ -27,37 +27,10 @@ You should also get your employer (if you work as a programmer) or school,
 if any, to sign a "copyright disclaimer" for the program, if necessary. For
 more information on this, and how to apply and follow the GNU AGPL, see <https://www.gnu.org/licenses/>.
 */
-const express = require('express')
-const router = require('express').Router()
+const openpgp = require('openpgp')
 
-router.get('/doip.min.js', function(req, res) {
-    res.sendFile(`node_modules/doipjs/dist/doip.min.js`, { root: `${__dirname}/../` })
-})
-router.get('/doip.js', function(req, res) {
-    res.sendFile(`node_modules/doipjs/dist/doip.js`, { root: `${__dirname}/../` })
-})
-
-router.get('/openpgp.min.js', function(req, res) {
-    res.sendFile(`node_modules/openpgp/dist/openpgp.min.js`, { root: `${__dirname}/../` })
-})
-router.get('/openpgp.min.js.map', function(req, res) {
-    res.sendFile(`node_modules/openpgp/dist/openpgp.min.js.map`, { root: `${__dirname}/../` })
-})
-
-router.get('/qrcode.min.js', function(req, res) {
-    res.sendFile(`node_modules/qrcode/build/qrcode.min.js`, { root: `${__dirname}/../` })
-})
-router.get('/qrcode.min.js.map', function(req, res) {
-    res.sendFile(`node_modules/qrcode/build/qrcode.min.js.map`, { root: `${__dirname}/../` })
-})
-
-router.get('/dialog-polyfill.js', function(req, res) {
-    res.sendFile(`node_modules/dialog-polyfill/dist/dialog-polyfill.js`, { root: `${__dirname}/../` })
-})
-router.get('/dialog-polyfill.css', function(req, res) {
-    res.sendFile(`node_modules/dialog-polyfill/dist/dialog-polyfill.css`, { root: `${__dirname}/../` })
-})
-
-router.use('/', express.static('static'))
-
-module.exports = router
+exports.computeWKDLocalPart = async (message) => {
+    const data = openpgp.util.str_to_Uint8Array(message.toLowerCase());
+    const hash = await openpgp.crypto.hash.sha1(data);
+    return openpgp.util.encodeZBase32(hash);
+}

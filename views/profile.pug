@@ -1,9 +1,19 @@
 extends templates/base.pug
 
+mixin generateUser(user, isPrimary)
+  h2
+    | #{user.userData.email}
+    if isPrimary
+      small.primary primary
+  each claim in user.claims
+    kx-claim(data-claim=claim)
+
 block js
+  script(type='application/javascript' src='/static/dialog-polyfill.js' charset='utf-8')
   script(type='application/javascript' src='/static/openpgp.min.js' charset='utf-8')
   script(type='application/javascript' src='/static/doip.js' charset='utf-8')
-  script(type='application/javascript' src='/static/dialog-polyfill.js' charset='utf-8')
+  script(type='application/javascript' src='/static/kx-claim.js' charset='utf-8')
+  script(type='application/javascript' src='/static/kx-key.js' charset='utf-8')
   script(type='application/javascript' src='/static/scripts.js' charset='utf-8')
 
 block css
@@ -13,9 +23,6 @@ block content
   section.profile.narrow
     noscript
       p Keyoxide requires JavaScript to function.
-    span#profileUid(style='display: none;') #{uid}
-    span#profileServer(style='display: none;') #{server}
-    span#profileMode(style='display: none;') #{mode}
 
     dialog#dialog--encryptMessage
       div
@@ -35,19 +42,23 @@ block content
         form(method="dialog")
           input(type="submit" value="Close")
 
-    #profileDialogs
-
-    if (mode == 'sig')
-      #profileSigInput.card.card--form
-        form#formGenerateSignatureProfile(method='post')
-          label(for="plaintext_input")  Please enter the raw profile signature below and press "Generate profile".
-          textarea#plaintext_input(name='plaintext_input')
-          input(type='submit', name='submit', value='Generate profile')
-
     #profileHeader.card.card--profileHeader
+        a.avatar(href="#")
+          img#profileAvatar(src=data.extra.avatarURL alt="avatar")
+
+        p#profileName= data.keyData.users[data.keyData.primaryUserIndex].userData.name
+        //- p#profileURLFingerprint
+        //-   a(href=data.key.fetchURL)=data.keyData.fingerprint
+        .buttons
+          button(onClick="document.querySelector('#dialog--encryptMessage').showModal();") Encrypt message
+          button(onClick="document.querySelector('#dialog--verifySignature').showModal();") Verify signature
 
     #profileProofs.card
-      if (mode == 'sig')
-        //- p Waiting for input&mldr;
-      else
-        p Loading keys &amp; verifying proofs&mldr;
+      h2 Key
+      kx-key(data-keydata=data.keyData)
+
+      +generateUser(data.keyData.users[data.keyData.primaryUserIndex], true)
+      each user, index in data.keyData.users
+        unless index == data.keyData.primaryUserIndex
+          +generateUser(user, false)
+      
