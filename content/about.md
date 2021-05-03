@@ -163,8 +163,6 @@ Yes, another layer of decentralization.
 
 The idea is simple: you will most likely not know the lead developer, so why should you trust his website [https://keyoxide.org](https://keyoxide.org)? By making the Keyoxide website selfhostable, you could put it yourself on your own server, or ask a friend to put it on theirs.
 
-(By the way, you can trust me! But that is obviously not the point here)
-
 Ultimately, any Keyoxide website/instance is potentially compromised and any identity verification should be performed locally to get the most trustworthy results.
 
 ### Funding and the flow of money
