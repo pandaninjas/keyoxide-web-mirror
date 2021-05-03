@@ -164,6 +164,20 @@ details.kx-item .inProgress:after {
   bottom: 0;
   right: 0;
 }
+details.kx-item button {
+  padding: 0.4rem 0.8rem;
+  margin-right: 8px;
+  text-decoration: none;
+  text-transform: uppercase;
+  background-color: var(--purple-50);
+  border: solid 2px var(--purple-400);
+  border-radius: 4px;
+  cursor: pointer;
+}
+details.kx-item button:hover {
+  background-color: var(--purple-400);
+  color: #fff;
+}
 
 @media screen and (max-width: 640px) {
   details.kx-item summary .claim__description p {

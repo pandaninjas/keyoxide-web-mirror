@@ -475,7 +475,10 @@ dialog p:first-of-type {
   margin-top: 0;
 }
 
-#qrcode {
+#qr {
   display: block;
+  width: 100% !important;
+  max-width: 256px !important;
+  height: auto !important;
   margin: 0 auto 16px;
 }

@@ -9,9 +9,10 @@ mixin generateUser(user, isPrimary)
     kx-claim(data-claim=claim)
 
 block js
+  script(type='application/javascript' src='/static/qrcode.min.js' charset='utf-8')
   script(type='application/javascript' src='/static/dialog-polyfill.js' charset='utf-8')
   script(type='application/javascript' src='/static/openpgp.min.js' charset='utf-8')
-  script(type='application/javascript' src='/static/doip.js' charset='utf-8')
+  script(type='application/javascript' src='/static/doip.min.js' charset='utf-8')
   script(type='application/javascript' src='/static/kx-claim.js' charset='utf-8')
   script(type='application/javascript' src='/static/kx-key.js' charset='utf-8')
   script(type='application/javascript' src='/static/scripts.js' charset='utf-8')
@@ -49,6 +50,12 @@ block content
           textarea.output(name='message' placeholder='Waiting for input' readonly)
         form(method="dialog")
           input(type="submit" value="Close")
+
+    dialog#dialog--qr
+      div
+        canvas#qr
+        p
+          a#qr--altLink
 
     #profileHeader.card.card--profileHeader
         a.avatar(href="#")

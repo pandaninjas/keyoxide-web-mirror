@@ -131,6 +131,37 @@ const fetchProfileKey = async function() {
     }
 }
 
+// Enable QR modal
+const showQR = function(input) {
+    const qrTarget = document.getElementById('qr');
+    const qrContext = qrTarget.getContext('2d');
+    const qrOpts = {
+        errorCorrectionLevel: 'L',
+        margin: 1,
+        width: 256,
+        height: 256
+    };
+
+    if (input) {
+        input = decodeURIComponent(input);
+
+        QRCode.toCanvas(qrTarget, input, qrOpts, function(error) {
+            if (error) {
+                document.querySelector("#qr--altLink").innerText = "";
+                document.querySelector("#qr--altLink").href = "#";
+                qrContext.clearRect(0, 0, qrTarget.width, qrTarget.height);
+                console.error(error);
+            } else {
+                document.querySelector("#qr--altLink").innerText = input;
+                document.querySelector("#qr--altLink").href = input;
+                document.querySelector('#dialog--qr').showModal();
+            }
+        });
+    } else {
+        qrContext.clearRect(0, 0, qrTarget.width, qrTarget.height);
+    }
+}
+
 // let elFormSignatureProfile = document.body.querySelector("#formGenerateSignatureProfile"),
 //     elProfileUid = document.body.querySelector("#profileUid"),
 //     elProfileMode = document.body.querySelector("#profileMode"),
