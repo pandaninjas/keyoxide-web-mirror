@@ -81,6 +81,30 @@ const generateHKPProfile = async (id, keyserverDomain) => {
     })
 }
 
+const generateSignatureProfile = async (signature) => {
+    return keys.fetchSignature(signature)
+    .then(async key => {
+        let keyData = key.keyData
+        delete key.keyData
+        keyData = processKeyData(keyData)
+
+        return {
+            key: key,
+            keyData: keyData,
+            extra: await computeExtraData(key, keyData),
+            errors: []
+        }
+    })
+    .catch(err => {
+        return {
+            key: null,
+            keyData: null,
+            extra: null,
+            errors: [err.message]
+        }
+    })
+}
+
 const generateKeybaseProfile = async (username, fingerprint) => {
     return keys.fetchKeybase(id, keyserverDomain)
     .then(async key => {
@@ -146,3 +170,4 @@ const computeExtraData = async (key, keyData) => {
 exports.generateWKDProfile = generateWKDProfile
 exports.generateHKPProfile = generateHKPProfile
 exports.generateKeybaseProfile = generateKeybaseProfile
+exports.generateSignatureProfile = generateSignatureProfile

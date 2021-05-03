@@ -24,7 +24,7 @@ block content
   script.
     kx = {
       key: {
-        url: "!{data.key.fetchURL}",
+        url: "!{data && data.key && data.key.fetchURL ? data.key.fetchURL : null}",
         object: null
       }
     }
@@ -57,21 +57,35 @@ block content
         p
           a#qr--altLink
 
-    #profileHeader.card.card--profileHeader
-        a.avatar(href="#")
-          img#profileAvatar(src=data.extra.avatarURL alt="avatar")
+    if (isSignature)
+      #profileSigInput.card.card--form
+        form#formGenerateSignatureProfile(method='post')
+          label(for="signature")  Please enter the raw profile signature below and press "Generate profile".
+          textarea#signature(name='signature')= signature
+          input(type='submit', name='submit', value='Generate profile')
 
-        p#profileName= data.keyData.users[data.keyData.primaryUserIndex].userData.name
-        .buttons
-          button(onClick="document.querySelector('#dialog--encryptMessage').showModal();") Encrypt message
-          button(onClick="document.querySelector('#dialog--verifySignature').showModal();") Verify signature
 
-    #profileProofs.card
-      h2 Key
-      kx-key(data-keydata=data.keyData)
+    if (data && 'errors' in data && data.errors.length > 0)
+      h2 Something went wrong while generating the profile
+      ul
+      each error in data.errors
+        li= error
+    else
+      unless (isSignature && !signature)
+        #profileHeader.card.card--profileHeader
+          a.avatar(href="#")
+            img#profileAvatar(src=data.extra.avatarURL alt="avatar")
 
-      +generateUser(data.keyData.users[data.keyData.primaryUserIndex], true)
-      each user, index in data.keyData.users
-        unless index == data.keyData.primaryUserIndex
-          +generateUser(user, false)
-      
+          p#profileName= data.keyData.users[data.keyData.primaryUserIndex].userData.name
+          .buttons
+            button(onClick="document.querySelector('#dialog--encryptMessage').showModal();") Encrypt message
+            button(onClick="document.querySelector('#dialog--verifySignature').showModal();") Verify signature
+
+        #profileProofs.card
+          h2 Key
+          kx-key(data-keydata=data.keyData)
+
+          +generateUser(data.keyData.users[data.keyData.primaryUserIndex], true)
+          each user, index in data.keyData.users
+            unless index == data.keyData.primaryUserIndex
+              +generateUser(user, false)

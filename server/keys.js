@@ -65,22 +65,22 @@ const fetchWKD = (id) => {
                     }
                 })
             } catch (error) {
-                reject(new Error("No public keys could be fetched using WKD"))
+                reject(new Error(`No public keys could be fetched using WKD`))
             }
         }
 
         if (!plaintext) {
-            reject(new Error("No public keys could be fetched using WKD"))
+            reject(new Error(`No public keys could be fetched using WKD`))
         }
 
         try {
             output.publicKey = (await openpgp.key.read(plaintext)).keys[0]
         } catch(error) {
-            reject(new Error("No public keys could be read from the data fetched using WKD"))
+            reject(new Error(`No public keys could be read from the data fetched using WKD`))
         }
 
         if (!output.publicKey) {
-            reject(new Error("No public keys could be read from the data fetched using WKD"))
+            reject(new Error(`No public keys could be read from the data fetched using WKD`))
         }
 
         resolve(output)
@@ -107,11 +107,56 @@ const fetchHKP = (id, keyserverDomain) => {
             output.publicKey = await doip.keys.fetchHKP(id, keyserverDomain)
             output.fetchURL = `https://${keyserverDomain}/pks/lookup?op=get&options=mr&search=${query}`
         } catch(error) {
-            reject(new Error("No public keys could be fetched using HKP"))
+            reject(new Error(`No public keys could be fetched using HKP`))
         }
 
         if (!output.publicKey) {
-            reject(new Error("No public keys could be fetched using HKP"))
+            reject(new Error(`No public keys could be fetched using HKP`))
+        }
+
+        resolve(output)
+    })
+}
+
+const fetchSignature = (signature) => {
+    return new Promise(async (resolve, reject) => {
+        let output = {
+            publicKey: null,
+            fetchURL: null,
+            keyData: null
+        }
+
+        // Check validity of signature
+        let signatureData
+        try {
+            signatureData = await openpgp.cleartext.readArmored(signature)
+        } catch (error) {
+            reject(new Error(`Signature could not be properly read (${error.message})`))
+        }
+
+        // Process the signature
+        try {
+            output.keyData = await doip.signatures.process(signature)
+            output.publicKey = output.keyData.key.data
+            // TODO Find the URL to the key
+            output.fetchURL = null
+        } catch(error) {
+            reject(new Error(`Signature could not be properly read (${error.message})`))
+        }
+
+        // Check if a key was fetched
+        if (!output.publicKey) {
+            reject(new Error(`No public keys could be fetched`))
+        }
+
+        // Check validity of signature
+        const verified = await openpgp.verify({
+            message: signatureData,
+            publicKeys: output.publicKey
+        })
+        const { valid } = verified.signatures[0]
+        if (!valid) {
+            reject(new Error('Signature was invalid'))
         }
 
         resolve(output)
@@ -129,11 +174,11 @@ const fetchKeybase = (username, fingerprint) => {
             output.publicKey = await doip.keys.fetchKeybase(username, fingerprint)
             output.fetchURL = `https://keybase.io/${username}/pgp_keys.asc?fingerprint=${fingerprint}`
         } catch(error) {
-            reject(new Error("No public keys could be fetched from Keybase"))
+            reject(new Error(`No public keys could be fetched from Keybase`))
         }
 
         if (!output.publicKey) {
-            reject(new Error("No public keys could be fetched from Keybase"))
+            reject(new Error(`No public keys could be fetched from Keybase`))
         }
 
         resolve(output)
@@ -142,4 +187,5 @@ const fetchKeybase = (username, fingerprint) => {
 
 exports.fetchWKD = fetchWKD
 exports.fetchHKP = fetchHKP
+exports.fetchSignature = fetchSignature
 exports.fetchKeybase = fetchKeybase

@@ -28,41 +28,35 @@ if any, to sign a "copyright disclaimer" for the program, if necessary. For
 more information on this, and how to apply and follow the GNU AGPL, see <https://www.gnu.org/licenses/>.
 */
 const router = require('express').Router()
+const bodyParser = require('body-parser').urlencoded({ extended: false })
 const kx = require('../server')
 
 router.get('/sig', (req, res) => {
-    res.render('profile', { mode: 'sig' })
+    res.render('profile', { isSignature: true, signature: null })
+})
+
+router.post('/sig', bodyParser, async (req, res) => {
+    const data = await kx.generateSignatureProfile(req.body.signature)
+    res.render('profile', { data: data, isSignature: true, signature: req.body.signature })
 })
 
 router.get('/wkd/:id', async (req, res) => {
     const data = await kx.generateWKDProfile(req.params.id)
-    if (data.errors.length > 0) {
-        return res.render('profile-failed', { data: data })
-    }
     res.render('profile', { data: data })
 })
 
 router.get('/hkp/:id', async (req, res) => {
     const data = await kx.generateHKPProfile(req.params.id)
-    if (data.errors.length > 0) {
-        return res.render('profile-failed', { data: data })
-    }
     res.render('profile', { data: data })
 })
 
 router.get('/hkp/:server/:id', async (req, res) => {
     const data = await kx.generateHKPProfile(req.params.id, req.params.server)
-    if (data.errors.length > 0) {
-        return res.render('profile-failed', { data: data })
-    }
     res.render('profile', { data: data })
 })
 
 router.get('/keybase/:username/:fingerprint', async (req, res) => {
     const data = await kx.generateKeybaseProfile(req.params.username, req.params.fingerprint)
-    if (data.errors.length > 0) {
-        return res.render('profile-failed', { data: data })
-    }
     res.render('profile', { data: data })
 })
 
@@ -72,9 +66,6 @@ router.get('/:id', async (req, res) => {
         data = await kx.generateWKDProfile(req.params.id)
     } else {
         data = await kx.generateHKPProfile(req.params.id)
-    }
-    if (data.errors.length > 0) {
-        return res.render('profile-failed', { data: data })
     }
     res.render('profile', { data: data })
 })
