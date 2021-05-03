@@ -64,6 +64,12 @@ router.get('/about', (req, res) => {
     res.render(`long-form-content`, { title: `About Keyoxide`, content: content })
 })
 
+router.get('/privacy', (req, res) => {
+    let rawContent = fs.readFileSync(`./content/privacy-policy.md`, "utf8")
+    const content = md.render(rawContent)
+    res.render(`long-form-content`, { title: `Privacy policy`, content: content })
+})
+
 router.get('/getting-started', (req, res) => {
     let rawContent = fs.readFileSync(`./content/getting-started.md`, "utf8")
     const content = md.render(rawContent)
