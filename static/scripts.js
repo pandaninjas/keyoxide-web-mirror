@@ -70,6 +70,9 @@ elFormVerify.onsubmit = async function (evt) {
     evt.preventDefault();
 
     try {
+        // Fetch a key if needed
+        await fetchProfileKey();
+
         // Try two different methods of signature reading
         let signature = null, verified = null, readError = null;
         try {
