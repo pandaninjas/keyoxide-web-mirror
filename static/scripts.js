@@ -109,16 +109,18 @@ const fetchProfileKey = async function() {
     const rawKeyData = await fetch(window.kx.key.url)
     let key, errorMsg
 
-    // try {
-    //     key = (await openpgp.key.read(await rawKeyData.arrayBuffer())).keys[0]
-    // } catch(error) {
-    //     errorMsg = error.message
-    // }
-
     try {
-        key = (await openpgp.key.readArmored(await rawKeyData.text())).keys[0]
-    } catch (error) {
+        key = (await openpgp.key.read(new Uint8Array(await rawKeyData.clone().arrayBuffer()))).keys[0]
+    } catch(error) {
         errorMsg = error.message
+    }
+
+    if (!key) {
+        try {
+            key = (await openpgp.key.readArmored(await rawKeyData.clone().text())).keys[0]
+        } catch (error) {
+            errorMsg = error.message
+        }
     }
 
     if (key) {
