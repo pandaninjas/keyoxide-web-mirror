@@ -132,7 +132,7 @@ const fetchProfileKey = async function() {
 }
 
 // Enable QR modal
-const showQR = function(input) {
+const showQR = function(input, type) {
     const qrTarget = document.getElementById('qr');
     const qrContext = qrTarget.getContext('2d');
     const qrOpts = {
@@ -143,7 +143,12 @@ const showQR = function(input) {
     };
 
     if (input) {
-        input = decodeURIComponent(input);
+        if (type === 'url') {
+            input = decodeURIComponent(input);
+        }
+        if (type === 'fingerprint') {
+            input = `OPENPGP4FPR:${input.toUpperCase()}`
+        }
 
         QRCode.toCanvas(qrTarget, input, qrOpts, function(error) {
             if (error) {

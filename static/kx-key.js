@@ -66,6 +66,19 @@ class Key extends HTMLElement {
 
         const profile_link = subsection1_text.appendChild(document.createElement('p'));
         profile_link.innerHTML = `Key link: <a href="${data.key.uri}">${data.key.uri}</a>`;
+
+        elContent.appendChild(document.createElement('hr'));
+
+        // QR Code
+        const subsection_qr = elContent.appendChild(document.createElement('div'));
+        subsection_qr.setAttribute('class', 'subsection');
+        const subsection_qr_icon = subsection_qr.appendChild(document.createElement('img'));
+        subsection_qr_icon.setAttribute('src', '/static/img/qrcode.png');
+        const subsection_qr_text = subsection_qr.appendChild(document.createElement('div'));
+
+        const button_profileQR = subsection_qr_text.appendChild(document.createElement('button'));
+        button_profileQR.innerText = `Show OpenPGP fingerprint QR`;
+        button_profileQR.setAttribute('onClick', `showQR('${data.fingerprint}', 'fingerprint')`);
     }
 }
 

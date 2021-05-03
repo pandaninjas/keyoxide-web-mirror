@@ -146,7 +146,7 @@ class Claim extends HTMLElement {
 
             const button_profileQR = subsection_qr_text.appendChild(document.createElement('button'));
             button_profileQR.innerText = `Show profile QR`;
-            button_profileQR.setAttribute('onClick', `showQR('${claim.matches[0].profile.qr}')`);
+            button_profileQR.setAttribute('onClick', `showQR('${claim.matches[0].profile.qr}', 'url')`);
         }
 
         elContent.appendChild(document.createElement('hr'));
