@@ -127,7 +127,7 @@ const fetchKeybase = (username, fingerprint) => {
 
         try {
             output.publicKey = await doip.keys.fetchKeybase(username, fingerprint)
-            output.fetchURL = `https://keybase.io/${username}`
+            output.fetchURL = `https://keybase.io/${username}/pgp_keys.asc?fingerprint=${fingerprint}`
         } catch(error) {
             reject(new Error("No public keys could be fetched from Keybase"))
         }
