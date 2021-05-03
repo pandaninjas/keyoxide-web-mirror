@@ -28,7 +28,7 @@ Open source means: everyone can inspect the code behind Keyoxide. Really! Here, 
 
 Not only can you look at it, you are allowed to make changes and even "fork it": take all this code and build your own product with it. Allowed? You are invited to! This keeps the Keyoxide project honest and always moving towards something that is better for everyone.
 
-"Doesn't open source make it easier for others to steal your idea and your revenue?" Ah, good ol' capitalism. No. More about funding and the flow of money in the [Advanced](#Advanced) section.
+"Doesn't open source make it easier for others to steal your idea and your revenue?" Ah, good ol' capitalism. No. More about funding and the flow of money in the [Advanced](#advanced) section.
 
 The Keyoxide project is licensed under [AGPL-3.0-or-later](https://codeberg.org/keyoxide/web/src/branch/main/LICENSE).
 
@@ -145,7 +145,9 @@ Claims are the pieces of data to lets you claim an online property. A claim can 
 
 Claims are stored inside cryptographic keys as so-called &quot;notations&quot;: these can be seen as custom data entries. Typically, claims are structured as follows:
 
-`proof@metacode.biz=https://platform.com/username`
+```
+proof@metacode.biz=https://platform.com/username
+```
 
 - *proof* tells us we are looking at the location of a potential proof the current claim.
 - *@metacode.biz* tells us this is a specific type of proof, as defined on the [metacode.biz website](https://metacode.biz/openpgp/proofs). This part should NOT be changed when adding a new proof to your key.
