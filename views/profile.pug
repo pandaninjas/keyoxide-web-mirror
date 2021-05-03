@@ -20,6 +20,14 @@ block css
   link(rel='stylesheet' href='/static/dialog-polyfill.css')
 
 block content
+  script.
+    kx = {
+      key: {
+        url: "!{data.key.fetchURL}",
+        object: null
+      }
+    }
+
   section.profile.narrow
     noscript
       p Keyoxide requires JavaScript to function.
@@ -47,8 +55,6 @@ block content
           img#profileAvatar(src=data.extra.avatarURL alt="avatar")
 
         p#profileName= data.keyData.users[data.keyData.primaryUserIndex].userData.name
-        //- p#profileURLFingerprint
-        //-   a(href=data.key.fetchURL)=data.keyData.fingerprint
         .buttons
           button(onClick="document.querySelector('#dialog--encryptMessage').showModal();") Encrypt message
           button(onClick="document.querySelector('#dialog--verifySignature').showModal();") Verify signature

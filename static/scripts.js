@@ -27,8 +27,8 @@ You should also get your employer (if you work as a programmer) or school,
 if any, to sign a "copyright disclaimer" for the program, if necessary. For
 more information on this, and how to apply and follow the GNU AGPL, see <https://www.gnu.org/licenses/>.
 */
+// Verify all claims
 const claims = document.querySelectorAll('kx-claim');
-
 claims.forEach(function(claim) {
     claim.verify();
 });
@@ -43,6 +43,91 @@ document.querySelectorAll('dialog').forEach(function(d) {
         d.close();
     });
 });
+
+// Register form listeners
+const elFormEncrypt = document.body.querySelector("#dialog--encryptMessage form");
+elFormEncrypt.onsubmit = async function (evt) {
+    evt.preventDefault();
+
+    try {
+        // Fetch a key if needed
+        await fetchProfileKey();
+
+        // Encrypt the message
+        encrypted = await openpgp.encrypt({
+            message: openpgp.message.fromText(elFormEncrypt.querySelector('.input').value),
+            publicKeys: window.kx.key.object
+        });
+        elFormEncrypt.querySelector('.output').value = encrypted.data;
+    } catch (e) {
+        console.error(e);
+        elFormEncrypt.querySelector('.output').value = `Could not encrypt message!\n==========================\n${e.message ? e.message : e}`;
+    }
+};
+
+const elFormVerify = document.body.querySelector("#dialog--verifySignature form");
+elFormVerify.onsubmit = async function (evt) {
+    evt.preventDefault();
+
+    try {
+        // Try two different methods of signature reading
+        let signature = null, verified = null, readError = null;
+        try {
+            signature = await openpgp.message.readArmored(elFormVerify.querySelector('.input').value);
+        } catch(e) {
+            readError = e;
+        }
+        try {
+            signature = await openpgp.cleartext.readArmored(elFormVerify.querySelector('.input').value);
+        } catch(e) {
+            readError = e;
+        }
+        if (signature == null) { throw(readError) };
+
+        // Verify the signature
+        verified = await openpgp.verify({
+            message: signature,
+            publicKeys: window.kx.key.object
+        });
+
+        if (verified.signatures[0].valid) {
+            elFormVerify.querySelector('.output').value = `The message was signed by the profile's key.`;
+        } else {
+            elFormVerify.querySelector('.output').value = `The message was NOT signed by the profile's key.`;
+        }
+    } catch (e) {
+        console.error(e);
+        elFormVerify.querySelector('.output').value = `Could not verify signature!\n===========================\n${e.message ? e.message : e}`;
+    }
+};
+
+const fetchProfileKey = async function() {
+    if (window.kx.key.object && window.kx.key.object instanceof openpgp.key.Key) {
+        return;
+    }
+
+    const rawKeyData = await fetch(window.kx.key.url)
+    let key, errorMsg
+
+    // try {
+    //     key = (await openpgp.key.read(await rawKeyData.arrayBuffer())).keys[0]
+    // } catch(error) {
+    //     errorMsg = error.message
+    // }
+
+    try {
+        key = (await openpgp.key.readArmored(await rawKeyData.text())).keys[0]
+    } catch (error) {
+        errorMsg = error.message
+    }
+
+    if (key) {
+        window.kx.key.object = key
+        return
+    } else {
+        throw new Error(`Public key could not be fetched (${errorMsg})`)
+    }
+}
 
 // let elFormSignatureProfile = document.body.querySelector("#formGenerateSignatureProfile"),
 //     elProfileUid = document.body.querySelector("#profileUid"),
