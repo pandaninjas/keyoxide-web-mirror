@@ -7,50 +7,6 @@ class Claim extends HTMLElement {
     constructor() {
         // Call super
         super();
-
-        // Shadow root
-        this.attachShadow({mode: 'open'});
-
-        // Details element
-        const details = document.createElement('details');
-        details.setAttribute('class', 'kx-item');
-
-        // Summary element
-        const summary = details.appendChild(document.createElement('summary'));
-
-        // Info
-        const info = summary.appendChild(document.createElement('div'));
-        info.setAttribute('class', 'info');
-
-        // Info > Service provider
-        const serviceProvider = info.appendChild(document.createElement('p'));
-        serviceProvider.setAttribute('class', 'subtitle');
-
-        // Info > Profile
-        const profile = info.appendChild(document.createElement('p'));
-        profile.setAttribute('class', 'title');
-
-        // Icons
-        const icons = summary.appendChild(document.createElement('div'));
-        icons.setAttribute('class', 'icons');
-
-        const icons__verificationStatus = icons.appendChild(document.createElement('div'));
-        icons__verificationStatus.setAttribute('class', 'verificationStatus');
-
-        const icons__verificationStatus__inProgress = icons__verificationStatus.appendChild(document.createElement('div'));
-        icons__verificationStatus__inProgress.setAttribute('class', 'inProgress');
-
-        // Details content
-        const content = details.appendChild(document.createElement('div'));
-        content.setAttribute('class', 'content');
-
-        // Load CSS stylesheet
-        const linkCSS = document.createElement('link');
-        linkCSS.setAttribute('rel', 'stylesheet');
-        linkCSS.setAttribute('href', '/static/kx-styles.css');
-
-        // Attach the elements to the shadow DOM
-        this.shadowRoot.append(linkCSS, details);
     }
 
     attributeChangedCallback(name, oldValue, newValue) {
@@ -69,38 +25,38 @@ class Claim extends HTMLElement {
     }
 
     updateContent(value) {
-        const shadow = this.shadowRoot;
+        const root = this;
         const claim = new doip.Claim(JSON.parse(value));
 
         switch (claim.matches[0].serviceprovider.name) {
             case 'dns':
             case 'xmpp':
             case 'irc':
-                shadow.querySelector('.info .subtitle').innerText = claim.matches[0].serviceprovider.name.toUpperCase();
+                root.querySelector('.info .subtitle').innerText = claim.matches[0].serviceprovider.name.toUpperCase();
                 break;
 
             default:
-                shadow.querySelector('.info .subtitle').innerText = claim.matches[0].serviceprovider.name;
+                root.querySelector('.info .subtitle').innerText = claim.matches[0].serviceprovider.name;
                 break;
         }
-        shadow.querySelector('.info .title').innerText = claim.matches[0].profile.display;
+        root.querySelector('.info .title').innerText = claim.matches[0].profile.display;
 
         try {
             if (claim.status === 'verified') {
-                shadow.querySelector('.icons .verificationStatus').setAttribute('data-value', claim.verification.result ? 'success' : 'failed');
+                root.querySelector('.icons .verificationStatus').setAttribute('data-value', claim.verification.result ? 'success' : 'failed');
             } else {
-                shadow.querySelector('.icons .verificationStatus').setAttribute('data-value', 'running');
+                root.querySelector('.icons .verificationStatus').setAttribute('data-value', 'running');
             }
         } catch (error) {
-            shadow.querySelector('.icons .verificationStatus').setAttribute('data-value', 'failed');
+            root.querySelector('.icons .verificationStatus').setAttribute('data-value', 'failed');
         }
 
-        const elContent = shadow.querySelector('.content');
+        const elContent = root.querySelector('.content');
         elContent.innerHTML = ``;
 
         // Handle failed ambiguous claim
         if (claim.status === 'verified' && !claim.verification.result && claim.isAmbiguous()) {
-            shadow.querySelector('.info .subtitle').innerText = '---';
+            root.querySelector('.info .subtitle').innerText = '---';
 
             const subsection_alert = elContent.appendChild(document.createElement('div'));
             subsection_alert.setAttribute('class', 'subsection');

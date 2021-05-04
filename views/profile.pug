@@ -6,8 +6,30 @@ mixin generateUser(user, isPrimary)
     if isPrimary
       small.primary primary
   each claim in user.claims
-    kx-claim(data-claim=claim)
-
+    kx-claim.kx-item(data-claim=claim)
+      details
+        summary
+          .info
+            p.subtitle= claim.matches[0].serviceprovider.name
+            p.title= claim.matches[0].profile.display
+          .icons
+            .verificationStatus(data-value='running')
+              .inProgress
+        .content
+          .subsection
+            img(src='/static/img/link.png')
+            div
+              if (claim.matches[0].profile.uri)
+                p Profile link: 
+                  a(rel='me' href=claim.matches[0].profile.uri)= claim.matches[0].profile.uri
+              else
+                p Profile link: not accessible from browser
+              if (claim.matches[0].proof.uri)
+                p Proof link: 
+                  a(rel='me' href=claim.matches[0].proof.uri)= claim.matches[0].proof.uri
+              else
+                p Proof link: not accessible from browser
+              
 block js
   script(type='application/javascript' src='/static/qrcode.min.js' charset='utf-8')
   script(type='application/javascript' src='/static/dialog-polyfill.js' charset='utf-8')
@@ -84,7 +106,23 @@ block content
 
         #profileProofs.card.card--transparent
           h2 Key
-          kx-key(data-keydata=data.keyData)
+          kx-key.kx-item(data-keydata=data.keyData)
+            details
+              summary
+                .info
+                  p.subtitle= data.keyData.key.fetchMethod
+                  p.title= data.keyData.fingerprint
+              .content
+                .subsection
+                  img(src='/static/img/link.png')
+                  div
+                    p Key link: 
+                      a(href=data.keyData.key.uri)= data.keyData.key.uri
+                hr
+                .subsection
+                  img(src='/static/img/qrcode.png')
+                  div
+                    button(onClick=`showQR('${data.keyData.fingerprint}', 'fingerprint')`) Show OpenPGP fingerprint QR
 
           +generateUser(data.keyData.users[data.keyData.primaryUserIndex], true)
           each user, index in data.keyData.users
