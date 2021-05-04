@@ -1,7 +1,30 @@
 # Self-hosting Keyoxide
 
-Though it's not a fully supported use case yet, anyone can take the [source code](https://codeberg.org/keyoxide/web) and put it on their own server. The idea is that [Keyoxide.org](https://keyoxide.org) is not special in itself. After all, all the heavy lifting is done by the browser. So the role of any individual Keyoxide server is to get the tool in the hands of the end user.
+Self-hosting Keyoxide is an important aspect of the project. Users need to trust the Keyoxide instance they're using to reliably verify identities. Making Keyoxide itself decentralized means no one needs to trust a central server. If a friend or family member is hosting a Keyoxide instance, it becomes much easier to trust the instance!
 
-The few supporting roles the server has can easily be performed by any other (PHP) server.
+## Docker
 
-So if you like the project but perhaps are mistrusting of servers of others, especially when it comes to keypairs, here's the [source code](https://codeberg.org/keyoxide/web) and put it on your own server. Thanks for using the project!
+- Run `docker run -d -p 3000:3000 keyoxide/keyoxide:stable`
+
+### Configuration
+
+- Add environment variables to the docker command:  
+  `docker run -d -p 3000:3000 -e PROXY_HOSTNAME=proxy.domain.tld keyoxide/keyoxide:stable`
+
+## Without Docker
+
+- Fetch the [source code](https://codeberg.org/keyoxide/web) and put the files on your server
+- Run `yarn` or `npm install` to install the dependencies
+- Run `yarn run start` or `npm run start` to start the server at `http://localhost:3000`
+- Point your reverse proxy to `http://localhost:3000`
+
+### Configuration
+
+- Add a `.env` file to the root directory of the source code:
+
+```
+# .env file
+
+# Enable the use of a proxy (replace with your proxy server domain)
+PROXY_HOSTNAME=proxy.domain.tld
+```

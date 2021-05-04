@@ -7,8 +7,6 @@ Let's list the identity proofs stored in our OpenPGP keys.
 First, edit the key (make sure to replace FINGERPRINT):
 
 ```
-`
-```
 gpg --edit-key FINGERPRINT
 ```
 
