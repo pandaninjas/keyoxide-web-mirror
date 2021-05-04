@@ -37,7 +37,7 @@ block content
       div
         form(method='post')
           textarea.input(name='message' placeholder='Message')
-          input(type='submit' name='submit' value='ENCRYPT MESSAGE')
+          input.no-margin(type='submit' name='submit' value='ENCRYPT MESSAGE')
           textarea.output(name='message' placeholder='Waiting for input' readonly)
         form(method="dialog")
           input(type="submit" value="Close")
@@ -46,7 +46,7 @@ block content
       div
         form(method='post')
           textarea.input(name='signature' placeholder='Signature')
-          input(type='submit' name='submit' value='VERIFY SIGNATURE')
+          input.no-margin(type='submit' name='submit' value='VERIFY SIGNATURE')
           textarea.output(name='message' placeholder='Waiting for input' readonly)
         form(method="dialog")
           input(type="submit" value="Close")
@@ -58,7 +58,8 @@ block content
           a#qr--altLink
 
     if (isSignature)
-      #profileSigInput.card.card--form
+      #profileSigInput.form-wrapper.card
+        h2 Signature profile
         form#formGenerateSignatureProfile(method='post')
           label(for="signature")  Please enter the raw profile signature below and press "Generate profile".
           textarea#signature(name='signature')= signature
@@ -72,16 +73,16 @@ block content
         li= error
     else
       unless (isSignature && !signature)
-        #profileHeader.card.card--profileHeader
+        #profileHeader.card.card--transparent.card--profileHeader
           a.avatar(href="#")
             img#profileAvatar(src=data.extra.avatarURL alt="avatar")
 
           p#profileName= data.keyData.users[data.keyData.primaryUserIndex].userData.name
-          .buttons
+          .button-wrapper
             button(onClick="document.querySelector('#dialog--encryptMessage').showModal();") Encrypt message
             button(onClick="document.querySelector('#dialog--verifySignature').showModal();") Verify signature
 
-        #profileProofs.card
+        #profileProofs.card.card--transparent
           h2 Key
           kx-key(data-keydata=data.keyData)
 

@@ -1,14 +1,28 @@
 extends templates/base.pug
 
 block js
-  //- script(type='application/javascript' src='/static/dialog-polyfill.js' charset='utf-8')
   script(type='application/javascript' src='/static/openpgp.min.js' charset='utf-8')
   script(type='application/javascript' src='/static/doip.js' charset='utf-8')
   script(type='application/javascript' src='/static/kx-claim.js' charset='utf-8')
+  script(type='application/javascript' src='/static/scripts.js' charset='utf-8')
 
 block content
   .demo.narrow
-    kx-claim(data-claim= demoData)
+    kx-claim(data-claim= demoData data-skip="true")
+
+  .narrow
+    #search.form-wrapper.card
+      h2 Generate a profile
+      form(action="post")
+        input(type="search" name="query" placeholder="3637202523e7c1309ab79e99ef2dc5827b445f4b, test@doip.rocks")
+        div.radio-wrapper
+          input#protocol-hkp(type="radio" name="protocol" value="hkp" checked="true")
+          label(for="protocol-hkp") HKP
+          input#protocol-wkd(type="radio" name="protocol" value="wkd")
+          label(for="protocol-wkd") WKD
+          input#protocol-sig(type="radio" name="protocol" value="sig")
+          label(for="protocol-sig") Signature
+        input(type="submit" value="Generate profile")
 
   if highlights.length > 0
     h2 Highlights
@@ -22,7 +36,7 @@ block content
             span.details= hl.description
           .spacer
           p
-            a(href=`/${hl.fingerprint}`) View profile
+            a(href=`/${hl.fingerprint}`).button.full-width View profile
       - var n = 0
       while n < 3-highlights.length
         .card.card--small-profile-dummy

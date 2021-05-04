@@ -30,6 +30,9 @@ more information on this, and how to apply and follow the GNU AGPL, see <https:/
 // Verify all claims
 const claims = document.querySelectorAll('kx-claim');
 claims.forEach(function(claim) {
+    if (claim.hasAttribute('data-skip') && claim.getAttribute('data-skip')) {
+        return;
+    }
     claim.verify();
 });
 
@@ -46,64 +49,90 @@ document.querySelectorAll('dialog').forEach(function(d) {
 
 // Register form listeners
 const elFormEncrypt = document.body.querySelector("#dialog--encryptMessage form");
-elFormEncrypt.onsubmit = async function (evt) {
-    evt.preventDefault();
+if (elFormEncrypt) {
+    elFormEncrypt.onsubmit = async function (evt) {
+        evt.preventDefault();
 
-    try {
-        // Fetch a key if needed
-        await fetchProfileKey();
+        try {
+            // Fetch a key if needed
+            await fetchProfileKey();
 
-        // Encrypt the message
-        encrypted = await openpgp.encrypt({
-            message: openpgp.message.fromText(elFormEncrypt.querySelector('.input').value),
-            publicKeys: window.kx.key.object
-        });
-        elFormEncrypt.querySelector('.output').value = encrypted.data;
-    } catch (e) {
-        console.error(e);
-        elFormEncrypt.querySelector('.output').value = `Could not encrypt message!\n==========================\n${e.message ? e.message : e}`;
+            // Encrypt the message
+            encrypted = await openpgp.encrypt({
+                message: openpgp.message.fromText(elFormEncrypt.querySelector('.input').value),
+                publicKeys: window.kx.key.object
+            });
+            elFormEncrypt.querySelector('.output').value = encrypted.data;
+        } catch (e) {
+            console.error(e);
+            elFormEncrypt.querySelector('.output').value = `Could not encrypt message!\n==========================\n${e.message ? e.message : e}`;
+        }
     }
-};
+}
 
 const elFormVerify = document.body.querySelector("#dialog--verifySignature form");
-elFormVerify.onsubmit = async function (evt) {
-    evt.preventDefault();
+if (elFormVerify) {
+    elFormVerify.onsubmit = async function (evt) {
+        evt.preventDefault();
 
-    try {
-        // Fetch a key if needed
-        await fetchProfileKey();
-
-        // Try two different methods of signature reading
-        let signature = null, verified = null, readError = null;
         try {
-            signature = await openpgp.message.readArmored(elFormVerify.querySelector('.input').value);
-        } catch(e) {
-            readError = e;
-        }
-        try {
-            signature = await openpgp.cleartext.readArmored(elFormVerify.querySelector('.input').value);
-        } catch(e) {
-            readError = e;
-        }
-        if (signature == null) { throw(readError) };
+            // Fetch a key if needed
+            await fetchProfileKey();
 
-        // Verify the signature
-        verified = await openpgp.verify({
-            message: signature,
-            publicKeys: window.kx.key.object
-        });
+            // Try two different methods of signature reading
+            let signature = null, verified = null, readError = null;
+            try {
+                signature = await openpgp.message.readArmored(elFormVerify.querySelector('.input').value);
+            } catch(e) {
+                readError = e;
+            }
+            try {
+                signature = await openpgp.cleartext.readArmored(elFormVerify.querySelector('.input').value);
+            } catch(e) {
+                readError = e;
+            }
+            if (signature == null) { throw(readError) };
 
-        if (verified.signatures[0].valid) {
-            elFormVerify.querySelector('.output').value = `The message was signed by the profile's key.`;
-        } else {
-            elFormVerify.querySelector('.output').value = `The message was NOT signed by the profile's key.`;
+            // Verify the signature
+            verified = await openpgp.verify({
+                message: signature,
+                publicKeys: window.kx.key.object
+            });
+
+            if (verified.signatures[0].valid) {
+                elFormVerify.querySelector('.output').value = `The message was signed by the profile's key.`;
+            } else {
+                elFormVerify.querySelector('.output').value = `The message was NOT signed by the profile's key.`;
+            }
+        } catch (e) {
+            console.error(e);
+            elFormVerify.querySelector('.output').value = `Could not verify signature!\n===========================\n${e.message ? e.message : e}`;
         }
-    } catch (e) {
-        console.error(e);
-        elFormVerify.querySelector('.output').value = `Could not verify signature!\n===========================\n${e.message ? e.message : e}`;
     }
-};
+}
 
+const elFormSearch = document.body.querySelector("#search");
+if (elFormSearch) {
+    elFormSearch.onsubmit = function (evt) {
+        evt.preventDefault();
+    }
+
+    const elSearchRadio = elFormSearch.querySelectorAll("input[type='radio']");
+    elSearchRadio.forEach(function (el) {
+        el.oninput = function (evt) {
+            evt.preventDefault();
+
+            if (evt.target.getAttribute('id') === 'protocol-sig') {
+                elFormSearch.querySelector("input[type='search']").setAttribute('disabled', true);
+            } else {
+                elFormSearch.querySelector("input[type='search']").removeAttribute('disabled');
+            }
+        }
+    });
+    elFormSearch.querySelector("input[type='radio']:checked").dispatchEvent(new Event('input'));
+}
+
+// Functions
 const fetchProfileKey = async function() {
     if (window.kx.key.object && window.kx.key.object instanceof openpgp.key.Key) {
         return;
