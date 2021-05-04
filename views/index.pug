@@ -14,7 +14,7 @@ block content
     #search.form-wrapper.card
       h2 Generate a profile
       form(action="post")
-        input(type="search" name="query" placeholder="3637202523e7c1309ab79e99ef2dc5827b445f4b, test@doip.rocks")
+        input(type="search" name="query" required placeholder="3637202523e7c1309ab79e99ef2dc5827b445f4b, test@doip.rocks")
         div.radio-wrapper
           input#protocol-hkp(type="radio" name="protocol" value="hkp" checked="true")
           label(for="protocol-hkp") HKP

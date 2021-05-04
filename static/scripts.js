@@ -115,6 +115,15 @@ const elFormSearch = document.body.querySelector("#search");
 if (elFormSearch) {
     elFormSearch.onsubmit = function (evt) {
         evt.preventDefault();
+
+        const protocol = elFormSearch.querySelector("input[type='radio']:checked").value;
+        const identifier = elFormSearch.querySelector("input[type='search']").value;
+
+        if (protocol == 'sig') {
+            window.location.href = `/${protocol}`;
+        } else {
+            window.location.href = `/${protocol}/${encodeURIComponent(identifier)}`;
+        }
     }
 
     const elSearchRadio = elFormSearch.querySelectorAll("input[type='radio']");
