@@ -39,7 +39,14 @@ const fetchWKD = (id) => {
             fetchURL: null
         }
 
+        if (!id.includes('@')) {
+            reject(new Error(`The WKD identifier "${id}" is invalid`));
+        }
+
         const [, localPart, domain] = /([^\@]*)@(.*)/.exec(id)
+        if (!localPart || !domain) {
+            reject(new Error(`The WKD identifier "${id}" is invalid`));
+        }
         const localEncoded = await utils.computeWKDLocalPart(localPart)
         const urlAdvanced = `https://openpgpkey.${domain}/.well-known/openpgpkey/${domain}/hu/${localEncoded}`
         const urlDirect = `https://${domain}/.well-known/openpgpkey/hu/${localEncoded}`
