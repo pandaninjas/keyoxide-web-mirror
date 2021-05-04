@@ -122,7 +122,7 @@ class Claim extends HTMLElement {
 
         const profile_link = subsection_links_text.appendChild(document.createElement('p'));
         if (claim.matches[0].profile.uri) {
-            profile_link.innerHTML = `Profile link: <a href="${claim.matches[0].profile.uri}">${claim.matches[0].profile.uri}</a>`;
+            profile_link.innerHTML = `Profile link: <a rel="me" href="${claim.matches[0].profile.uri}">${claim.matches[0].profile.uri}</a>`;
         } else {
             profile_link.innerHTML = `Profile link: not accessible from browser`;
         }
