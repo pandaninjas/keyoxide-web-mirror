@@ -6,6 +6,20 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [3.0.0] - 2021-05-04
+### Added
+- Server-side rendering of profiles
+- Custom components for claims and keys
+- "FLoC off" response headers
+### Updated
+- User interface redesign
+- Integrate encrypt, verify into profile pages
+- Rel="me" profile links
+- Guides
+### Removed
+- Dedicated encrypt, verify and proofs pages
+- Utility pages
+
 ## [2.5.0] - 2021-03-09
 ### Added
 - IRC service provider

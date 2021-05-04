@@ -1,6 +1,6 @@
 {
   "name": "keyoxide-web",
-  "version": "2.5.0",
+  "version": "3.0.0",
   "description": "A modern, secure and privacy-friendly platform to establish your decentralized online identity",
   "main": "index.js",
   "dependencies": {
@@ -34,7 +34,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git@codeberg.org:keyoxide/web.git"
+    "url": "https://codeberg.org/keyoxide/keyoxide-web"
   },
   "keywords": [
     "pgp",
