@@ -35,8 +35,9 @@ body {
   line-height: 1.6rem;
   font-family: sans-serif;
   color: var(--grey-900);
-  /* background-color: var(--purple-100); */
 }
+
+/* HELPERS */
 .spacer {
   flex: 1;
 }
@@ -48,13 +49,13 @@ body {
   width: 100% !important;
 }
 
+/* LAYOUT */
 header {
   display: flex;
   justify-content: center;
   align-items: center;
   margin: 0 1.6rem 1.6rem;
   padding: 0.8rem;
-  /* background-color: var(--purple-50); */
   border-radius: 16px;
 }
 header a.logo {
@@ -110,14 +111,7 @@ footer {
   max-width: 720px;
   margin: 0 auto;
 }
-/* section.profile .card, .demo .card {
-  padding-left: 0;
-  padding-right: 0;
-  background-color: transparent;
-  border: 0;
-} */
 section.profile p, .demo p {
-  /* margin: 0.8rem 0; */
   font-size: 1.2rem;
 }
 .demo {
@@ -144,7 +138,6 @@ section.profile p, .demo p {
   flex-wrap: wrap;
   align-items: center;
   gap: 24px;
-  /* text-align: center; */
 }
 .card--profileHeader p, .card--profileHeader small {
   margin: 0;
@@ -158,11 +151,9 @@ section.profile p, .demo p {
 .card--small-profile-dummy {
   opacity: 0.5;
   border: 0;
-  /* box-shadow: unset; */
 }
 .card--small-profile .name {
   font-size: 1.4em;
-  /* font-weight: bold; */
 }
 .card--small-profile p {
   margin-top: 0;
@@ -171,19 +162,6 @@ section.profile p, .demo p {
   white-space: nowrap;
 
 }
-/* .card--small-profile a {
-  display: block;
-  padding: 0.4rem 0.8rem;
-  text-decoration: none;
-  text-transform: uppercase;
-  background-color: #fff;
-  border: solid 1px var(--blue-700);
-  border-radius: 4px;
-}
-.card--small-profile a:hover {
-  background-color: var(--blue-700);
-  color: #fff;
-} */
 #profileName {
   font-size: 1.6rem;
   color: var(--grey-700);
@@ -347,19 +325,11 @@ ul {
 main h1:first-of-type {
   margin-top: 1.6rem;
 }
-.long_form h2 {
-  /* margin-top: 3.2rem; */
-  /* font-size: 1rem; */
-  /* font-weight: bold; */
-  text-align: left;
-  /* color: var(--grey-700); */
-}
 footer h1 {
   margin-bottom: 0.8rem;
   color: var(--purple-200);
   font-size: 1.2rem;
   font-weight: bold;
-  /* border-bottom: solid 1px var(--purple-200); */
 }
 footer a {
   color: var(--purple-100);
