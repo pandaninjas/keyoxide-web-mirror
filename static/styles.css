@@ -389,6 +389,7 @@ form textarea {
 }
 .button-wrapper, .radio-wrapper {
   display: flex;
+  flex-wrap: wrap;
   gap: 8px;
 }
 form .button-wrapper, form .radio-wrapper {
