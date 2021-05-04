@@ -42,6 +42,11 @@ app.set('domain', process.env.DOMAIN || "keyoxide.org")
 app.set('keyoxide_version', packageData.version)
 app.set('onion_url', process.env.ONION_URL)
 
+app.use((req, res, next) => {
+    res.setHeader('Permissions-Policy', 'interest-cohort=()')
+    next()
+})
+
 app.use('/favicon.svg', express.static('favicon.svg'))
 app.use('/robots.txt', express.static('robots.txt'))
 
