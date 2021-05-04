@@ -36,7 +36,7 @@ exports.data = {
         {
             "serviceprovider": {
                 "type": "web",
-                "name": "mastodon"
+                "name": "mastodon (demo)"
             },
             "match": {
                 "regularExpression": {},
