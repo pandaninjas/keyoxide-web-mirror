@@ -169,13 +169,14 @@ details.kx-item button {
   margin-right: 8px;
   text-decoration: none;
   text-transform: uppercase;
-  background-color: var(--purple-50);
+  background-color: #fff;
   border: solid 2px var(--purple-400);
   border-radius: 4px;
   cursor: pointer;
 }
 details.kx-item button:hover {
-  background-color: var(--purple-400);
+  background-color: var(--purple-500);
+  border-color: var(--purple-500);
   color: #fff;
 }
 

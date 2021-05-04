@@ -37,6 +37,16 @@ body {
   color: var(--grey-900);
   /* background-color: var(--purple-100); */
 }
+.spacer {
+  flex: 1;
+}
+.no-margin {
+  margin: 0 !important;
+}
+.full-width {
+  display: block;
+  width: 100% !important;
+}
 
 header {
   display: flex;
@@ -100,13 +110,12 @@ footer {
   max-width: 720px;
   margin: 0 auto;
 }
-section.profile .card, .demo .card {
+/* section.profile .card, .demo .card {
   padding-left: 0;
   padding-right: 0;
   background-color: transparent;
   border: 0;
-  /* box-shadow: 0 0 0 transparent; */
-}
+} */
 section.profile p, .demo p {
   /* margin: 0.8rem 0; */
   font-size: 1.2rem;
@@ -121,7 +130,13 @@ section.profile p, .demo p {
   background-color: #fff;
   background-color: var(--purple-50);
   border: 2px solid var(--purple-200);
-  /* box-shadow: 0 4px 12px var(--purple-100); */
+  border-radius: 4px;
+}
+.card.card--transparent {
+  padding-left: 0;
+  padding-right: 0;
+  background-color: transparent;
+  border: 0;
 }
 .card--profileHeader {
   display: flex;
@@ -139,7 +154,6 @@ section.profile p, .demo p {
   flex-direction: column;
   padding-top: 1rem;
   text-align: center;
-  border-radius: 4px;
 }
 .card--small-profile-dummy {
   opacity: 0.5;
@@ -157,10 +171,9 @@ section.profile p, .demo p {
   white-space: nowrap;
 
 }
-.card--small-profile a {
+/* .card--small-profile a {
   display: block;
   padding: 0.4rem 0.8rem;
-  /* color: #fff; */
   text-decoration: none;
   text-transform: uppercase;
   background-color: #fff;
@@ -168,10 +181,9 @@ section.profile p, .demo p {
   border-radius: 4px;
 }
 .card--small-profile a:hover {
-  /* background-color: rgba(255, 255, 255, 0.3); */
   background-color: var(--blue-700);
   color: #fff;
-}
+} */
 #profileName {
   font-size: 1.6rem;
   color: var(--grey-700);
@@ -233,9 +245,6 @@ section.profile p, .demo p {
     order: -1;
   }
 }
-.spacer {
-  flex: 1;
-}
 
 .warning {
   padding: calc(0.8rem - 2px) 0.8rem;
@@ -266,29 +275,7 @@ kx-claim {
   border-radius: 50%;
 }
 
-/* .buttons {
-  margin: 1.2rem 0;
-}
-.buttons a {
-  display: inline-block;
-  margin-right: 0.8rem;
-  padding: 6px 24px;
-  background-color: #eaeaea;
-  color: #333;
-  text-transform: uppercase;
-  text-decoration: none;
-  border-radius: 32px;
-}
-.buttons a:hover {
-  background-color: #ccc;
-} */
-.modes {
-    display: none;
-}
-.modes.modes--visible {
-    display: block;
-}
-
+/* TYPOGRAPHY */
 h1 {
   font-size: 1.6em;
   margin: 3.2rem 0 1.6rem;
@@ -357,11 +344,6 @@ ul {
   padding-left: 1em;
   list-style: '- ';
 }
-/* .bg--flare {
-  background: #f12711;
-  background: -webkit-linear-gradient(to right, #f5af19, #f12711);
-  background: linear-gradient(to right, #f5af19, #f12711);
-} */
 main h1:first-of-type {
   margin-top: 1.6rem;
 }
@@ -402,56 +384,87 @@ pre code {
   border: 0px;
 }
 
-textarea {
+#qr {
+  display: block;
+  width: 100% !important;
+  max-width: 256px !important;
+  height: auto !important;
+  margin: 0 auto 16px;
+}
+
+/* FORM ELEMENTS */
+.form-wrapper {
+  align-items: center;
+  padding-top: 1.4rem;
+  padding-bottom: 1.6rem;
+  margin-bottom: 48px;
+}
+.form-wrapper form {
+  display: flex;
+  flex-direction: column;
+  margin: 0;
+}
+.form-wrapper h2 {
+  margin-top: 0;
+}
+form input[type="text"], form input[type="search"] {
+  margin: 8px 0;
+}
+form textarea {
   width: 100%;
   height: 128px;
+  margin: 8px 0;
   resize: vertical;
   font-size: 0.9rem;
 }
+.button-wrapper, .radio-wrapper {
+  display: flex;
+  gap: 8px;
+}
+form .button-wrapper, form .radio-wrapper {
+  margin: 8px 0;
+}
+form input[type="radio"] {
+  display: none;
+}
+form input[type="radio"] + label {
+  padding: 2px 8px;
+  background-color: #fff;
+  border-radius: 3px;
+  border: solid 2px var(--purple-400);
+  cursor: pointer;
+}
+form input[type="radio"] + label:hover {
+  background-color: var(--purple-100);
+  border: solid 2px var(--purple-500);
+}
+form input[type="radio"]:checked + label {
+  color: #fff;
+  background-color: var(--purple-500);
+  border: solid 2px var(--purple-500);
+}
 
-form {
-  margin: 0 0 5.6rem;
-}
-form label {
-  margin: 0 8px 0 0;
-}
-form .modesContainer {
-  margin: 16px 0;
-}
-form .modesContainer input {
-  margin: 0 8px 0 0;
-}
-form input[type="submit"] {
-  display: block;
-  /* width: 100%; */
-  padding: 0.4rem 0.8rem;
-  margin: 8px 8px 12px 0;
+input[type="button"], input[type="submit"], button, a.button {
+  min-height: 36px;
+  margin: 8px 0;
+  padding: 4px 8px;
+  font-family: sans-serif;
+  font-size: 0.9rem;
   text-decoration: none;
   text-transform: uppercase;
+  color: #333;
   background-color: #fff;
-  border: solid 1px var(--blue-700);
+  border: solid 2px var(--purple-400);
   border-radius: 4px;
   cursor: pointer;
 }
-button {
-  padding: 0.4rem 0.8rem;
-  margin-right: 8px;
-  text-decoration: none;
-  text-transform: uppercase;
-  background-color: #fff;
-  border: solid 1px var(--blue-700);
-  border-radius: 4px;
-  cursor: pointer;
-}
-form input[type="submit"]:hover, button:hover {
-  background-color: var(--blue-700);
+input[type="button"]:hover, input[type="submit"]:hover, button:hover, a.button:hover {
+  background-color: var(--purple-500);
+  border-color: var(--purple-500);
   color: #fff;
 }
-.card--form form {
-  background-color: var(--purple-100) !important;
-  padding: 1rem;
-}
 
+/* DIALOGS */
 dialog {
   width: 100% !important;
   max-width: 800px !important;
@@ -462,7 +475,7 @@ dialog > div {
   padding: 1em;
 }
 dialog form[method="Dialog"] {
-  margin: 1em 0 0;
+  margin: 1em 0 0 !important;
 }
 dialog form[method="Dialog"] input {
   width: auto;
@@ -473,12 +486,4 @@ dialog p {
 }
 dialog p:first-of-type {
   margin-top: 0;
-}
-
-#qr {
-  display: block;
-  width: 100% !important;
-  max-width: 256px !important;
-  height: auto !important;
-  margin: 0 auto 16px;
 }
