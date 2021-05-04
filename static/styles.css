@@ -445,6 +445,7 @@ form input[type="radio"]:checked + label {
 }
 
 input[type="button"], input[type="submit"], button, a.button {
+  display: inline-block;
   min-height: 36px;
   margin: 8px 0;
   padding: 4px 8px;
@@ -462,6 +463,19 @@ input[type="button"]:hover, input[type="submit"]:hover, button:hover, a.button:h
   background-color: var(--purple-500);
   border-color: var(--purple-500);
   color: #fff;
+}
+a.button i {
+  font-size: 1.4em;
+}
+a.button.button--liberapay {
+  padding: 8px 16px;
+  font-size: 0.95rem;
+  color: #333;
+  background-color: #ffee16;
+  border: 0;
+}
+a.button.button--liberapay:hover {
+  background-color: #fff463;
 }
 
 /* DIALOGS */
