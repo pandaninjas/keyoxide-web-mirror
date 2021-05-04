@@ -241,15 +241,12 @@ kx-claim {
   margin: 12px 0;
 }
 
-.avatar {
+#profileAvatar {
   display: inline-block;
   min-width: 96px;
   max-width: 128px;
   line-height: 0;
   text-align: center;
-}
-.avatar img {
-  width: 100%;
   border-radius: 50%;
 }
 

@@ -96,8 +96,7 @@ block content
     else
       unless (isSignature && !signature)
         #profileHeader.card.card--transparent.card--profileHeader
-          a.avatar(href="#")
-            img#profileAvatar(src=data.extra.avatarURL alt="avatar")
+          img#profileAvatar(src=data.extra.avatarURL alt="avatar")
 
           p#profileName= data.keyData.users[data.keyData.primaryUserIndex].userData.name
           .button-wrapper
