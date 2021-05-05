@@ -175,3 +175,5 @@ exports.generateWKDProfile = generateWKDProfile
 exports.generateHKPProfile = generateHKPProfile
 exports.generateKeybaseProfile = generateKeybaseProfile
 exports.generateSignatureProfile = generateSignatureProfile
+
+exports.utils = require('./utils')

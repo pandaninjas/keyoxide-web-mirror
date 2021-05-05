@@ -34,3 +34,19 @@ exports.computeWKDLocalPart = async (message) => {
     const hash = await openpgp.crypto.hash.sha1(data);
     return openpgp.util.encodeZBase32(hash);
 }
+
+exports.generatePageTitle = (type, data) => {
+    switch (type) {
+        case 'profile':
+            try {
+                return `${data.keyData.users[data.keyData.primaryUserIndex].userData.name} - Keyoxide`
+            } catch (error) {
+                return 'Profile - Keyoxide'
+            }
+            break
+
+        default:
+            return 'Keyoxide'
+            break
+    }
+}

@@ -37,27 +37,32 @@ router.get('/sig', (req, res) => {
 
 router.post('/sig', bodyParser, async (req, res) => {
     const data = await kx.generateSignatureProfile(req.body.signature)
-    res.render('profile', { data: data, isSignature: true, signature: req.body.signature })
+    const title = kx.utils.generatePageTitle('profile', data)
+    res.render('profile', { title: title, data: data, isSignature: true, signature: req.body.signature })
 })
 
 router.get('/wkd/:id', async (req, res) => {
     const data = await kx.generateWKDProfile(req.params.id)
-    res.render('profile', { data: data })
+    const title = kx.utils.generatePageTitle('profile', data)
+    res.render('profile', { title: title, data: data })
 })
 
 router.get('/hkp/:id', async (req, res) => {
     const data = await kx.generateHKPProfile(req.params.id)
-    res.render('profile', { data: data })
+    const title = kx.utils.generatePageTitle('profile', data)
+    res.render('profile', { title: title, data: data })
 })
 
 router.get('/hkp/:server/:id', async (req, res) => {
     const data = await kx.generateHKPProfile(req.params.id, req.params.server)
-    res.render('profile', { data: data })
+    const title = kx.utils.generatePageTitle('profile', data)
+    res.render('profile', { title: title, data: data })
 })
 
 router.get('/keybase/:username/:fingerprint', async (req, res) => {
     const data = await kx.generateKeybaseProfile(req.params.username, req.params.fingerprint)
-    res.render('profile', { data: data })
+    const title = kx.utils.generatePageTitle('profile', data)
+    res.render('profile', { title: title, data: data })
 })
 
 router.get('/:id', async (req, res) => {
@@ -67,7 +72,8 @@ router.get('/:id', async (req, res) => {
     } else {
         data = await kx.generateHKPProfile(req.params.id)
     }
-    res.render('profile', { data: data })
+    const title = kx.utils.generatePageTitle('profile', data)
+    res.render('profile', { title: title, data: data })
 })
 
 module.exports = router
