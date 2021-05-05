@@ -136,6 +136,11 @@ const generateKeybaseProfile = async (username, fingerprint) => {
 
 const processKeyData = (keyData) => {
     keyData.users.forEach(user => {
+        // Remove faulty claims
+        user.claims = user.claims.filter(claim => {
+            return claim instanceof doip.Claim
+        })
+
         // Match claims
         user.claims.forEach(claim => {
             claim.match()
