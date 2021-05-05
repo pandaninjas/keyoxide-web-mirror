@@ -6,6 +6,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [3.0.2] - 2021-05-05
+### Fixed
+- Put profile name in page title
+- Remove faulty claims before rendering the page
+
 ## [3.0.1] - 2021-05-04
 ### Fixed
 - Optimize excessively large image
