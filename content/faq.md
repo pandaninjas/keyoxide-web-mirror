@@ -46,7 +46,7 @@ That, we can help you with! Just append the fingerprint of your keypair to the d
 
 There are currently two methods of getting an avatar displayed on your profile page:
 
-1. automatically fetched from Gravatar using your primary email address;
+1. automatically fetched from [Libravatar](https://www.libravatar.org/) using your primary email address;
 2. extracted from the public key.
 
 While the first method is the simplest, the slightly-more-complicated second method provides an additional layer of privacy protection by not having to upload your profile picture to a 3rd party.

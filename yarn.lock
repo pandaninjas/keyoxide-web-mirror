@@ -2765,6 +2765,11 @@ levn@~0.3.0:
     prelude-ls "~1.1.2"
     type-check "~0.3.2"
 
+libravatar@^3.0.0:
+  version "3.0.0"
+  resolved "https://registry.yarnpkg.com/libravatar/-/libravatar-3.0.0.tgz#db82913fb7f07ff98f17f63a61832049220a0287"
+  integrity sha512-GAr2zj0toWHLMrVOkmn+TyudU9QX2kvHIxLZwmz7mT6Q6IrhVCAnN+3MFLAULf2w9XZe0NKOr5V5XRKgLRm5Eg==
+
 license-check-and-add@^3.0.4:
   version "3.0.5"
   resolved "https://registry.yarnpkg.com/license-check-and-add/-/license-check-and-add-3.0.5.tgz#ae627cdaa8ae1faf914eb000e3369d46c8708b37"
