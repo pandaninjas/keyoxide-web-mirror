@@ -28,8 +28,8 @@ if any, to sign a "copyright disclaimer" for the program, if necessary. For
 more information on this, and how to apply and follow the GNU AGPL, see <https://www.gnu.org/licenses/>.
 */
 const doip = require('doipjs')
-const openpgp = require('openpgp')
 const keys = require('./keys')
+const libravatar = require('libravatar')
 
 const generateWKDProfile = async (id) => {
     return keys.fetchWKD(id)
@@ -168,11 +168,9 @@ const computeExtraData = async (key, keyData) => {
     // Get the primary user
     const primaryUser = await key.publicKey.getPrimaryUser()
 
-    // Compute hash needed for avatar services
-    const profileHash = openpgp.util.str_to_hex(openpgp.util.Uint8Array_to_str(await openpgp.crypto.hash.md5(openpgp.util.str_to_Uint8Array(primaryUser.user.userId.email))))
-
+    // Query libravatar to get the avatar url
     return {
-        avatarURL: `https://www.gravatar.com/avatar/${profileHash}?s=128&d=mm`
+        avatarURL: await libravatar.get_avatar_url({ email: primaryUser.user.userId.email, size: 128, default: 'mm', https: true })
     }
 }
 
