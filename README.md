@@ -1,10 +1,11 @@
 # Keyoxide
 
-[![Build Status](https://drone.keyoxide.org/api/badges/keyoxide/web/status.svg)](https://drone.keyoxide.org/keyoxide/web)
-[![License](https://img.shields.io/badge/license-AGPL--v3-blue)](https://codeberg.org/keyoxide/web/src/branch/main/LICENSE)
-[![Docker Image Version (latest semver)](https://img.shields.io/docker/v/keyoxide/keyoxide?sort=semver)](https://hub.docker.com/r/keyoxide/keyoxide)
-[![Docker Pulls](https://img.shields.io/docker/pulls/keyoxide/keyoxide)](https://hub.docker.com/r/keyoxide/keyoxide)
-[![Mastodon Follow](https://img.shields.io/mastodon/follow/247838?domain=https%3A%2F%2Ffosstodon.org&style=social)](https://fosstodon.org/@keyoxide)
+[![Drone (self-hosted) with branch](https://img.shields.io/drone/build/keyoxide/keyoxide-web/main?server=https%3A%2F%2Fdrone.keyoxide.org&style=for-the-badge)](https://drone.keyoxide.org/keyoxide/keyoxide-web)
+[![License](https://img.shields.io/badge/license-AGPL--v3-blue?style=for-the-badge)](https://codeberg.org/keyoxide/web/src/branch/main/LICENSE)
+[![Docker Image Version (latest semver)](https://img.shields.io/docker/v/keyoxide/keyoxide?sort=semver&style=for-the-badge)](https://hub.docker.com/r/keyoxide/keyoxide)
+[![Docker Pulls](https://img.shields.io/docker/pulls/keyoxide/keyoxide?style=for-the-badge)](https://hub.docker.com/r/keyoxide/keyoxide)
+[![Mastodon Follow](https://img.shields.io/mastodon/follow/247838?domain=https%3A%2F%2Ffosstodon.org&style=for-the-badge)](https://fosstodon.org/@keyoxide)
+[![Liberapay receiving](https://img.shields.io/liberapay/receives/keyoxide?style=for-the-badge)](https://liberapay.com/Keyoxide)
 
 [Keyoxide](https://keyoxide.org) is a modern, secure and decentralized platform to prove your online identity.
 
