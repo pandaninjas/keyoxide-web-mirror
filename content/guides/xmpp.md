@@ -6,13 +6,15 @@ Let's add a decentralized XMPP proof to your OpenPGP keys.
 
 ### Add a message to your XMPP vCard
 
-Using a XMPP client that supports editing the vCard (such as [Dino](https://dino.im/) and [Gajim](https://gajim.org/)), append the following message to the **About** section (make sure to replace FINGERPRINT):
+Go to (mov.im)[https://mov.im] and log in using your XMPP credentials. Click on **Configuration** and append the following message to the **About Me** section (make sure to replace FINGERPRINT):
 
 ```
 This is an OpenPGP proof that connects my OpenPGP key to this XMPP account. For details check out https://keyoxide.org/guides/openpgp-proofs
 
 [Verifying my OpenPGP key: openpgp4fpr:FINGERPRINT]
 ```
+
+Using native XMPP clients that support editing the vCard data (such as [Gajim](https://gajim.org/)) should work as well. Unfortunately, this method appears unreliable and does not work for some.
 
 ### Update the PGP key (basic edition)
 
