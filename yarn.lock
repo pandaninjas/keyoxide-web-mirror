@@ -1496,10 +1496,10 @@ doctypes@^1.1.0:
   resolved "https://registry.yarnpkg.com/doctypes/-/doctypes-1.1.0.tgz#ea80b106a87538774e8a3a4a5afe293de489e0a9"
   integrity sha1-6oCxBqh1OHdOijpKWv4pPeSJ4Kk=
 
-doipjs@^0.12.4:
-  version "0.12.4"
-  resolved "https://registry.yarnpkg.com/doipjs/-/doipjs-0.12.4.tgz#edd2c5074ebb9d1026ef51d5885052b08204f982"
-  integrity sha512-HsEeO0WgkWplArs0pNxeAn5PvAnElAL+p/Nj24aPREcYwvD8FyLh+c7+Bqu3Y175IH14t+CYvNRFU6kdnxss9g==
+doipjs@^0.12.7:
+  version "0.12.7"
+  resolved "https://registry.yarnpkg.com/doipjs/-/doipjs-0.12.7.tgz#31890b86930cc3cafa6ea0a79ec58048432bc794"
+  integrity sha512-B7dRXkDt+Jn8RIbWAt6VugBzV9YCLCSVyE6d/uXrxmdRENSbR33zyx2jnvpGLDRQN0HdJFKHWxeSDCFP2svZGw==
   dependencies:
     "@xmpp/client" "^0.12.0"
     "@xmpp/debug" "^0.12.0"
