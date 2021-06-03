@@ -6,6 +6,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [3.0.4] - 2021-06-03
+### Changed
+- Updated doipjs to 0.12.9
+### Fixed
+- Hide claims without matches
+
 ## [3.0.3] - 2021-06-03
 ### Changed
 - Use libravatar for avatar fetching
