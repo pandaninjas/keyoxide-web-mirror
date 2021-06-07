@@ -63,6 +63,7 @@ class Claim extends HTMLElement {
             const subsection_alert_icon = subsection_alert.appendChild(document.createElement('img'));
             subsection_alert_icon.setAttribute('src', '/static/img/alert-decagram.png');
             subsection_alert_icon.setAttribute('alt', '');
+            subsection_alert_icon.setAttribute('aria-hidden', 'true');
             const subsection_alert_text = subsection_alert.appendChild(document.createElement('div'));
 
             const message = subsection_alert_text.appendChild(document.createElement('p'));
@@ -76,6 +77,7 @@ class Claim extends HTMLElement {
         const subsection_links_icon = subsection_links.appendChild(document.createElement('img'));
         subsection_links_icon.setAttribute('src', '/static/img/link.png');
         subsection_links_icon.setAttribute('alt', '');
+        subsection_links_icon.setAttribute('aria-hidden', 'true');
         const subsection_links_text = subsection_links.appendChild(document.createElement('div'));
 
         const profile_link = subsection_links_text.appendChild(document.createElement('p'));
@@ -101,6 +103,7 @@ class Claim extends HTMLElement {
             const subsection_qr_icon = subsection_qr.appendChild(document.createElement('img'));
             subsection_qr_icon.setAttribute('src', '/static/img/qrcode.png');
             subsection_qr_icon.setAttribute('alt', '');
+            subsection_qr_icon.setAttribute('aria-hidden', 'true');
             const subsection_qr_text = subsection_qr.appendChild(document.createElement('div'));
 
             const button_profileQR = subsection_qr_text.appendChild(document.createElement('button'));
@@ -116,6 +119,7 @@ class Claim extends HTMLElement {
         const subsection_status_icon = subsection_status.appendChild(document.createElement('img'));
         subsection_status_icon.setAttribute('src', '/static/img/decagram.png');
         subsection_status_icon.setAttribute('alt', '');
+        subsection_status_icon.setAttribute('aria-hidden', 'true');
         const subsection_status_text = subsection_status.appendChild(document.createElement('div'));
 
         const verification = subsection_status_text.appendChild(document.createElement('p'));
@@ -123,6 +127,7 @@ class Claim extends HTMLElement {
             verification.innerHTML = `Claim verification has completed.`;
             subsection_status_icon.setAttribute('src', '/static/img/check-decagram.png');
             subsection_status_icon.setAttribute('alt', '');
+            subsection_status_icon.setAttribute('aria-hidden', 'true');
         } else {
             verification.innerHTML = `Claim verification is in progress&hellip;`;
             return;
@@ -136,6 +141,7 @@ class Claim extends HTMLElement {
         const subsection_result_icon = subsection_result.appendChild(document.createElement('img'));
         subsection_result_icon.setAttribute('src', '/static/img/shield-search.png');
         subsection_result_icon.setAttribute('alt', '');
+        subsection_result_icon.setAttribute('aria-hidden', 'true');
         const subsection_result_text = subsection_result.appendChild(document.createElement('div'));
 
         const result = subsection_result_text.appendChild(document.createElement('p'));
@@ -150,6 +156,7 @@ class Claim extends HTMLElement {
             const subsection_info_icon = subsection_info.appendChild(document.createElement('img'));
             subsection_info_icon.setAttribute('src', '/static/img/information.png');
             subsection_info_icon.setAttribute('alt', '');
+            subsection_info_icon.setAttribute('aria-hidden', 'true');
             const subsection_info_text = subsection_info.appendChild(document.createElement('div'));
 
             const result_proxyUsed = subsection_info_text.appendChild(document.createElement('p'));
