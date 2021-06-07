@@ -1,20 +1,23 @@
 doctype html
-head
-  meta(charset='utf-8')
-  meta(name='viewport' content='width=device-width, initial-scale=1')
-  meta(name='theme-color' content='#fff')
-  link(rel='shortcut icon' href='/favicon.svg')
-  title= (title ? title : 'Keyoxide')
+html(lang='en')
+  head
+    meta(charset='utf-8')
+    meta(name='viewport' content='width=device-width, initial-scale=1')
+    meta(name='theme-color' content='#fff')
+    meta(name='description' content='Modern and secure platform to manage a decentralized identity based on cryptographic keys')
+    link(rel='shortcut icon' href='/favicon.svg')
+    title= (title ? title : 'Keyoxide')
+
+  include ../partials/header.pug
+
+  main
+    .container
+      block content
+
+  include ../partials/footer.pug
+
   link(rel='stylesheet' href='/static/styles.css')
   link(rel='stylesheet' href='https://cdn.jsdelivr.net/npm/fork-awesome@1.1.7/css/fork-awesome.min.css' integrity='sha256-gsmEoJAws/Kd3CjuOQzLie5Q3yshhvmo7YNtBG7aaEY=' crossorigin='anonymous')
   block css
 
-include ../partials/header.pug
-
-main
-  .container
-    block content
-
-include ../partials/footer.pug
-
-block js
+  block js
