@@ -28,6 +28,8 @@ class Key extends HTMLElement {
         subsection_links.setAttribute('class', 'subsection');
         const subsection_links_icon = subsection_links.appendChild(document.createElement('img'));
         subsection_links_icon.setAttribute('src', '/static/img/link.png');
+        subsection_links_icon.setAttribute('alt', '');
+        subsection_links_icon.setAttribute('aria-hidden', 'true');
         const subsection_links_text = subsection_links.appendChild(document.createElement('div'));
 
         const profile_link = subsection_links_text.appendChild(document.createElement('p'));
@@ -40,6 +42,8 @@ class Key extends HTMLElement {
         subsection_qr.setAttribute('class', 'subsection');
         const subsection_qr_icon = subsection_qr.appendChild(document.createElement('img'));
         subsection_qr_icon.setAttribute('src', '/static/img/qrcode.png');
+        subsection_qr_icon.setAttribute('alt', '');
+        subsection_qr_icon.setAttribute('aria-hidden', 'true');
         const subsection_qr_text = subsection_qr.appendChild(document.createElement('div'));
 
         const button_profileQR = subsection_qr_text.appendChild(document.createElement('button'));
