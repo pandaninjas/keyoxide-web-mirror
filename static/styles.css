@@ -26,6 +26,13 @@
 * {
   box-sizing: border-box;
 }
+:focus {
+  outline: none;
+  box-shadow: 0 0 0 3px lightskyblue;
+}
+input:focus, textarea:focus {
+  background: azure;
+}
 body {
   display: flex;
   flex-direction: column;
@@ -87,7 +94,7 @@ nav a.text {
   color: var(--purple-700);
   border-radius: 4px;
 }
-nav a.text:hover {
+nav a.text:hover, nav a.text:active {
   color: #fff;
   background-color: var(--purple-500);
 }
@@ -379,6 +386,7 @@ pre code {
 }
 form input[type="text"], form input[type="search"] {
   margin: 8px 0;
+border: 1px solid #444;
 }
 form textarea {
   width: 100%;
@@ -386,6 +394,7 @@ form textarea {
   margin: 8px 0;
   resize: vertical;
   font-size: 0.9rem;
+  border: 1px solid #444;
 }
 .button-wrapper, .radio-wrapper {
   display: flex;
