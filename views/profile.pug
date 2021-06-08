@@ -86,7 +86,9 @@ block content
       div
         canvas#qr
         p
-          a#qr--altLink
+          a(href="" tabindex="0")#qr--altLink
+        form(method="dialog")
+          input(type="submit" value="Close")
 
     if (isSignature)
       #profileSigInput.form-wrapper.card
