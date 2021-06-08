@@ -36,14 +36,17 @@ block content
     #search.form-wrapper.card
       h2 Generate a profile
       form(action="post")
-        input(type="search" name="query" required placeholder="3637202523e7c1309ab79e99ef2dc5827b445f4b, test@doip.rocks")
-        div.radio-wrapper
+        label(for="query") Query for fingerprint or email identifier
+        input#query(type="search" name="query" required placeholder="3637202523e7c1309ab79e99ef2dc5827b445f4b, test@doip.rocks")
+
+        fieldset(aria-role="radiogroup").radio-wrapper
+          legend Protocol
           input#protocol-hkp(type="radio" name="protocol" value="hkp" checked="true")
-          label(for="protocol-hkp") HKP
+          label(for="protocol-hkp" tabindex="0") HKP
           input#protocol-wkd(type="radio" name="protocol" value="wkd")
-          label(for="protocol-wkd") WKD
+          label(for="protocol-wkd" tabindex="0") WKD
           input#protocol-sig(type="radio" name="protocol" value="sig")
-          label(for="protocol-sig") Signature
+          label(for="protocol-sig" tabindex="0") Signature
         input(type="submit" value="Generate profile")
 
   if highlights.length > 0
@@ -51,7 +54,7 @@ block content
     .hcards.hcards--highlights
       each hl in highlights
         .card.card--small-profile
-          p.name= hl.name
+          h3.name= hl.name
           p
             span.fingerprint= hl.fingerprint
             br

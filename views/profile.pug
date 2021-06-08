@@ -59,18 +59,26 @@ block content
     dialog#dialog--encryptMessage
       div
         form(method='post')
-          textarea.input(name='message' placeholder='Message')
+          label(for="encryptionInput") Message to encrypt 
+          textarea#encryptionInput.input(name='message')
           input.no-margin(type='submit' name='submit' value='ENCRYPT MESSAGE')
-          textarea.output(name='message' placeholder='Waiting for input' readonly)
+          br
+          br
+          label(for="encryptionOutput") Encryption result 
+          textarea#encryptionOutput.output(name='message' placeholder='Waiting for input' readonly)
         form(method="dialog")
           input(type="submit" value="Close")
 
     dialog#dialog--verifySignature
       div
         form(method='post')
-          textarea.input(name='signature' placeholder='Signature')
+          label(for="sigVerInput") Signature 
+          textarea#sigVerInput.input(name='signature')
           input.no-margin(type='submit' name='submit' value='VERIFY SIGNATURE')
-          textarea.output(name='message' placeholder='Waiting for input' readonly)
+          br
+          br
+          label(for="sigVerOutput") Verification result 
+          textarea#sigVerOutput.output(name='message' placeholder='Waiting for input' readonly)
         form(method="dialog")
           input(type="submit" value="Close")
 
