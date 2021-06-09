@@ -386,7 +386,9 @@ pre code {
 }
 form input[type="text"], form input[type="search"] {
   margin: 8px 0;
-border: 1px solid #444;
+  padding: 4px;
+  border: 1px solid #444;
+  font-size: 0.9rem;
 }
 form textarea {
   width: 100%;
