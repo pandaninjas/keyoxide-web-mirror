@@ -8,7 +8,7 @@ mixin generateUser(user, isPrimary)
   each claim in user.claims
     if claim.matches.length > 0
       kx-claim.kx-item(data-claim=claim)
-        details
+        details(aria-label="Claim")
           summary
             .info
               p.subtitle= claim.matches[0].serviceprovider.name
@@ -22,12 +22,12 @@ mixin generateUser(user, isPrimary)
               div
                 if (claim.matches[0].profile.uri)
                   p Profile link: 
-                    a(rel='me' href=claim.matches[0].profile.uri)= claim.matches[0].profile.uri
+                    a(rel='me' href=claim.matches[0].profile.uri aria-label="Link to profile")= claim.matches[0].profile.uri
                 else
                   p Profile link: not accessible from browser
                 if (claim.matches[0].proof.uri)
                   p Proof link: 
-                    a(rel='me' href=claim.matches[0].proof.uri)= claim.matches[0].proof.uri
+                    a(rel='me' href=claim.matches[0].proof.uri aria-label="Link to proof")= claim.matches[0].proof.uri
                 else
                   p Proof link: not accessible from browser
               
@@ -117,7 +117,7 @@ block content
         #profileProofs.card.card--transparent
           h2 Key
           kx-key.kx-item(data-keydata=data.keyData)
-            details
+            details(aria-label="Key")
               summary
                 .info
                   p.subtitle= data.keyData.key.fetchMethod
@@ -127,12 +127,12 @@ block content
                   img(src='/static/img/link.png')
                   div
                     p Key link: 
-                      a(href=data.keyData.key.uri)= data.keyData.key.uri
+                      a(href=data.keyData.key.uri aria-label="Link to cryptographic key")= data.keyData.key.uri
                 hr
                 .subsection
                   img(src='/static/img/qrcode.png')
                   div
-                    button(onClick=`showQR('${data.keyData.fingerprint}', 'fingerprint')`) Show OpenPGP fingerprint QR
+                    button(onClick=`showQR('${data.keyData.fingerprint}', 'fingerprint')` aria-label='Show QR code for cryptographic fingerprint') Show OpenPGP fingerprint QR
 
           +generateUser(data.keyData.users[data.keyData.primaryUserIndex], true)
           each user, index in data.keyData.users

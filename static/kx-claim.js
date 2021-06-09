@@ -82,14 +82,14 @@ class Claim extends HTMLElement {
 
         const profile_link = subsection_links_text.appendChild(document.createElement('p'));
         if (claim.matches[0].profile.uri) {
-            profile_link.innerHTML = `Profile link: <a rel="me" href="${claim.matches[0].profile.uri}">${claim.matches[0].profile.uri}</a>`;
+            profile_link.innerHTML = `Profile link: <a rel="me" href="${claim.matches[0].profile.uri}" aria-label="link to profile">${claim.matches[0].profile.uri}</a>`;
         } else {
             profile_link.innerHTML = `Profile link: not accessible from browser`;
         }
 
         const proof_link = subsection_links_text.appendChild(document.createElement('p'));
         if (claim.matches[0].proof.uri) {
-            proof_link.innerHTML = `Proof link: <a href="${claim.matches[0].proof.uri}">${claim.matches[0].proof.uri}</a>`;
+            proof_link.innerHTML = `Proof link: <a href="${claim.matches[0].proof.uri}" aria-label="link to profile">${claim.matches[0].proof.uri}</a>`;
         } else {
             proof_link.innerHTML = `Proof link: not accessible from browser`;
         }
@@ -109,6 +109,7 @@ class Claim extends HTMLElement {
             const button_profileQR = subsection_qr_text.appendChild(document.createElement('button'));
             button_profileQR.innerText = `Show profile QR`;
             button_profileQR.setAttribute('onClick', `showQR('${claim.matches[0].profile.qr}', 'url')`);
+            button_profileQR.setAttribute('aria-label', `Show QR code linking to profile`);
         }
 
         elContent.appendChild(document.createElement('hr'));
@@ -160,7 +161,7 @@ class Claim extends HTMLElement {
             const subsection_info_text = subsection_info.appendChild(document.createElement('div'));
 
             const result_proxyUsed = subsection_info_text.appendChild(document.createElement('p'));
-            result_proxyUsed.innerHTML = `A proxy was used to fetch the proof: <a href="https://PLACEHOLDER__PROXY_HOSTNAME">PLACEHOLDER__PROXY_HOSTNAME</a>`;
+            result_proxyUsed.innerHTML = `A proxy was used to fetch the proof: <a href="https://PLACEHOLDER__PROXY_HOSTNAME" aria-label="Link to proxy server">PLACEHOLDER__PROXY_HOSTNAME</a>`;
         }
 
         // TODO Display errors

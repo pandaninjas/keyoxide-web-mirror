@@ -34,10 +34,10 @@ block content
                 
   .narrow
     #search.form-wrapper.card
-      h2 Generate a profile
+      h2#searchTitle Generate a profile
       form(action="post")
-        label(for="query") Query for fingerprint or email identifier
-        input#query(type="search" name="query" required placeholder="3637202523e7c1309ab79e99ef2dc5827b445f4b, test@doip.rocks")
+        label#searchQuery(for="query") Query for fingerprint or email identifier
+        input#query(type="search" name="query" required placeholder="3637202523e7c1309ab79e99ef2dc5827b445f4b, test@doip.rocks" aria-labelledby="searchTitle searchQuery")
 
         fieldset(aria-role="radiogroup").radio-wrapper
           legend Protocol

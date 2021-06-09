@@ -33,7 +33,7 @@ class Key extends HTMLElement {
         const subsection_links_text = subsection_links.appendChild(document.createElement('div'));
 
         const profile_link = subsection_links_text.appendChild(document.createElement('p'));
-        profile_link.innerHTML = `Key link: <a href="${data.key.uri}">${data.key.uri}</a>`;
+        profile_link.innerHTML = `Key link: <a href="${data.key.uri}" aria-label="Link to cryptographic key">${data.key.uri}</a>`;
 
         elContent.appendChild(document.createElement('hr'));
 
@@ -46,9 +46,10 @@ class Key extends HTMLElement {
         subsection_qr_icon.setAttribute('aria-hidden', 'true');
         const subsection_qr_text = subsection_qr.appendChild(document.createElement('div'));
 
-        const button_profileQR = subsection_qr_text.appendChild(document.createElement('button'));
-        button_profileQR.innerText = `Show OpenPGP fingerprint QR`;
-        button_profileQR.setAttribute('onClick', `showQR('${data.fingerprint}', 'fingerprint')`);
+        const button_fingerprintQR = subsection_qr_text.appendChild(document.createElement('button'));
+        button_fingerprintQR.innerText = `Show OpenPGP fingerprint QR`;
+        button_fingerprintQR.setAttribute('onClick', `showQR('${data.fingerprint}', 'fingerprint')`);
+        button_fingerprintQR.setAttribute('aria-label', `Show QR code for cryptographic fingerprint`);
     }
 }
 
