@@ -39,7 +39,7 @@ block content
         label#searchQuery(for="query") Query for fingerprint or email identifier
         input#query(type="search" name="query" required placeholder="3637202523e7c1309ab79e99ef2dc5827b445f4b, test@doip.rocks" aria-labelledby="searchTitle searchQuery")
 
-        fieldset(aria-role="radiogroup").radio-wrapper
+        fieldset(role="radiogroup").radio-wrapper
           legend Protocol
           input#protocol-hkp(type="radio" name="protocol" value="hkp" checked="true")
           label(for="protocol-hkp" tabindex="0") HKP
