@@ -33,6 +33,11 @@
 input:focus, textarea:focus {
   background: azure;
 }
+input[type="radio"]:focus + label {
+  box-shadow: 0 0 0 3px lightskyblue;
+  background: azure !important;
+  color: var(--grey-900) !important;
+}
 body {
   display: flex;
   flex-direction: column;
@@ -398,32 +403,49 @@ form textarea {
   font-size: 0.9rem;
   border: 1px solid #444;
 }
-.button-wrapper, .radio-wrapper {
+.button-wrapper {
   display: flex;
   flex-wrap: wrap;
   gap: 8px;
-}
-form .button-wrapper, form .radio-wrapper {
   margin: 8px 0;
 }
-form input[type="radio"] {
-  display: none;
+.radio-wrapper {
+  display: flex;
+  flex-wrap: wrap;
+  margin: 8px 0;
 }
-form input[type="radio"] + label {
+.radio-wrapper input[type="radio"] {
+  position: absolute;
+  opacity: 0;
+  z-index: -1;
+}
+.radio-wrapper input[type="radio"] + label {
+  margin: 0;
   padding: 2px 8px;
   background-color: #fff;
-  border-radius: 3px;
-  border: solid 2px var(--purple-400);
+  border: solid var(--purple-400);
+  border-width: 2px 1px;
   cursor: pointer;
 }
-form input[type="radio"] + label:hover {
-  background-color: var(--purple-100);
-  border: solid 2px var(--purple-500);
+.radio-wrapper input[type="radio"]:first-of-type + label {
+  border-radius: 4px 0 0 4px;
+  border-left-width: 2px;
 }
-form input[type="radio"]:checked + label {
+.radio-wrapper input[type="radio"]:last-of-type + label {
+  border-radius: 0 4px 4px 0;
+  border-right-width: 2px;
+}
+.radio-wrapper input[type="radio"]:focus + label {
+  z-index: 1;
+}
+.radio-wrapper input[type="radio"] + label:hover {
+  background-color: var(--purple-100);
+  border-color: var(--purple-500);
+}
+.radio-wrapper input[type="radio"]:checked + label {
   color: #fff;
   background-color: var(--purple-600);
-  border: solid 2px var(--purple-600);
+  border-color: var(--purple-600);
 }
 
 input[type="button"], input[type="submit"], button, a.button {
@@ -440,6 +462,9 @@ input[type="button"], input[type="submit"], button, a.button {
   border: solid 2px var(--purple-400);
   border-radius: 4px;
   cursor: pointer;
+}
+input[type="button"]:focus, input[type="submit"]:focus, button:focus, a.button:focus {
+  background-color: azure;
 }
 input[type="button"]:hover, input[type="submit"]:hover, button:hover, a.button:hover {
   background-color: var(--purple-500);

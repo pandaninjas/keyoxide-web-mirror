@@ -42,11 +42,11 @@ block content
         fieldset(role="radiogroup").radio-wrapper
           legend Protocol
           input#protocol-hkp(type="radio" name="protocol" value="hkp" checked="true")
-          label(for="protocol-hkp" tabindex="0") HKP
+          label(for="protocol-hkp") HKP
           input#protocol-wkd(type="radio" name="protocol" value="wkd")
-          label(for="protocol-wkd" tabindex="0") WKD
+          label(for="protocol-wkd") WKD
           input#protocol-sig(type="radio" name="protocol" value="sig")
-          label(for="protocol-sig" tabindex="0") Signature
+          label(for="protocol-sig") Signature
         input(type="submit" value="Generate profile")
 
   if highlights.length > 0
