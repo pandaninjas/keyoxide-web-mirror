@@ -35,7 +35,7 @@ notation
 Enter the notation (make sure to update with the link to the post copied above):
 
 ```
-proof@metacode.biz=https://gist.github.com/USERNAME12345678912345678912345678912345
+proof@metacode.biz=https://gist.github.com/USERNAME/12345678912345678912345678912345
 ```
 
 Save the key:
