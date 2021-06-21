@@ -39,7 +39,7 @@ if (process.env.ONION_URL) {
     router.get('/*', (req, res, next) => {
         res.header('Onion-Location', process.env.ONION_URL)
         next()
-    });
+    })
 }
 
 router.get('/', (req, res) => {
