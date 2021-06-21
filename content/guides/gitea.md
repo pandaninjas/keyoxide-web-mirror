@@ -32,6 +32,18 @@ First, edit the key (make sure to replace FINGERPRINT):
 gpg --edit-key FINGERPRINT
 ```
 
+Get a list of user IDs and find the index of the one to assign the notation to:
+
+```
+list
+```
+
+Select the desired user ID (make sure to replace N):
+
+```
+uid N
+```
+
 Add a new notation:
 
 ```
