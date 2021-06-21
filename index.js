@@ -42,19 +42,28 @@ app.set('domain', process.env.DOMAIN || "keyoxide.org")
 app.set('keyoxide_version', packageData.version)
 app.set('onion_url', process.env.ONION_URL)
 
+// Middlewares
 app.use((req, res, next) => {
     res.setHeader('Permissions-Policy', 'interest-cohort=()')
     next()
 })
 
-app.use('/favicon.svg', express.static('favicon.svg'))
-app.use('/robots.txt', express.static('robots.txt'))
+if (app.get('onion_url')) {
+    app.get('/*', (req, res, next) => {
+        res.header('Onion-Location', app.get('onion_url'))
+        next()
+    })
+}
 
 app.use(stringReplace({
     PLACEHOLDER__PROXY_HOSTNAME: process.env.PROXY_HOSTNAME || 'null'
 }, {
     contentTypeFilterRegexp: /application\/javascript/,
 }))
+
+// Routes
+app.use('/favicon.svg', express.static('favicon.svg'))
+app.use('/robots.txt', express.static('robots.txt'))
 
 app.use('/', require('./routes/main'))
 app.use('/static', require('./routes/static'))

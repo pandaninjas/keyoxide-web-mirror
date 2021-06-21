@@ -35,13 +35,6 @@ md.use(require("markdown-it-anchor"), { "level": 2, "permalink": true, "permalin
 md.use(require("markdown-it-table-of-contents"), { "includeLevel": [2, 3], "listType": "ol" })
 md.use(require('markdown-it-title'))
 
-if (process.env.ONION_URL) {
-    router.get('/*', (req, res, next) => {
-        res.header('Onion-Location', process.env.ONION_URL)
-        next()
-    })
-}
-
 router.get('/', (req, res) => {
     let highlights = []
     for (let index = 1; index < 4; index++) {
