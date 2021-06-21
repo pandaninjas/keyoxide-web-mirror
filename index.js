@@ -67,7 +67,6 @@ app.use('/robots.txt', express.static('robots.txt'))
 
 app.use('/', require('./routes/main'))
 app.use('/static', require('./routes/static'))
-app.use('/util', require('./routes/util'))
 app.use('/', require('./routes/profile'))
 
 app.listen(app.get('port'), () => {
