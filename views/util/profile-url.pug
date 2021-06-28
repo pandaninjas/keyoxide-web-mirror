@@ -2,6 +2,7 @@ extends ../templates/base.pug
 
 block js
   script(type='application/javascript' src='/static/scripts.js' charset='utf-8')
+  script(type='application/javascript' src='/static/scripts.util.js' charset='utf-8')
 
 block content
   section.narrow
@@ -9,7 +10,7 @@ block content
     form#form-util-profile-url(method='post')
       p This tool generates an URL for your Keyoxide profile page.
       h3 Public key
-      label(for='source') Source:
+      label(for='source') Source: 
       select#source.source(name='source')
         option(value='wkd') Web Key Directory
         option(value='hkp') keys.openpgp.org
