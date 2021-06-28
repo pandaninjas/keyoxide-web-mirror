@@ -72,7 +72,7 @@ XMPP communication can be end-to-end encrypted with [OMEMO](https://conversation
 
 If your XMPP identity proof is verified, a QR code is shown. Anyone can scan this QR code using XMPP apps like [Conversations](https://conversations.im/) (free on [F-Droid](https://f-droid.org/en/packages/eu.siacs.conversations/)) to not only add you as a contact, but also verify your OMEMO keys with the highest level of trust.
 
-Making this identity proof yourself can be a tad difficult when using clients like Gajim, but luckily for us, [Conversations](https://conversations.im/) can directly generate the proof by going to **Account details > Share > Share as XMPP URI**. The resulting URI should look something like:
+Making this identity proof yourself can be a tad difficult when using clients like Gajim, but luckily for us, [Conversations](https://conversations.im/) can directly generate the proof by going to **Manage accounts > Share > Share as XMPP URI**. The resulting URI should look something like:
 
 ```
 xmpp:user@domain.org?omemo-sid-123456789=A1B2C3D4E5F6G7H8I9...
