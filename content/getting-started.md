@@ -117,7 +117,7 @@ To prove ownership of the email address you entered in the key, the server will 
 
 Simply run:
 ```
-`gpg --keyserver hkps://keys.openpgp.org --send-keys FINGERPRINT`
+gpg --keyserver hkps://keys.openpgp.org --send-keys FINGERPRINT`
 ```
 
 I told you we were going to need that fingerprint! Replace the FINGERPRINT above with yours (remove all spaces!).
