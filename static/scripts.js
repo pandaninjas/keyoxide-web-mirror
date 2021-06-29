@@ -58,9 +58,14 @@ if (elFormEncrypt) {
             await fetchProfileKey();
 
             // Encrypt the message
+            let config = openpgp.config;
+            config.show_comment = false;
+            config.show_version = false;
+
             encrypted = await openpgp.encrypt({
                 message: openpgp.message.fromText(elFormEncrypt.querySelector('.input').value),
-                publicKeys: window.kx.key.object
+                publicKeys: window.kx.key.object,
+                config: config
             });
             elFormEncrypt.querySelector('.output').value = encrypted.data;
         } catch (e) {
