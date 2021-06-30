@@ -44,6 +44,8 @@ To run Keyoxide locally on your machine for development:
     - directly from their [website](https://nodejs.org/en/), or
     - using [nvm](https://github.com/nvm-sh/nvm): `nvm install --lts; nvm use --lts`
   - [yarn](https://yarnpkg.com/)
+  - [nix](https://nixos.org/guides/install-nix.html) with
+    [direnv](https://direnv.net/) will install yarn and other dependencies.
 - install dependencies with `npm install` or `yarn`
 - run the server with `npm dev` or `yarn dev`
 
