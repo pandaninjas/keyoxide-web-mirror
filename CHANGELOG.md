@@ -6,6 +6,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [3.1.1] - 2021-07-26
+### Added
+- Quick dev setup using nix and direnv
+### Changed
+- Updated doipjs to 0.13.0
+
 ## [3.1.0] - 2021-06-29
 ### Changed
 - Improve accessibility
