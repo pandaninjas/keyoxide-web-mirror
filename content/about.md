@@ -24,7 +24,7 @@ Let's break down that sentence.
 
 ### Open source
 
-Open source means: everyone can inspect the code behind Keyoxide. Really! Here, have a look at the code behind this website: [https://codeberg.org/keyoxide/web](https://codeberg.org/keyoxide/web). In fact, here is the code for the page you are currently reading: [link to come](/).
+Open source means: everyone can inspect the code behind Keyoxide. Really! Here, have a look at the code behind this website: [https://codeberg.org/keyoxide/web](https://codeberg.org/keyoxide/web). In fact, here is the code for the page you are currently reading: [content/about.md](https://codeberg.org/keyoxide/keyoxide-web/src/branch/main/content/about.md).
 
 Not only can you look at it, you are allowed to make changes and even "fork it": take all this code and build your own product with it. Allowed? You are invited to! This keeps the Keyoxide project honest and always moving towards something that is better for everyone.
 
