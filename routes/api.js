@@ -27,50 +27,8 @@ You should also get your employer (if you work as a programmer) or school,
 if any, to sign a "copyright disclaimer" for the program, if necessary. For
 more information on this, and how to apply and follow the GNU AGPL, see <https://www.gnu.org/licenses/>.
 */
-const express = require('express')
-const fs = require('fs')
-const app = express()
-const { stringReplace } = require('string-replace-middleware')
-require('dotenv').config()
+const router = require('express').Router()
 
-const packageData = JSON.parse(fs.readFileSync('package.json'))
+router.use('/0', require('../api/v0/index.js'))
 
-app.set('env', process.env.NODE_ENV || "production")
-app.set('view engine', 'pug')
-app.set('port', process.env.PORT || 3000)
-app.set('domain', process.env.DOMAIN || "keyoxide.org")
-app.set('keyoxide_version', packageData.version)
-app.set('onion_url', process.env.ONION_URL)
-
-// Middlewares
-app.use((req, res, next) => {
-    res.setHeader('Permissions-Policy', 'interest-cohort=()')
-    next()
-})
-
-if (app.get('onion_url')) {
-    app.get('/*', (req, res, next) => {
-        res.header('Onion-Location', app.get('onion_url'))
-        next()
-    })
-}
-
-app.use(stringReplace({
-    PLACEHOLDER__PROXY_HOSTNAME: process.env.PROXY_HOSTNAME || 'null'
-}, {
-    contentTypeFilterRegexp: /application\/javascript/,
-}))
-
-// Routes
-app.use('/favicon.svg', express.static('favicon.svg'))
-app.use('/robots.txt', express.static('robots.txt'))
-
-app.use('/', require('./routes/main'))
-app.use('/api', require('./routes/api'))
-app.use('/static', require('./routes/static'))
-app.use('/util', require('./routes/util'))
-app.use('/', require('./routes/profile'))
-
-app.listen(app.get('port'), () => {
-    console.log(`Node server listening at http://localhost:${app.get('port')}`)
-})
+module.exports = router
