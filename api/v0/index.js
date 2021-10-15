@@ -29,17 +29,149 @@ more information on this, and how to apply and follow the GNU AGPL, see <https:/
 */
 const router = require('express').Router()
 const { check, validationResult } = require('express-validator')
+const Ajv = require("ajv")
+const ajv = new Ajv({coerceTypes: true})
 const kx = require('../../server')
+
+const apiProfileSchema = {
+    type: "object",
+    properties: {
+        keyData: {
+            type: "object",
+            properties: {
+                fingerprint: {
+                    type: "string"
+                },
+                users: {
+                    type: "array",
+                    items: {
+                        type: "object",
+                        properties: {
+                            userData: {
+                                type: "object",
+                                properties: {
+                                    id: { type: "string" },
+                                    name: { type: "string" },
+                                    email: { type: "string" },
+                                    comment: { type: "string" },
+                                    isPrimary: { type: "boolean" },
+                                    isRevoked: { type: "boolean" },
+                                }
+                            },
+                            claims: {
+                                type: "array",
+                                items: {
+                                    type: "object",
+                                    properties: {
+                                        claimVersion: { type: "integer" },
+                                        uri: { type: "string" },
+                                        fingerprint: { type: "string" },
+                                        status: { type: "string" },
+                                        matches: {
+                                            type: "array",
+                                            items: {
+                                                type: "object",
+                                                properties: {
+                                                    serviceProvider: {
+                                                        type: "object",
+                                                        properties: {
+                                                            type: { type: "string" },
+                                                            name: { type: "string" },
+                                                        }
+                                                    },
+                                                    match: {
+                                                        type: "object",
+                                                        properties: {
+                                                            regularExpression: { type: "object" },
+                                                            isAmbiguous: { type: "boolean" },
+                                                        }
+                                                    },
+                                                    profile: {
+                                                        type: "object",
+                                                        properties: {
+                                                            display: { type: "string" },
+                                                            uri: { type: "string" },
+                                                            qr: { type: "string" },
+                                                        }
+                                                    },
+                                                    proof: {
+                                                        type: "object",
+                                                        properties: {
+                                                            uri: { type: "string" },
+                                                            request: {
+                                                                type: "object",
+                                                                properties: {
+                                                                    fetcher: { type: "string" },
+                                                                    access: { type: "string" },
+                                                                    format: { type: "string" },
+                                                                    data: { type: "object" },
+                                                                }
+                                                            },
+                                                        }
+                                                    },
+                                                    claim: {
+                                                        type: "object",
+                                                        properties: {
+                                                            format: { type: "string" },
+                                                            relation: { type: "string" },
+                                                            path: {
+                                                                type: "array",
+                                                                items: {
+                                                                    type: "string"
+                                                                }
+                                                            },
+                                                        }
+                                                    },
+                                                }
+                                            }
+                                        },
+                                        verification: {
+                                            type: "object"
+                                        },
+                                    }
+                                }
+                            },
+                        }
+                    }
+                },
+                primaryUserIndex: {
+                    type: "integer"
+                },
+                key: {
+                    type: "object",
+                    properties: {
+                        data: { type: "object" },
+                        fetchMethod: { type: "string" },
+                        uri: { type: "string" },
+                    }
+                },
+            },
+        },
+        extra: {
+            type: "object",
+            properties: {
+                avatarURL: { type: "string" },
+            }
+        },
+        errors: {
+            type: "array"
+        },
+    },
+    required: ["keyData", "extra", "errors"],
+    additionalProperties: false
+}
+
+const apiProfileValidate = ajv.compile(apiProfileSchema)
 
 const doVerification = async (data) => {
     let promises = []
     let results = []
 
     for (let iUser = 0; iUser < data.keyData.users.length; iUser++) {
-        const user = data.keyData.users[iUser];
+        const user = data.keyData.users[iUser]
         
         for (let iClaim = 0; iClaim < user.claims.length; iClaim++) {
-            const claim = user.claims[iClaim];
+            const claim = user.claims[iClaim]
             
             promises.push(
                 new Promise(async (resolve, reject) => {
@@ -55,6 +187,34 @@ const doVerification = async (data) => {
     results.forEach(result => {
         data.keyData.users[result[0]].claims[result[1]] = result[2]
     })
+
+    return data
+}
+
+const sanitize = (data) => {
+    let results = []
+    
+    const dataClone = JSON.parse(JSON.stringify(data))
+
+    for (let iUser = 0; iUser < dataClone.keyData.users.length; iUser++) {
+        const user = dataClone.keyData.users[iUser]
+        
+        for (let iClaim = 0; iClaim < user.claims.length; iClaim++) {
+            const claim = user.claims[iClaim]
+            
+            // TODO Fix upstream
+            if (!claim.verification) {
+                claim.verification = {}
+            }
+
+            data.keyData.users[iUser].claims[iClaim] = claim
+        }
+    }
+
+    const valid = apiProfileValidate(data)
+    if (!valid) {
+        throw new Error(`Profile data sanitization error`)
+    }
 
     return data
 }
@@ -100,7 +260,21 @@ router.get('/profile/fetch',
             data = await doVerification(data)
         }
 
-        res.send(data)
+        try {
+            // Sanitize JSON
+            data = sanitize(data);
+        } catch (error) {
+            data.keyData = {}
+            data.extra = {}
+            data.errors = [error.message]
+        }
+        
+        let statusCode = 200
+        if (data.errors.length > 0) {
+            statusCode = 500
+        }
+
+        res.status(500).send(data)
     }
 )
 
@@ -116,7 +290,21 @@ router.get('/profile/verify',
         // Do verification
         data = await doVerification(req.query.data)
 
-        res.send(data)
+        try {
+            // Sanitize JSON
+            data = sanitize(data);
+        } catch (error) {
+            data.keyData = {}
+            data.extra = {}
+            data.errors = [error.message]
+        }
+        
+        let statusCode = 200
+        if (data.errors.length > 0) {
+            statusCode = 500
+        }
+
+        res.status(500).send(data)
     }
 )
 

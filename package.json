@@ -4,6 +4,7 @@
   "description": "A modern, secure and privacy-friendly platform to establish your decentralized online identity",
   "main": "index.js",
   "dependencies": {
+    "ajv": "^8.6.3",
     "bent": "^7.3.12",
     "body-parser": "^1.19.0",
     "dialog-polyfill": "^0.5.6",

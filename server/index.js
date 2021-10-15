@@ -37,7 +37,7 @@ const generateWKDProfile = async (id) => {
         let keyData = await doip.keys.process(key.publicKey)
         keyData.key.fetchMethod = 'wkd'
         keyData.key.uri = key.fetchURL
-        keyData.key.data = null
+        keyData.key.data = {}
         keyData = processKeyData(keyData)
 
         return {
@@ -49,9 +49,9 @@ const generateWKDProfile = async (id) => {
     })
     .catch(err => {
         return {
-            key: null,
-            keyData: null,
-            extra: null,
+            key: {},
+            keyData: {},
+            extra: {},
             errors: [err.message]
         }
     })
@@ -63,7 +63,7 @@ const generateHKPProfile = async (id, keyserverDomain) => {
         let keyData = await doip.keys.process(key.publicKey)
         keyData.key.fetchMethod = 'hkp'
         keyData.key.uri = key.fetchURL
-        keyData.key.data = null
+        keyData.key.data = {}
         keyData = processKeyData(keyData)
 
         return {
@@ -75,9 +75,9 @@ const generateHKPProfile = async (id, keyserverDomain) => {
     })
     .catch(err => {
         return {
-            key: null,
-            keyData: null,
-            extra: null,
+            key: {},
+            keyData: {},
+            extra: {},
             errors: [err.message]
         }
     })
@@ -88,7 +88,7 @@ const generateSignatureProfile = async (signature) => {
     .then(async key => {
         let keyData = key.keyData
         delete key.keyData
-        keyData.key.data = null
+        keyData.key.data = {}
         keyData = processKeyData(keyData)
 
         return {
@@ -100,9 +100,9 @@ const generateSignatureProfile = async (signature) => {
     })
     .catch(err => {
         return {
-            key: null,
-            keyData: null,
-            extra: null,
+            key: {},
+            keyData: {},
+            extra: {},
             errors: [err.message]
         }
     })
@@ -114,7 +114,7 @@ const generateKeybaseProfile = async (username, fingerprint) => {
         let keyData = await doip.keys.process(key.publicKey)
         keyData.key.fetchMethod = 'hkp'
         keyData.key.uri = key.fetchURL
-        keyData.key.data = null
+        keyData.key.data = {}
         keyData = processKeyData(keyData)
 
         return {
@@ -126,9 +126,9 @@ const generateKeybaseProfile = async (username, fingerprint) => {
     })
     .catch(err => {
         return {
-            key: null,
-            keyData: null,
-            extra: null,
+            key: {},
+            keyData: {},
+            extra: {},
             errors: [err.message]
         }
     })
