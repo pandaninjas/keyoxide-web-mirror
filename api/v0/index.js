@@ -274,7 +274,7 @@ router.get('/profile/fetch',
             statusCode = 500
         }
 
-        res.status(500).send(data)
+        res.status(statusCode).send(data)
     }
 )
 
@@ -304,7 +304,7 @@ router.get('/profile/verify',
             statusCode = 500
         }
 
-        res.status(500).send(data)
+        res.status(statusCode).send(data)
     }
 )
 
