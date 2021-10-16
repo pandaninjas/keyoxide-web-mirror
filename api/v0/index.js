@@ -206,6 +206,12 @@ const sanitize = (data) => {
             if (!claim.verification) {
                 claim.verification = {}
             }
+            // TODO Fix upstream
+            claim.matches.forEach(match => {
+                match.proof.request.access = ['generic', 'nocors', 'granted', 'server'][match.proof.request.access]
+                match.claim.format = ['uri', 'fingerprint', 'message'][match.claim.format]
+                match.claim.relation = ['contains', 'equals', 'oneof'][match.claim.relation]
+            })
 
             data.keyData.users[iUser].claims[iClaim] = claim
         }
