@@ -35,6 +35,7 @@ const generateWKDProfile = async (id) => {
     return keys.fetchWKD(id)
     .then(async key => {
         let keyData = await doip.keys.process(key.publicKey)
+        keyData.openpgp4fpr = `openpgp4fpr:${keyData.fingerprint.toLowerCase()}`
         keyData.key.fetchMethod = 'wkd'
         keyData.key.uri = key.fetchURL
         keyData.key.data = {}
@@ -61,6 +62,7 @@ const generateHKPProfile = async (id, keyserverDomain) => {
     return keys.fetchHKP(id, keyserverDomain)
     .then(async key => {
         let keyData = await doip.keys.process(key.publicKey)
+        keyData.openpgp4fpr = `openpgp4fpr:${keyData.fingerprint.toLowerCase()}`
         keyData.key.fetchMethod = 'hkp'
         keyData.key.uri = key.fetchURL
         keyData.key.data = {}
@@ -87,6 +89,7 @@ const generateSignatureProfile = async (signature) => {
     return keys.fetchSignature(signature)
     .then(async key => {
         let keyData = key.keyData
+        keyData.openpgp4fpr = `openpgp4fpr:${keyData.fingerprint.toLowerCase()}`
         delete key.keyData
         keyData.key.data = {}
         keyData = processKeyData(keyData)
@@ -112,6 +115,7 @@ const generateKeybaseProfile = async (username, fingerprint) => {
     return keys.fetchKeybase(id, keyserverDomain)
     .then(async key => {
         let keyData = await doip.keys.process(key.publicKey)
+        keyData.openpgp4fpr = `openpgp4fpr:${keyData.fingerprint.toLowerCase()}`
         keyData.key.fetchMethod = 'hkp'
         keyData.key.uri = key.fetchURL
         keyData.key.data = {}

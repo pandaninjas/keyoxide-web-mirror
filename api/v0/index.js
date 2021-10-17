@@ -42,6 +42,9 @@ const apiProfileSchema = {
                 fingerprint: {
                     type: "string"
                 },
+                openpgp4fpr: {
+                    type: "string"
+                },
                 users: {
                     type: "array",
                     items: {
