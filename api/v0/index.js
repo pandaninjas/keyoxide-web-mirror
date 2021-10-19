@@ -198,7 +198,7 @@ const sanitize = (data) => {
     let results = []
     
     const dataClone = JSON.parse(JSON.stringify(data))
-
+    
     for (let iUser = 0; iUser < dataClone.keyData.users.length; iUser++) {
         const user = dataClone.keyData.users[iUser]
         
@@ -256,6 +256,11 @@ router.get('/profile/fetch',
                     data = await kx.generateHKPProfile(req.query.query)
                 }
                 break;
+        }
+
+        if (data.errors.length > 0) {
+            delete data.key
+            res.status(500).send(data)
         }
 
         // Return public key
