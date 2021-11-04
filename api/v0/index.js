@@ -32,6 +32,7 @@ const { check, validationResult } = require('express-validator')
 const Ajv = require("ajv")
 const ajv = new Ajv({coerceTypes: true})
 const kx = require('../../server')
+require('dotenv').config()
 
 const apiProfileSchema = {
     type: "object",
@@ -169,6 +170,12 @@ const apiProfileValidate = ajv.compile(apiProfileSchema)
 const doVerification = async (data) => {
     let promises = []
     let results = []
+    let verificationOptions = {
+        proxy: {
+            hostname: process.env.PROXY_HOSTNAME,
+            policy: (process.env.PROXY_HOSTNAME != "") ? 'adaptive' : 'never'
+        }
+    }
 
     for (let iUser = 0; iUser < data.keyData.users.length; iUser++) {
         const user = data.keyData.users[iUser]
@@ -178,7 +185,7 @@ const doVerification = async (data) => {
             
             promises.push(
                 new Promise(async (resolve, reject) => {
-                    await claim.verify()
+                    await claim.verify(verificationOptions)
                     results.push([iUser, iClaim, claim])
                     resolve()
                 })
