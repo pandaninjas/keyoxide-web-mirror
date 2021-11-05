@@ -63,35 +63,29 @@ body {
 
 /* LAYOUT */
 header {
-  display: flex;
-  justify-content: center;
-  align-items: center;
   margin: 0 1.6rem 1.6rem;
-  padding: 0.8rem;
-  border-radius: 16px;
 }
-header a.logo {
+header nav {
+  flex: 1;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+header nav a.logo {
   width: 64px;
   height: 64px;
-  margin: 0 0.8rem;
   font-size: 1.6rem;
   text-transform: uppercase;
   text-decoration: none;
   color: var(--purple-700);
 }
-header a.logo img {
+header nav a.logo img {
   width: 100%;
 }
-header .container {
-  display: flex;
-}
-header nav {
-  flex: 1;
-  display: flex;
-  align-items: center;
-}
 nav a.text {
-  font-size: 0.9em;
+  /* font-size: 0.9em; */
   margin: 0;
   padding: 0.5em 1em;
   text-transform: uppercase;
@@ -128,7 +122,7 @@ section.profile p, .demo p {
   font-size: 1.2rem;
 }
 .demo {
-  margin: 6.4rem auto;
+  margin: 4.8rem auto;
 }
 
 .card {
@@ -222,18 +216,6 @@ section.profile p, .demo p {
   }
   .hcards--col-1-2 .card:nth-of-type(2) {
     grid-column: 2 / -1;
-  }
-}
-@media screen and (max-width: 640px) {
-  header {
-    flex-direction: column;
-  }
-  header .spacer {
-    display: none;
-  }
-  header a.logo {
-    margin-bottom: 1.6rem;
-    order: -1;
   }
 }
 
