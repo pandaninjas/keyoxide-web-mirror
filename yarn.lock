@@ -1506,10 +1506,10 @@ doctypes@^1.1.0:
   resolved "https://registry.npmjs.org/doctypes/-/doctypes-1.1.0.tgz"
   integrity sha1-6oCxBqh1OHdOijpKWv4pPeSJ4Kk=
 
-doipjs@^0.13.0:
-  version "0.13.0"
-  resolved "https://registry.yarnpkg.com/doipjs/-/doipjs-0.13.0.tgz#f0e2a4dbe3907a12a221c7608e92517e202476c1"
-  integrity sha512-PgLmVcrSAfIZk/Tb9xvmDQ2S9dkHd+o7i2NBI0mEI0rTWk6p2TvpWSPyrupaPeAmNDSbKwmmBmXH/+ThdWqHMg==
+doipjs@^0.14.0:
+  version "0.14.0"
+  resolved "https://registry.yarnpkg.com/doipjs/-/doipjs-0.14.0.tgz#902e6981a40326860b58ff3113fc7eac450bdd34"
+  integrity sha512-FX0rRv4h+/IaCCS2YSrEdx7nbM1iHimJfXhGDi5OU+0ALw5868RLDUQoWNpTfS+PtKX4vOgqmMAGuGlPLJiqkA==
   dependencies:
     "@xmpp/client" "^0.12.0"
     "@xmpp/debug" "^0.12.0"
