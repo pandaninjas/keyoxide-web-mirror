@@ -6,6 +6,20 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [3.2.0] - 2021-11-07
+### Added
+- Support for ariadne.id proof notations
+- Links to new Keyoxide docs and blog
+- Community section on index
+- Alpha version of API (undocumented as of release)
+### Changed
+- Styles
+- Minor index content changes
+- Updated doipjs to 0.14.0
+### Removed
+- Guides and other documentation
+- Markdown related dependencies
+
 ## [3.1.1] - 2021-07-26
 ### Added
 - Quick dev setup using nix and direnv
