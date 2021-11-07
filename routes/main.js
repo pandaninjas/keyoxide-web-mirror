@@ -31,10 +31,6 @@ const router = require('express').Router()
 const md = require('markdown-it')({typographer: true})
 const fs = require('fs')
 
-md.use(require("markdown-it-anchor"), { "level": 2, "permalink": true, "permalinkClass": 'header-anchor', "permalinkSymbol": '¶', "permalinkBefore": false })
-md.use(require("markdown-it-table-of-contents"), { "includeLevel": [2, 3], "listType": "ol" })
-md.use(require('markdown-it-title'))
-
 router.get('/', (req, res) => {
     let highlights = []
     for (let index = 1; index < 4; index++) {
@@ -51,50 +47,10 @@ router.get('/', (req, res) => {
     res.render('index', { highlights: highlights, demoData: require('../server/demo.js').data })
 })
 
-router.get('/about', (req, res) => {
-    let rawContent = fs.readFileSync(`./content/about.md`, "utf8")
-    const content = md.render(rawContent)
-    res.render(`long-form-content`, { title: `About Keyoxide`, content: content })
-})
-
 router.get('/privacy', (req, res) => {
     let rawContent = fs.readFileSync(`./content/privacy-policy.md`, "utf8")
     const content = md.render(rawContent)
-    res.render(`long-form-content`, { title: `Privacy policy`, content: content })
-})
-
-router.get('/getting-started', (req, res) => {
-    let rawContent = fs.readFileSync(`./content/getting-started.md`, "utf8")
-    const content = md.render(rawContent)
-    res.render(`long-form-content`, { title: `Getting started`, content: content })
-})
-
-router.get('/faq', (req, res) => {
-    const mdAlt = require('markdown-it')({typographer: true})
-    mdAlt.use(require("markdown-it-anchor"), { "level": 2, "permalink": true, "permalinkClass": 'header-anchor', "permalinkSymbol": '¶', "permalinkBefore": false })
-    mdAlt.use(require("markdown-it-table-of-contents"), { "includeLevel": [2], "listType": "ul" })
-
-    let rawContent = fs.readFileSync(`./content/faq.md`, "utf8")
-    rawContent = rawContent.replace('${domain}', req.app.get('domain'))
-    const content = mdAlt.render(rawContent)
-    res.render(`long-form-content`, { title: `Frequently Asked Questions`, content: content })
-})
-
-router.get('/guides', (req, res) => {
-    res.render('guides', { title: `Guides - Keyoxide` })
-})
-
-router.get('/guides/:guideId', (req, res) => {
-    let env = {}
-    fs.readFile(`./content/guides/${req.params.guideId}.md`, "utf8", (err, data) => {
-        if (err) {
-            res.render(`404`)
-            return
-        }
-
-        const content = md.render(data, env)
-        res.render(`long-form-content`, { title: `${env.title} - Keyoxide`, content: content })
-    })
+    res.render(`article`, { title: `Privacy policy`, content: content })
 })
 
 module.exports = router
