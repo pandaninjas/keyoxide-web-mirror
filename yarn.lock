@@ -2793,10 +2793,10 @@ libravatar@^3.0.0:
   resolved "https://registry.npmjs.org/libravatar/-/libravatar-3.0.0.tgz"
   integrity sha512-GAr2zj0toWHLMrVOkmn+TyudU9QX2kvHIxLZwmz7mT6Q6IrhVCAnN+3MFLAULf2w9XZe0NKOr5V5XRKgLRm5Eg==
 
-license-check-and-add@^3.0.4:
-  version "3.0.5"
-  resolved "https://registry.npmjs.org/license-check-and-add/-/license-check-and-add-3.0.5.tgz"
-  integrity sha512-+mg2fBZanV/OGioub4EKvQyMaTjcsV+oSj85uQPdiBOtSVnn1CcL8d/sPvnmRyApdz7PXQMzM1H4QKqJsCJN3g==
+license-check-and-add@^4.0.3:
+  version "4.0.3"
+  resolved "https://registry.yarnpkg.com/license-check-and-add/-/license-check-and-add-4.0.3.tgz#c941288563da412c0dbdad2af3bea8485e4d0b62"
+  integrity sha512-2dFjAOviPmukS35Udy+D1fNnWeGbJaIfOM/fstsYlofnviyDJDSx1w++nStyxFffa2R9RIB0myH3Pvxv0q7jWA==
   dependencies:
     fs-extra "^8.1.0"
     gitignore-to-glob "^0.3.0"
