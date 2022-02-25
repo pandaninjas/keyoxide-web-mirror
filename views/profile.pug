@@ -30,18 +30,6 @@ mixin generateUser(user, isPrimary)
                     a(rel='me' href=claim.matches[0].proof.uri aria-label="Link to proof")= claim.matches[0].proof.uri
                 else
                   p Proof link: not accessible from browser
-              
-block js
-  script(type='application/javascript' src='/static/qrcode.min.js' charset='utf-8')
-  script(type='application/javascript' src='/static/dialog-polyfill.js' charset='utf-8')
-  script(type='application/javascript' src='/static/openpgp.min.js' charset='utf-8')
-  script(type='application/javascript' src='/static/doip.min.js' charset='utf-8')
-  script(type='application/javascript' src='/static/kx-claim.js' charset='utf-8')
-  script(type='application/javascript' src='/static/kx-key.js' charset='utf-8')
-  script(type='application/javascript' src='/static/scripts.js' charset='utf-8')
-
-block css
-  link(rel='stylesheet' href='/static/dialog-polyfill.css')
 
 block content
   script.

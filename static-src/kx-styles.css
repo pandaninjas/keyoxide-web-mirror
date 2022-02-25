@@ -1,0 +1,254 @@
+/*
+Copyright (C) 2021 Yarmo Mackenbach
+
+This program is free software: you can redistribute it and/or modify it under
+the terms of the GNU Affero General Public License as published by the Free
+Software Foundation, either version 3 of the License, or (at your option)
+any later version.
+
+This program is distributed in the hope that it will be useful, but WITHOUT
+ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+FOR A PARTICULAR PURPOSE. See the GNU Affero General Public License for more
+details.
+
+You should have received a copy of the GNU Affero General Public License along
+with this program. If not, see <https://www.gnu.org/licenses/>.
+
+Also add information on how to contact you by electronic and paper mail.
+
+If your software can interact with users remotely through a computer network,
+you should also make sure that it provides a way for users to get its source.
+For example, if your program is a web application, its interface could display
+a "Source" link that leads users to an archive of the code. There are many
+ways you could offer source, and different solutions will be better for different
+programs; see section 13 for the specific requirements.
+
+You should also get your employer (if you work as a programmer) or school,
+if any, to sign a "copyright disclaimer" for the program, if necessary. For
+more information on this, and how to apply and follow the GNU AGPL, see <https://www.gnu.org/licenses/>.
+*/
+* {
+  box-sizing: border-box;
+}
+details.kx-item {
+  width: 100%;
+  border-radius: 8px;
+}
+details.kx-item p {
+  margin: 0;
+  word-break: break-word;
+}
+details.kx-item a {
+  color: var(--blue-700);
+}
+details.kx-item hr {
+  border: none;
+  border-top: 2px solid var(--purple-100);
+}
+details.kx-item .content {
+  padding: 12px;
+  border: solid 3px var(--purple-100);
+  border-top: 0px;
+  border-radius: 0px 0px 8px 8px;
+}
+details.kx-item summary {
+  display: flex;
+  align-items: center;
+  padding: 8px 12px;
+  background-color: var(--purple-100);
+  border: solid 3px var(--purple-100);
+  border-radius: 8px;
+  list-style: none;
+  cursor: pointer;
+}
+details.kx-item summary::-webkit-details-marker {
+  display: none;
+}
+details.kx-item summary:hover, summary:focus {
+  border-color: var(--purple-400);
+}
+details[open] summary {
+  border-radius: 8px 8px 0px 0px;
+}
+details.kx-item summary .info {
+  flex: 1;
+}
+details.kx-item summary .info .title {
+  font-size: 1.1em;
+}
+details.kx-item summary .claim__description p {
+  font-size: 1.4rem;
+  line-height: 2rem;
+}
+details.kx-item summary .claim__links p, p.subtle-links {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  font-size: 1rem;
+  color: var(--grey-700);
+}
+details.kx-item summary .claim__links a, summary .claim__links span, p.subtle-links a {
+  font-size: 1rem;
+  margin: 0 10px 0 0;
+  color: var(--grey-700);
+}
+details.kx-item summary .subtitle {
+  color: var(--purple-700);
+}
+details.kx-item summary .verificationStatus {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 48px;
+  height: 48px;
+  border-radius: 100%;
+  color: #fff;
+  font-size: 2rem;
+  user-select: none;
+}
+details.kx-item summary .verificationStatus::after {
+  position: absolute;
+  display: flex;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  align-items: center;
+  justify-content: center;
+}
+details.kx-item summary .verificationStatus .inProgress {
+  opacity: 0;
+  transition: opacity 0.4s ease;
+  pointer-events: none;
+}
+details.kx-item summary .verificationStatus[data-value="success"] {
+  content: "v";
+  background-color: var(--green-600);
+}
+details.kx-item summary .verificationStatus[data-value="success"]::after {
+  content: "✔";
+}
+details.kx-item summary .verificationStatus[data-value="failed"] {
+  background-color: var(--red-400);
+}
+details.kx-item summary .verificationStatus[data-value="failed"]::after {
+  content: "✕";
+}
+details.kx-item summary .verificationStatus[data-value="running"] .inProgress {
+  opacity: 1;
+}
+
+details.kx-item .subsection {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+details.kx-item .subsection > img {
+  width: 24px;
+  height: 24px;
+  opacity: 0.4;
+}
+
+details.kx-item .inProgress {
+  font-size: 10px;
+  margin: 50px auto;
+  text-indent: -9999em;
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background: var(--purple-400);
+  background: -moz-linear-gradient(left, var(--purple-400) 10%, rgba(255, 255, 255, 0) 42%);
+  background: -webkit-linear-gradient(left, var(--purple-400) 10%, rgba(255, 255, 255, 0) 42%);
+  background: -o-linear-gradient(left, var(--purple-400) 10%, rgba(255, 255, 255, 0) 42%);
+  background: -ms-linear-gradient(left, var(--purple-400) 10%, rgba(255, 255, 255, 0) 42%);
+  background: linear-gradient(to right, var(--purple-400) 10%, rgba(255, 255, 255, 0) 42%);
+  position: relative;
+  -webkit-animation: load3 1.4s infinite linear;
+  animation: load3 1.4s infinite linear;
+  -webkit-transform: translateZ(0);
+  -ms-transform: translateZ(0);
+  transform: translateZ(0);
+}
+details.kx-item .inProgress:before {
+  width: 50%;
+  height: 50%;
+  background: var(--purple-400);
+  border-radius: 100% 0 0 0;
+  position: absolute;
+  top: 0;
+  left: 0;
+  content: '';
+}
+details.kx-item .inProgress:after {
+  background: var(--purple-100);
+  width: 65%;
+  height: 65%;
+  border-radius: 50%;
+  content: '';
+  margin: auto;
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+}
+details.kx-item button {
+  padding: 0.4rem 0.8rem;
+  margin-right: 8px;
+  text-decoration: none;
+  text-transform: uppercase;
+  background-color: #fff;
+  border: solid 2px var(--purple-400);
+  border-radius: 4px;
+  cursor: pointer;
+}
+details.kx-item button:hover {
+  background-color: var(--purple-500);
+  border-color: var(--purple-500);
+  color: #fff;
+}
+
+@media screen and (max-width: 640px) {
+  details.kx-item summary .claim__description p {
+    font-size: 1.2rem;
+  }
+  details.kx-item summary .claim__links a, p.subtle-links a {
+    font-size: 0.9rem;
+  }
+}
+@media screen and (max-width: 480px) {
+  summary .claim__description p {
+    font-size: 1rem;
+  }
+  details.kx-item summary .verificationStatus {
+    width: 36px;
+    height: 36px;
+    font-size: 1.6rem;
+  }
+  details.kx-item .inProgress {
+    width: 36px;
+    height: 36px;
+  }
+}
+
+@-webkit-keyframes load3 {
+  0% {
+      -webkit-transform: rotate(0deg);
+      transform: rotate(0deg);
+  }
+  100% {
+      -webkit-transform: rotate(360deg);
+      transform: rotate(360deg);
+  }
+}
+@keyframes load3 {
+  0% {
+      -webkit-transform: rotate(0deg);
+      transform: rotate(0deg);
+  }
+  100% {
+      -webkit-transform: rotate(360deg);
+      transform: rotate(360deg);
+  }
+}
