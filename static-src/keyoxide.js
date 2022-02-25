@@ -27,9 +27,13 @@ You should also get your employer (if you work as a programmer) or school,
 if any, to sign a "copyright disclaimer" for the program, if necessary. For
 more information on this, and how to apply and follow the GNU AGPL, see <https://www.gnu.org/licenses/>.
 */
-const express = require('express')
-const router = require('express').Router()
-
-router.use('/', express.static('static'))
-
-module.exports = router
+export function init() {
+    // Verify all claims
+    const claims = document.querySelectorAll('kx-claim');
+    claims.forEach(function(claim) {
+        if (claim.hasAttribute('data-skip') && claim.getAttribute('data-skip')) {
+            return;
+        }
+        claim.verify();
+    });
+}

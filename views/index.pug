@@ -1,11 +1,5 @@
 extends templates/base.pug
 
-block js
-  script(type='application/javascript' defer src='/static/openpgp.min.js' charset='utf-8')
-  script(type='application/javascript' defer src='/static/doip.min.js' charset='utf-8')
-  script(type='application/javascript' defer src='/static/kx-claim.js' charset='utf-8')
-  script(type='application/javascript' defer src='/static/scripts.js' charset='utf-8')
-
 block content
   .demo
     kx-claim.kx-item(data-claim= demoData data-skip="true")

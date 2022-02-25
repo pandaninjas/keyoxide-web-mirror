@@ -27,6 +27,9 @@ You should also get your employer (if you work as a programmer) or school,
 if any, to sign a "copyright disclaimer" for the program, if necessary. For
 more information on this, and how to apply and follow the GNU AGPL, see <https://www.gnu.org/licenses/>.
 */
+@import '../node_modules/fork-awesome/css/fork-awesome.css';
+@import '../node_modules/dialog-polyfill/dist/dialog-polyfill.css';
+
 :root {
   --grey-500: hsl(0, 0%, 50%);
   --grey-600: hsl(0, 0%, 40%);

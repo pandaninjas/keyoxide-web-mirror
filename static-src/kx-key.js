@@ -27,7 +27,7 @@ You should also get your employer (if you work as a programmer) or school,
 if any, to sign a "copyright disclaimer" for the program, if necessary. For
 more information on this, and how to apply and follow the GNU AGPL, see <https://www.gnu.org/licenses/>.
 */
-class Key extends HTMLElement {
+export class Key extends HTMLElement {
     // Specify the attributes to observe
     static get observedAttributes() {
         return ['data-keydata'];
@@ -77,9 +77,7 @@ class Key extends HTMLElement {
 
         const button_fingerprintQR = subsection_qr_text.appendChild(document.createElement('button'));
         button_fingerprintQR.innerText = `Show OpenPGP fingerprint QR`;
-        button_fingerprintQR.setAttribute('onClick', `showQR('${data.fingerprint}', 'fingerprint')`);
+        button_fingerprintQR.setAttribute('onClick', `window.showQR('${data.fingerprint}', 'fingerprint')`);
         button_fingerprintQR.setAttribute('aria-label', `Show QR code for cryptographic fingerprint`);
     }
 }
-
-customElements.define('kx-key', Key);

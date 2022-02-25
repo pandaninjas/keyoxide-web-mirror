@@ -27,50 +27,174 @@ You should also get your employer (if you work as a programmer) or school,
 if any, to sign a "copyright disclaimer" for the program, if necessary. For
 more information on this, and how to apply and follow the GNU AGPL, see <https://www.gnu.org/licenses/>.
 */
-async function computeWKDLocalPart(message) {
-    const data = openpgp.util.str_to_Uint8Array(message.toLowerCase());
-    const hash = await openpgp.crypto.hash.sha1(data);
-    return openpgp.util.encodeZBase32(hash);
-}
-async function generateProfileURL(data) {
-    let hostname = window.location.hostname;
+import dialogPolyfill from 'dialog-polyfill'
+import QRCode from 'qrcode'
+import * as openpgp from 'openpgp'
+import * as utils from './utils'
 
-    if (data.input == "") {
-        return "Waiting for input...";
+// Prepare element selectors
+const elFormSignatureProfile = document.body.querySelector("#formGenerateSignatureProfile")
+const elFormEncrypt = document.body.querySelector("#dialog--encryptMessage form")
+const elFormVerify = document.body.querySelector("#dialog--verifySignature form")
+const elFormSearch = document.body.querySelector("#search")
+
+const elProfileUid = document.body.querySelector("#profileUid")
+const elProfileMode = document.body.querySelector("#profileMode")
+const elProfileServer = document.body.querySelector("#profileServer")
+
+const elModeSelect = document.body.querySelector("#modeSelect")
+
+const elUtilWKD = document.body.querySelector("#form-util-wkd")
+const elUtilQRFP = document.body.querySelector("#form-util-qrfp")
+const elUtilQR = document.body.querySelector("#form-util-qr")
+const elUtilProfileURL = document.body.querySelector("#form-util-profile-url")
+
+// Initialize UI elements and event listeners
+export function init() {
+    // Register modals
+    document.querySelectorAll('dialog').forEach(function(d) {
+        dialogPolyfill.registerDialog(d);
+        d.addEventListener('click', function(ev) {
+            if (ev && ev.target != d) {
+                return;
+            }
+            d.close();
+        });
+    });
+
+    // Run context-dependent scripts
+    if (elFormEncrypt) {
+        runEncryptionForm()
     }
-    switch (data.source) {
-        case "wkd":
-            return `https://${hostname}/${data.input}`;
-            break;
-        case "hkp":
-            if (/.*@.*\..*/.test(data.input)) {
-                return `https://${hostname}/hkp/${data.input}`;
+
+    if (elFormVerify) {
+        runVerificationForm()
+    }
+
+    if (elFormSearch) {
+        runSearchForm()
+    }
+    if (elModeSelect) {
+        runModeSelector()
+    }
+
+    if (elProfileUid) {
+        runProfileGenerator()
+    }
+
+    if (elUtilWKD) {
+        runWKDUtility()
+    }
+
+    if (elUtilQRFP) {
+        runQRFPUtility()
+    }
+
+    if (elUtilQR) {
+        runQRUtility
+    }
+
+    if (elUtilProfileURL) {
+        runProfileURLUtility
+    }
+}
+
+const runEncryptionForm = () => {
+    elFormEncrypt.onsubmit = async function (evt) {
+        evt.preventDefault();
+
+        try {
+            // Fetch a key if needed
+            await utils.fetchProfileKey();
+
+            // Encrypt the message
+            let config = openpgp.config;
+            config.show_comment = false;
+            config.show_version = false;
+            
+            let encrypted = await openpgp.encrypt({
+                message: openpgp.message.fromText(elFormEncrypt.querySelector('.input').value),
+                publicKeys: window.kx.key.object,
+                config: config
+            });
+            elFormEncrypt.querySelector('.output').value = encrypted.data;
+        } catch (e) {
+            console.error(e);
+            elFormEncrypt.querySelector('.output').value = `Could not encrypt message!\n==========================\n${e.message ? e.message : e}`;
+        }
+    }
+}
+
+const runVerificationForm = () => {
+    elFormVerify.onsubmit = async function (evt) {
+        evt.preventDefault();
+
+        try {
+            // Fetch a key if needed
+            await utils.fetchProfileKey();
+
+            // Try two different methods of signature reading
+            let signature = null, verified = null, readError = null;
+            try {
+                signature = await openpgp.message.readArmored(elFormVerify.querySelector('.input').value);
+            } catch(e) {
+                readError = e;
+            }
+            try {
+                signature = await openpgp.cleartext.readArmored(elFormVerify.querySelector('.input').value);
+            } catch(e) {
+                readError = e;
+            }
+            if (signature == null) { throw(readError) };
+
+            // Verify the signature
+            verified = await openpgp.verify({
+                message: signature,
+                publicKeys: window.kx.key.object
+            });
+
+            if (verified.signatures[0].valid) {
+                elFormVerify.querySelector('.output').value = `The message was signed by the profile's key.`;
             } else {
-                return `https://${hostname}/${data.input}`;
+                elFormVerify.querySelector('.output').value = `The message was NOT signed by the profile's key.`;
             }
-            break;
-        case "keybase":
-            const re = /https\:\/\/keybase.io\/(.*)\/pgp_keys\.asc\?fingerprint\=(.*)/;
-            if (!re.test(data.input)) {
-                return "Incorrect Keybase public key URL.";
-            }
-            const match = data.input.match(re);
-            return `https://${hostname}/keybase/${match[1]}/${match[2]}`;
-            break;
+        } catch (e) {
+            console.error(e);
+            elFormVerify.querySelector('.output').value = `Could not verify signature!\n===========================\n${e.message ? e.message : e}`;
+        }
     }
 }
 
-let elFormSignatureProfile = document.body.querySelector("#formGenerateSignatureProfile"),
-    elProfileUid = document.body.querySelector("#profileUid"),
-    elProfileMode = document.body.querySelector("#profileMode"),
-    elProfileServer = document.body.querySelector("#profileServer"),
-    elModeSelect = document.body.querySelector("#modeSelect"),
-    elUtilWKD = document.body.querySelector("#form-util-wkd"),
-    elUtilQRFP = document.body.querySelector("#form-util-qrfp"),
-    elUtilQR = document.body.querySelector("#form-util-qr"),
-    elUtilProfileURL = document.body.querySelector("#form-util-profile-url");
+const runSearchForm = () => {
+    elFormSearch.onsubmit = function (evt) {
+        evt.preventDefault();
 
-if (elModeSelect) {
+        const protocol = elFormSearch.querySelector("input[type='radio']:checked").value;
+        const identifier = elFormSearch.querySelector("input[type='search']").value;
+
+        if (protocol == 'sig') {
+            window.location.href = `/${protocol}`;
+        } else {
+            window.location.href = `/${protocol}/${encodeURIComponent(identifier)}`;
+        }
+    }
+
+    elFormSearch.querySelectorAll("input[type='radio']").forEach(function (el) {
+        el.oninput = function (evt) {
+            evt.preventDefault();
+
+            if (evt.target.getAttribute('id') === 'protocol-sig') {
+                elFormSearch.querySelector("input[type='search']").setAttribute('disabled', true);
+            } else {
+                elFormSearch.querySelector("input[type='search']").removeAttribute('disabled');
+            }
+        }
+    });
+    
+    elFormSearch.querySelector("input[type='radio']:checked").dispatchEvent(new Event('input'));
+}
+
+const runModeSelector = () => {
     elModeSelect.onchange = function (evt) {
         let elAllModes = document.body.querySelectorAll('.modes');
         elAllModes.forEach(function(el) {
@@ -81,7 +205,7 @@ if (elModeSelect) {
     elModeSelect.dispatchEvent(new Event("change"));
 }
 
-if (elProfileUid) {
+const runProfileGenerator = () => {
     let opts, profileUid = elProfileUid.innerHTML;
     switch (elProfileMode.innerHTML) {
         default:
@@ -144,7 +268,7 @@ if (elProfileUid) {
     }
 }
 
-if (elUtilWKD) {
+const runWKDUtility = () => {
     elUtilWKD.onsubmit = function (evt) {
         evt.preventDefault();
     }
@@ -159,11 +283,11 @@ if (elUtilWKD) {
         if (evt.target.value) {
             if (/(.*)@(.{1,}\..{1,})/.test(evt.target.value)) {
                 match = evt.target.value.match(/(.*)@(.*)/);
-                elOutput.innerText = await computeWKDLocalPart(match[1]);
+                elOutput.innerText = await utils.computeWKDLocalPart(match[1]);
                 elOutputDirect.innerText = `https://${match[2]}/.well-known/openpgpkey/hu/${elOutput.innerText}?l=${match[1]}`;
                 elOutputAdvanced.innerText = `https://openpgpkey.${match[2]}/.well-known/openpgpkey/${match[2]}/hu/${elOutput.innerText}?l=${match[1]}`;
             } else {
-                elOutput.innerText = await computeWKDLocalPart(evt.target.value);
+                elOutput.innerText = await utils.computeWKDLocalPart(evt.target.value);
                 elOutputDirect.innerText = "Waiting for input";
                 elOutputAdvanced.innerText = "Waiting for input";
             }
@@ -177,7 +301,7 @@ if (elUtilWKD) {
     elInput.dispatchEvent(new Event("input"));
 }
 
-if (elUtilQRFP) {
+const runQRFPUtility = () => {
     elUtilQRFP.onsubmit = function (evt) {
         evt.preventDefault();
     }
@@ -209,7 +333,7 @@ if (elUtilQRFP) {
     elInput.dispatchEvent(new Event("input"));
 }
 
-if (elUtilQR) {
+const runQRUtility = () => {
     elUtilQR.onsubmit = function (evt) {
         evt.preventDefault();
     }
@@ -242,7 +366,7 @@ if (elUtilQR) {
     }
 }
 
-if (elUtilProfileURL) {
+const runProfileURLUtility = () => {
     elUtilProfileURL.onsubmit = function (evt) {
         evt.preventDefault();
     }
@@ -261,7 +385,7 @@ if (elUtilProfileURL) {
             input: elInput.value,
             source: elSource.value
         };
-        elOutput.innerText = await generateProfileURL(data);
+        elOutput.innerText = await utils.generateProfileURL(data);
     });
 
     elSource.addEventListener("input", async function(evt) {
@@ -269,7 +393,7 @@ if (elUtilProfileURL) {
             input: elInput.value,
             source: elSource.value
         };
-        elOutput.innerText = await generateProfileURL(data);
+        elOutput.innerText = await utils.generateProfileURL(data);
     });
 
     elInput.dispatchEvent(new Event("input"));

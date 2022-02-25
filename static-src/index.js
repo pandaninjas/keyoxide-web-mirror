@@ -1,5 +1,5 @@
 /*
-Copyright (C) 2021 Yarmo Mackenbach
+Copyright (C) 2022 Yarmo Mackenbach
 
 This program is free software: you can redistribute it and/or modify it under
 the terms of the GNU Affero General Public License as published by the Free
@@ -27,9 +27,24 @@ You should also get your employer (if you work as a programmer) or school,
 if any, to sign a "copyright disclaimer" for the program, if necessary. For
 more information on this, and how to apply and follow the GNU AGPL, see <https://www.gnu.org/licenses/>.
 */
-const express = require('express')
-const router = require('express').Router()
+// Import JS libraries
+import * as kx from'./keyoxide'
+import * as kxKey from'./kx-key'
+import * as kxClaim from'./kx-claim'
+import * as ui from'./ui'
+import * as utils from'./utils'
 
-router.use('/', express.static('static'))
+// Import CSS files
+import './styles.css'
+import './kx-styles.css'
 
-module.exports = router
+// Add functions to window
+window.showQR = utils.showQR
+
+// Register custom elements
+customElements.define('kx-key', kxKey.Key)
+customElements.define('kx-claim', kxClaim.Claim)
+
+// Run scripts
+ui.init()
+kx.init()
