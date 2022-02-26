@@ -138,13 +138,13 @@ const runVerificationForm = () => {
             // Try two different methods of signature reading
             let signature = null, verified = null, readError = null;
             try {
-                signature = await openpgp.createMessage({
+                signature = await openpgp.readMessage({
                     armoredMessage: elFormVerify.querySelector('.input').value
                 });
             } catch(e) {
                 try {
-                    signature = await openpgp.createCleartextMessage({
-                        armoredMessage: elFormVerify.querySelector('.input').value
+                    signature = await openpgp.readCleartextMessage({
+                        cleartextMessage: elFormVerify.querySelector('.input').value
                     });
                 } catch(e) {
                     readError = e;
@@ -158,7 +158,8 @@ const runVerificationForm = () => {
                 verificationKeys: window.kx.key.object
             });
 
-            if (verified.signatures[0].valid) {
+            console.log(verified);
+            if (await verified.signatures[0].verified) {
                 elFormVerify.querySelector('.output').value = `The message was signed by the profile's key.`;
             } else {
                 elFormVerify.querySelector('.output').value = `The message was NOT signed by the profile's key.`;
