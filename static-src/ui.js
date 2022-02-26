@@ -91,11 +91,11 @@ export function init() {
     }
 
     if (elUtilQR) {
-        runQRUtility
+        runQRUtility()  
     }
 
     if (elUtilProfileURL) {
-        runProfileURLUtility
+        runProfileURLUtility()  
     }
 }
 
