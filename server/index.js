@@ -174,7 +174,7 @@ const computeExtraData = async (key, keyData) => {
 
     // Query libravatar to get the avatar url
     return {
-        avatarURL: await libravatar.get_avatar_url({ email: primaryUser.user.userId.email, size: 128, default: 'mm', https: true })
+        avatarURL: await libravatar.get_avatar_url({ email: primaryUser.user.userID.email, size: 128, default: 'mm', https: true })
     }
 }
 

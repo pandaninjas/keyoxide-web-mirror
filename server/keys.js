@@ -81,7 +81,9 @@ const fetchWKD = (id) => {
         }
 
         try {
-            output.publicKey = (await openpgp.key.read(plaintext)).keys[0]
+            output.publicKey = await openpgp.readKey({
+                binaryKey: plaintext
+            })
         } catch(error) {
             reject(new Error(`No public keys could be read from the data fetched using WKD`))
         }
