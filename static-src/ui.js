@@ -158,7 +158,6 @@ const runVerificationForm = () => {
                 verificationKeys: window.kx.key.object
             });
 
-            console.log(verified);
             if (await verified.signatures[0].verified) {
                 elFormVerify.querySelector('.output').value = `The message was signed by the profile's key.`;
             } else {
