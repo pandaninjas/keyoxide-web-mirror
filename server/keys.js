@@ -81,7 +81,9 @@ const fetchWKD = (id) => {
         }
 
         try {
-            output.publicKey = (await openpgp.key.read(plaintext)).keys[0]
+            output.publicKey = await openpgp.readKey({
+                binaryKey: plaintext
+            })
         } catch(error) {
             reject(new Error(`No public keys could be read from the data fetched using WKD`))
         }
@@ -136,7 +138,9 @@ const fetchSignature = (signature) => {
         // Check validity of signature
         let signatureData
         try {
-            signatureData = await openpgp.cleartext.readArmored(signature)
+            signatureData = await openpgp.readCleartextMessage({
+                cleartextMessage: signature
+            })
         } catch (error) {
             reject(new Error(`Signature could not be properly read (${error.message})`))
         }
@@ -159,10 +163,10 @@ const fetchSignature = (signature) => {
         // Check validity of signature
         const verified = await openpgp.verify({
             message: signatureData,
-            publicKeys: output.publicKey
+            verificationKeys: output.publicKey
         })
-        const { valid } = verified.signatures[0]
-        if (!valid) {
+        
+        if (!await verified.signatures[0].verified) {
             reject(new Error('Signature was invalid'))
         }
 

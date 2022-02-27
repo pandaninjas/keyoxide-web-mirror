@@ -91,11 +91,11 @@ export function init() {
     }
 
     if (elUtilQR) {
-        runQRUtility
+        runQRUtility()  
     }
 
     if (elUtilProfileURL) {
-        runProfileURLUtility
+        runProfileURLUtility()  
     }
 }
 
@@ -113,11 +113,13 @@ const runEncryptionForm = () => {
             config.show_version = false;
             
             let encrypted = await openpgp.encrypt({
-                message: openpgp.message.fromText(elFormEncrypt.querySelector('.input').value),
-                publicKeys: window.kx.key.object,
+                message: await openpgp.createMessage({
+                    text: elFormEncrypt.querySelector('.input').value
+                }),
+                encryptionKeys: window.kx.key.object,
                 config: config
             });
-            elFormEncrypt.querySelector('.output').value = encrypted.data;
+            elFormEncrypt.querySelector('.output').value = encrypted;
         } catch (e) {
             console.error(e);
             elFormEncrypt.querySelector('.output').value = `Could not encrypt message!\n==========================\n${e.message ? e.message : e}`;
@@ -136,24 +138,27 @@ const runVerificationForm = () => {
             // Try two different methods of signature reading
             let signature = null, verified = null, readError = null;
             try {
-                signature = await openpgp.message.readArmored(elFormVerify.querySelector('.input').value);
+                signature = await openpgp.readMessage({
+                    armoredMessage: elFormVerify.querySelector('.input').value
+                });
             } catch(e) {
-                readError = e;
-            }
-            try {
-                signature = await openpgp.cleartext.readArmored(elFormVerify.querySelector('.input').value);
-            } catch(e) {
-                readError = e;
+                try {
+                    signature = await openpgp.readCleartextMessage({
+                        cleartextMessage: elFormVerify.querySelector('.input').value
+                    });
+                } catch(e) {
+                    readError = e;
+                }
             }
             if (signature == null) { throw(readError) };
 
             // Verify the signature
             verified = await openpgp.verify({
                 message: signature,
-                publicKeys: window.kx.key.object
+                verificationKeys: window.kx.key.object
             });
 
-            if (verified.signatures[0].valid) {
+            if (await verified.signatures[0].verified) {
                 elFormVerify.querySelector('.output').value = `The message was signed by the profile's key.`;
             } else {
                 elFormVerify.querySelector('.output').value = `The message was NOT signed by the profile's key.`;

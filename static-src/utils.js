@@ -31,10 +31,10 @@ import * as openpgp from 'openpgp'
 import QRCode from 'qrcode'
 
 // Compute local part of Web Key Directory URL 
-export async function computeWKDLocalPart(message) {
-    const data = openpgp.util.str_to_Uint8Array(message.toLowerCase());
-    const hash = await openpgp.crypto.hash.sha1(data);
-    return openpgp.util.encodeZBase32(hash);
+export async function computeWKDLocalPart(localPart) {
+    const localPartEncoded = new TextEncoder().encode(localPart.toLowerCase());
+    const localPartHashed = new Uint8Array(await crypto.subtle.digest('SHA-1', localPartEncoded));
+    return encodeZBase32(localPartHashed);
 }
 
 // Generate Keyoxide profile URL
@@ -68,22 +68,26 @@ export async function generateProfileURL(data) {
 
 // Fetch OpenPGP key based on information stored in window
 export async function fetchProfileKey() {
-    if (window.kx.key.object && window.kx.key.object instanceof openpgp.key.Key) {
+    if (window.kx.key.object && window.kx.key.object instanceof openpgp.PublicKey) {
         return;
     }
 
     const rawKeyData = await fetch(window.kx.key.url)
     let key, errorMsg
-
+    
     try {
-        key = (await openpgp.key.read(new Uint8Array(await rawKeyData.clone().arrayBuffer()))).keys[0]
+        key = (await openpgp.readKey({
+            binaryKey: new Uint8Array(await rawKeyData.clone().arrayBuffer())
+        }))
     } catch(error) {
         errorMsg = error.message
     }
 
     if (!key) {
         try {
-            key = (await openpgp.key.readArmored(await rawKeyData.clone().text())).keys[0]
+            key = (await openpgp.readKey({
+                armoredKey: await rawKeyData.clone().text()
+            }))
         } catch (error) {
             errorMsg = error.message
         }
@@ -131,4 +135,34 @@ export function showQR(input, type) {
     } else {
         qrContext.clearRect(0, 0, qrTarget.width, qrTarget.height);
     }
+}
+
+// Copied from https://github.com/openpgpjs/wkd-client/blob/0d074519e011a5139a8953679cf5f807e4cd2378/src/wkd.js
+export function encodeZBase32(data) {
+    if (data.length === 0) {
+        return "";
+    }
+    const ALPHABET = "ybndrfg8ejkmcpqxot1uwisza345h769";
+    const SHIFT = 5;
+    const MASK = 31;
+    let buffer = data[0];
+    let index = 1;
+    let bitsLeft = 8;
+    let result = '';
+    while (bitsLeft > 0 || index < data.length) {
+        if (bitsLeft < SHIFT) {
+            if (index < data.length) {
+                buffer <<= 8;
+                buffer |= data[index++] & 0xff;
+                bitsLeft += 8;
+            } else {
+                const pad = SHIFT - bitsLeft;
+                buffer <<= pad;
+                bitsLeft += pad;
+            }
+        }
+        bitsLeft -= SHIFT;
+        result += ALPHABET[MASK & (buffer >> bitsLeft)];
+    }
+    return result;
 }
