@@ -27,8 +27,11 @@ You should also get your employer (if you work as a programmer) or school,
 if any, to sign a "copyright disclaimer" for the program, if necessary. For
 more information on this, and how to apply and follow the GNU AGPL, see <https://www.gnu.org/licenses/>.
 */
-const router = require('express').Router()
+import express from 'express'
+import apiRouter0 from '../api/v0/index.js'
 
-router.use('/0', require('../api/v0/index.js'))
+const router = express.Router()
 
-module.exports = router
+router.use('/0', apiRouter0)
+
+export default router

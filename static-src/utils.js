@@ -29,11 +29,18 @@ more information on this, and how to apply and follow the GNU AGPL, see <https:/
 */
 import * as openpgp from 'openpgp'
 import QRCode from 'qrcode'
+let _crypto = (typeof window === 'undefined') ? null : crypto
+if (!_crypto) {
+    _crypto = import('crypto').then((crypto) => {
+        return crypto.webcrypto
+    })
+    // import { webcrypto as crypto } from 'crypto'
+}
 
 // Compute local part of Web Key Directory URL 
 export async function computeWKDLocalPart(localPart) {
     const localPartEncoded = new TextEncoder().encode(localPart.toLowerCase());
-    const localPartHashed = new Uint8Array(await crypto.subtle.digest('SHA-1', localPartEncoded));
+    const localPartHashed = new Uint8Array(await _crypto.subtle.digest('SHA-1', localPartEncoded));
     return encodeZBase32(localPartHashed);
 }
 

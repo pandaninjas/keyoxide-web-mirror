@@ -27,15 +27,15 @@ You should also get your employer (if you work as a programmer) or school,
 if any, to sign a "copyright disclaimer" for the program, if necessary. For
 more information on this, and how to apply and follow the GNU AGPL, see <https://www.gnu.org/licenses/>.
 */
-const crypto = require('crypto').webcrypto
+import { webcrypto as crypto } from 'crypto'
 
-exports.computeWKDLocalPart = async (localPart) => {
+export async function computeWKDLocalPart(localPart) {
     const localPartEncoded = new TextEncoder().encode(localPart.toLowerCase());
     const localPartHashed = new Uint8Array(await crypto.subtle.digest('SHA-1', localPartEncoded));
     return encodeZBase32(localPartHashed);
 }
 
-exports.generatePageTitle = (type, data) => {
+export function generatePageTitle(type, data) {
     switch (type) {
         case 'profile':
             try {

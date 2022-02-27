@@ -27,14 +27,14 @@ You should also get your employer (if you work as a programmer) or school,
 if any, to sign a "copyright disclaimer" for the program, if necessary. For
 more information on this, and how to apply and follow the GNU AGPL, see <https://www.gnu.org/licenses/>.
 */
-const doip = require('doipjs')
-const keys = require('./keys')
-const libravatar = require('libravatar')
+import * as doipjs from 'doipjs'
+import { fetchWKD, fetchHKP, fetchSignature, fetchKeybase } from './keys.js'
+import libravatar from 'libravatar'
 
 const generateWKDProfile = async (id) => {
-    return keys.fetchWKD(id)
+    return fetchWKD(id)
     .then(async key => {
-        let keyData = await doip.keys.process(key.publicKey)
+        let keyData = await doipjs.keys.process(key.publicKey)
         keyData.openpgp4fpr = `openpgp4fpr:${keyData.fingerprint.toLowerCase()}`
         keyData.key.fetchMethod = 'wkd'
         keyData.key.uri = key.fetchURL
@@ -59,9 +59,9 @@ const generateWKDProfile = async (id) => {
 }
 
 const generateHKPProfile = async (id, keyserverDomain) => {
-    return keys.fetchHKP(id, keyserverDomain)
+    return fetchHKP(id, keyserverDomain)
     .then(async key => {
-        let keyData = await doip.keys.process(key.publicKey)
+        let keyData = await doipjs.keys.process(key.publicKey)
         keyData.openpgp4fpr = `openpgp4fpr:${keyData.fingerprint.toLowerCase()}`
         keyData.key.fetchMethod = 'hkp'
         keyData.key.uri = key.fetchURL
@@ -86,7 +86,7 @@ const generateHKPProfile = async (id, keyserverDomain) => {
 }
 
 const generateSignatureProfile = async (signature) => {
-    return keys.fetchSignature(signature)
+    return fetchSignature(signature)
     .then(async key => {
         let keyData = key.keyData
         keyData.openpgp4fpr = `openpgp4fpr:${keyData.fingerprint.toLowerCase()}`
@@ -112,9 +112,9 @@ const generateSignatureProfile = async (signature) => {
 }
 
 const generateKeybaseProfile = async (username, fingerprint) => {
-    return keys.fetchKeybase(id, keyserverDomain)
+    return fetchKeybase(id, keyserverDomain)
     .then(async key => {
-        let keyData = await doip.keys.process(key.publicKey)
+        let keyData = await doipjs.keys.process(key.publicKey)
         keyData.openpgp4fpr = `openpgp4fpr:${keyData.fingerprint.toLowerCase()}`
         keyData.key.fetchMethod = 'hkp'
         keyData.key.uri = key.fetchURL
@@ -142,7 +142,7 @@ const processKeyData = (keyData) => {
     keyData.users.forEach(user => {
         // Remove faulty claims
         user.claims = user.claims.filter(claim => {
-            return claim instanceof doip.Claim
+            return claim instanceof doipjs.Claim
         })
 
         // Match claims
@@ -178,9 +178,9 @@ const computeExtraData = async (key, keyData) => {
     }
 }
 
-exports.generateWKDProfile = generateWKDProfile
-exports.generateHKPProfile = generateHKPProfile
-exports.generateKeybaseProfile = generateKeybaseProfile
-exports.generateSignatureProfile = generateSignatureProfile
+export { generateWKDProfile }
+export { generateHKPProfile }
+export { generateKeybaseProfile }
+export { generateSignatureProfile }
 
-exports.utils = require('./utils')
+export * as utils from './utils.js'

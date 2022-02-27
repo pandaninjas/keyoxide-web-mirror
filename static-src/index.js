@@ -28,11 +28,11 @@ if any, to sign a "copyright disclaimer" for the program, if necessary. For
 more information on this, and how to apply and follow the GNU AGPL, see <https://www.gnu.org/licenses/>.
 */
 // Import JS libraries
-import * as kx from'./keyoxide'
-import * as kxKey from'./kx-key'
-import * as kxClaim from'./kx-claim'
-import * as ui from'./ui'
-import * as utils from'./utils'
+import * as kx from './keyoxide.js'
+import * as kxKey from './kx-key.js'
+import * as kxClaim from './kx-claim.js'
+import * as ui from './ui.js'
+import * as utils from './utils.js'
 
 // Import CSS files
 import './styles.css'

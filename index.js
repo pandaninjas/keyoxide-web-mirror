@@ -27,13 +27,19 @@ You should also get your employer (if you work as a programmer) or school,
 if any, to sign a "copyright disclaimer" for the program, if necessary. For
 more information on this, and how to apply and follow the GNU AGPL, see <https://www.gnu.org/licenses/>.
 */
-const express = require('express')
-const fs = require('fs')
-const app = express()
-const { stringReplace } = require('string-replace-middleware')
-require('dotenv').config()
+import express from 'express'
+import { readFileSync } from 'fs'
+import { stringReplace } from 'string-replace-middleware'
+import 'dotenv/config.js'
 
-const packageData = JSON.parse(fs.readFileSync('package.json'))
+import apiRoute from './routes/api.js'
+import mainRoute from './routes/main.js'
+import profileRoute from './routes/profile.js'
+import staticRoute from './routes/static.js'
+import utilRoute from './routes/util.js'
+
+const app = express()
+const packageData = JSON.parse(readFileSync('package.json'))
 
 app.set('env', process.env.NODE_ENV || "production")
 app.set('view engine', 'pug')
@@ -65,12 +71,14 @@ app.use(stringReplace({
 app.use('/favicon.svg', express.static('favicon.svg'))
 app.use('/robots.txt', express.static('robots.txt'))
 
-app.use('/', require('./routes/main'))
-app.use('/api', require('./routes/api'))
-app.use('/static', require('./routes/static'))
-app.use('/util', require('./routes/util'))
-app.use('/', require('./routes/profile'))
+app.use('/', mainRoute)
+app.use('/api', apiRoute)
+app.use('/static', staticRoute)
+app.use('/util', utilRoute)
+app.use('/', profileRoute)
 
 app.listen(app.get('port'), () => {
     console.log(`Node server listening at http://localhost:${app.get('port')}`)
 })
+
+export default app

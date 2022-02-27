@@ -27,7 +27,9 @@ You should also get your employer (if you work as a programmer) or school,
 if any, to sign a "copyright disclaimer" for the program, if necessary. For
 more information on this, and how to apply and follow the GNU AGPL, see <https://www.gnu.org/licenses/>.
 */
-const router = require('express').Router()
+import express from 'express'
+
+const router = express.Router()
 
 router.get('/profile-url', function(req, res) {
     res.render('util/profile-url')
@@ -57,4 +59,4 @@ router.get('/wkd/:input', function(req, res) {
     res.render('util/wkd', { input: req.params.input })
 })
 
-module.exports = router
+export default router
