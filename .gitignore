@@ -30,5 +30,6 @@ node_modules
 .env
 /.direnv/
 
+dist
 static
 !static/**/*.png

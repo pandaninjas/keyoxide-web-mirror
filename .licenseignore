@@ -6,6 +6,8 @@
 **/*.env
 **/*.pug
 
+dist/
+
 package.json
 yarn.lock
 robots.txt

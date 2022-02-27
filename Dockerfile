@@ -1,23 +1,23 @@
-FROM node:14-alpine as builder
+FROM node:16-alpine as builder
 
 WORKDIR /app
-
 COPY . .
 
 RUN yarn --pure-lockfile
+RUN yarn run build
 RUN yarn run build:static
 
 ###
 
-FROM node:14-alpine
+FROM node:16-alpine
 
 WORKDIR /app
-
-COPY . .
+COPY --from=builder /app/package.json /app/package.json
+COPY --from=builder /app/dist /app/dist
+COPY --from=builder /app/content /app/content
+COPY --from=builder /app/views /app/views
 COPY --from=builder /app/static /app/static
-
-RUN yarn --production --pure-lockfile
 
 EXPOSE 3000
 
-CMD yarn start
+CMD node ./dist/
