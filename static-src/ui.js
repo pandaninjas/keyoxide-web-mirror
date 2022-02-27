@@ -38,12 +38,6 @@ const elFormEncrypt = document.body.querySelector("#dialog--encryptMessage form"
 const elFormVerify = document.body.querySelector("#dialog--verifySignature form")
 const elFormSearch = document.body.querySelector("#search")
 
-const elProfileUid = document.body.querySelector("#profileUid")
-const elProfileMode = document.body.querySelector("#profileMode")
-const elProfileServer = document.body.querySelector("#profileServer")
-
-const elModeSelect = document.body.querySelector("#modeSelect")
-
 const elUtilWKD = document.body.querySelector("#form-util-wkd")
 const elUtilQRFP = document.body.querySelector("#form-util-qrfp")
 const elUtilQR = document.body.querySelector("#form-util-qr")
@@ -73,13 +67,6 @@ export function init() {
 
     if (elFormSearch) {
         runSearchForm()
-    }
-    if (elModeSelect) {
-        runModeSelector()
-    }
-
-    if (elProfileUid) {
-        runProfileGenerator()
     }
 
     if (elUtilWKD) {
@@ -197,80 +184,6 @@ const runSearchForm = () => {
     });
     
     elFormSearch.querySelector("input[type='radio']:checked").dispatchEvent(new Event('input'));
-}
-
-const runModeSelector = () => {
-    elModeSelect.onchange = function (evt) {
-        let elAllModes = document.body.querySelectorAll('.modes');
-        elAllModes.forEach(function(el) {
-            el.classList.remove('modes--visible');
-        });
-        document.body.querySelector(`.modes--${elModeSelect.value}`).classList.add('modes--visible');
-    }
-    elModeSelect.dispatchEvent(new Event("change"));
-}
-
-const runProfileGenerator = () => {
-    let opts, profileUid = elProfileUid.innerHTML;
-    switch (elProfileMode.innerHTML) {
-        default:
-        case "sig":
-            elFormSignatureProfile.onsubmit = function (evt) {
-                evt.preventDefault();
-
-                opts = {
-                    input: document.body.querySelector("#plaintext_input").value,
-                    mode: elProfileMode.innerHTML
-                }
-
-                displayProfile(opts)
-            }
-            break;
-
-        case "auto":
-            if (/.*@.*/.test(profileUid)) {
-                // Match email for wkd
-                opts = {
-                    input: profileUid,
-                    mode: "wkd"
-                }
-            } else {
-                // Match fingerprint for hkp
-                opts = {
-                    input: profileUid,
-                    mode: "hkp"
-                }
-            }
-            break;
-
-        case "hkp":
-            opts = {
-                input: profileUid,
-                server: elProfileServer.innerHTML,
-                mode: elProfileMode.innerHTML
-            }
-            break;
-
-        case "wkd":
-            opts = {
-                input: profileUid,
-                mode: elProfileMode.innerHTML
-            }
-            break;
-
-        case "keybase":
-            let match = profileUid.match(/(.*)\/(.*)/);
-            opts = {
-                username: match[1],
-                fingerprint: match[2],
-                mode: elProfileMode.innerHTML
-            }
-            break;
-    }
-
-    if (elProfileMode.innerHTML !== 'sig') {
-        keyoxide.displayProfile(opts);
-    }
 }
 
 const runWKDUtility = () => {
