@@ -52,7 +52,7 @@ export function generatePageTitle(type, data) {
 }
 
 // Copied from https://github.com/openpgpjs/wkd-client/blob/0d074519e011a5139a8953679cf5f807e4cd2378/src/wkd.js
-function encodeZBase32(data) {
+export function encodeZBase32(data) {
     if (data.length === 0) {
         return "";
     }
