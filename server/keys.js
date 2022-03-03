@@ -196,11 +196,7 @@ const fetchKeybase = (username, fingerprint) => {
     })
 }
 
-const _fetchWKD = fetchWKD
-export { _fetchWKD as fetchWKD }
-const _fetchHKP = fetchHKP
-export { _fetchHKP as fetchHKP }
-const _fetchSignature = fetchSignature
-export { _fetchSignature as fetchSignature }
-const _fetchKeybase = fetchKeybase
-export { _fetchKeybase as fetchKeybase }
+export { fetchWKD }
+export { fetchHKP }
+export { fetchSignature }
+export { fetchKeybase }
