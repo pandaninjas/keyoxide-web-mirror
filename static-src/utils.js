@@ -44,7 +44,7 @@ export async function computeWKDLocalPart(localPart) {
 
 // Generate Keyoxide profile URL
 export async function generateProfileURL(data) {
-    let hostname = window.location.hostname;
+    let hostname = data.hostname || window.location.hostname;
 
     if (data.input == "") {
         return "Waiting for input...";
