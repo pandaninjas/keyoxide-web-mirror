@@ -27,7 +27,7 @@ You should also get your employer (if you work as a programmer) or school,
 if any, to sign a "copyright disclaimer" for the program, if necessary. For
 more information on this, and how to apply and follow the GNU AGPL, see <https://www.gnu.org/licenses/>.
 */
-import * as doip from "doipjs"
+import * as doipjs from 'doipjs';
 
 export class Claim extends HTMLElement {
     // Specify the attributes to observe
@@ -45,7 +45,7 @@ export class Claim extends HTMLElement {
     }
 
     async verify() {
-        const claim = new doip.Claim(JSON.parse(this.getAttribute('data-claim')));
+        const claim = new doipjs.Claim(JSON.parse(this.getAttribute('data-claim')));
         await claim.verify({
             proxy: {
                 policy: 'adaptive',
@@ -57,7 +57,7 @@ export class Claim extends HTMLElement {
 
     updateContent(value) {
         const root = this;
-        const claim = new doip.Claim(JSON.parse(value));
+        const claim = new doipjs.Claim(JSON.parse(value));
 
         switch (claim.matches[0].serviceprovider.name) {
             case 'dns':

@@ -27,10 +27,10 @@ You should also get your employer (if you work as a programmer) or school,
 if any, to sign a "copyright disclaimer" for the program, if necessary. For
 more information on this, and how to apply and follow the GNU AGPL, see <https://www.gnu.org/licenses/>.
 */
-const got = require('got')
-const doip = require('doipjs')
-const openpgp = require('openpgp')
-const utils = require('./utils')
+import got from 'got'
+import * as doipjs from 'doipjs'
+import { readKey, readCleartextMessage, verify } from 'openpgp'
+import { computeWKDLocalPart } from './utils.js'
 
 const fetchWKD = (id) => {
     return new Promise(async (resolve, reject) => {
@@ -47,7 +47,7 @@ const fetchWKD = (id) => {
         if (!localPart || !domain) {
             reject(new Error(`The WKD identifier "${id}" is invalid`));
         }
-        const localEncoded = await utils.computeWKDLocalPart(localPart)
+        const localEncoded = await computeWKDLocalPart(localPart)
         const urlAdvanced = `https://openpgpkey.${domain}/.well-known/openpgpkey/${domain}/hu/${localEncoded}`
         const urlDirect = `https://${domain}/.well-known/openpgpkey/hu/${localEncoded}`
         let plaintext
@@ -81,7 +81,7 @@ const fetchWKD = (id) => {
         }
 
         try {
-            output.publicKey = await openpgp.readKey({
+            output.publicKey = await readKey({
                 binaryKey: plaintext
             })
         } catch(error) {
@@ -113,7 +113,7 @@ const fetchHKP = (id, keyserverDomain) => {
         }
 
         try {
-            output.publicKey = await doip.keys.fetchHKP(id, keyserverDomain)
+            output.publicKey = await doipjs.keys.fetchHKP(id, keyserverDomain)
             output.fetchURL = `https://${keyserverDomain}/pks/lookup?op=get&options=mr&search=${query}`
         } catch(error) {
             reject(new Error(`No public keys could be fetched using HKP`))
@@ -138,7 +138,7 @@ const fetchSignature = (signature) => {
         // Check validity of signature
         let signatureData
         try {
-            signatureData = await openpgp.readCleartextMessage({
+            signatureData = await readCleartextMessage({
                 cleartextMessage: signature
             })
         } catch (error) {
@@ -147,7 +147,7 @@ const fetchSignature = (signature) => {
 
         // Process the signature
         try {
-            output.keyData = await doip.signatures.process(signature)
+            output.keyData = await doipjs.signatures.process(signature)
             output.publicKey = output.keyData.key.data
             // TODO Find the URL to the key
             output.fetchURL = null
@@ -161,7 +161,7 @@ const fetchSignature = (signature) => {
         }
 
         // Check validity of signature
-        const verified = await openpgp.verify({
+        const verified = await verify({
             message: signatureData,
             verificationKeys: output.publicKey
         })
@@ -182,7 +182,7 @@ const fetchKeybase = (username, fingerprint) => {
         }
 
         try {
-            output.publicKey = await doip.keys.fetchKeybase(username, fingerprint)
+            output.publicKey = await doipjs.keys.fetchKeybase(username, fingerprint)
             output.fetchURL = `https://keybase.io/${username}/pgp_keys.asc?fingerprint=${fingerprint}`
         } catch(error) {
             reject(new Error(`No public keys could be fetched from Keybase`))
@@ -196,7 +196,7 @@ const fetchKeybase = (username, fingerprint) => {
     })
 }
 
-exports.fetchWKD = fetchWKD
-exports.fetchHKP = fetchHKP
-exports.fetchSignature = fetchSignature
-exports.fetchKeybase = fetchKeybase
+export { fetchWKD }
+export { fetchHKP }
+export { fetchSignature }
+export { fetchKeybase }

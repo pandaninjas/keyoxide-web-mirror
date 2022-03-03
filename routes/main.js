@@ -27,9 +27,13 @@ You should also get your employer (if you work as a programmer) or school,
 if any, to sign a "copyright disclaimer" for the program, if necessary. For
 more information on this, and how to apply and follow the GNU AGPL, see <https://www.gnu.org/licenses/>.
 */
-const router = require('express').Router()
-const md = require('markdown-it')({typographer: true})
-const fs = require('fs')
+import express from 'express'
+import markdownImport from 'markdown-it'
+import { readFileSync } from 'fs'
+import demoData from '../server/demo.js'
+
+const router = express.Router()
+const md = markdownImport({typographer: true})
 
 router.get('/', (req, res) => {
     let highlights = []
@@ -44,13 +48,13 @@ router.get('/', (req, res) => {
         }
     }
 
-    res.render('index', { highlights: highlights, demoData: require('../server/demo.js').data })
+    res.render('index', { highlights: highlights, demoData: demoData })
 })
 
 router.get('/privacy', (req, res) => {
-    let rawContent = fs.readFileSync(`./content/privacy-policy.md`, "utf8")
+    let rawContent = readFileSync(`./content/privacy-policy.md`, "utf8")
     const content = md.render(rawContent)
     res.render(`article`, { title: `Privacy policy`, content: content })
 })
 
-module.exports = router
+export default router

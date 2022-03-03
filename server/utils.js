@@ -27,15 +27,15 @@ You should also get your employer (if you work as a programmer) or school,
 if any, to sign a "copyright disclaimer" for the program, if necessary. For
 more information on this, and how to apply and follow the GNU AGPL, see <https://www.gnu.org/licenses/>.
 */
-const crypto = require('crypto').webcrypto
+import { webcrypto as crypto } from 'crypto'
 
-exports.computeWKDLocalPart = async (localPart) => {
+export async function computeWKDLocalPart(localPart) {
     const localPartEncoded = new TextEncoder().encode(localPart.toLowerCase());
     const localPartHashed = new Uint8Array(await crypto.subtle.digest('SHA-1', localPartEncoded));
     return encodeZBase32(localPartHashed);
 }
 
-exports.generatePageTitle = (type, data) => {
+export function generatePageTitle(type, data) {
     switch (type) {
         case 'profile':
             try {
@@ -52,7 +52,7 @@ exports.generatePageTitle = (type, data) => {
 }
 
 // Copied from https://github.com/openpgpjs/wkd-client/blob/0d074519e011a5139a8953679cf5f807e4cd2378/src/wkd.js
-function encodeZBase32(data) {
+export function encodeZBase32(data) {
     if (data.length === 0) {
         return "";
     }

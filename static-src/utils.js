@@ -29,17 +29,22 @@ more information on this, and how to apply and follow the GNU AGPL, see <https:/
 */
 import * as openpgp from 'openpgp'
 import QRCode from 'qrcode'
+let _crypto = (typeof window === 'undefined') ? null : crypto
 
 // Compute local part of Web Key Directory URL 
 export async function computeWKDLocalPart(localPart) {
+    if (!_crypto) {
+        _crypto = (await import('crypto')).webcrypto
+    }
+
     const localPartEncoded = new TextEncoder().encode(localPart.toLowerCase());
-    const localPartHashed = new Uint8Array(await crypto.subtle.digest('SHA-1', localPartEncoded));
+    const localPartHashed = new Uint8Array(await _crypto.subtle.digest('SHA-1', localPartEncoded));
     return encodeZBase32(localPartHashed);
 }
 
 // Generate Keyoxide profile URL
 export async function generateProfileURL(data) {
-    let hostname = window.location.hostname;
+    let hostname = data.hostname || window.location.hostname;
 
     if (data.input == "") {
         return "Waiting for input...";

@@ -27,53 +27,56 @@ You should also get your employer (if you work as a programmer) or school,
 if any, to sign a "copyright disclaimer" for the program, if necessary. For
 more information on this, and how to apply and follow the GNU AGPL, see <https://www.gnu.org/licenses/>.
 */
-const router = require('express').Router()
-const bodyParser = require('body-parser').urlencoded({ extended: false })
-const kx = require('../server')
+import express from 'express'
+import bodyParserImport from 'body-parser'
+import { generateSignatureProfile, utils, generateWKDProfile, generateHKPProfile, generateKeybaseProfile } from '../server/index.js'
+
+const router = express.Router()
+const bodyParser = bodyParserImport.urlencoded({ extended: false })
 
 router.get('/sig', (req, res) => {
     res.render('profile', { isSignature: true, signature: null })
 })
 
 router.post('/sig', bodyParser, async (req, res) => {
-    const data = await kx.generateSignatureProfile(req.body.signature)
-    const title = kx.utils.generatePageTitle('profile', data)
+    const data = await generateSignatureProfile(req.body.signature)
+    const title = utils.generatePageTitle('profile', data)
     res.render('profile', { title: title, data: data, isSignature: true, signature: req.body.signature })
 })
 
 router.get('/wkd/:id', async (req, res) => {
-    const data = await kx.generateWKDProfile(req.params.id)
-    const title = kx.utils.generatePageTitle('profile', data)
+    const data = await generateWKDProfile(req.params.id)
+    const title = utils.generatePageTitle('profile', data)
     res.render('profile', { title: title, data: data })
 })
 
 router.get('/hkp/:id', async (req, res) => {
-    const data = await kx.generateHKPProfile(req.params.id)
-    const title = kx.utils.generatePageTitle('profile', data)
+    const data = await generateHKPProfile(req.params.id)
+    const title = utils.generatePageTitle('profile', data)
     res.render('profile', { title: title, data: data })
 })
 
 router.get('/hkp/:server/:id', async (req, res) => {
-    const data = await kx.generateHKPProfile(req.params.id, req.params.server)
-    const title = kx.utils.generatePageTitle('profile', data)
+    const data = await generateHKPProfile(req.params.id, req.params.server)
+    const title = utils.generatePageTitle('profile', data)
     res.render('profile', { title: title, data: data })
 })
 
 router.get('/keybase/:username/:fingerprint', async (req, res) => {
-    const data = await kx.generateKeybaseProfile(req.params.username, req.params.fingerprint)
-    const title = kx.utils.generatePageTitle('profile', data)
+    const data = await generateKeybaseProfile(req.params.username, req.params.fingerprint)
+    const title = utils.generatePageTitle('profile', data)
     res.render('profile', { title: title, data: data })
 })
 
 router.get('/:id', async (req, res) => {
     let data
     if (req.params.id.includes('@')) {
-        data = await kx.generateWKDProfile(req.params.id)
+        data = await generateWKDProfile(req.params.id)
     } else {
-        data = await kx.generateHKPProfile(req.params.id)
+        data = await generateHKPProfile(req.params.id)
     }
-    const title = kx.utils.generatePageTitle('profile', data)
+    const title = utils.generatePageTitle('profile', data)
     res.render('profile', { title: title, data: data })
 })
 
-module.exports = router
+export default router

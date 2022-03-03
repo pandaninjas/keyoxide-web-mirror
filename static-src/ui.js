@@ -30,7 +30,7 @@ more information on this, and how to apply and follow the GNU AGPL, see <https:/
 import dialogPolyfill from 'dialog-polyfill'
 import QRCode from 'qrcode'
 import * as openpgp from 'openpgp'
-import * as utils from './utils'
+import * as utils from './utils.js'
 
 // Prepare element selectors
 const elFormSignatureProfile = document.body.querySelector("#formGenerateSignatureProfile")

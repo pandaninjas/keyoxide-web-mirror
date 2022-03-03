@@ -1,8 +1,11 @@
-const path = require('path')
-const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin
-const MiniCssExtractPlugin = require("mini-css-extract-plugin")
+import { dirname, resolve } from 'path'
+import { fileURLToPath } from 'url'
+import { BundleAnalyzerPlugin } from 'webpack-bundle-analyzer'
+import MiniCssExtractPlugin from "mini-css-extract-plugin"
 
-module.exports = (env) => {
+const __dirname = dirname(fileURLToPath(import.meta.url));
+    
+export default (env) => {
     let config
     if (env.static) {
         config = {
@@ -16,7 +19,7 @@ module.exports = (env) => {
             },
             output: {
                 filename: '[name].js',
-                path: path.resolve(__dirname, 'static'),
+                path: resolve(__dirname, 'static'),
             },
             watch: env.mode == "development",
             module: {
@@ -29,6 +32,11 @@ module.exports = (env) => {
                         ]
                     }
                 ]
+            },
+            resolve: {
+                fallback: {
+                    crypto: false,
+                }
             },
             plugins: [
                 new MiniCssExtractPlugin(),

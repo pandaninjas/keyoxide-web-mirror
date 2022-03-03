@@ -27,12 +27,14 @@ You should also get your employer (if you work as a programmer) or school,
 if any, to sign a "copyright disclaimer" for the program, if necessary. For
 more information on this, and how to apply and follow the GNU AGPL, see <https://www.gnu.org/licenses/>.
 */
-const router = require('express').Router()
-const { check, validationResult } = require('express-validator')
-const Ajv = require("ajv")
+import express from 'express'
+import { check, validationResult } from 'express-validator'
+import Ajv from 'ajv'
+import { generateWKDProfile, generateHKPProfile } from '../../server/index.js'
+import 'dotenv/config.js'
+
+const router = express.Router()
 const ajv = new Ajv({coerceTypes: true})
-const kx = require('../../server')
-require('dotenv').config()
 
 const apiProfileSchema = {
     type: "object",
@@ -251,16 +253,16 @@ router.get('/profile/fetch',
         let data
         switch (req.query.protocol) {
             case 'wkd':
-                data = await kx.generateWKDProfile(req.query.query)
+                data = await generateWKDProfile(req.query.query)
                 break;
             case 'hkp':
-                data = await kx.generateHKPProfile(req.query.query)
+                data = await generateHKPProfile(req.query.query)
                 break;
             default:
                 if (req.query.query.includes('@')) {
-                    data = await kx.generateWKDProfile(req.query.query)
+                    data = await generateWKDProfile(req.query.query)
                 } else {
-                    data = await kx.generateHKPProfile(req.query.query)
+                    data = await generateHKPProfile(req.query.query)
                 }
                 break;
         }
@@ -329,4 +331,4 @@ router.get('/profile/verify',
     }
 )
 
-module.exports = router
+export default router
