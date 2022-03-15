@@ -10,7 +10,8 @@ services:
     restart: unless-stopped
     ports:
       - 3000:3000
-    # environment:
+    environment:
+      - DOMAIN=
       # - KX_HIGHLIGHTS_1_NAME=
       # - KX_HIGHLIGHTS_1_DESCRIPTION=
       # - KX_HIGHLIGHTS_1_FINGERPRINT=
