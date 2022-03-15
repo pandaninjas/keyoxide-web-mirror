@@ -1,6 +1,3 @@
 User-agent: *
 Allow: /$
-Allow: /guides
-Allow: /getting-started
-Allow: /faq
 Disallow: /
