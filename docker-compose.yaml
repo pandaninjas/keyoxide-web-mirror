@@ -1,0 +1,37 @@
+version: '3'
+
+# To make this example setup work with the proxy container,
+# it is expected to use a reverse proxy like nginx, traefik, caddy, etc.
+# instead of accessing the containers using their ports directly.
+
+services:
+  keyoxide:
+    image: keyoxide/keyoxide:latest
+    restart: unless-stopped
+    ports:
+      - 3000:3000
+    # environment:
+      # - KX_HIGHLIGHTS_1_NAME=
+      # - KX_HIGHLIGHTS_1_DESCRIPTION=
+      # - KX_HIGHLIGHTS_1_FINGERPRINT=
+      ## The hostname to reach the doip_proxy container below
+      # - PROXY_HOSTNAME=
+
+  doip_proxy:
+    image: keyoxide/doip-proxy:latest
+    restart: unless-stopped
+    ports:
+      - 3001:3000
+    # environment:
+      ## For XMPP verification
+      # - XMPP_SERVICE=
+      # - XMPP_USERNAME=
+      # - XMPP_PASSWORD=
+      ## For Twitter verification
+      # - TWITTER_BEARER_TOKEN=
+      ## For Matrix verification
+      # - MATRIX_ROOM_ID=
+      # - MATRIX_INSTANCE=
+      # - MATRIX_ACCESS_TOKEN=
+      ## For IRC verification
+      # - IRC_NICK=
