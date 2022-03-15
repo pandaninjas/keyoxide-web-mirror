@@ -40,7 +40,7 @@ import staticRoute from './routes/static.js'
 import utilRoute from './routes/util.js'
 
 const app = express()
-const packageData = JSON.parse(readFileSync('package.json'))
+const packageData = JSON.parse(readFileSync('./package.json'))
 
 app.set('env', process.env.NODE_ENV || "production")
 app.engine('pug', pug.__express).set('view engine', 'pug')
