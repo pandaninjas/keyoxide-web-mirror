@@ -1,7 +1,8 @@
 import { dirname, resolve } from 'path'
 import { fileURLToPath } from 'url'
 import { BundleAnalyzerPlugin } from 'webpack-bundle-analyzer'
-import MiniCssExtractPlugin from "mini-css-extract-plugin"
+import MiniCssExtractPlugin from 'mini-css-extract-plugin'
+import CopyPlugin from 'copy-webpack-plugin'
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
     
@@ -20,6 +21,7 @@ export default (env) => {
             output: {
                 filename: '[name].js',
                 path: resolve(__dirname, 'static'),
+                clean: true
             },
             watch: env.mode == "development",
             module: {
@@ -40,6 +42,14 @@ export default (env) => {
             },
             plugins: [
                 new MiniCssExtractPlugin(),
+                new CopyPlugin({
+                    patterns: [
+                        { from: './static-src/files/', to: '../static/' },
+                    ],
+                    options: {
+                        concurrency: 10,
+                    },
+                }),
             ],
         }
     } else {

@@ -25,6 +25,7 @@
   "devDependencies": {
     "@vercel/ncc": "^0.33.3",
     "chai": "^4.3.6",
+    "copy-webpack-plugin": "^10.2.4",
     "css-loader": "^6.6.0",
     "license-check-and-add": "^4.0.3",
     "mini-css-extract-plugin": "^2.5.3",
