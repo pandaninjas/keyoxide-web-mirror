@@ -7,6 +7,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 ### Added
 - Webpack bundling
+- Link to community forum
 ### Changed
 - Updated openpgpjs to 5.1.0
 
