@@ -41,7 +41,7 @@
     "test": "mocha",
     "watch": "./node_modules/.bin/nodemon --config nodemon.json ./",
     "build": "yarn run build:server & yarn run build:static",
-    "build:server": "ncc build index.js -o dist",
+    "build:server": "ncc build index.js -e jsdom -o dist",
     "build:static": "webpack --config webpack.config.js --env static=true  --env mode=production",
     "build:static:dev": "webpack --config webpack.config.js --env static=true --env mode=development",
     "license:check": "./node_modules/.bin/license-check-and-add check",
