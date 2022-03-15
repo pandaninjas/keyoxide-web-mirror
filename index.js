@@ -30,6 +30,7 @@ more information on this, and how to apply and follow the GNU AGPL, see <https:/
 import express from 'express'
 import { readFileSync } from 'fs'
 import { stringReplace } from 'string-replace-middleware'
+import * as pug from 'pug'
 import 'dotenv/config.js'
 
 import apiRoute from './routes/api.js'
@@ -42,7 +43,7 @@ const app = express()
 const packageData = JSON.parse(readFileSync('package.json'))
 
 app.set('env', process.env.NODE_ENV || "production")
-app.set('view engine', 'pug')
+app.engine('pug', pug.__express).set('view engine', 'pug')
 app.set('port', process.env.PORT || 3000)
 app.set('domain', process.env.DOMAIN || "keyoxide.org")
 app.set('keyoxide_version', packageData.version)
