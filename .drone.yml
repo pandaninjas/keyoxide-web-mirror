@@ -1,10 +1,11 @@
 ---
 
+type: docker
 kind: pipeline
-name: build-stable-container
+name: build-latest-container
 
 steps:
-    - name: build stable container
+    - name: build latest container
       image: plugins/docker
       settings:
           username:
@@ -12,7 +13,7 @@ steps:
           password:
               from_secret: docker_password
           repo: keyoxide/keyoxide
-          tags: stable
+          tags: latest
     - name: build tag container
       image: plugins/docker
       settings:
@@ -29,6 +30,7 @@ trigger:
 
 ---
 
+type: docker
 kind: pipeline
 name: build-dev-container
 
