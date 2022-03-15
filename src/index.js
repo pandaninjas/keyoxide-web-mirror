@@ -69,8 +69,8 @@ app.use(stringReplace({
 }))
 
 // Routes
-app.use('/favicon.svg', express.static('../static/favicon.svg'))
-app.use('/robots.txt', express.static('../static/robots.txt'))
+app.use('/favicon.svg', express.static('./static/favicon.svg'))
+app.use('/robots.txt', express.static('./static/robots.txt'))
 
 app.use('/', mainRoute)
 app.use('/api', apiRoute)
