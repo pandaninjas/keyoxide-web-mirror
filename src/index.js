@@ -33,19 +33,19 @@ import { stringReplace } from 'string-replace-middleware'
 import * as pug from 'pug'
 import 'dotenv/config.js'
 
-import apiRoute from './routes/api.js'
-import mainRoute from './routes/main.js'
-import profileRoute from './routes/profile.js'
-import staticRoute from './routes/static.js'
-import utilRoute from './routes/util.js'
+import apiRoute from '../routes/api.js'
+import mainRoute from '../routes/main.js'
+import profileRoute from '../routes/profile.js'
+import staticRoute from '../routes/static.js'
+import utilRoute from '../routes/util.js'
 
 const app = express()
 const packageData = JSON.parse(readFileSync('./package.json'))
 
-app.set('env', process.env.NODE_ENV || "production")
+app.set('env', process.env.NODE_ENV || 'production')
 app.engine('pug', pug.__express).set('view engine', 'pug')
 app.set('port', process.env.PORT || 3000)
-app.set('domain', process.env.DOMAIN || "keyoxide.org")
+app.set('domain', process.env.DOMAIN || 'keyoxide.org')
 app.set('keyoxide_version', packageData.version)
 app.set('onion_url', process.env.ONION_URL)
 
@@ -69,8 +69,8 @@ app.use(stringReplace({
 }))
 
 // Routes
-app.use('/favicon.svg', express.static('favicon.svg'))
-app.use('/robots.txt', express.static('robots.txt'))
+app.use('/favicon.svg', express.static('../static/favicon.svg'))
+app.use('/robots.txt', express.static('../static/robots.txt'))
 
 app.use('/', mainRoute)
 app.use('/api', apiRoute)
