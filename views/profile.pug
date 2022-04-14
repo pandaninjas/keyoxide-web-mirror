@@ -2,7 +2,7 @@ extends templates/base.pug
 
 mixin generateUser(user, isPrimary)
   h2
-    | #{user.userData.email}
+    span.p-email #{user.userData.email}
     if isPrimary
       small.primary primary
   each claim in user.claims
@@ -27,7 +27,7 @@ mixin generateUser(user, isPrimary)
                   p Profile link: not accessible from browser
                 if (claim.matches[0].proof.uri)
                   p Proof link: 
-                    a(rel='me' href=claim.matches[0].proof.uri aria-label="Link to proof")= claim.matches[0].proof.uri
+                    a(href=claim.matches[0].proof.uri aria-label="Link to proof")= claim.matches[0].proof.uri
                 else
                   p Proof link: not accessible from browser
 
@@ -40,7 +40,7 @@ block content
       }
     }
 
-  section.profile.narrow
+  section.profile.narrow.h-card
     noscript
       p Keyoxide requires JavaScript to function.
 
@@ -95,9 +95,9 @@ block content
     else
       unless (isSignature && !signature)
         #profileHeader.card.card--transparent.card--profileHeader
-          img#profileAvatar(src=data.extra.avatarURL alt="avatar")
+          img#profileAvatar.u-logo(src=data.extra.avatarURL alt="avatar")
 
-          p#profileName= data.keyData.users[data.keyData.primaryUserIndex].userData.name
+          p#profileName.p-name= data.keyData.users[data.keyData.primaryUserIndex].userData.name
           .button-wrapper
             button(onClick="document.querySelector('#dialog--encryptMessage').showModal();") Encrypt message
             button(onClick="document.querySelector('#dialog--verifySignature').showModal();") Verify signature
@@ -115,7 +115,7 @@ block content
                   img(src='/static/img/link.png')
                   div
                     p Key link: 
-                      a(href=data.keyData.key.uri aria-label="Link to cryptographic key")= data.keyData.key.uri
+                      a.u-key(href=data.keyData.key.uri rel="pgpkey" aria-label="Link to cryptographic key")= data.keyData.key.uri
                 hr
                 .subsection
                   img(src='/static/img/qrcode.png')

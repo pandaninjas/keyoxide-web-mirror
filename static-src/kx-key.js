@@ -62,7 +62,7 @@ export class Key extends HTMLElement {
         const subsection_links_text = subsection_links.appendChild(document.createElement('div'));
 
         const profile_link = subsection_links_text.appendChild(document.createElement('p'));
-        profile_link.innerHTML = `Key link: <a href="${data.key.uri}" aria-label="Link to cryptographic key">${data.key.uri}</a>`;
+        profile_link.innerHTML = `Key link: <a class="u-key" rel="pgpkey" href="${data.key.uri}" aria-label="Link to cryptographic key">${data.key.uri}</a>`;
 
         elContent.appendChild(document.createElement('hr'));
 
