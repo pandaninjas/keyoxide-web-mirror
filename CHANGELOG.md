@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 ### Added
 - h-card markup to profile pages (thanks to [caesar](https://codeberg.org/caesar) [PR#130](https://codeberg.org/keyoxide/keyoxide-web/pulls/130))
+### Fixed
+- Keybase profiles (thanks to [gonz0](https://codeberg.org/gonz0))
 
 ## [3.3.1] - 2022-03-15
 ### Fixed

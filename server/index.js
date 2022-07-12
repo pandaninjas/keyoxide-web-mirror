@@ -112,7 +112,7 @@ const generateSignatureProfile = async (signature) => {
 }
 
 const generateKeybaseProfile = async (username, fingerprint) => {
-    return fetchKeybase(id, keyserverDomain)
+    return fetchKeybase(username, fingerprint)
     .then(async key => {
         let keyData = await doipjs.keys.process(key.publicKey)
         keyData.openpgp4fpr = `openpgp4fpr:${keyData.fingerprint.toLowerCase()}`
