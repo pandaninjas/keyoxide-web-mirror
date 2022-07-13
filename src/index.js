@@ -45,7 +45,7 @@ const packageData = JSON.parse(readFileSync('./package.json'))
 app.set('env', process.env.NODE_ENV || 'production')
 app.engine('pug', pug.__express).set('view engine', 'pug')
 app.set('port', process.env.PORT || 3000)
-app.set('domain', process.env.DOMAIN || 'keyoxide.org')
+app.set('domain', process.env.DOMAIN)
 app.set('keyoxide_version', packageData.version)
 app.set('onion_url', process.env.ONION_URL)
 
