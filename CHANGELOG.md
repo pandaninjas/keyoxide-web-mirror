@@ -6,6 +6,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [3.4.1] - 2022-09-10
+### Changed
+- Updated doipjs to 0.16.0
+
 ## [3.4.0] - 2022-09-10
 ### Added
 - h-card markup to profile pages (thanks to [caesar](https://codeberg.org/caesar) [PR#130](https://codeberg.org/keyoxide/keyoxide-web/pulls/130))
