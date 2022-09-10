@@ -7,6 +7,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 ### Added
 - h-card markup to profile pages (thanks to [caesar](https://codeberg.org/caesar) [PR#130](https://codeberg.org/keyoxide/keyoxide-web/pulls/130))
+- `ariadne-identity-proof` header to profile pages
 ### Fixed
 - Keybase profiles (thanks to [gonz0](https://codeberg.org/gonz0))
 
