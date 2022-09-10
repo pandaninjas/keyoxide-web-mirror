@@ -38,6 +38,21 @@ export default (env) => {
             resolve: {
                 fallback: {
                     crypto: false,
+                    assert: false,
+                    util: false,
+                    https: false,
+                    http: false,
+                    net: false,
+                    url: false,
+                    tls: false,
+                    dns: false,
+                    stream: false,
+                    zlib: false,
+                    querystring: false,
+                    os: false,
+                    child_process: false,
+                    fs: false,
+                    path: false,
                 }
             },
             plugins: [
