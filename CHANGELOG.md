@@ -6,6 +6,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [3.4.2] - 2022-09-10
+### Fixed
+- Webpack build error
+
 ## [3.4.1] - 2022-09-10
 ### Changed
 - Updated doipjs to 0.16.0
