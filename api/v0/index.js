@@ -134,6 +134,16 @@ const apiProfileSchema = {
                                         verification: {
                                             type: "object"
                                         },
+                                        summary: {
+                                            type: "object",
+                                            properties: {
+                                                profileName: { type: "string" },
+                                                profileURL: { type: "string" },
+                                                serviceProviderName: { type: "string" },
+                                                isVerificationDone: { type: "boolean" },
+                                                isVerified: { type: "boolean" },
+                                            }
+                                        }
                                     }
                                 }
                             },
@@ -153,6 +163,12 @@ const apiProfileSchema = {
                 },
             },
         },
+        keyoxide: {
+            type: "object",
+            properties: {
+                url: { type: "string" },
+            }
+        },
         extra: {
             type: "object",
             properties: {
@@ -163,7 +179,7 @@ const apiProfileSchema = {
             type: "array"
         },
     },
-    required: ["keyData", "extra", "errors"],
+    required: ["keyData", "keyoxide", "extra", "errors"],
     additionalProperties: false
 }
 
@@ -237,6 +253,33 @@ const sanitize = (data) => {
     return data
 }
 
+const addSummaryToClaims = (data) => {
+    // To be removed when data is added by DOIP library
+    for (let userIndex = 0; userIndex < data.keyData.users.length; userIndex++) {
+        const user = data.keyData.users[userIndex]
+        
+        for (let claimIndex = 0; claimIndex < user.claims.length; claimIndex++) {
+            const claim = user.claims[claimIndex]
+
+            const isVerificationDone = claim.status === "verified"
+            const isVerified = isVerificationDone ? claim.verification.result : false
+            const isAmbiguous = isVerified
+                ? false
+                : claim.matches.length > 1 || claim.matches[0].match.isAmbiguous
+            
+            data.keyData.users[userIndex].claims[claimIndex].summary = {
+                profileName: !isAmbiguous ? claim.matches[0].profile.display : claim.uri,
+                profileURL: !isAmbiguous ? claim.matches[0].profile.uri : "",
+                serviceProviderName: !isAmbiguous ? claim.matches[0].serviceprovider.name : "",
+                isVerificationDone: isVerificationDone,
+                isVerified: isVerified,
+            }
+        }
+    }
+
+    return data
+}
+
 router.get('/profile/fetch',
     check('query').exists(),
     check('protocol').optional().toLowerCase().isIn(["hkp", "wkd"]),
@@ -291,6 +334,9 @@ router.get('/profile/fetch',
             data.extra = {}
             data.errors = [error.message]
         }
+
+        // Add missing data
+        data = addSummaryToClaims(data)
         
         let statusCode = 200
         if (data.errors.length > 0) {
@@ -321,6 +367,9 @@ router.get('/profile/verify',
             data.extra = {}
             data.errors = [error.message]
         }
+
+        // Add missing data
+        data = addSummaryToClaims(data)
         
         let statusCode = 200
         if (data.errors.length > 0) {

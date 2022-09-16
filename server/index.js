@@ -41,9 +41,13 @@ const generateWKDProfile = async (id) => {
         keyData.key.data = {}
         keyData = processKeyData(keyData)
 
+        let keyoxideData = {}
+        keyoxideData.url = `https://${process.env.DOMAIN}/wkd/${id}`
+
         return {
             key: key,
             keyData: keyData,
+            keyoxide: keyoxideData,
             extra: await computeExtraData(key, keyData),
             errors: []
         }
@@ -52,6 +56,7 @@ const generateWKDProfile = async (id) => {
         return {
             key: {},
             keyData: {},
+            keyoxide: {},
             extra: {},
             errors: [err.message]
         }
@@ -68,9 +73,17 @@ const generateHKPProfile = async (id, keyserverDomain) => {
         keyData.key.data = {}
         keyData = processKeyData(keyData)
 
+        let keyoxideData = {}
+        if (!keyserverDomain || keyserverDomain === 'keys.openpgp.org') {
+            keyoxideData.url = `https://${process.env.DOMAIN}/hkp/${id}`
+        } else {
+            keyoxideData.url = `https://${process.env.DOMAIN}/hkp/${keyserverDomain}/${id}`
+        }
+
         return {
             key: key,
             keyData: keyData,
+            keyoxide: keyoxideData,
             extra: await computeExtraData(key, keyData),
             errors: []
         }
@@ -79,6 +92,7 @@ const generateHKPProfile = async (id, keyserverDomain) => {
         return {
             key: {},
             keyData: {},
+            keyoxide: {},
             extra: {},
             errors: [err.message]
         }
@@ -94,9 +108,12 @@ const generateSignatureProfile = async (signature) => {
         keyData.key.data = {}
         keyData = processKeyData(keyData)
 
+        let keyoxideData = {}
+
         return {
             key: key,
             keyData: keyData,
+            keyoxide: keyoxideData,
             extra: await computeExtraData(key, keyData),
             errors: []
         }
@@ -105,6 +122,7 @@ const generateSignatureProfile = async (signature) => {
         return {
             key: {},
             keyData: {},
+            keyoxide: {},
             extra: {},
             errors: [err.message]
         }
@@ -121,9 +139,13 @@ const generateKeybaseProfile = async (username, fingerprint) => {
         keyData.key.data = {}
         keyData = processKeyData(keyData)
 
+        let keyoxideData = {}
+        keyoxideData.url = `https://${process.env.DOMAIN}/keybase/${username}/${fingerprint}`
+
         return {
             key: key,
             keyData: keyData,
+            keyoxide: keyoxideData,
             extra: await computeExtraData(key, keyData),
             errors: []
         }
@@ -132,6 +154,7 @@ const generateKeybaseProfile = async (username, fingerprint) => {
         return {
             key: {},
             keyData: {},
+            keyoxide: {},
             extra: {},
             errors: [err.message]
         }
