@@ -6,6 +6,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [3.4.4] - 2022-09-16
+### Changed
+- Renamed "generate profile" to "view profile"
+- Added data to API output
+
 ## [3.4.3] - 2022-09-10
 ### Changed
 - Updated dependencies
