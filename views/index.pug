@@ -27,7 +27,7 @@ block content
                 p Proof link: not accessible from browser
                 
   #search.form-wrapper.card
-    h2#searchTitle Generate a profile
+    h2#searchTitle View a profile
     form(action="post")
       label#searchQuery(for="query") Query for fingerprint or email identifier
       input#query(type="search" name="query" required placeholder="3637202523e7c1309ab79e99ef2dc5827b445f4b, test@doip.rocks" aria-labelledby="searchTitle searchQuery")
@@ -40,7 +40,7 @@ block content
         label(for="protocol-wkd") WKD
         input#protocol-sig(type="radio" name="protocol" value="sig")
         label(for="protocol-sig") Signature
-      input(type="submit" value="Generate profile")
+      input(type="submit" value="View profile")
 
   if highlights.length > 0
     h2 Highlights
