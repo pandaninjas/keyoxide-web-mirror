@@ -23,4 +23,4 @@ RUN npm install jsdom
 
 EXPOSE 3000
 
-CMD node ./dist/
+CMD node --experimental-fetch ./dist/

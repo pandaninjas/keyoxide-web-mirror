@@ -1,4 +1,7 @@
 {
+    "execArgs": [
+        "--experimental-fetch"
+    ],
     "env": {
         "NODE_ENV": "development",
         "KX_HIGHLIGHTS_1_NAME": "Yarmo Mackenbach",
