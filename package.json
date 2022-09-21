@@ -1,6 +1,6 @@
 {
   "name": "keyoxide-web",
-  "version": "3.4.5",
+  "version": "3.4.6",
   "description": "A modern, secure and privacy-friendly platform to establish your decentralized online identity",
   "main": "./src/index.js",
   "type": "module",
