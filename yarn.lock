@@ -1780,10 +1780,10 @@ doctypes@^1.1.0:
   resolved "https://registry.npmjs.org/doctypes/-/doctypes-1.1.0.tgz"
   integrity sha1-6oCxBqh1OHdOijpKWv4pPeSJ4Kk=
 
-doipjs@^0.16.1:
-  version "0.16.1"
-  resolved "https://registry.yarnpkg.com/doipjs/-/doipjs-0.16.1.tgz#88510199c98f662d57af602fd03400d6675fb50e"
-  integrity sha512-m+xIRRVrrsnlXVI/pEVk1OisiccYDFJb1X/UMPAMkB9EQ4lJktDCnDA6c0C12F7LeHJBiYaBcD8Qow4tsByFiQ==
+doipjs@^0.16.2:
+  version "0.16.2"
+  resolved "https://registry.yarnpkg.com/doipjs/-/doipjs-0.16.2.tgz#96657ce58d3cc9c3dfcce71c76c80aca95f1b80c"
+  integrity sha512-XdKzeq6Y2GlmYxi38SsrH6G8Or3PItyoUh0sdrVcgPLkZOs0IbI6GOgFrQhZWcIBqw2NcqULQV+cuYXqJru26A==
   dependencies:
     "@openpgp/hkp-client" "^0.0.2"
     "@openpgp/wkd-client" "^0.0.3"
@@ -1795,6 +1795,7 @@ doipjs@^0.16.1:
     dotenv "^8.2.0"
     express "^4.17.1"
     express-validator "^6.10.0"
+    hash-wasm "^4.9.0"
     irc-upd "^0.11.0"
     jsdom "^20.0.0"
     merge-options "^3.0.3"
@@ -2431,6 +2432,11 @@ hash-base@^3.0.0:
     inherits "^2.0.4"
     readable-stream "^3.6.0"
     safe-buffer "^5.2.0"
+
+hash-wasm@^4.9.0:
+  version "4.9.0"
+  resolved "https://registry.yarnpkg.com/hash-wasm/-/hash-wasm-4.9.0.tgz#7e9dcc9f7d6bd0cc802f2a58f24edce999744206"
+  integrity sha512-7SW7ejyfnRxuOc7ptQHSf4LDoZaWOivfzqw+5rpcQku0nHfmicPKE51ra9BiRLAmT8+gGLestr1XroUkqdjL6w==
 
 he@1.2.0:
   version "1.2.0"
