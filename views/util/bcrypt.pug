@@ -13,7 +13,7 @@ block content
         a(href='https://docs.keyoxide.org/understanding-keyoxide/identity-proof-formats/#Hashed_URI') conceal identity proofs
         | . Be sure to include "openpgp4fpr:" for a valid proof!
       h3 Input
-      input.input(type='text' name='input' placeholder='openpgp4fpr:…' value=input)
+      input.input.half-width(type='text' name='input' placeholder='openpgp4fpr:…' value=input)
       h3 Hash
       pre
         code.output.full-width.select-all Waiting for input…
@@ -21,9 +21,9 @@ block content
     h2 Verify bcrypt hash
     form#form-util-bcrypt-verify(method='post')
       h3 Input
-      input.input(type='text' name='input' placeholder='openpgp4fpr:…' value=input)
+      input.input.half-width(type='text' name='input' placeholder='openpgp4fpr:…' value=input)
       h3 Hash
-      input.hash(type='text' name='hash' placeholder='$2a$…')
+      input.hash.half-width(type='text' name='hash' placeholder='$2a$…')
       h3 Output
       pre
         code.output.full-width Waiting for input…
