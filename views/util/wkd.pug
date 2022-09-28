@@ -2,11 +2,11 @@ extends ../templates/base.pug
 
 block content
   section.narrow
-    h1 Web Key Directory generator
+    h1 Web Key Directory URL generator
     form#form-util-wkd(method='post')
       p
         | This tool computes the part of the WKD URL that corresponds to the username when 
-        a(href='/guides/web-key-directory') uploading keys using web key directory
+        a(href='https://docs.keyoxide.org/web-key-directory') uploading keys using web key directory
         | .
       p
         | If you enter the entire WKD identifier (username@domain.org), this tool will also generate the complete URLs.
@@ -17,10 +17,10 @@ block content
       h3 Output
       h4 Local part
       pre
-        code#output.full-width Waiting for input...
+        code#output.full-width Waiting for input…
       h4 Direct URL
       pre
-        code#output_url_direct.full-width Waiting for input...
+        code#output_url_direct.full-width Waiting for input…
       h4 Advanced URL
       pre
-        code#output_url_advanced.full-width Waiting for input...
+        code#output_url_advanced.full-width Waiting for input…

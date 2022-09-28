@@ -1,0 +1,29 @@
+extends ../templates/base.pug
+
+block content
+  section.narrow
+    h1 Argon2 utility
+
+    h2 Generate Argon2 hash
+    form#form-util-argon2-generate(method='post')
+      p
+        | This tool generates 
+        a(href='https://en.wikipedia.org/wiki/Argon2') Argon2
+        |  hashes useful to 
+        a(href='https://docs.keyoxide.org/understanding-keyoxide/identity-proof-formats/#Hashed_URI') conceal identity proofs
+        | . Be sure to include "openpgp4fpr:" for a valid proof!
+      h3 Input
+      input.input.half-width(type='text' name='input' placeholder='openpgp4fpr:…' value=input)
+      h3 Hash
+      pre
+        code.output.full-width.select-all Waiting for input…
+
+    h2 Verify Argon2 hash
+    form#form-util-argon2-verify(method='post')
+      h3 Input
+      input.input.half-width(type='text' name='input' placeholder='openpgp4fpr:…' value=input)
+      h3 Hash
+      input.hash.half-width(type='text' name='hash' placeholder='$argon2…')
+      h3 Output
+      pre
+        code.output.full-width Waiting for input…

@@ -29,6 +29,7 @@ more information on this, and how to apply and follow the GNU AGPL, see <https:/
 */
 import * as openpgp from 'openpgp'
 import QRCode from 'qrcode'
+import { argon2id, argon2Verify, bcrypt, bcryptVerify } from 'hash-wasm'
 let _crypto = (typeof window === 'undefined') ? null : crypto
 
 // Compute local part of Web Key Directory URL 
@@ -47,7 +48,7 @@ export async function generateProfileURL(data) {
     let hostname = data.hostname || window.location.hostname;
 
     if (data.input == "") {
-        return "Waiting for input...";
+        return "Waiting for input…";
     }
     switch (data.source) {
         case "wkd":
@@ -170,4 +171,73 @@ export function encodeZBase32(data) {
         result += ALPHABET[MASK & (buffer >> bitsLeft)];
     }
     return result;
+}
+
+// Generate Argon2 hash
+export async function generateArgon2Hash(input) {
+    if (!_crypto) {
+        _crypto = (await import('crypto')).webcrypto
+    }
+
+    const salt = new Uint8Array(16);
+    _crypto.getRandomValues(salt);
+
+    try {
+        return await argon2id({
+            password: input,
+            salt,
+            parallelism: 2,
+            iterations: 512,
+            memorySize: 64,
+            hashLength: 16,
+            outputType: 'encoded',
+        });
+    } catch (_) {
+        return "Waiting for input…";
+    }
+}
+
+// Verify Argon2 hash
+export async function verifyArgon2Hash(input, hash) {
+    try {
+        return await argon2Verify({
+            password: input,
+            hash: hash,
+        });
+    } catch (_) {
+        return false;
+    }
+}
+
+// Generate bcrypt hash
+export async function generateBcryptHash(input) {
+    if (!_crypto) {
+        _crypto = (await import('crypto')).webcrypto
+    }
+
+    const salt = new Uint8Array(16);
+    _crypto.getRandomValues(salt);
+
+    try {
+        return await bcrypt({
+            password: input,
+            salt,
+            costFactor: 11,
+            outputType: 'encoded',
+        });
+    } catch (_) {
+        return "Waiting for input…";
+    }
+}
+
+// Verify bcrypt hash
+export async function verifyBcryptHash(input, hash) {
+    try {
+        return await bcryptVerify({
+            password: input,
+            hash: hash,
+        });
+    } catch (_) {
+        return false;
+    }
 }

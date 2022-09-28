@@ -31,6 +31,9 @@ import express from 'express'
 
 const router = express.Router()
 
+router.get('/', function(req, res) {
+    res.render('util/index')
+})
 router.get('/profile-url', function(req, res) {
     res.render('util/profile-url')
 })
@@ -57,6 +60,20 @@ router.get('/wkd', function(req, res) {
 })
 router.get('/wkd/:input', function(req, res) {
     res.render('util/wkd', { input: req.params.input })
+})
+
+router.get('/argon2', function(req, res) {
+    res.render('util/argon2')
+})
+router.get('/argon2/:input', function(req, res) {
+    res.render('util/argon2', { input: req.params.input })
+})
+
+router.get('/bcrypt', function(req, res) {
+    res.render('util/bcrypt')
+})
+router.get('/bcrypt/:input', function(req, res) {
+    res.render('util/bcrypt', { input: req.params.input })
 })
 
 export default router

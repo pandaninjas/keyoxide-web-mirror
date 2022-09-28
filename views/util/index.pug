@@ -1,0 +1,15 @@
+extends ../templates/base.pug
+
+block content
+  section.narrow
+    h1 Keyoxide utilities
+    p
+      a(href="/util/profile-url") Get the URL for a Keyoxide profile
+    p
+      a(href="/util/wkd") Get the URLs for WKD keys
+    p
+      a(href="/util/qrfp") Generate the QR code for fingerprints
+    p
+      a(href="/util/argon2") Generate and verify Argon2 hashes
+    p
+      a(href="/util/bcrypt") Generate and verify bcrypt hashes

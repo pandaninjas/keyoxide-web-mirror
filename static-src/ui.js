@@ -43,6 +43,12 @@ const elUtilQRFP = document.body.querySelector("#form-util-qrfp")
 const elUtilQR = document.body.querySelector("#form-util-qr")
 const elUtilProfileURL = document.body.querySelector("#form-util-profile-url")
 
+const elUtilArgon2Generation = document.body.querySelector("#form-util-argon2-generate")
+const elUtilArgon2Verification = document.body.querySelector("#form-util-argon2-verify")
+
+const elUtilBcryptGeneration = document.body.querySelector("#form-util-bcrypt-generate")
+const elUtilBcryptVerification = document.body.querySelector("#form-util-bcrypt-verify")
+
 // Initialize UI elements and event listeners
 export function init() {
     // Register modals
@@ -83,6 +89,22 @@ export function init() {
 
     if (elUtilProfileURL) {
         runProfileURLUtility()  
+    }
+
+    if (elUtilArgon2Generation) {
+        runArgon2GenerationUtility()  
+    }
+
+    if (elUtilArgon2Verification) {
+        runArgon2VerificationUtility()  
+    }
+
+    if (elUtilBcryptGeneration) {
+        runBcryptGenerationUtility()  
+    }
+
+    if (elUtilBcryptVerification) {
+        runBcryptVerificationUtility()  
     }
 }
 
@@ -313,6 +335,86 @@ const runProfileURLUtility = () => {
         };
         elOutput.innerText = await utils.generateProfileURL(data);
     });
+
+    elInput.dispatchEvent(new Event("input"));
+}
+
+const runArgon2GenerationUtility = () => {
+    elUtilArgon2Generation.onsubmit = function (evt) {
+        evt.preventDefault();
+    }
+
+    const elInput = elUtilArgon2Generation.querySelector(".input"),
+        elOutput = elUtilArgon2Generation.querySelector(".output");
+
+    elInput.addEventListener("input", async function(evt) {
+        elOutput.innerText = await utils.generateArgon2Hash(elInput.value);
+    });
+
+    elInput.dispatchEvent(new Event("input"));
+}
+
+const runArgon2VerificationUtility = () => {
+    elUtilArgon2Verification.onsubmit = function (evt) {
+        evt.preventDefault();
+    }
+
+    const elInput = elUtilArgon2Verification.querySelector(".input"),
+        elHash = elUtilArgon2Verification.querySelector(".hash"),
+        elOutput = elUtilArgon2Verification.querySelector(".output");
+
+    const onInput = async function(evt) {
+        if (elInput.value && elHash.value) {
+            elOutput.innerText = await utils.verifyArgon2Hash(elInput.value, elHash.value)
+                ? "✅ Hash matches the input"
+                : "❌ Hash does not match the input";
+        } else {
+            elOutput.innerText = "Waiting for input…"
+        }
+    }
+
+    elInput.addEventListener("input", onInput);
+    elHash.addEventListener("input", onInput);
+
+    elInput.dispatchEvent(new Event("input"));
+}
+
+const runBcryptGenerationUtility = () => {
+    elUtilBcryptGeneration.onsubmit = function (evt) {
+        evt.preventDefault();
+    }
+
+    const elInput = elUtilBcryptGeneration.querySelector(".input"),
+        elOutput = elUtilBcryptGeneration.querySelector(".output");
+
+    elInput.addEventListener("input", async function(evt) {
+        elOutput.innerText = await utils.generateBcryptHash(elInput.value);
+    });
+
+    elInput.dispatchEvent(new Event("input"));
+}
+
+const runBcryptVerificationUtility = () => {
+    elUtilBcryptVerification.onsubmit = function (evt) {
+        evt.preventDefault();
+    }
+
+    const elInput = elUtilBcryptVerification.querySelector(".input"),
+        elHash = elUtilBcryptVerification.querySelector(".hash"),
+        elOutput = elUtilBcryptVerification.querySelector(".output");
+
+    const onInput = async function(evt) {
+        if (elInput.value && elHash.value) {
+            elOutput.innerText = await utils.verifyBcryptHash(elInput.value, elHash.value)
+                ? "✅ Hash matches the input"
+                : "❌ Hash does not match the input";
+        } else {
+            elOutput.innerText = "Waiting for input…"
+        }
+    }
+
+    elInput.addEventListener("input", onInput);
+    elHash.addEventListener("input", onInput);
 
     elInput.dispatchEvent(new Event("input"));
 }
