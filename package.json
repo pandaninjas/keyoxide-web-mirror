@@ -15,6 +15,7 @@
     "express-validator": "^6.13.0",
     "fork-awesome": "^1.2.0",
     "got": "^11.8.2",
+    "hash-wasm": "^4.9.0",
     "jstransformer-markdown-it": "^2.1.0",
     "libravatar": "^3.0.0",
     "openpgp": "^5.5.0",
