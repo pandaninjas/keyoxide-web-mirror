@@ -57,4 +57,46 @@ router.get('/privacy', (req, res) => {
     res.render(`article`, { title: `Privacy policy`, content: content })
 })
 
+router.get('/.well-known/webfinger', (req, res) => {
+    if (!(process.env.DOMAIN && process.env.ACTIVITYPUB_PUBLICKEY)) {
+        res.status(404).send('<body><pre>Cannot GET /.well-known/webfinger</pre></body>')
+        return
+    }
+    
+    const body = {
+        'subject': `acct:keyoxide@${process.env.DOMAIN}`,
+        'aliases': [`https://${process.env.DOMAIN}/users/keyoxide`],
+        'links': [{
+            'rel': 'self',
+            'type': 'application/activity+json',
+            'href': `https://${process.env.DOMAIN}/users/keyoxide`
+        }]
+    }
+    res.json(body)
+})
+
+router.get('/users/keyoxide', (req, res) => {
+    if (!(process.env.DOMAIN && process.env.ACTIVITYPUB_PUBLICKEY)) {
+        res.status(404).send('<body><pre>Cannot GET /keyoxide</pre></body>')
+        return
+    }
+    
+    const body = {
+        '@context': [
+          'https://www.w3.org/ns/activitystreams',
+          'https://w3id.org/security/v1'
+        ],
+        'id': `https://${process.env.DOMAIN}/users/keyoxide`,
+        'type': 'Application',
+        'inbox': `https://${process.env.DOMAIN}/users/keyoxide/inbox`,
+        'preferredUsername': `${process.env.DOMAIN}`,
+        'publicKey': {
+            'id': `https://${process.env.DOMAIN}/users/keyoxide#main-key`,
+            'owner': `https://${process.env.DOMAIN}/users/keyoxide`,
+            'publicKeyPem': `${process.env.ACTIVITYPUB_PUBLICKEY}`
+        }
+    }
+    res.type('application/activity+json').json(body)
+})
+
 export default router
