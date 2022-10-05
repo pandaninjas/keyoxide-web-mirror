@@ -395,7 +395,12 @@ const runArgon2VerificationUtility = () => {
 
 window.kx__fixArgon2Input = () => {
     const elInput = document.querySelector('#form-util-argon2-generate .input');
-    elInput.value = `openpgp4fpr:${elInput.value.toLowerCase()}`;
+    elInput.value = elInput.value.toLowerCase();
+
+    if (!(/openpgp4fpr:[0-9a-zA-Z]+/.test(elInput.value))) {
+        elInput.value = `openpgp4fpr:${elInput.value}`;
+    }
+    
     elInput.dispatchEvent(new Event("input"));
 }
 
@@ -455,6 +460,11 @@ const runBcryptVerificationUtility = () => {
 
 window.kx__fixBcryptInput = () => {
     const elInput = document.querySelector('#form-util-bcrypt-generate .input');
-    elInput.value = `openpgp4fpr:${elInput.value.toLowerCase()}`;
+    elInput.value = elInput.value.toLowerCase();
+
+    if (!(/openpgp4fpr:[0-9a-zA-Z]+/.test(elInput.value))) {
+        elInput.value = `openpgp4fpr:${elInput.value}`;
+    }
+
     elInput.dispatchEvent(new Event("input"));
 }
