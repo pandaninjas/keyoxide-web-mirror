@@ -501,6 +501,11 @@ a.button.button--liberapay {
 a.button.button--liberapay:hover {
   background-color: #fff463;
 }
+button.inline {
+  min-height: auto;
+  margin: 0;
+  padding: 2px 8px;
+}
 
 /* DIALOGS */
 dialog {

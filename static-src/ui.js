@@ -345,10 +345,24 @@ const runArgon2GenerationUtility = () => {
     }
 
     const elInput = elUtilArgon2Generation.querySelector(".input"),
-        elOutput = elUtilArgon2Generation.querySelector(".output");
+        elOutput = elUtilArgon2Generation.querySelector(".output"),
+        elFeedback = elUtilArgon2Generation.querySelector(".feedback");
 
     elInput.addEventListener("input", async function(evt) {
         elOutput.innerText = await utils.generateArgon2Hash(elInput.value);
+
+        if (elInput.value == "") {
+            elFeedback.innerHTML = "";
+        } else {
+            let feedbackContent = "";
+            if (!(/openpgp4fpr:[0-9a-zA-Z]+/.test(elInput.value))) {
+                feedbackContent += "❗ Valid proofs must begin with <strong>openpgp4fpr:</strong>. <button class='inline' onclick='window.kx__fixArgon2Input();'>Fix now</button><br>";
+            }
+            if (!(elInput.value === elInput.value.toLowerCase())) {
+                feedbackContent += "❗ Valid proofs must be lowercase. <button class='inline' onclick='window.kx__fixArgon2Input();'>Fix now</button><br>";
+            }
+            elFeedback.innerHTML = feedbackContent;
+        }
     });
 
     elInput.dispatchEvent(new Event("input"));
@@ -379,16 +393,36 @@ const runArgon2VerificationUtility = () => {
     elInput.dispatchEvent(new Event("input"));
 }
 
+window.kx__fixArgon2Input = () => {
+    const elInput = document.querySelector('#form-util-argon2-generate .input');
+    elInput.value = `openpgp4fpr:${elInput.value.toLowerCase()}`;
+    elInput.dispatchEvent(new Event("input"));
+}
+
 const runBcryptGenerationUtility = () => {
     elUtilBcryptGeneration.onsubmit = function (evt) {
         evt.preventDefault();
     }
 
     const elInput = elUtilBcryptGeneration.querySelector(".input"),
-        elOutput = elUtilBcryptGeneration.querySelector(".output");
+        elOutput = elUtilBcryptGeneration.querySelector(".output"),
+        elFeedback = elUtilBcryptGeneration.querySelector(".feedback");
 
     elInput.addEventListener("input", async function(evt) {
         elOutput.innerText = await utils.generateBcryptHash(elInput.value);
+
+        if (elInput.value == "") {
+            elFeedback.innerHTML = "";
+        } else {
+            let feedbackContent = "";
+            if (!(/openpgp4fpr:[0-9a-zA-Z]+/.test(elInput.value))) {
+                feedbackContent += "❗ Valid proofs must begin with <strong>openpgp4fpr:</strong>. <button class='inline' onclick='window.kx__fixBcryptInput();'>Fix now</button><br>";
+            }
+            if (!(elInput.value === elInput.value.toLowerCase())) {
+                feedbackContent += "❗ Valid proofs must be lowercase. <button class='inline' onclick='window.kx__fixBcryptInput();'>Fix now</button><br>";
+            }
+            elFeedback.innerHTML = feedbackContent;
+        }
     });
 
     elInput.dispatchEvent(new Event("input"));
@@ -416,5 +450,11 @@ const runBcryptVerificationUtility = () => {
     elInput.addEventListener("input", onInput);
     elHash.addEventListener("input", onInput);
 
+    elInput.dispatchEvent(new Event("input"));
+}
+
+window.kx__fixBcryptInput = () => {
+    const elInput = document.querySelector('#form-util-bcrypt-generate .input');
+    elInput.value = `openpgp4fpr:${elInput.value.toLowerCase()}`;
     elInput.dispatchEvent(new Event("input"));
 }
