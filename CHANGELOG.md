@@ -6,6 +6,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [3.4.9] - 2022-10-05
+### Added
+- Feedback to hash utilities
+
 ## [3.4.8] - 2022-09-30
 ### Changed
 - Updated dependencies
