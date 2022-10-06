@@ -29,7 +29,7 @@ more information on this, and how to apply and follow the GNU AGPL, see <https:/
 */
 import got from 'got'
 import * as doipjs from 'doipjs'
-import { readKey, readCleartextMessage, verify } from 'openpgp'
+import { readKey, readCleartextMessage, verify, PublicKey } from 'openpgp'
 import { computeWKDLocalPart } from './utils.js'
 import { createHash } from 'crypto'
 import Keyv from 'keyv'
@@ -90,7 +90,7 @@ const fetchWKD = (id) => {
                 reject(new Error(`No public keys could be fetched using WKD`))
             }
 
-            if (c) {
+            if (c && plaintext instanceof Uint8Array) {
                 await c.set(hash, plaintext.toString(), 60 * 1000)
             }
         }
@@ -147,7 +147,7 @@ const fetchHKP = (id, keyserverDomain) => {
             reject(new Error(`No public keys could be fetched using HKP`))
         }
 
-        if (c) {
+        if (c && output.publicKey instanceof PublicKey) {
             await c.set(hash, output.publicKey.armor(), 60 * 1000)
         }
 
