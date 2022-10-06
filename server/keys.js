@@ -32,9 +32,9 @@ import * as doipjs from 'doipjs'
 import { readKey, readCleartextMessage, verify } from 'openpgp'
 import { computeWKDLocalPart } from './utils.js'
 import { createHash } from 'crypto'
-import cache from 'cache'
+import Keyv from 'keyv'
 
-let c = process.env.ENABLE_EXPERIMENTAL_CACHE ? new cache(60 * 1000) : null
+const c = process.env.ENABLE_EXPERIMENTAL_CACHE ? new Keyv() : null
 
 const fetchWKD = (id) => {
     return new Promise(async (resolve, reject) => {
@@ -57,9 +57,8 @@ const fetchWKD = (id) => {
         let plaintext
         
         const hash = createHash('md5').update(id).digest('hex')
-
-        if (c && c.get(hash)) {
-            plaintext = c.get(hash)
+        if (c && await c.get(hash)) {
+            plaintext = Uint8Array.from((await c.get(hash)).split(','))
         }
 
         if (!plaintext) {
@@ -86,13 +85,13 @@ const fetchWKD = (id) => {
                     reject(new Error(`No public keys could be fetched using WKD`))
                 }
             }
-    
+
             if (!plaintext) {
                 reject(new Error(`No public keys could be fetched using WKD`))
             }
 
             if (c) {
-                c.put(hash, plaintext)
+                await c.set(hash, plaintext.toString(), 60 * 1000)
             }
         }
 
@@ -128,14 +127,17 @@ const fetchHKP = (id, keyserverDomain) => {
             query = `0x${id}`
         }
 
+        output.fetchURL = `https://${keyserverDomain}/pks/lookup?op=get&options=mr&search=${query}`
+
         const hash = createHash('md5').update(`${id}__${keyserverDomain}`).digest('hex')
 
-        if (c && c.get(hash)) {
-            output = c.get(hash)
+        if (c && await c.get(hash)) {
+            output.publicKey = await readKey({
+                armoredKey: await c.get(hash)
+            })
         } else {
             try {
                 output.publicKey = await doipjs.keys.fetchHKP(id, keyserverDomain)
-                output.fetchURL = `https://${keyserverDomain}/pks/lookup?op=get&options=mr&search=${query}`
             } catch(error) {
                 reject(new Error(`No public keys could be fetched using HKP`))
             }
@@ -146,7 +148,7 @@ const fetchHKP = (id, keyserverDomain) => {
         }
 
         if (c) {
-            c.put(hash, output)
+            await c.set(hash, output.publicKey.armor(), 60 * 1000)
         }
 
         resolve(output)
