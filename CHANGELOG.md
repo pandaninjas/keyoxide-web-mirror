@@ -6,6 +6,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [3.4.11] - 2022-10-06
+### Added
+- Caching of keys (experimental; opt-in)
+
 ## [3.4.10] - 2022-10-05
 ### Fixed
 - Hash input fix function
