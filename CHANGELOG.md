@@ -6,6 +6,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [3.4.12] - 2022-10-06
+### Fixed
+- Caching of keys
+
 ## [3.4.11] - 2022-10-06
 ### Added
 - Caching of keys (experimental; opt-in)
