@@ -31,6 +31,10 @@ import got from 'got'
 import * as doipjs from 'doipjs'
 import { readKey, readCleartextMessage, verify } from 'openpgp'
 import { computeWKDLocalPart } from './utils.js'
+import { createHash } from 'crypto'
+import cache from 'cache'
+
+let c = process.env.ENABLE_EXPERIMENTAL_CACHE ? new cache(60 * 1000) : null
 
 const fetchWKD = (id) => {
     return new Promise(async (resolve, reject) => {
@@ -51,33 +55,45 @@ const fetchWKD = (id) => {
         const urlAdvanced = `https://openpgpkey.${domain}/.well-known/openpgpkey/${domain}/hu/${localEncoded}`
         const urlDirect = `https://${domain}/.well-known/openpgpkey/hu/${localEncoded}`
         let plaintext
+        
+        const hash = createHash('md5').update(id).digest('hex')
 
-        try {
-            plaintext = await got(urlAdvanced).then((response) => {
-                if (response.statusCode === 200) {
-                    output.fetchURL = urlAdvanced
-                    return new Uint8Array(response.rawBody)
-                } else {
-                    return null
-                }
-            })
-        } catch (e) {
+        if (c && c.get(hash)) {
+            plaintext = c.get(hash)
+        }
+
+        if (!plaintext) {
             try {
-                plaintext = await got(urlDirect).then((response) => {
+                plaintext = await got(urlAdvanced).then((response) => {
                     if (response.statusCode === 200) {
-                        output.fetchURL = urlDirect
+                        output.fetchURL = urlAdvanced
                         return new Uint8Array(response.rawBody)
                     } else {
                         return null
                     }
                 })
-            } catch (error) {
+            } catch (e) {
+                try {
+                    plaintext = await got(urlDirect).then((response) => {
+                        if (response.statusCode === 200) {
+                            output.fetchURL = urlDirect
+                            return new Uint8Array(response.rawBody)
+                        } else {
+                            return null
+                        }
+                    })
+                } catch (error) {
+                    reject(new Error(`No public keys could be fetched using WKD`))
+                }
+            }
+    
+            if (!plaintext) {
                 reject(new Error(`No public keys could be fetched using WKD`))
             }
-        }
 
-        if (!plaintext) {
-            reject(new Error(`No public keys could be fetched using WKD`))
+            if (c) {
+                c.put(hash, plaintext)
+            }
         }
 
         try {
@@ -112,15 +128,25 @@ const fetchHKP = (id, keyserverDomain) => {
             query = `0x${id}`
         }
 
-        try {
-            output.publicKey = await doipjs.keys.fetchHKP(id, keyserverDomain)
-            output.fetchURL = `https://${keyserverDomain}/pks/lookup?op=get&options=mr&search=${query}`
-        } catch(error) {
-            reject(new Error(`No public keys could be fetched using HKP`))
+        const hash = createHash('md5').update(`${id}__${keyserverDomain}`).digest('hex')
+
+        if (c && c.get(hash)) {
+            output = c.get(hash)
+        } else {
+            try {
+                output.publicKey = await doipjs.keys.fetchHKP(id, keyserverDomain)
+                output.fetchURL = `https://${keyserverDomain}/pks/lookup?op=get&options=mr&search=${query}`
+            } catch(error) {
+                reject(new Error(`No public keys could be fetched using HKP`))
+            }
         }
 
         if (!output.publicKey) {
             reject(new Error(`No public keys could be fetched using HKP`))
+        }
+
+        if (c) {
+            c.put(hash, output)
         }
 
         resolve(output)
