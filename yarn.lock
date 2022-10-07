@@ -1780,10 +1780,10 @@ doctypes@^1.1.0:
   resolved "https://registry.npmjs.org/doctypes/-/doctypes-1.1.0.tgz"
   integrity sha1-6oCxBqh1OHdOijpKWv4pPeSJ4Kk=
 
-doipjs@^0.16.3:
-  version "0.16.3"
-  resolved "https://registry.yarnpkg.com/doipjs/-/doipjs-0.16.3.tgz#39444075887b42e52ddc871dbc0f0564f0ebf973"
-  integrity sha512-5Y9ENDH4Y2gSfvKINMiNq0Zl9exKVRsFzzQaBtV6Y9QhwhDUiscz9HnB35fPJ11wLPL6sXHmumXeKaViz60VeQ==
+doipjs@^0.16.4:
+  version "0.16.4"
+  resolved "https://registry.yarnpkg.com/doipjs/-/doipjs-0.16.4.tgz#20ff84382fb897a4398c0457259e41deacdc1735"
+  integrity sha512-ckn+vAqzb91qE71u933+LVzvB+Z+QobfjgNUsXddYvkZhufImVR2C2WEOOdQN0LSef0At7wnFbKfjZhUCYX3wQ==
   dependencies:
     "@openpgp/hkp-client" "^0.0.2"
     "@openpgp/wkd-client" "^0.0.3"
