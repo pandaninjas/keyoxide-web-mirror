@@ -99,6 +99,31 @@ const generateHKPProfile = async (id, keyserverDomain) => {
     })
 }
 
+const generateAutoProfile = async (id) => {
+    let result
+    
+    if (id.includes('@')) {
+        result = await generateWKDProfile(id)
+
+        if (result && result.errors.length === 0) {
+            return result
+        }
+    }
+
+    result = await generateHKPProfile(id)
+    if (result && result.errors.length === 0) {
+        return result
+    }
+
+    return {
+        key: {},
+        keyData: {},
+        keyoxide: {},
+        extra: {},
+        errors: ["No public keys could be found"]
+    }
+}
+
 const generateSignatureProfile = async (signature) => {
     return fetchSignature(signature)
     .then(async key => {
@@ -203,6 +228,7 @@ const computeExtraData = async (key, keyData) => {
 
 export { generateWKDProfile }
 export { generateHKPProfile }
+export { generateAutoProfile }
 export { generateKeybaseProfile }
 export { generateSignatureProfile }
 

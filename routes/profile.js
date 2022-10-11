@@ -29,7 +29,7 @@ more information on this, and how to apply and follow the GNU AGPL, see <https:/
 */
 import express from 'express'
 import bodyParserImport from 'body-parser'
-import { generateSignatureProfile, utils, generateWKDProfile, generateHKPProfile, generateKeybaseProfile } from '../server/index.js'
+import { generateSignatureProfile, utils, generateWKDProfile, generateHKPProfile, generateAutoProfile, generateKeybaseProfile } from '../server/index.js'
 
 const router = express.Router()
 const bodyParser = bodyParserImport.urlencoded({ extended: false })
@@ -74,12 +74,7 @@ router.get('/keybase/:username/:fingerprint', async (req, res) => {
 })
 
 router.get('/:id', async (req, res) => {
-    let data
-    if (req.params.id.includes('@')) {
-        data = await generateWKDProfile(req.params.id)
-    } else {
-        data = await generateHKPProfile(req.params.id)
-    }
+    const data = await generateAutoProfile(req.params.id)
     const title = utils.generatePageTitle('profile', data)
     res.set('ariadne-identity-proof', data.keyData.openpgp4fpr) 
     res.render('profile', { title: title, data: data })
