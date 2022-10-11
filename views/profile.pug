@@ -40,59 +40,68 @@ block content
       }
     }
 
-  section.profile.narrow.h-card
-    noscript
-      p Keyoxide requires JavaScript to function.
+  if (data && 'errors' in data && data.errors.length > 0)
+    section
+      h2 Something went wrong while viewing the profile
+      .card 
+        if data.errors.length === 1
+          p The following error was reported:
+        else
+          p The following errors were reported:
+        ul
+        each error in data.errors
+          li
+            p= error
+        p Please see the 
+          a(href="https://docs.keyoxide.org/getting-started/something-went-wrong/") documentation
+          |  for help.
+  else
+    section.profile.narrow.h-card
+      noscript
+        p Keyoxide requires JavaScript to function.
 
-    dialog#dialog--encryptMessage
-      div
-        form(method='post')
-          label(for="encryptionInput") Message to encrypt 
-          textarea#encryptionInput.input(name='message')
-          input.no-margin(type='submit' name='submit' value='ENCRYPT MESSAGE')
-          br
-          br
-          label(for="encryptionOutput") Encryption result 
-          textarea#encryptionOutput.output(name='message' placeholder='Waiting for input' readonly)
-        form(method="dialog")
-          input(type="submit" value="Close")
+      dialog#dialog--encryptMessage
+        div
+          form(method='post')
+            label(for="encryptionInput") Message to encrypt 
+            textarea#encryptionInput.input(name='message')
+            input.no-margin(type='submit' name='submit' value='ENCRYPT MESSAGE')
+            br
+            br
+            label(for="encryptionOutput") Encryption result 
+            textarea#encryptionOutput.output(name='message' placeholder='Waiting for input' readonly)
+          form(method="dialog")
+            input(type="submit" value="Close")
 
-    dialog#dialog--verifySignature
-      div
-        form(method='post')
-          label(for="sigVerInput") Signature 
-          textarea#sigVerInput.input(name='signature')
-          input.no-margin(type='submit' name='submit' value='VERIFY SIGNATURE')
-          br
-          br
-          label(for="sigVerOutput") Verification result 
-          textarea#sigVerOutput.output(name='message' placeholder='Waiting for input' readonly)
-        form(method="dialog")
-          input(type="submit" value="Close")
+      dialog#dialog--verifySignature
+        div
+          form(method='post')
+            label(for="sigVerInput") Signature 
+            textarea#sigVerInput.input(name='signature')
+            input.no-margin(type='submit' name='submit' value='VERIFY SIGNATURE')
+            br
+            br
+            label(for="sigVerOutput") Verification result 
+            textarea#sigVerOutput.output(name='message' placeholder='Waiting for input' readonly)
+          form(method="dialog")
+            input(type="submit" value="Close")
 
-    dialog#dialog--qr
-      div
-        canvas#qr
-        p
-          a(href="" tabindex="0")#qr--altLink
-        form(method="dialog")
-          input(type="submit" value="Close")
+      dialog#dialog--qr
+        div
+          canvas#qr
+          p
+            a(href="" tabindex="0")#qr--altLink
+          form(method="dialog")
+            input(type="submit" value="Close")
 
-    if (isSignature)
-      #profileSigInput.form-wrapper.card
-        h2 Signature profile
-        form#formGenerateSignatureProfile(method='post')
-          label(for="signature")  Please enter the raw profile signature below and press "Generate profile".
-          textarea#signature(name='signature')= signature
-          input(type='submit', name='submit', value='Generate profile')
+      if (isSignature)
+        #profileSigInput.form-wrapper.card
+          h2 Signature profile
+          form#formGenerateSignatureProfile(method='post')
+            label(for="signature")  Please enter the raw profile signature below and press "Generate profile".
+            textarea#signature(name='signature')= signature
+            input(type='submit', name='submit', value='Generate profile')
 
-
-    if (data && 'errors' in data && data.errors.length > 0)
-      h2 Something went wrong while generating the profile
-      ul
-      each error in data.errors
-        li= error
-    else
       unless (isSignature && !signature)
         #profileHeader.card.card--transparent.card--profileHeader
           img#profileAvatar.u-logo(src=data.extra.avatarURL alt="avatar")
