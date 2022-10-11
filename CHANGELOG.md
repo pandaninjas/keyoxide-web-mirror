@@ -6,6 +6,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [3.4.15] - 2022-10-11
+### Changed
+- Attempt both WKD and HKP if no protocol specified
+- Improve profile viewing error message
+
 ## [3.4.14] - 2022-10-07
 ### Changed
 - Updated dependencies
