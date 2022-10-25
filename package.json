@@ -1,6 +1,6 @@
 {
   "name": "keyoxide-web",
-  "version": "3.4.15",
+  "version": "3.4.16",
   "description": "A modern, secure and privacy-friendly platform to establish your decentralized online identity",
   "main": "./src/index.js",
   "type": "module",
@@ -9,7 +9,7 @@
     "bent": "^7.3.12",
     "body-parser": "^1.19.0",
     "dialog-polyfill": "^0.5.6",
-    "doipjs": "^0.16.4",
+    "doipjs": "^0.17.1",
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
     "express-validator": "^6.13.0",

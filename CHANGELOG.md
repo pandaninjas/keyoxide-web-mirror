@@ -6,6 +6,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [3.4.16] - 2022-10-25
+### Changed
+- Updated dependencies
+
 ## [3.4.15] - 2022-10-11
 ### Changed
 - Attempt both WKD and HKP if no protocol specified
