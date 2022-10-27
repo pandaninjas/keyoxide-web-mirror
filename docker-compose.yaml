@@ -17,6 +17,10 @@ services:
       # - KX_HIGHLIGHTS_1_FINGERPRINT=
       ## The hostname to reach the doip_proxy container below
       # - PROXY_HOSTNAME=
+      ## The onion URL to advertise in the HTTP response headers
+      # - ONION_URL=
+      ## The key to sign ActivityPub requests
+      # - ACTIVITYPUB_PUBLIC_KEY=
 
   doip_proxy:
     image: keyoxide/doip-proxy:latest
@@ -24,15 +28,20 @@ services:
     ports:
       - 3001:3000
     # environment:
-      ## For XMPP verification
-      # - XMPP_SERVICE=
-      # - XMPP_USERNAME=
-      # - XMPP_PASSWORD=
+      ## For ActivityPub verification
+      # - ACTIVITYPUB_URL=
+      # - ACTIVITYPUB_PRIVATE_KEY=
+      ## For IRC verification
+      # - IRC_NICK=
+      ## For Telegram verification
+      # - TELEGRAM_TOKEN=
       ## For Twitter verification
       # - TWITTER_BEARER_TOKEN=
       ## For Matrix verification
       # - MATRIX_ROOM_ID=
       # - MATRIX_INSTANCE=
       # - MATRIX_ACCESS_TOKEN=
-      ## For IRC verification
-      # - IRC_NICK=
+      ## For XMPP verification
+      # - XMPP_SERVICE=
+      # - XMPP_USERNAME=
+      # - XMPP_PASSWORD=
