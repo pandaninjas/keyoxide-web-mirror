@@ -58,7 +58,7 @@ router.get('/privacy', (req, res) => {
 })
 
 router.get('/.well-known/webfinger', (req, res) => {
-    if (!(process.env.DOMAIN && process.env.ACTIVITYPUB_PUBLICKEY)) {
+    if (!(process.env.DOMAIN && process.env.ACTIVITYPUB_PUBLIC_KEY)) {
         res.status(404).send('<body><pre>Cannot GET /.well-known/webfinger</pre></body>')
         return
     }
@@ -76,7 +76,7 @@ router.get('/.well-known/webfinger', (req, res) => {
 })
 
 router.get('/users/keyoxide', (req, res) => {
-    if (!(process.env.DOMAIN && process.env.ACTIVITYPUB_PUBLICKEY)) {
+    if (!(process.env.DOMAIN && process.env.ACTIVITYPUB_PUBLIC_KEY)) {
         res.status(404).send('<body><pre>Cannot GET /keyoxide</pre></body>')
         return
     }
@@ -93,7 +93,7 @@ router.get('/users/keyoxide', (req, res) => {
         'publicKey': {
             'id': `https://${process.env.DOMAIN}/users/keyoxide#main-key`,
             'owner': `https://${process.env.DOMAIN}/users/keyoxide`,
-            'publicKeyPem': `${process.env.ACTIVITYPUB_PUBLICKEY}`
+            'publicKeyPem': `${process.env.ACTIVITYPUB_PUBLIC_KEY}`
         }
     }
     res.type('application/activity+json').json(body)
