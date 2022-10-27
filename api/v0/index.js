@@ -116,7 +116,7 @@ const apiProfileSchema = {
                                                         }
                                                     },
                                                     claim: {
-                                                        type: "object",
+                                                        type: ["array", "object"],
                                                         properties: {
                                                             format: { type: "string" },
                                                             relation: { type: "string" },
@@ -328,7 +328,7 @@ router.get('/profile/fetch',
 
         try {
             // Sanitize JSON
-            data = sanitize(data);
+            data = sanitize(data)
         } catch (error) {
             data.keyData = {}
             data.extra = {}
@@ -350,7 +350,7 @@ router.get('/profile/fetch',
 router.get('/profile/verify',
     check('data').exists().isJSON(),
     async (req, res) => {
-        const valRes = validationResult(req);
+        const valRes = validationResult(req)
         if (!valRes.isEmpty()) {
             res.status(400).send(valRes)
             return
