@@ -116,7 +116,7 @@ const apiProfileSchema = {
                                                         }
                                                     },
                                                     claim: {
-                                                        type: ["array", "object"],
+                                                        type: "object",
                                                         properties: {
                                                             format: { type: "string" },
                                                             relation: { type: "string" },
@@ -230,6 +230,13 @@ const sanitize = (data) => {
         for (let iClaim = 0; iClaim < user.claims.length; iClaim++) {
             const claim = user.claims[iClaim]
             
+            // TODO Fix upstream
+            for (let iMatch = 0; iMatch < claim.matches.length; iMatch++) {
+                const match = claim.matches[iMatch];
+                if (Array.isArray(match.claim)) {
+                    match.claim = match.claim[0]
+                }
+            }
             // TODO Fix upstream
             if (!claim.verification) {
                 claim.verification = {}
