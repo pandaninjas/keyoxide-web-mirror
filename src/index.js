@@ -28,6 +28,7 @@ if any, to sign a "copyright disclaimer" for the program, if necessary. For
 more information on this, and how to apply and follow the GNU AGPL, see <https://www.gnu.org/licenses/>.
 */
 import express from 'express'
+import cors from 'cors'
 import { readFileSync } from 'fs'
 import { stringReplace } from 'string-replace-middleware'
 import * as pug from 'pug'
@@ -41,6 +42,8 @@ import utilRoute from '../routes/util.js'
 
 const app = express()
 const packageData = JSON.parse(readFileSync('./package.json'))
+
+app.use(cors())
 
 app.set('env', process.env.NODE_ENV || 'production')
 app.engine('pug', pug.__express).set('view engine', 'pug')
@@ -63,7 +66,7 @@ if (app.get('onion_url')) {
 }
 
 app.use(stringReplace({
-    PLACEHOLDER__PROXY_HOSTNAME: process.env.PROXY_HOSTNAME || 'null'
+    PLACEHOLDER__PROXY_HOSTNAME: process.env.PROXY_HOSTNAME || process.env.DOMAIN || 'null'
 }, {
     contentTypeFilterRegexp: /application\/javascript/,
 }))
