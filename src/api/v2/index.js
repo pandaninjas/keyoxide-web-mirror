@@ -33,11 +33,11 @@ import proxyGetApiRouter from './proxy_get.js'
 
 const router = express.Router()
 
-if (process.env.ENABLE_MAIN_MODULE === 'true') {
+if ((process.env.ENABLE_MAIN_MODULE ?? 'true') === 'true') {
   router.use('/profile', keyoxideProfileApiRouter)
 }
-console.log(process.env.ENABLE_PROXY_MODULE);
-if (process.env.ENABLE_PROXY_MODULE === 'true') {
+
+if ((process.env.ENABLE_PROXY_MODULE ?? 'true') === 'true') {
   router.use('/get', proxyGetApiRouter)
 }
 

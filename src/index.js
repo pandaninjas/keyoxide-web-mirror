@@ -73,8 +73,7 @@ app.use(stringReplace({
 
 // Routes
 app.use('/api', apiRoute)
-if (process.env.ENABLE_MAIN_MODULE === 'true') {
-  console.log("lol", process.env.ENABLE_MAIN_MODULES);
+if ((process.env.ENABLE_MAIN_MODULE ?? 'true') === 'true') {
   app.use('/favicon.svg', express.static('./static/favicon.svg'))
   app.use('/robots.txt', express.static('./static/robots.txt'))
 
