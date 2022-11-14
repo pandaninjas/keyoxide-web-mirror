@@ -28,54 +28,54 @@ if any, to sign a "copyright disclaimer" for the program, if necessary. For
 more information on this, and how to apply and follow the GNU AGPL, see <https://www.gnu.org/licenses/>.
 */
 export default {
-    "claimVersion": 1,
-    "uri": "https://fosstodon.org/@keyoxide",
-    "fingerprint": "9f0048ac0b23301e1f77e994909f6bd6f80f485d",
-    "status": "verified",
-    "matches": [
-        {
-            "serviceprovider": {
-                "type": "web",
-                "name": "mastodon (demo)"
-            },
-            "match": {
-                "regularExpression": {},
-                "isAmbiguous": true
-            },
-            "profile": {
-                "display": "@keyoxide@fosstodon.org",
-                "uri": "https://fosstodon.org/@keyoxide",
-                "qr": null
-            },
-            "proof": {
-                "uri": "https://fosstodon.org/@keyoxide",
-                "request": {
-                    "fetcher": "http",
-                    "access": 0,
-                    "format": "json",
-                    "data": {
-                        "url": "https://fosstodon.org/@keyoxide",
-                        "format": "json"
-                    }
-                }
-            },
-            "claim": {
-                "format": 1,
-                "relation": 0,
-                "path": [
-                    "attachment",
-                    "value"
-                ]
-            }
+  claimVersion: 1,
+  uri: 'https://fosstodon.org/@keyoxide',
+  fingerprint: '9f0048ac0b23301e1f77e994909f6bd6f80f485d',
+  status: 'verified',
+  matches: [
+    {
+      serviceprovider: {
+        type: 'web',
+        name: 'mastodon (demo)'
+      },
+      match: {
+        regularExpression: {},
+        isAmbiguous: true
+      },
+      profile: {
+        display: '@keyoxide@fosstodon.org',
+        uri: 'https://fosstodon.org/@keyoxide',
+        qr: null
+      },
+      proof: {
+        uri: 'https://fosstodon.org/@keyoxide',
+        request: {
+          fetcher: 'http',
+          access: 0,
+          format: 'json',
+          data: {
+            url: 'https://fosstodon.org/@keyoxide',
+            format: 'json'
+          }
         }
-    ],
-    "verification": {
-        "result": true,
-        "completed": true,
-        "errors": [],
-        "proof": {
-            "fetcher": "http",
-            "viaProxy": false
-        }
+      },
+      claim: {
+        format: 1,
+        relation: 0,
+        path: [
+          'attachment',
+          'value'
+        ]
+      }
     }
+  ],
+  verification: {
+    result: true,
+    completed: true,
+    errors: [],
+    proof: {
+      fetcher: 'http',
+      viaProxy: false
+    }
+  }
 }

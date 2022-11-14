@@ -29,54 +29,52 @@ more information on this, and how to apply and follow the GNU AGPL, see <https:/
 */
 import { webcrypto as crypto } from 'crypto'
 
-export async function computeWKDLocalPart(localPart) {
-    const localPartEncoded = new TextEncoder().encode(localPart.toLowerCase());
-    const localPartHashed = new Uint8Array(await crypto.subtle.digest('SHA-1', localPartEncoded));
-    return encodeZBase32(localPartHashed);
+export async function computeWKDLocalPart (localPart) {
+  const localPartEncoded = new TextEncoder().encode(localPart.toLowerCase())
+  const localPartHashed = new Uint8Array(await crypto.subtle.digest('SHA-1', localPartEncoded))
+  return encodeZBase32(localPartHashed)
 }
 
-export function generatePageTitle(type, data) {
-    switch (type) {
-        case 'profile':
-            try {
-                return `${data.keyData.users[data.keyData.primaryUserIndex].userData.name} - Keyoxide`
-            } catch (error) {
-                return 'Profile - Keyoxide'
-            }
-            break
+export function generatePageTitle (type, data) {
+  switch (type) {
+    case 'profile':
+      try {
+        return `${data.keyData.users[data.keyData.primaryUserIndex].userData.name} - Keyoxide`
+      } catch (error) {
+        return 'Profile - Keyoxide'
+      }
 
-        default:
-            return 'Keyoxide'
-            break
-    }
+    default:
+      return 'Keyoxide'
+  }
 }
 
 // Copied from https://github.com/openpgpjs/wkd-client/blob/0d074519e011a5139a8953679cf5f807e4cd2378/src/wkd.js
-export function encodeZBase32(data) {
-    if (data.length === 0) {
-        return "";
+export function encodeZBase32 (data) {
+  if (data.length === 0) {
+    return ''
+  }
+  const ALPHABET = 'ybndrfg8ejkmcpqxot1uwisza345h769'
+  const SHIFT = 5
+  const MASK = 31
+  let buffer = data[0]
+  let index = 1
+  let bitsLeft = 8
+  let result = ''
+  while (bitsLeft > 0 || index < data.length) {
+    if (bitsLeft < SHIFT) {
+      if (index < data.length) {
+        buffer <<= 8
+        buffer |= data[index++] & 0xff
+        bitsLeft += 8
+      } else {
+        const pad = SHIFT - bitsLeft
+        buffer <<= pad
+        bitsLeft += pad
+      }
     }
-    const ALPHABET = "ybndrfg8ejkmcpqxot1uwisza345h769";
-    const SHIFT = 5;
-    const MASK = 31;
-    let buffer = data[0];
-    let index = 1;
-    let bitsLeft = 8;
-    let result = '';
-    while (bitsLeft > 0 || index < data.length) {
-        if (bitsLeft < SHIFT) {
-            if (index < data.length) {
-                buffer <<= 8;
-                buffer |= data[index++] & 0xff;
-                bitsLeft += 8;
-            } else {
-                const pad = SHIFT - bitsLeft;
-                buffer <<= pad;
-                bitsLeft += pad;
-            }
-        }
-        bitsLeft -= SHIFT;
-        result += ALPHABET[MASK & (buffer >> bitsLeft)];
-    }
-    return result;
+    bitsLeft -= SHIFT
+    result += ALPHABET[MASK & (buffer >> bitsLeft)]
+  }
+  return result
 }

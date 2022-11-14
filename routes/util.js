@@ -31,49 +31,49 @@ import express from 'express'
 
 const router = express.Router()
 
-router.get('/', function(req, res) {
-    res.render('util/index')
+router.get('/', function (req, res) {
+  res.render('util/index')
 })
-router.get('/profile-url', function(req, res) {
-    res.render('util/profile-url')
+router.get('/profile-url', function (req, res) {
+  res.render('util/profile-url')
 })
-router.get('/profile-url/:input', function(req, res) {
-    res.render('util/profile-url', { input: req.params.input })
-})
-
-router.get('/qr', function(req, res) {
-    res.render('util/qr')
-})
-router.get('/qr/:input', function(req, res) {
-    res.render('util/qr', { input: req.params.input })
+router.get('/profile-url/:input', function (req, res) {
+  res.render('util/profile-url', { input: req.params.input })
 })
 
-router.get('/qrfp', function(req, res) {
-    res.render('util/qrfp')
+router.get('/qr', function (req, res) {
+  res.render('util/qr')
 })
-router.get('/qrfp/:input', function(req, res) {
-    res.render('util/qrfp', { input: req.params.input })
-})
-
-router.get('/wkd', function(req, res) {
-    res.render('util/wkd')
-})
-router.get('/wkd/:input', function(req, res) {
-    res.render('util/wkd', { input: req.params.input })
+router.get('/qr/:input', function (req, res) {
+  res.render('util/qr', { input: req.params.input })
 })
 
-router.get('/argon2', function(req, res) {
-    res.render('util/argon2')
+router.get('/qrfp', function (req, res) {
+  res.render('util/qrfp')
 })
-router.get('/argon2/:input', function(req, res) {
-    res.render('util/argon2', { input: req.params.input })
+router.get('/qrfp/:input', function (req, res) {
+  res.render('util/qrfp', { input: req.params.input })
 })
 
-router.get('/bcrypt', function(req, res) {
-    res.render('util/bcrypt')
+router.get('/wkd', function (req, res) {
+  res.render('util/wkd')
 })
-router.get('/bcrypt/:input', function(req, res) {
-    res.render('util/bcrypt', { input: req.params.input })
+router.get('/wkd/:input', function (req, res) {
+  res.render('util/wkd', { input: req.params.input })
+})
+
+router.get('/argon2', function (req, res) {
+  res.render('util/argon2')
+})
+router.get('/argon2/:input', function (req, res) {
+  res.render('util/argon2', { input: req.params.input })
+})
+
+router.get('/bcrypt', function (req, res) {
+  res.render('util/bcrypt')
+})
+router.get('/bcrypt/:input', function (req, res) {
+  res.render('util/bcrypt', { input: req.params.input })
 })
 
 export default router

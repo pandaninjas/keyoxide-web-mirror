@@ -32,198 +32,198 @@ import { fetchWKD, fetchHKP, fetchSignature, fetchKeybase } from './keys.js'
 import libravatar from 'libravatar'
 
 const generateWKDProfile = async (id) => {
-    return fetchWKD(id)
+  return fetchWKD(id)
     .then(async key => {
-        let keyData = await doipjs.keys.process(key.publicKey)
-        keyData.openpgp4fpr = `openpgp4fpr:${keyData.fingerprint.toLowerCase()}`
-        keyData.key.fetchMethod = 'wkd'
-        keyData.key.uri = key.fetchURL
-        keyData.key.data = {}
-        keyData = processKeyData(keyData)
+      let keyData = await doipjs.keys.process(key.publicKey)
+      keyData.openpgp4fpr = `openpgp4fpr:${keyData.fingerprint.toLowerCase()}`
+      keyData.key.fetchMethod = 'wkd'
+      keyData.key.uri = key.fetchURL
+      keyData.key.data = {}
+      keyData = processKeyData(keyData)
 
-        let keyoxideData = {}
-        keyoxideData.url = `https://${process.env.DOMAIN}/wkd/${id}`
+      const keyoxideData = {}
+      keyoxideData.url = `https://${process.env.DOMAIN}/wkd/${id}`
 
-        return {
-            key: key,
-            keyData: keyData,
-            keyoxide: keyoxideData,
-            extra: await computeExtraData(key, keyData),
-            errors: []
-        }
+      return {
+        key,
+        keyData,
+        keyoxide: keyoxideData,
+        extra: await computeExtraData(key, keyData),
+        errors: []
+      }
     })
     .catch(err => {
-        return {
-            key: {},
-            keyData: {},
-            keyoxide: {},
-            extra: {},
-            errors: [err.message]
-        }
-    })
-}
-
-const generateHKPProfile = async (id, keyserverDomain) => {
-    return fetchHKP(id, keyserverDomain)
-    .then(async key => {
-        let keyData = await doipjs.keys.process(key.publicKey)
-        keyData.openpgp4fpr = `openpgp4fpr:${keyData.fingerprint.toLowerCase()}`
-        keyData.key.fetchMethod = 'hkp'
-        keyData.key.uri = key.fetchURL
-        keyData.key.data = {}
-        keyData = processKeyData(keyData)
-
-        let keyoxideData = {}
-        if (!keyserverDomain || keyserverDomain === 'keys.openpgp.org') {
-            keyoxideData.url = `https://${process.env.DOMAIN}/hkp/${id}`
-        } else {
-            keyoxideData.url = `https://${process.env.DOMAIN}/hkp/${keyserverDomain}/${id}`
-        }
-
-        return {
-            key: key,
-            keyData: keyData,
-            keyoxide: keyoxideData,
-            extra: await computeExtraData(key, keyData),
-            errors: []
-        }
-    })
-    .catch(err => {
-        return {
-            key: {},
-            keyData: {},
-            keyoxide: {},
-            extra: {},
-            errors: [err.message]
-        }
-    })
-}
-
-const generateAutoProfile = async (id) => {
-    let result
-    
-    if (id.includes('@')) {
-        result = await generateWKDProfile(id)
-
-        if (result && result.errors.length === 0) {
-            return result
-        }
-    }
-
-    result = await generateHKPProfile(id)
-    if (result && result.errors.length === 0) {
-        return result
-    }
-
-    return {
+      return {
         key: {},
         keyData: {},
         keyoxide: {},
         extra: {},
-        errors: ["No public keys could be found"]
+        errors: [err.message]
+      }
+    })
+}
+
+const generateHKPProfile = async (id, keyserverDomain) => {
+  return fetchHKP(id, keyserverDomain)
+    .then(async key => {
+      let keyData = await doipjs.keys.process(key.publicKey)
+      keyData.openpgp4fpr = `openpgp4fpr:${keyData.fingerprint.toLowerCase()}`
+      keyData.key.fetchMethod = 'hkp'
+      keyData.key.uri = key.fetchURL
+      keyData.key.data = {}
+      keyData = processKeyData(keyData)
+
+      const keyoxideData = {}
+      if (!keyserverDomain || keyserverDomain === 'keys.openpgp.org') {
+        keyoxideData.url = `https://${process.env.DOMAIN}/hkp/${id}`
+      } else {
+        keyoxideData.url = `https://${process.env.DOMAIN}/hkp/${keyserverDomain}/${id}`
+      }
+
+      return {
+        key,
+        keyData,
+        keyoxide: keyoxideData,
+        extra: await computeExtraData(key, keyData),
+        errors: []
+      }
+    })
+    .catch(err => {
+      return {
+        key: {},
+        keyData: {},
+        keyoxide: {},
+        extra: {},
+        errors: [err.message]
+      }
+    })
+}
+
+const generateAutoProfile = async (id) => {
+  let result
+
+  if (id.includes('@')) {
+    result = await generateWKDProfile(id)
+
+    if (result && result.errors.length === 0) {
+      return result
     }
+  }
+
+  result = await generateHKPProfile(id)
+  if (result && result.errors.length === 0) {
+    return result
+  }
+
+  return {
+    key: {},
+    keyData: {},
+    keyoxide: {},
+    extra: {},
+    errors: ['No public keys could be found']
+  }
 }
 
 const generateSignatureProfile = async (signature) => {
-    return fetchSignature(signature)
+  return fetchSignature(signature)
     .then(async key => {
-        let keyData = key.keyData
-        keyData.openpgp4fpr = `openpgp4fpr:${keyData.fingerprint.toLowerCase()}`
-        delete key.keyData
-        keyData.key.data = {}
-        keyData = processKeyData(keyData)
+      let keyData = key.keyData
+      keyData.openpgp4fpr = `openpgp4fpr:${keyData.fingerprint.toLowerCase()}`
+      delete key.keyData
+      keyData.key.data = {}
+      keyData = processKeyData(keyData)
 
-        let keyoxideData = {}
+      const keyoxideData = {}
 
-        return {
-            key: key,
-            keyData: keyData,
-            keyoxide: keyoxideData,
-            extra: await computeExtraData(key, keyData),
-            errors: []
-        }
+      return {
+        key,
+        keyData,
+        keyoxide: keyoxideData,
+        extra: await computeExtraData(key, keyData),
+        errors: []
+      }
     })
     .catch(err => {
-        return {
-            key: {},
-            keyData: {},
-            keyoxide: {},
-            extra: {},
-            errors: [err.message]
-        }
+      return {
+        key: {},
+        keyData: {},
+        keyoxide: {},
+        extra: {},
+        errors: [err.message]
+      }
     })
 }
 
 const generateKeybaseProfile = async (username, fingerprint) => {
-    return fetchKeybase(username, fingerprint)
+  return fetchKeybase(username, fingerprint)
     .then(async key => {
-        let keyData = await doipjs.keys.process(key.publicKey)
-        keyData.openpgp4fpr = `openpgp4fpr:${keyData.fingerprint.toLowerCase()}`
-        keyData.key.fetchMethod = 'hkp'
-        keyData.key.uri = key.fetchURL
-        keyData.key.data = {}
-        keyData = processKeyData(keyData)
+      let keyData = await doipjs.keys.process(key.publicKey)
+      keyData.openpgp4fpr = `openpgp4fpr:${keyData.fingerprint.toLowerCase()}`
+      keyData.key.fetchMethod = 'hkp'
+      keyData.key.uri = key.fetchURL
+      keyData.key.data = {}
+      keyData = processKeyData(keyData)
 
-        let keyoxideData = {}
-        keyoxideData.url = `https://${process.env.DOMAIN}/keybase/${username}/${fingerprint}`
+      const keyoxideData = {}
+      keyoxideData.url = `https://${process.env.DOMAIN}/keybase/${username}/${fingerprint}`
 
-        return {
-            key: key,
-            keyData: keyData,
-            keyoxide: keyoxideData,
-            extra: await computeExtraData(key, keyData),
-            errors: []
-        }
+      return {
+        key,
+        keyData,
+        keyoxide: keyoxideData,
+        extra: await computeExtraData(key, keyData),
+        errors: []
+      }
     })
     .catch(err => {
-        return {
-            key: {},
-            keyData: {},
-            keyoxide: {},
-            extra: {},
-            errors: [err.message]
-        }
+      return {
+        key: {},
+        keyData: {},
+        keyoxide: {},
+        extra: {},
+        errors: [err.message]
+      }
     })
 }
 
 const processKeyData = (keyData) => {
-    keyData.users.forEach(user => {
-        // Remove faulty claims
-        user.claims = user.claims.filter(claim => {
-            return claim instanceof doipjs.Claim
-        })
-
-        // Match claims
-        user.claims.forEach(claim => {
-            claim.match()
-        })
-
-        // Sort claims
-        user.claims.sort((a,b) => {
-            if (a.matches.length == 0) return 1
-            if (b.matches.length == 0) return -1
-
-            if (a.matches[0].serviceprovider.name < b.matches[0].serviceprovider.name) {
-                return -1
-            }
-            if (a.matches[0].serviceprovider.name > b.matches[0].serviceprovider.name) {
-                return 1
-            }
-            return 0
-        })
+  keyData.users.forEach(user => {
+    // Remove faulty claims
+    user.claims = user.claims.filter(claim => {
+      return claim instanceof doipjs.Claim
     })
 
-    return keyData
+    // Match claims
+    user.claims.forEach(claim => {
+      claim.match()
+    })
+
+    // Sort claims
+    user.claims.sort((a, b) => {
+      if (a.matches.length === 0) return 1
+      if (b.matches.length === 0) return -1
+
+      if (a.matches[0].serviceprovider.name < b.matches[0].serviceprovider.name) {
+        return -1
+      }
+      if (a.matches[0].serviceprovider.name > b.matches[0].serviceprovider.name) {
+        return 1
+      }
+      return 0
+    })
+  })
+
+  return keyData
 }
 
 const computeExtraData = async (key, keyData) => {
-    // Get the primary user
-    const primaryUser = await key.publicKey.getPrimaryUser()
+  // Get the primary user
+  const primaryUser = await key.publicKey.getPrimaryUser()
 
-    // Query libravatar to get the avatar url
-    return {
-        avatarURL: await libravatar.get_avatar_url({ email: primaryUser.user.userID.email, size: 128, default: 'mm', https: true })
-    }
+  // Query libravatar to get the avatar url
+  return {
+    avatarURL: await libravatar.get_avatar_url({ email: primaryUser.user.userID.email, size: 128, default: 'mm', https: true })
+  }
 }
 
 export { generateWKDProfile }

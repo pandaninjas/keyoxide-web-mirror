@@ -34,6 +34,7 @@
     "mini-css-extract-plugin": "^2.5.3",
     "mocha": "^9.2.1",
     "nodemon": "^2.0.19",
+    "standard": "^17.0.0",
     "style-loader": "^3.3.1",
     "webpack": "^5.69.1",
     "webpack-bundle-analyzer": "^4.5.0",
@@ -42,12 +43,14 @@
   "scripts": {
     "start": "node --experimental-fetch ./",
     "dev": "yarn run watch & yarn run build:static:dev",
-    "test": "mocha",
+    "test": "yarn run standard:check && mocha",
     "watch": "./node_modules/.bin/nodemon --config nodemon.json ./",
     "build": "yarn run build:server & yarn run build:static",
     "build:server": "ncc build ./src/index.js -e jsdom -o dist",
     "build:static": "webpack --config webpack.config.js --env static=true --env mode=production",
     "build:static:dev": "webpack --config webpack.config.js --env static=true --env mode=development",
+    "standard:check": "./node_modules/.bin/standard ./src ./api ./routes ./server",
+    "standard:fix": "./node_modules/.bin/standard --fix ./src ./api ./routes ./server",
     "license:check": "./node_modules/.bin/license-check-and-add check",
     "license:add": "./node_modules/.bin/license-check-and-add add",
     "license:remove": "./node_modules/.bin/license-check-and-add remove"

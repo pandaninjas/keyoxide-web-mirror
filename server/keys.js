@@ -37,191 +37,199 @@ import Keyv from 'keyv'
 const c = process.env.ENABLE_EXPERIMENTAL_CACHE ? new Keyv() : null
 
 const fetchWKD = (id) => {
-    return new Promise(async (resolve, reject) => {
-        let output = {
-            publicKey: null,
-            fetchURL: null
-        }
+  return new Promise((resolve, reject) => {
+    (async () => {
+      const output = {
+        publicKey: null,
+        fetchURL: null
+      }
 
-        if (!id.includes('@')) {
-            reject(new Error(`The WKD identifier "${id}" is invalid`));
-        }
+      if (!id.includes('@')) {
+        reject(new Error(`The WKD identifier "${id}" is invalid`))
+      }
 
-        const [, localPart, domain] = /([^\@]*)@(.*)/.exec(id)
-        if (!localPart || !domain) {
-            reject(new Error(`The WKD identifier "${id}" is invalid`));
-        }
-        const localEncoded = await computeWKDLocalPart(localPart)
-        const urlAdvanced = `https://openpgpkey.${domain}/.well-known/openpgpkey/${domain}/hu/${localEncoded}`
-        const urlDirect = `https://${domain}/.well-known/openpgpkey/hu/${localEncoded}`
-        let plaintext
-        
-        const hash = createHash('md5').update(id).digest('hex')
-        if (c && await c.get(hash)) {
-            plaintext = Uint8Array.from((await c.get(hash)).split(','))
+      const [, localPart, domain] = /([^@]*)@(.*)/.exec(id)
+      if (!localPart || !domain) {
+        reject(new Error(`The WKD identifier "${id}" is invalid`))
+      }
+      const localEncoded = await computeWKDLocalPart(localPart)
+      const urlAdvanced = `https://openpgpkey.${domain}/.well-known/openpgpkey/${domain}/hu/${localEncoded}`
+      const urlDirect = `https://${domain}/.well-known/openpgpkey/hu/${localEncoded}`
+      let plaintext
+
+      const hash = createHash('md5').update(id).digest('hex')
+      if (c && await c.get(hash)) {
+        plaintext = Uint8Array.from((await c.get(hash)).split(','))
+      }
+
+      if (!plaintext) {
+        try {
+          plaintext = await got(urlAdvanced).then((response) => {
+            if (response.statusCode === 200) {
+              output.fetchURL = urlAdvanced
+              return new Uint8Array(response.rawBody)
+            } else {
+              return null
+            }
+          })
+        } catch (e) {
+          try {
+            plaintext = await got(urlDirect).then((response) => {
+              if (response.statusCode === 200) {
+                output.fetchURL = urlDirect
+                return new Uint8Array(response.rawBody)
+              } else {
+                return null
+              }
+            })
+          } catch (error) {
+            reject(new Error('No public keys could be fetched using WKD'))
+          }
         }
 
         if (!plaintext) {
-            try {
-                plaintext = await got(urlAdvanced).then((response) => {
-                    if (response.statusCode === 200) {
-                        output.fetchURL = urlAdvanced
-                        return new Uint8Array(response.rawBody)
-                    } else {
-                        return null
-                    }
-                })
-            } catch (e) {
-                try {
-                    plaintext = await got(urlDirect).then((response) => {
-                        if (response.statusCode === 200) {
-                            output.fetchURL = urlDirect
-                            return new Uint8Array(response.rawBody)
-                        } else {
-                            return null
-                        }
-                    })
-                } catch (error) {
-                    reject(new Error(`No public keys could be fetched using WKD`))
-                }
-            }
-
-            if (!plaintext) {
-                reject(new Error(`No public keys could be fetched using WKD`))
-            }
-
-            if (c && plaintext instanceof Uint8Array) {
-                await c.set(hash, plaintext.toString(), 60 * 1000)
-            }
+          reject(new Error('No public keys could be fetched using WKD'))
         }
 
-        try {
-            output.publicKey = await readKey({
-                binaryKey: plaintext
-            })
-        } catch(error) {
-            reject(new Error(`No public keys could be read from the data fetched using WKD`))
+        if (c && plaintext instanceof Uint8Array) {
+          await c.set(hash, plaintext.toString(), 60 * 1000)
         }
+      }
 
-        if (!output.publicKey) {
-            reject(new Error(`No public keys could be read from the data fetched using WKD`))
-        }
+      try {
+        output.publicKey = await readKey({
+          binaryKey: plaintext
+        })
+      } catch (error) {
+        reject(new Error('No public keys could be read from the data fetched using WKD'))
+      }
 
-        resolve(output)
-    })
+      if (!output.publicKey) {
+        reject(new Error('No public keys could be read from the data fetched using WKD'))
+      }
+
+      resolve(output)
+    })()
+  })
 }
 
 const fetchHKP = (id, keyserverDomain) => {
-    return new Promise(async (resolve, reject) => {
-        let output = {
-            publicKey: null,
-            fetchURL: null
+  return new Promise((resolve, reject) => {
+    (async () => {
+      const output = {
+        publicKey: null,
+        fetchURL: null
+      }
+
+      keyserverDomain = keyserverDomain || 'keys.openpgp.org'
+
+      let query = ''
+      if (id.includes('@')) {
+        query = id
+      } else {
+        query = `0x${id}`
+      }
+
+      output.fetchURL = `https://${keyserverDomain}/pks/lookup?op=get&options=mr&search=${query}`
+
+      const hash = createHash('md5').update(`${id}__${keyserverDomain}`).digest('hex')
+
+      if (c && await c.get(hash)) {
+        output.publicKey = await readKey({
+          armoredKey: await c.get(hash)
+        })
+      } else {
+        try {
+          output.publicKey = await doipjs.keys.fetchHKP(id, keyserverDomain)
+        } catch (error) {
+          reject(new Error('No public keys could be fetched using HKP'))
         }
+      }
 
-        keyserverDomain = keyserverDomain ? keyserverDomain : 'keys.openpgp.org'
+      if (!output.publicKey) {
+        reject(new Error('No public keys could be fetched using HKP'))
+      }
 
-        let query = ''
-        if (id.includes('@')) {
-            query = id
-        } else {
-            query = `0x${id}`
-        }
+      if (c && output.publicKey instanceof PublicKey) {
+        await c.set(hash, output.publicKey.armor(), 60 * 1000)
+      }
 
-        output.fetchURL = `https://${keyserverDomain}/pks/lookup?op=get&options=mr&search=${query}`
-
-        const hash = createHash('md5').update(`${id}__${keyserverDomain}`).digest('hex')
-
-        if (c && await c.get(hash)) {
-            output.publicKey = await readKey({
-                armoredKey: await c.get(hash)
-            })
-        } else {
-            try {
-                output.publicKey = await doipjs.keys.fetchHKP(id, keyserverDomain)
-            } catch(error) {
-                reject(new Error(`No public keys could be fetched using HKP`))
-            }
-        }
-
-        if (!output.publicKey) {
-            reject(new Error(`No public keys could be fetched using HKP`))
-        }
-
-        if (c && output.publicKey instanceof PublicKey) {
-            await c.set(hash, output.publicKey.armor(), 60 * 1000)
-        }
-
-        resolve(output)
-    })
+      resolve(output)
+    })()
+  })
 }
 
 const fetchSignature = (signature) => {
-    return new Promise(async (resolve, reject) => {
-        let output = {
-            publicKey: null,
-            fetchURL: null,
-            keyData: null
-        }
+  return new Promise((resolve, reject) => {
+    (async () => {
+      const output = {
+        publicKey: null,
+        fetchURL: null,
+        keyData: null
+      }
 
-        // Check validity of signature
-        let signatureData
-        try {
-            signatureData = await readCleartextMessage({
-                cleartextMessage: signature
-            })
-        } catch (error) {
-            reject(new Error(`Signature could not be properly read (${error.message})`))
-        }
-
-        // Process the signature
-        try {
-            output.keyData = await doipjs.signatures.process(signature)
-            output.publicKey = output.keyData.key.data
-            // TODO Find the URL to the key
-            output.fetchURL = null
-        } catch(error) {
-            reject(new Error(`Signature could not be properly read (${error.message})`))
-        }
-
-        // Check if a key was fetched
-        if (!output.publicKey) {
-            reject(new Error(`No public keys could be fetched`))
-        }
-
-        // Check validity of signature
-        const verified = await verify({
-            message: signatureData,
-            verificationKeys: output.publicKey
+      // Check validity of signature
+      let signatureData
+      try {
+        signatureData = await readCleartextMessage({
+          cleartextMessage: signature
         })
-        
-        if (!await verified.signatures[0].verified) {
-            reject(new Error('Signature was invalid'))
-        }
+      } catch (error) {
+        reject(new Error(`Signature could not be properly read (${error.message})`))
+      }
 
-        resolve(output)
-    })
+      // Process the signature
+      try {
+        output.keyData = await doipjs.signatures.process(signature)
+        output.publicKey = output.keyData.key.data
+        // TODO Find the URL to the key
+        output.fetchURL = null
+      } catch (error) {
+        reject(new Error(`Signature could not be properly read (${error.message})`))
+      }
+
+      // Check if a key was fetched
+      if (!output.publicKey) {
+        reject(new Error('No public keys could be fetched'))
+      }
+
+      // Check validity of signature
+      const verified = await verify({
+        message: signatureData,
+        verificationKeys: output.publicKey
+      })
+
+      if (!await verified.signatures[0].verified) {
+        reject(new Error('Signature was invalid'))
+      }
+
+      resolve(output)
+    })()
+  })
 }
 
 const fetchKeybase = (username, fingerprint) => {
-    return new Promise(async (resolve, reject) => {
-        let output = {
-            publicKey: null,
-            fetchURL: null
-        }
+  return new Promise((resolve, reject) => {
+    (async () => {
+      const output = {
+        publicKey: null,
+        fetchURL: null
+      }
 
-        try {
-            output.publicKey = await doipjs.keys.fetchKeybase(username, fingerprint)
-            output.fetchURL = `https://keybase.io/${username}/pgp_keys.asc?fingerprint=${fingerprint}`
-        } catch(error) {
-            reject(new Error(`No public keys could be fetched from Keybase`))
-        }
+      try {
+        output.publicKey = await doipjs.keys.fetchKeybase(username, fingerprint)
+        output.fetchURL = `https://keybase.io/${username}/pgp_keys.asc?fingerprint=${fingerprint}`
+      } catch (error) {
+        reject(new Error('No public keys could be fetched from Keybase'))
+      }
 
-        if (!output.publicKey) {
-            reject(new Error(`No public keys could be fetched from Keybase`))
-        }
+      if (!output.publicKey) {
+        reject(new Error('No public keys could be fetched from Keybase'))
+      }
 
-        resolve(output)
-    })
+      resolve(output)
+    })()
+  })
 }
 
 export { fetchWKD }

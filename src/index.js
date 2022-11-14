@@ -54,21 +54,21 @@ app.set('onion_url', process.env.ONION_URL)
 
 // Middlewares
 app.use((req, res, next) => {
-    res.setHeader('Permissions-Policy', 'interest-cohort=()')
-    next()
+  res.setHeader('Permissions-Policy', 'interest-cohort=()')
+  next()
 })
 
 if (app.get('onion_url')) {
-    app.get('/*', (req, res, next) => {
-        res.header('Onion-Location', app.get('onion_url'))
-        next()
-    })
+  app.get('/*', (req, res, next) => {
+    res.header('Onion-Location', app.get('onion_url'))
+    next()
+  })
 }
 
 app.use(stringReplace({
-    PLACEHOLDER__PROXY_HOSTNAME: process.env.PROXY_HOSTNAME || process.env.DOMAIN || 'null'
+  PLACEHOLDER__PROXY_HOSTNAME: process.env.PROXY_HOSTNAME || process.env.DOMAIN || 'null'
 }, {
-    contentTypeFilterRegexp: /application\/javascript/,
+  contentTypeFilterRegexp: /application\/javascript/
 }))
 
 // Routes
@@ -82,7 +82,7 @@ app.use('/util', utilRoute)
 app.use('/', profileRoute)
 
 app.listen(app.get('port'), () => {
-    console.log(`Node server listening at http://localhost:${app.get('port')}`)
+  console.log(`Node server listening at http://localhost:${app.get('port')}`)
 })
 
 export default app
