@@ -49,8 +49,8 @@
     "build:server": "ncc build ./src/index.js -e jsdom -o dist",
     "build:static": "webpack --config webpack.config.js --env static=true --env mode=production",
     "build:static:dev": "webpack --config webpack.config.js --env static=true --env mode=development",
-    "standard:check": "./node_modules/.bin/standard ./src ./api ./routes ./server",
-    "standard:fix": "./node_modules/.bin/standard --fix ./src ./api ./routes ./server",
+    "standard:check": "./node_modules/.bin/standard ./src",
+    "standard:fix": "./node_modules/.bin/standard --fix ./src",
     "license:check": "./node_modules/.bin/license-check-and-add check",
     "license:add": "./node_modules/.bin/license-check-and-add add",
     "license:remove": "./node_modules/.bin/license-check-and-add remove"

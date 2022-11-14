@@ -34,11 +34,11 @@ import { stringReplace } from 'string-replace-middleware'
 import * as pug from 'pug'
 import 'dotenv/config.js'
 
-import apiRoute from '../routes/api.js'
-import mainRoute from '../routes/main.js'
-import profileRoute from '../routes/profile.js'
-import staticRoute from '../routes/static.js'
-import utilRoute from '../routes/util.js'
+import apiRoute from './routes/api.js'
+import mainRoute from './routes/main.js'
+import profileRoute from './routes/profile.js'
+import staticRoute from './routes/static.js'
+import utilRoute from './routes/util.js'
 
 const app = express()
 const packageData = JSON.parse(readFileSync('./package.json'))
@@ -72,17 +72,19 @@ app.use(stringReplace({
 }))
 
 // Routes
-app.use('/favicon.svg', express.static('./static/favicon.svg'))
-app.use('/robots.txt', express.static('./static/robots.txt'))
+if (process.env.ENABLE_MAIN_MODULE ?? true) {
+  app.use('/favicon.svg', express.static('./static/favicon.svg'))
+  app.use('/robots.txt', express.static('./static/robots.txt'))
 
-app.use('/', mainRoute)
+  app.use('/', mainRoute)
+  app.use('/static', staticRoute)
+  app.use('/util', utilRoute)
+  app.use('/', profileRoute)
+}
 app.use('/api', apiRoute)
-app.use('/static', staticRoute)
-app.use('/util', utilRoute)
-app.use('/', profileRoute)
 
 app.listen(app.get('port'), () => {
-  console.log(`Node server listening at http://localhost:${app.get('port')}`)
+  console.log(`Server listening at http://localhost:${app.get('port')}`)
 })
 
 export default app
