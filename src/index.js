@@ -72,7 +72,9 @@ app.use(stringReplace({
 }))
 
 // Routes
-if (process.env.ENABLE_MAIN_MODULE ?? true) {
+app.use('/api', apiRoute)
+if (process.env.ENABLE_MAIN_MODULE === 'true') {
+  console.log("lol", process.env.ENABLE_MAIN_MODULES);
   app.use('/favicon.svg', express.static('./static/favicon.svg'))
   app.use('/robots.txt', express.static('./static/robots.txt'))
 
@@ -81,7 +83,6 @@ if (process.env.ENABLE_MAIN_MODULE ?? true) {
   app.use('/util', utilRoute)
   app.use('/', profileRoute)
 }
-app.use('/api', apiRoute)
 
 app.listen(app.get('port'), () => {
   console.log(`Server listening at http://localhost:${app.get('port')}`)
