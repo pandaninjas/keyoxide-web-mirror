@@ -1,5 +1,5 @@
 /*
-Copyright (C) 2021 Yarmo Mackenbach
+Copyright (C) 2022 Yarmo Mackenbach
 
 This program is free software: you can redistribute it and/or modify it under
 the terms of the GNU Affero General Public License as published by the Free
@@ -28,14 +28,12 @@ if any, to sign a "copyright disclaimer" for the program, if necessary. For
 more information on this, and how to apply and follow the GNU AGPL, see <https://www.gnu.org/licenses/>.
 */
 import express from 'express'
-import apiRouter0 from '../api/v0/index.js'
-import apiRouter1 from '../api/v1/index.js'
-import apiRouter2 from '../api/v2/index.js'
+import keyoxideProfileApiRouter from './keyoxide_profile.js'
+import proxyGetApiRouter from './proxy_get.js'
 
 const router = express.Router()
 
-router.use('/0', apiRouter0)
-router.use('/1', apiRouter1)
-router.use('/2', apiRouter2)
+router.use('/profile', keyoxideProfileApiRouter)
+router.use('/get', proxyGetApiRouter)
 
 export default router
