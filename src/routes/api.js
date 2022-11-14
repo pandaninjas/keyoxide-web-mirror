@@ -34,7 +34,7 @@ import apiRouter2 from '../api/v2/index.js'
 
 const router = express.Router()
 
-if (process.env.ENABLE_MAIN_MODULE === 'true') {
+if ((process.env.ENABLE_MAIN_MODULE ?? 'true') === 'true') {
   router.use('/0', apiRouter0)
 }
 router.use('/1', apiRouter1)
