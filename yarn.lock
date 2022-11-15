@@ -1920,10 +1920,10 @@ doctypes@^1.1.0:
   resolved "https://registry.npmjs.org/doctypes/-/doctypes-1.1.0.tgz"
   integrity sha1-6oCxBqh1OHdOijpKWv4pPeSJ4Kk=
 
-doipjs@^0.17.3:
-  version "0.17.3"
-  resolved "https://registry.yarnpkg.com/doipjs/-/doipjs-0.17.3.tgz#5fd2fd1fba1dee3abdcdadf6172fb2cb03de27b4"
-  integrity sha512-ChRV+JOtEeyZLohw73D9smrug683Mf53dFkm96bQMUUkzj7cdYmp63Z5Q4VjfrJ5G5eJ2TFLSV1BCXrF8HzYvw==
+doipjs@^0.17.5:
+  version "0.17.5"
+  resolved "https://registry.yarnpkg.com/doipjs/-/doipjs-0.17.5.tgz#8543c30233b65d0e46de57612c28a0764f3b0f8a"
+  integrity sha512-3+lXtMJapGWpOCvlkz4aXMIT9LBT0EiamzWa1T7hhpwK1oX6ZoBSH6SCQQcOeQUSM652dR5pEMa3oZe5IXMQSQ==
   dependencies:
     "@openpgp/hkp-client" "^0.0.2"
     "@openpgp/wkd-client" "^0.0.3"
