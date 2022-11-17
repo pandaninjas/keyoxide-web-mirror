@@ -31,7 +31,8 @@ import express from 'express'
 import { readFileSync } from 'fs'
 import { stringReplace } from 'string-replace-middleware'
 import * as pug from 'pug'
-import 'dotenv/config.js'
+import * as dotenv from 'dotenv'
+dotenv.config()
 
 import apiRoute from './routes/api.js'
 import mainRoute from './routes/main.js'

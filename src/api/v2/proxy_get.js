@@ -30,7 +30,8 @@ more information on this, and how to apply and follow the GNU AGPL, see <https:/
 import express from 'express'
 import { query, validationResult } from 'express-validator'
 import { fetcher, enums as E } from 'doipjs'
-import 'dotenv/config.js'
+import * as dotenv from 'dotenv'
+dotenv.config()
 
 const router = express.Router()
 

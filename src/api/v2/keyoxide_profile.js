@@ -31,7 +31,8 @@ import express from 'express'
 import { check, validationResult } from 'express-validator'
 import Ajv from 'ajv'
 import { generateWKDProfile, generateHKPProfile } from '../../server/index.js'
-import 'dotenv/config.js'
+import * as dotenv from 'dotenv'
+dotenv.config()
 
 const router = express.Router()
 const ajv = new Ajv({ coerceTypes: true })
