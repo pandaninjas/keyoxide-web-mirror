@@ -1,5 +1,5 @@
 import 'chai/register-should.js'
-import * as utils from '../server/utils.js'
+import * as utils from '../src/server/utils.js'
 
 describe('server', function () {
     describe('utils', function () {
