@@ -116,14 +116,17 @@ const apiProfileSchema = {
                             }
                           },
                           claim: {
-                            type: 'object',
-                            properties: {
-                              format: { type: 'string' },
-                              relation: { type: 'string' },
-                              path: {
-                                type: 'array',
-                                items: {
-                                  type: 'string'
+                            type: 'array',
+                            items: {
+                              type: 'object',
+                              properties: {
+                                format: { type: 'string' },
+                                relation: { type: 'string' },
+                                path: {
+                                  type: 'array',
+                                  items: {
+                                    type: 'string'
+                                  }
                                 }
                               }
                             }
@@ -222,36 +225,6 @@ const doVerification = async (data) => {
 }
 
 const sanitize = (data) => {
-  const dataClone = JSON.parse(JSON.stringify(data))
-
-  for (let iUser = 0; iUser < dataClone.keyData.users.length; iUser++) {
-    const user = dataClone.keyData.users[iUser]
-
-    for (let iClaim = 0; iClaim < user.claims.length; iClaim++) {
-      const claim = user.claims[iClaim]
-
-      // TODO Fix upstream
-      for (let iMatch = 0; iMatch < claim.matches.length; iMatch++) {
-        const match = claim.matches[iMatch]
-        if (Array.isArray(match.claim)) {
-          match.claim = match.claim[0]
-        }
-      }
-      // TODO Fix upstream
-      if (!claim.verification) {
-        claim.verification = {}
-      }
-      // TODO Fix upstream
-      claim.matches.forEach(match => {
-        match.proof.request.access = ['generic', 'nocors', 'granted', 'server'][match.proof.request.access]
-        match.claim.format = ['uri', 'fingerprint', 'message'][match.claim.format]
-        match.claim.relation = ['contains', 'equals', 'oneof'][match.claim.relation]
-      })
-
-      data.keyData.users[iUser].claims[iClaim] = claim
-    }
-  }
-
   const valid = apiProfileValidate(data)
   if (!valid) {
     throw new Error('Profile data sanitization error')
