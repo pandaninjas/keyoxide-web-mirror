@@ -53,6 +53,8 @@ export default (env) => {
                     child_process: false,
                     fs: false,
                     path: false,
+                    buffer: false,
+                    perf_hooks: false,
                 }
             },
             plugins: [
