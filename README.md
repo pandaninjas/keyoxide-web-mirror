@@ -21,6 +21,8 @@ The Docker container allows you to easily self-host the [Keyoxide](https://keyox
 
 Keyoxide will now be available by visiting http://localhost:3000.
 
+More information available in the [documentation](docs.keyoxide.org/self-hosting).
+
 ## Contributing
 
 Anyone can contribute if they'd like! No need to be a programmer or technically-oriented for that matter.
