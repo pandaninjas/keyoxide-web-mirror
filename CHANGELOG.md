@@ -6,6 +6,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [3.5.0] - 2022-11-17
+### Added
+- Request proxy API endpoint
+- Standard coding style
+### Changed
+- Restructured source code
+- Updated dependencies
+
 ## [3.4.18] - 2022-10-27
 ### Changed
 - Updated dependencies
