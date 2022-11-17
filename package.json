@@ -10,7 +10,7 @@
     "body-parser": "^1.19.0",
     "dialog-polyfill": "^0.5.6",
     "doipjs": "^0.18.0",
-    "dotenv": "^8.2.0",
+    "dotenv": "^16.0.3",
     "express": "^4.17.1",
     "express-validator": "^6.13.0",
     "fork-awesome": "^1.2.0",
@@ -25,7 +25,7 @@
     "string-replace-middleware": "^1.0.2"
   },
   "devDependencies": {
-    "@vercel/ncc": "^0.33.3",
+    "@vercel/ncc": "^0.34.0",
     "chai": "^4.3.6",
     "copy-webpack-plugin": "^10.2.4",
     "css-loader": "^6.6.0",
@@ -35,9 +35,9 @@
     "nodemon": "^2.0.20",
     "standard": "^17.0.0",
     "style-loader": "^3.3.1",
-    "webpack": "^5.69.1",
-    "webpack-bundle-analyzer": "^4.5.0",
-    "webpack-cli": "^4.9.2"
+    "webpack": "^5.75.0",
+    "webpack-bundle-analyzer": "^4.7.0",
+    "webpack-cli": "^5.0.0"
   },
   "scripts": {
     "start": "node --experimental-fetch ./",
