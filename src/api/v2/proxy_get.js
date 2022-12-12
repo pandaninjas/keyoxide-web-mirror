@@ -116,16 +116,6 @@ router.get('/dns', query('domain').isFQDN(), (req, res) => {
 router.get(
   '/xmpp',
   query('id').isEmail(),
-  query('field').isIn([
-    'fn',
-    'number',
-    'userid',
-    'url',
-    'bday',
-    'nickname',
-    'note',
-    'desc'
-  ]),
   async (req, res) => {
     if (
       !opts.claims.xmpp.service ||
