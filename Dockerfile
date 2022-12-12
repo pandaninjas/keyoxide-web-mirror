@@ -17,10 +17,6 @@ COPY --from=builder /app/content /app/content
 COPY --from=builder /app/views /app/views
 COPY --from=builder /app/static /app/static
 
-# Temporary fix until we make jsdom dependency play nice with ncc
-# https://github.com/jsdom/jsdom/issues/2508
-RUN npm install jsdom
-
 EXPOSE 3000
 
 CMD node --experimental-fetch ./dist/
