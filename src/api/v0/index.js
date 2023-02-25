@@ -30,7 +30,7 @@ more information on this, and how to apply and follow the GNU AGPL, see <https:/
 import express from 'express'
 import { check, validationResult } from 'express-validator'
 import Ajv from 'ajv'
-import { generateWKDProfile, generateHKPProfile } from '../../server/index.js'
+import { generateWKDProfile, generateHKPProfile, generateAutoProfile } from '../../server/index.js'
 import * as dotenv from 'dotenv'
 dotenv.config()
 
@@ -310,11 +310,7 @@ router.get('/profile/fetch',
         data = await generateHKPProfile(req.query.query)
         break
       default:
-        if (req.query.query.includes('@')) {
-          data = await generateWKDProfile(req.query.query)
-        } else {
-          data = await generateHKPProfile(req.query.query)
-        }
+        data = await generateAutoProfile(req.query.query)
         break
     }
 
