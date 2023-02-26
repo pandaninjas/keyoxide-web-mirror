@@ -3,10 +3,7 @@
         "--experimental-fetch"
     ],
     "env": {
-        "NODE_ENV": "development",
-        "KX_HIGHLIGHTS_1_NAME": "Yarmo Mackenbach",
-        "KX_HIGHLIGHTS_1_DESCRIPTION": "Admin and developer of keyoxide.org",
-        "KX_HIGHLIGHTS_1_FINGERPRINT": "9f0048ac0b23301e1f77e994909f6bd6f80f485d"
+        "NODE_ENV": "development"
     },
     "ext": "js,json,css,pug,md"
 }
