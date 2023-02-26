@@ -1,30 +1,30 @@
 extends templates/base.pug
 
 block content
-  .demo
-    kx-claim.kx-item(data-claim= demoData data-skip="true")
-      details
-        summary
-          .info
-            p.subtitle= demoData.matches[0].serviceprovider.name
-            p.title= demoData.matches[0].profile.display
-          .icons
-            .verificationStatus(data-value='running' aria-hidden='true')
-              .inProgress
-        .content
-          .subsection
-            img(src='/static/img/link.png' alt='')
-            div
-              if (demoData.matches[0].profile.uri)
-                p Profile link: 
-                  a(rel='me' href=demoData.matches[0].profile.uri)= demoData.matches[0].profile.uri
-              else
-                p Profile link: not accessible from browser
-              if (demoData.matches[0].proof.uri)
-                p Proof link: 
-                  a(href=demoData.matches[0].proof.uri)= demoData.matches[0].proof.uri
-              else
-                p Proof link: not accessible from browser
+  //- .demo
+  //-   kx-claim.kx-item(data-claim= demoData data-skip="true")
+  //-     details
+  //-       summary
+  //-         .info
+  //-           p.subtitle= demoData.matches[0].serviceprovider.name
+  //-           p.title= demoData.matches[0].profile.display
+  //-         .icons
+  //-           .verificationStatus(data-value='running' aria-hidden='true')
+  //-             .inProgress
+  //-       .content
+  //-         .subsection
+  //-           img(src='/static/img/link.png' alt='')
+  //-           div
+  //-             if (demoData.matches[0].profile.uri)
+  //-               p Profile link: 
+  //-                 a(rel='me' href=demoData.matches[0].profile.uri)= demoData.matches[0].profile.uri
+  //-             else
+  //-               p Profile link: not accessible from browser
+  //-             if (demoData.matches[0].proof.uri)
+  //-               p Proof link: 
+  //-                 a(href=demoData.matches[0].proof.uri)= demoData.matches[0].proof.uri
+  //-             else
+  //-               p Proof link: not accessible from browser
                 
   #search.form-wrapper.card
     h2#searchTitle View a profile

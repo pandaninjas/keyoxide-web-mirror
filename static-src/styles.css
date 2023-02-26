@@ -382,6 +382,10 @@ pre code {
   border: 0px;
 }
 
+#search {
+  margin-top: 96px;
+  margin-bottom: 128px;
+}
 #qr {
   display: block;
   width: 100% !important;
