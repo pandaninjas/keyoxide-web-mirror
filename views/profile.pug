@@ -5,6 +5,8 @@ mixin generateUser(user, isPrimary)
     span.p-email #{user.userData.email}
     if isPrimary
       small.primary primary
+  if user.userData.comment
+    span.p-comment &#9432; #{user.userData.comment}
   each claim in user.claims
     if claim.matches.length > 0
       kx-claim.kx-item(data-claim=claim)
