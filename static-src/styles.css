@@ -397,6 +397,9 @@ pre code {
   padding-bottom: 1.6rem;
   margin-bottom: 48px;
 }
+.form-wrapper *:last-child {
+  margin-bottom: 0;
+}
 .form-wrapper form {
   display: flex;
   flex-direction: column;

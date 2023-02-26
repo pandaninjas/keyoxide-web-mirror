@@ -183,14 +183,8 @@ const runSearchForm = () => {
     elFormSearch.onsubmit = function (evt) {
         evt.preventDefault();
 
-        const protocol = elFormSearch.querySelector("input[type='radio']:checked").value;
         const identifier = elFormSearch.querySelector("input[type='search']").value;
-
-        if (protocol == 'sig') {
-            window.location.href = `/${protocol}`;
-        } else {
-            window.location.href = `/${protocol}/${encodeURIComponent(identifier)}`;
-        }
+        window.location.href = `/${encodeURIComponent(identifier)}`;
     }
 
     elFormSearch.querySelectorAll("input[type='radio']").forEach(function (el) {
