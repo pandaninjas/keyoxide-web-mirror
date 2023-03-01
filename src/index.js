@@ -32,13 +32,13 @@ import { readFileSync } from 'fs'
 import { stringReplace } from 'string-replace-middleware'
 import * as pug from 'pug'
 import * as dotenv from 'dotenv'
-dotenv.config()
 
 import apiRoute from './routes/api.js'
 import mainRoute from './routes/main.js'
 import profileRoute from './routes/profile.js'
 import staticRoute from './routes/static.js'
 import utilRoute from './routes/util.js'
+dotenv.config()
 
 const app = express()
 const packageData = JSON.parse(readFileSync('./package.json'))
