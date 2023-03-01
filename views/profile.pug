@@ -62,31 +62,33 @@ block content
       noscript
         p Keyoxide requires JavaScript to function.
 
-      dialog#dialog--encryptMessage
-        div
-          form(method='post')
-            label(for="encryptionInput") Message to encrypt 
-            textarea#encryptionInput.input(name='message')
-            input.no-margin(type='submit' name='submit' value='ENCRYPT MESSAGE')
-            br
-            br
-            label(for="encryptionOutput") Encryption result 
-            textarea#encryptionOutput.output(name='message' placeholder='Waiting for input' readonly)
-          form(method="dialog")
-            input(type="submit" value="Close")
+      if (enable_message_encryption)
+        dialog#dialog--encryptMessage
+          div
+            form(method='post')
+              label(for="encryptionInput") Message to encrypt 
+              textarea#encryptionInput.input(name='message')
+              input.no-margin(type='submit' name='submit' value='ENCRYPT MESSAGE')
+              br
+              br
+              label(for="encryptionOutput") Encryption result 
+              textarea#encryptionOutput.output(name='message' placeholder='Waiting for input' readonly)
+            form(method="dialog")
+              input(type="submit" value="Close")
 
-      dialog#dialog--verifySignature
-        div
-          form(method='post')
-            label(for="sigVerInput") Signature 
-            textarea#sigVerInput.input(name='signature')
-            input.no-margin(type='submit' name='submit' value='VERIFY SIGNATURE')
-            br
-            br
-            label(for="sigVerOutput") Verification result 
-            textarea#sigVerOutput.output(name='message' placeholder='Waiting for input' readonly)
-          form(method="dialog")
-            input(type="submit" value="Close")
+      if (enable_signature_verification)
+        dialog#dialog--verifySignature
+          div
+            form(method='post')
+              label(for="sigVerInput") Signature 
+              textarea#sigVerInput.input(name='signature')
+              input.no-margin(type='submit' name='submit' value='VERIFY SIGNATURE')
+              br
+              br
+              label(for="sigVerOutput") Verification result 
+              textarea#sigVerOutput.output(name='message' placeholder='Waiting for input' readonly)
+            form(method="dialog")
+              input(type="submit" value="Close")
 
       dialog#dialog--qr
         div
@@ -109,9 +111,13 @@ block content
           img#profileAvatar.u-logo(src=data.extra.avatarURL alt="avatar")
 
           p#profileName.p-name= data.keyData.users[data.keyData.primaryUserIndex].userData.name
-          .button-wrapper
-            button(onClick="document.querySelector('#dialog--encryptMessage').showModal();") Encrypt message
-            button(onClick="document.querySelector('#dialog--verifySignature').showModal();") Verify signature
+
+          if (enable_message_encryption || enable_signature_verification)
+            .button-wrapper
+              if (enable_message_encryption)
+                button(onClick="document.querySelector('#dialog--encryptMessage').showModal();") Encrypt message
+              if (enable_signature_verification)
+                button(onClick="document.querySelector('#dialog--verifySignature').showModal();") Verify signature
 
         #profileProofs.card.card--transparent
           h2 Key

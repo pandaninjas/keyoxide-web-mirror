@@ -42,42 +42,74 @@ router.post('/sig', bodyParser, async (req, res) => {
   const data = await generateSignatureProfile(req.body.signature)
   const title = utils.generatePageTitle('profile', data)
   res.set('ariadne-identity-proof', data.keyData.openpgp4fpr)
-  res.render('profile', { title, data, isSignature: true, signature: req.body.signature })
+  res.render('profile', {
+    title,
+    data,
+    isSignature: true,
+    signature: req.body.signature,
+    enable_message_encryption: false,
+    enable_signature_verification: false
+  })
 })
 
 router.get('/wkd/:id', async (req, res) => {
   const data = await generateWKDProfile(req.params.id)
   const title = utils.generatePageTitle('profile', data)
   res.set('ariadne-identity-proof', data.keyData.openpgp4fpr)
-  res.render('profile', { title, data })
+  res.render('profile', {
+    title,
+    data,
+    enable_message_encryption: false,
+    enable_signature_verification: false
+  })
 })
 
 router.get('/hkp/:id', async (req, res) => {
   const data = await generateHKPProfile(req.params.id)
   const title = utils.generatePageTitle('profile', data)
   res.set('ariadne-identity-proof', data.keyData.openpgp4fpr)
-  res.render('profile', { title, data })
+  res.render('profile', {
+    title,
+    data,
+    enable_message_encryption: false,
+    enable_signature_verification: false
+  })
 })
 
 router.get('/hkp/:server/:id', async (req, res) => {
   const data = await generateHKPProfile(req.params.id, req.params.server)
   const title = utils.generatePageTitle('profile', data)
   res.set('ariadne-identity-proof', data.keyData.openpgp4fpr)
-  res.render('profile', { title, data })
+  res.render('profile', {
+    title,
+    data,
+    enable_message_encryption: false,
+    enable_signature_verification: false
+  })
 })
 
 router.get('/keybase/:username/:fingerprint', async (req, res) => {
   const data = await generateKeybaseProfile(req.params.username, req.params.fingerprint)
   const title = utils.generatePageTitle('profile', data)
   res.set('ariadne-identity-proof', data.keyData.openpgp4fpr)
-  res.render('profile', { title, data })
+  res.render('profile', {
+    title,
+    data,
+    enable_message_encryption: false,
+    enable_signature_verification: false
+  })
 })
 
 router.get('/:id', async (req, res) => {
   const data = await generateAutoProfile(req.params.id)
   const title = utils.generatePageTitle('profile', data)
   res.set('ariadne-identity-proof', data.keyData.openpgp4fpr)
-  res.render('profile', { title, data })
+  res.render('profile', {
+    title,
+    data,
+    enable_message_encryption: false,
+    enable_signature_verification: false
+  })
 })
 
 export default router
