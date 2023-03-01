@@ -196,6 +196,11 @@ const doVerification = async (data) => {
     }
   }
 
+  // Return early if no users in key
+  if (!data.keyData.users) {
+    return data
+  }
+
   for (let iUser = 0; iUser < data.keyData.users.length; iUser++) {
     const user = data.keyData.users[iUser]
 
@@ -225,31 +230,33 @@ const doVerification = async (data) => {
 const sanitize = (data) => {
   const dataClone = JSON.parse(JSON.stringify(data))
 
-  for (let iUser = 0; iUser < dataClone.keyData.users.length; iUser++) {
-    const user = dataClone.keyData.users[iUser]
+  if (dataClone.keyData.users) {
+    for (let iUser = 0; iUser < dataClone.keyData.users.length; iUser++) {
+      const user = dataClone.keyData.users[iUser]
 
-    for (let iClaim = 0; iClaim < user.claims.length; iClaim++) {
-      const claim = user.claims[iClaim]
+      for (let iClaim = 0; iClaim < user.claims.length; iClaim++) {
+        const claim = user.claims[iClaim]
 
-      // TODO Fix upstream
-      for (let iMatch = 0; iMatch < claim.matches.length; iMatch++) {
-        const match = claim.matches[iMatch]
-        if (Array.isArray(match.claim)) {
-          match.claim = match.claim[0]
+        // TODO Fix upstream
+        for (let iMatch = 0; iMatch < claim.matches.length; iMatch++) {
+          const match = claim.matches[iMatch]
+          if (Array.isArray(match.claim)) {
+            match.claim = match.claim[0]
+          }
         }
-      }
-      // TODO Fix upstream
-      if (!claim.verification) {
-        claim.verification = {}
-      }
-      // TODO Fix upstream
-      claim.matches.forEach(match => {
-        match.proof.request.access = ['generic', 'nocors', 'granted', 'server'][match.proof.request.access]
-        match.claim.format = ['uri', 'fingerprint', 'message'][match.claim.format]
-        match.claim.relation = ['contains', 'equals', 'oneof'][match.claim.relation]
-      })
+        // TODO Fix upstream
+        if (!claim.verification) {
+          claim.verification = {}
+        }
+        // TODO Fix upstream
+        claim.matches.forEach(match => {
+          match.proof.request.access = ['generic', 'nocors', 'granted', 'server'][match.proof.request.access]
+          match.claim.format = ['uri', 'fingerprint', 'message'][match.claim.format]
+          match.claim.relation = ['contains', 'equals', 'oneof'][match.claim.relation]
+        })
 
-      data.keyData.users[iUser].claims[iClaim] = claim
+        data.keyData.users[iUser].claims[iClaim] = claim
+      }
     }
   }
 
@@ -262,6 +269,11 @@ const sanitize = (data) => {
 }
 
 const addSummaryToClaims = (data) => {
+  // Return early if no users in key
+  if (!data.keyData.users) {
+    return data
+  }
+
   // To be removed when data is added by DOIP library
   for (let userIndex = 0; userIndex < data.keyData.users.length; userIndex++) {
     const user = data.keyData.users[userIndex]

@@ -199,6 +199,11 @@ const doVerification = async (data) => {
     }
   }
 
+  // Return early if no users in key
+  if (!data.keyData.users) {
+    return data
+  }
+
   for (let iUser = 0; iUser < data.keyData.users.length; iUser++) {
     const user = data.keyData.users[iUser]
 
@@ -235,6 +240,11 @@ const sanitize = (data) => {
 }
 
 const addSummaryToClaims = (data) => {
+  // Return early if no users in key
+  if (!data.keyData.users) {
+    return data
+  }
+
   // To be removed when data is added by DOIP library
   for (let userIndex = 0; userIndex < data.keyData.users.length; userIndex++) {
     const user = data.keyData.users[userIndex]
