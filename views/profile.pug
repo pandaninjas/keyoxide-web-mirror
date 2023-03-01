@@ -119,6 +119,11 @@ block content
               if (enable_signature_verification)
                 button(onClick="document.querySelector('#dialog--verifySignature').showModal();") Verify signature
 
+        +generateUser(data.keyData.users[data.keyData.primaryUserIndex], true)
+        each user, index in data.keyData.users
+          unless index == data.keyData.primaryUserIndex
+            +generateUser(user, false)
+
         #profileProofs.card.card--transparent
           h2 Key
           kx-key.kx-item(data-keydata=data.keyData)
@@ -138,8 +143,3 @@ block content
                   img(src='/static/img/qrcode.png')
                   div
                     button(onClick=`showQR('${data.keyData.fingerprint}', 'fingerprint')` aria-label='Show QR code for cryptographic fingerprint') Show OpenPGP fingerprint QR
-
-          +generateUser(data.keyData.users[data.keyData.primaryUserIndex], true)
-          each user, index in data.keyData.users
-            unless index == data.keyData.primaryUserIndex
-              +generateUser(user, false)
