@@ -6,6 +6,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [3.6.1] - 2023-03-02
+### Fixed
+- Fix fingerprint sanitization
+
 ## [3.6.0] - 2023-03-02
 ### Added
 - Forum link in page header
