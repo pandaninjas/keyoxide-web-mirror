@@ -5,8 +5,18 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
+### Added
+- Forum link in page header
+- UserID comments
+### Changed
+- Key is now after UserIDs on profile pages
+### Removed
+- Demo object in homepage
+- HKP/WKD selector
+- Encrypt/Verify buttons
 ### Fixed
-- HKP/WKD logic for profile fetching with API 
+- HKP/WKD logic for profile fetching with API
+- Support fingerprints with whitespaces
 
 ## [3.5.2] - 2022-12-12
 ### Fixed
