@@ -31,6 +31,12 @@ more information on this, and how to apply and follow the GNU AGPL, see <https:/
 @import '../node_modules/dialog-polyfill/dist/dialog-polyfill.css';
 
 :root {
+  --white: hsl(0, 0%, 100%);
+  --black: hsl(0, 0%, 0%);
+  --grey-100: hsl(0, 0%, 90%);
+  --grey-200: hsl(0, 0%, 80%);
+  --grey-300: hsl(0, 0%, 70%);
+  --grey-400: hsl(0, 0%, 60%);
   --grey-500: hsl(0, 0%, 50%);
   --grey-600: hsl(0, 0%, 40%);
   --grey-700: hsl(0, 0%, 30%);
@@ -39,10 +45,10 @@ more information on this, and how to apply and follow the GNU AGPL, see <https:/
   --green-400: hsl(110, 45%, 60%);
   --green-600: hsl(110, 45%, 40%);
   --red-400: hsl(10, 60%, 60%);
-  --blue-500: hsl(201, 80%, 59%);
+  --blue-500: rgb(67, 176, 234);
   --blue-700: hsl(201, 90%, 30%);
-  --purple-50: hsl(250, 30%, 98%);
-  --purple-100: hsl(250, 48%, 95%);
+  --purple-50: rgb(249, 248, 251);
+  --purple-100: rgb(238, 236, 248);
   --purple-200: hsl(250, 48%, 90%);
   --purple-300: hsl(250, 48%, 85%);
   --purple-400: hsl(250, 48%, 70%);
@@ -53,6 +59,78 @@ more information on this, and how to apply and follow the GNU AGPL, see <https:/
   --yellow-100: hsl(56, 100%, 95%);
   --yellow-200: hsl(56, 100%, 90%);
   --yellow-500: hsl(56, 100%, 65%);
+
+  --loader-color: var(--purple-400);
+  --success-color: var(--green-600);
+  --failure-color: var(--red-400);
+  
+  --text-color: var(--grey-900);
+  --h1-color: var(--purple-700);
+  --h2-color: var(--purple-700);
+  --h2-small-color: var(--purple-600);
+  --h3-color: var(--grey-700);
+  --h3-small-color: var(--purple-400);
+  --h4-color: var(--grey-600);
+  --h4-small-color: var(--purple-400);
+  --link-color: var(--blue-700);
+  --link-subtle-color: var(--grey-700);
+  --nav-link-color: var(--purple-700);
+
+  --button-text-color: var(--text-color);
+  --button-border-color: var(--purple-500);
+  --button-background-color: var(--white);
+  --button-hover-text-color: var(--white);
+  --button-hover-border-color: var(--purple-500);
+  --button-hover-background-color: var(--purple-500);
+
+  --body-background-color: var(--white);
+  --footer-background-color: var(--purple-900);
+  --footer-text-color: var(--purple-200);
+  --card-background-color: var(--purple-50);
+  --card-border-color: var(--purple-200);
+  --claim-background-color: var(--purple-100);
+  --claim-border-accent-color: var(--purple-400);
+  --claim-title-text-color: var(--purple-700);
+  --input-focus-background-color: azure;
+  --focus-outline-color: lightskyblue;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --text-color: var(--grey-100);
+    --h1-color: var(--purple-700);
+    --h2-color: var(--purple-300);
+    --h2-small-color: var(--purple-600);
+    --h3-color: var(--grey-300);
+    --h3-small-color: var(--purple-400);
+    --h4-color: var(--grey-300);
+    --h4-small-color: var(--purple-6400);
+    --link-color: var(--blue-500);
+    --link-subtle-color: var(--grey-700);
+    --nav-link-color: var(--purple-100);
+
+    --loader-color: var(--purple-600);
+    --success-color: var(--green-600);
+    --failure-color: var(--red-400);
+    
+    --button-text-color: var(--white);
+    --button-border-color: var(--purple-700);
+    --button-background-color: var(--purple-900);
+    --button-hover-text-color: var(--white);
+    --button-hover-border-color: var(--purple-700);
+    --button-hover-background-color: var(--purple-700);
+
+    --body-background-color: #121212;
+    --footer-background-color: #191720;
+    --footer-text-color: var(--purple-200);
+    --card-background-color: #191720;
+    --card-border-color: #26203a;
+    --claim-background-color: #26203a;
+    --claim-border-accent-color: var(--purple-400);
+    --claim-title-text-color: var(--purple-300);
+    --input-focus-background-color: azure;
+    --focus-outline-color: lightskyblue;
+  }
 }
 
 * {
@@ -60,15 +138,15 @@ more information on this, and how to apply and follow the GNU AGPL, see <https:/
 }
 :focus {
   outline: none;
-  box-shadow: 0 0 0 3px lightskyblue;
+  box-shadow: 0 0 0 3px var(--focus-outline-color);
 }
 input:focus, textarea:focus {
-  background: azure;
+  background: var(--input-focus-background-color);
 }
 input[type="radio"]:focus + label {
-  box-shadow: 0 0 0 3px lightskyblue;
-  background: azure !important;
-  color: var(--grey-900) !important;
+  box-shadow: 0 0 0 3px var(--focus-outline-color);
+  background: var(--input-focus-background-color) !important;
+  color: var(--text-color) !important;
 }
 body {
   display: flex;
@@ -78,7 +156,8 @@ body {
   padding: 1.6rem 0 0;
   line-height: 1.4rem;
   font-family: sans-serif;
-  color: var(--grey-900);
+  color: var(--text-color);
+  background-color: var(--body-background-color);
 }
 
 /* HELPERS */
@@ -118,7 +197,7 @@ header nav a.logo {
   font-size: 1.6rem;
   text-transform: uppercase;
   text-decoration: none;
-  color: var(--purple-700);
+  color: var(--nav-link-color);
 }
 header nav a.logo img {
   width: 100%;
@@ -129,7 +208,7 @@ nav a.text {
   padding: 0.5em 1em;
   text-transform: uppercase;
   text-decoration: none;
-  color: var(--purple-700);
+  color: var(--nav-link-color);
   border-radius: 4px;
 }
 nav a.text:hover, nav a.text:active {
@@ -143,8 +222,8 @@ main {
 footer {
   margin: 4.8rem 0 0;
   padding: 0 1.6rem 1.6rem;
-  background-color: var(--purple-900);
-  color: var(--purple-200);
+  background-color: var(--footer-background-color);
+  color: var(--footer-background-color);
 }
 
 .container {
@@ -163,8 +242,8 @@ section.profile p, .demo p {
   margin: 0 0 1.6rem;
   padding: 0 1.2rem;
   background-color: #fff;
-  background-color: var(--purple-50);
-  border: 2px solid var(--purple-200);
+  background-color: var(--card-background-color);
+  border: 2px solid var(--card-border-color);
   border-radius: 4px;
 }
 .card.card--transparent {
@@ -208,7 +287,7 @@ section.profile p, .demo p {
 }
 #profileName {
   font-size: 1.6rem;
-  color: var(--grey-700);
+  color: var(--text-color);
 }
 #profileURLFingerprint {
   font-size: 1rem;
@@ -265,11 +344,6 @@ section.profile p, .demo p {
   margin-bottom: 0;
 }
 
-kx-claim {
-  display: block;
-  margin: 12px 0;
-}
-
 #profileAvatar {
   display: inline-block;
   min-width: 96px;
@@ -284,20 +358,20 @@ h1 {
   font-size: 1.6em;
   margin: 3.2rem 0 1.6rem;
   font-weight: normal;
-  color: var(--purple-700);
+  color: var(--h1-color);
   cursor: default;
 }
 h2 {
   font-size: 1.4em;
   margin: 3.2rem 0 1.6rem;
   font-weight: normal;
-  color: var(--purple-700);
+  color: var(--h2-color);
   cursor: default;
 }
 h2 small {
   margin-left: 0.8rem;
   padding: 3px 6px;
-  background-color: var(--purple-600);
+  background-color: var(--h2-small-color);
   color: #fff;
   border-radius: 4px;
 }
@@ -305,7 +379,7 @@ h3 {
   margin: 1.6rem 0;
   font-size: 1.3em;
   line-height: 1.6rem;
-  color: var(--grey-700);
+  color: var(--h3-color);
   font-weight: normal;
   /* text-align: center; */
   cursor: default;
@@ -313,7 +387,7 @@ h3 {
 h3 small {
   margin-left: 0.8rem;
   padding: 3px 6px;
-  background-color: var(--purple-400);
+  background-color: var(--h3-small-color);
   color: #fff;
   border-radius: 4px;
 }
@@ -321,7 +395,7 @@ h4 {
   margin: 1.6rem 0;
   font-size: 1em;
   line-height: 1.6rem;
-  color: var(--grey-600);
+  color: var(--h4-color);
   /* color: var(--purple-700); */
   font-weight: bold;
   cursor: default;
@@ -329,7 +403,7 @@ h4 {
 h4 small {
   margin-left: 0.8rem;
   padding: 3px 6px;
-  background-color: var(--purple-400);
+  background-color: var(--h4-small-color);
   color: #fff;
   border-radius: 4px;
 }
@@ -342,7 +416,7 @@ p.warning {
   border: solid 1px #ffeea8;
 }
 a {
-  color: var(--blue-700);
+  color: var(--link-color);
 }
 ul {
   padding-left: 1em;
@@ -481,19 +555,19 @@ input[type="button"], input[type="submit"], button, a.button {
   font-size: 0.9rem;
   text-decoration: none;
   text-transform: uppercase;
-  color: #333;
-  background-color: #fff;
-  border: solid 2px var(--purple-400);
+  color: var(--button-text-color);
+  background-color: var(--button-background-color);
+  border: solid 2px var(--button-border-color);
   border-radius: 4px;
   cursor: pointer;
 }
 input[type="button"]:focus, input[type="submit"]:focus, button:focus, a.button:focus {
-  background-color: azure;
+  background-color: var(--input-focus-background-color);
 }
 input[type="button"]:hover, input[type="submit"]:hover, button:hover, a.button:hover {
-  background-color: var(--purple-500);
-  border-color: var(--purple-500);
-  color: #fff;
+  background-color: var(--button-hover-background-color);
+  border-color: var(--button-hover-border-color);
+  color: var(--button-hover-text-color);
 }
 a.button i {
   font-size: 1.4em;
@@ -536,229 +610,4 @@ dialog p {
 }
 dialog p:first-of-type {
   margin-top: 0;
-}
-
-/* KX-ITEM */
-.kx-item details {
-  width: 100%;
-  border-radius: 8px;
-}
-.kx-item details p {
-  margin: 0;
-  word-break: break-word;
-  font-size: 1rem;
-}
-.kx-item details a {
-  color: var(--blue-700);
-}
-.kx-item details hr {
-  border: none;
-  border-top: 2px solid var(--purple-100);
-}
-.kx-item details .content {
-  padding: 12px;
-  border: solid 3px var(--purple-100);
-  border-top: 0px;
-  border-radius: 0px 0px 8px 8px;
-}
-.kx-item details summary {
-  display: flex;
-  align-items: center;
-  padding: 8px 12px;
-  background-color: var(--purple-100);
-  border: solid 3px var(--purple-100);
-  border-radius: 8px;
-  list-style: none;
-  cursor: pointer;
-}
-.kx-item details summary::-webkit-details-marker {
-  display: none;
-}
-.kx-item details summary:hover, summary:focus {
-  border-color: var(--purple-400);
-}
-details[open] summary {
-  border-radius: 8px 8px 0px 0px;
-}
-.kx-item details summary .info {
-  flex: 1;
-}
-.kx-item details summary .info .title {
-  font-size: 1.1em;
-}
-.kx-item details summary .claim__description p {
-  font-size: 1.4rem;
-  line-height: 2rem;
-}
-.kx-item details summary .claim__links p, p.subtle-links {
-  display: flex;
-  align-items: center;
-  flex-wrap: wrap;
-  font-size: 1rem;
-  color: var(--grey-700);
-}
-.kx-item details summary .claim__links a, summary .claim__links span, p.subtle-links a {
-  font-size: 1rem;
-  margin: 0 10px 0 0;
-  color: var(--grey-700);
-}
-.kx-item details summary .subtitle {
-  color: var(--purple-700);
-}
-.kx-item details summary .verificationStatus {
-  position: relative;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 48px;
-  height: 48px;
-  border-radius: 100%;
-  color: #fff;
-  font-size: 2rem;
-  user-select: none;
-}
-.kx-item details summary .verificationStatus::after {
-  position: absolute;
-  display: flex;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  align-items: center;
-  justify-content: center;
-}
-.kx-item details summary .verificationStatus .inProgress {
-  opacity: 0;
-  transition: opacity 0.4s ease;
-  pointer-events: none;
-}
-.kx-item details summary .verificationStatus[data-value="success"] {
-  content: "v";
-  background-color: var(--green-600);
-}
-.kx-item details summary .verificationStatus[data-value="success"]::after {
-  content: "✔";
-}
-.kx-item details summary .verificationStatus[data-value="failed"] {
-  background-color: var(--red-400);
-}
-.kx-item details summary .verificationStatus[data-value="failed"]::after {
-  content: "✕";
-}
-.kx-item details summary .verificationStatus[data-value="running"] .inProgress {
-  opacity: 1;
-}
-
-.kx-item details .subsection {
-  display: flex;
-  align-items: center;
-  gap: 16px;
-}
-.kx-item details .subsection > img {
-  width: 24px;
-  height: 24px;
-  opacity: 0.4;
-}
-
-.kx-item details .inProgress {
-  font-size: 10px;
-  margin: 50px auto;
-  text-indent: -9999em;
-  width: 48px;
-  height: 48px;
-  border-radius: 50%;
-  background: var(--purple-400);
-  background: -moz-linear-gradient(left, var(--purple-400) 10%, rgba(255, 255, 255, 0) 42%);
-  background: -webkit-linear-gradient(left, var(--purple-400) 10%, rgba(255, 255, 255, 0) 42%);
-  background: -o-linear-gradient(left, var(--purple-400) 10%, rgba(255, 255, 255, 0) 42%);
-  background: -ms-linear-gradient(left, var(--purple-400) 10%, rgba(255, 255, 255, 0) 42%);
-  background: linear-gradient(to right, var(--purple-400) 10%, rgba(255, 255, 255, 0) 42%);
-  position: relative;
-  -webkit-animation: load3 1.4s infinite linear;
-  animation: load3 1.4s infinite linear;
-  -webkit-transform: translateZ(0);
-  -ms-transform: translateZ(0);
-  transform: translateZ(0);
-}
-.kx-item details .inProgress:before {
-  width: 50%;
-  height: 50%;
-  background: var(--purple-400);
-  border-radius: 100% 0 0 0;
-  position: absolute;
-  top: 0;
-  left: 0;
-  content: '';
-}
-.kx-item details .inProgress:after {
-  background: var(--purple-100);
-  width: 65%;
-  height: 65%;
-  border-radius: 50%;
-  content: '';
-  margin: auto;
-  position: absolute;
-  top: 0;
-  left: 0;
-  bottom: 0;
-  right: 0;
-}
-.kx-item details button {
-  padding: 0.4rem 0.8rem;
-  margin-right: 8px;
-  text-decoration: none;
-  text-transform: uppercase;
-  background-color: #fff;
-  border: solid 2px var(--purple-400);
-  border-radius: 4px;
-  cursor: pointer;
-}
-.kx-item details button:hover {
-  background-color: var(--purple-500);
-  border-color: var(--purple-500);
-  color: #fff;
-}
-
-@media screen and (max-width: 640px) {
-  .kx-item details summary .claim__description p {
-    font-size: 1.2rem;
-  }
-  .kx-item details summary .claim__links a, p.subtle-links a {
-    font-size: 0.9rem;
-  }
-}
-@media screen and (max-width: 480px) {
-  summary .claim__description p {
-    font-size: 1rem;
-  }
-  .kx-item details summary .verificationStatus {
-    width: 36px;
-    height: 36px;
-    font-size: 1.6rem;
-  }
-  .kx-item details .inProgress {
-    width: 36px;
-    height: 36px;
-  }
-}
-
-@-webkit-keyframes load3 {
-  0% {
-      -webkit-transform: rotate(0deg);
-      transform: rotate(0deg);
-  }
-  100% {
-      -webkit-transform: rotate(360deg);
-      transform: rotate(360deg);
-  }
-}
-@keyframes load3 {
-  0% {
-      -webkit-transform: rotate(0deg);
-      transform: rotate(0deg);
-  }
-  100% {
-      -webkit-transform: rotate(360deg);
-      transform: rotate(360deg);
-  }
 }

@@ -27,75 +27,79 @@ You should also get your employer (if you work as a programmer) or school,
 if any, to sign a "copyright disclaimer" for the program, if necessary. For
 more information on this, and how to apply and follow the GNU AGPL, see <https://www.gnu.org/licenses/>.
 */
-* {
-  box-sizing: border-box;
+kx-claim {
+  display: block;
+  margin: 12px 0;
 }
-details.kx-item {
+
+/* KX-ITEM */
+.kx-item details {
   width: 100%;
   border-radius: 8px;
 }
-details.kx-item p {
+.kx-item details p {
   margin: 0;
   word-break: break-word;
+  font-size: 1rem;
 }
-details.kx-item a {
-  color: var(--blue-700);
+.kx-item details a {
+  color: var(--link-color);
 }
-details.kx-item hr {
+.kx-item details hr {
   border: none;
-  border-top: 2px solid var(--purple-100);
+  border-top: 2px solid var(--claim-background-color);
 }
-details.kx-item .content {
+.kx-item details .content {
   padding: 12px;
-  border: solid 3px var(--purple-100);
+  border: solid 3px var(--claim-background-color);
   border-top: 0px;
   border-radius: 0px 0px 8px 8px;
 }
-details.kx-item summary {
+.kx-item details summary {
   display: flex;
   align-items: center;
   padding: 8px 12px;
-  background-color: var(--purple-100);
-  border: solid 3px var(--purple-100);
+  background-color: var(--claim-background-color);
+  border: solid 3px var(--claim-background-color);
   border-radius: 8px;
   list-style: none;
   cursor: pointer;
 }
-details.kx-item summary::-webkit-details-marker {
+.kx-item details summary::-webkit-details-marker {
   display: none;
 }
-details.kx-item summary:hover, summary:focus {
-  border-color: var(--purple-400);
+.kx-item details summary:hover, summary:focus {
+  border-color: var(--claim-border-accent-color);
 }
 details[open] summary {
   border-radius: 8px 8px 0px 0px;
 }
-details.kx-item summary .info {
+.kx-item details summary .info {
   flex: 1;
 }
-details.kx-item summary .info .title {
+.kx-item details summary .info .title {
   font-size: 1.1em;
 }
-details.kx-item summary .claim__description p {
+.kx-item details summary .claim__description p {
   font-size: 1.4rem;
   line-height: 2rem;
 }
-details.kx-item summary .claim__links p, p.subtle-links {
+.kx-item details summary .claim__links p, p.subtle-links {
   display: flex;
   align-items: center;
   flex-wrap: wrap;
   font-size: 1rem;
-  color: var(--grey-700);
+  color: var(--link-subtle-color);
 }
-details.kx-item summary .claim__links a, summary .claim__links span, p.subtle-links a {
+.kx-item details summary .claim__links a, summary .claim__links span, p.subtle-links a {
   font-size: 1rem;
   margin: 0 10px 0 0;
-  color: var(--grey-700);
+  color: var(--link-subtle-color);
 }
-details.kx-item summary .subtitle {
-  color: var(--purple-700);
+.kx-item details summary .subtitle {
+  color: var(--claim-title-text-color);
 }
-details.kx-item summary .verificationStatus {
+.kx-item details summary .verificationStatus {
   position: relative;
   display: flex;
   align-items: center;
@@ -107,7 +111,7 @@ details.kx-item summary .verificationStatus {
   font-size: 2rem;
   user-select: none;
 }
-details.kx-item summary .verificationStatus::after {
+.kx-item details summary .verificationStatus::after {
   position: absolute;
   display: flex;
   top: 0;
@@ -117,52 +121,57 @@ details.kx-item summary .verificationStatus::after {
   align-items: center;
   justify-content: center;
 }
-details.kx-item summary .verificationStatus .inProgress {
+.kx-item details summary .verificationStatus .inProgress {
   opacity: 0;
   transition: opacity 0.4s ease;
   pointer-events: none;
 }
-details.kx-item summary .verificationStatus[data-value="success"] {
+.kx-item details summary .verificationStatus[data-value="success"] {
   content: "v";
-  background-color: var(--green-600);
+  background-color: var(--success-color);
 }
-details.kx-item summary .verificationStatus[data-value="success"]::after {
+.kx-item details summary .verificationStatus[data-value="success"]::after {
   content: "✔";
 }
-details.kx-item summary .verificationStatus[data-value="failed"] {
-  background-color: var(--red-400);
+.kx-item details summary .verificationStatus[data-value="failed"] {
+  background-color: var(--failure-color);
 }
-details.kx-item summary .verificationStatus[data-value="failed"]::after {
+.kx-item details summary .verificationStatus[data-value="failed"]::after {
   content: "✕";
 }
-details.kx-item summary .verificationStatus[data-value="running"] .inProgress {
+.kx-item details summary .verificationStatus[data-value="running"] .inProgress {
   opacity: 1;
 }
 
-details.kx-item .subsection {
+.kx-item details .subsection {
   display: flex;
   align-items: center;
   gap: 16px;
 }
-details.kx-item .subsection > img {
+.kx-item details .subsection > img {
   width: 24px;
   height: 24px;
   opacity: 0.4;
 }
+@media (prefers-color-scheme: dark) {
+  .kx-item details .subsection > img {
+    filter: invert(1);
+  }
+}
 
-details.kx-item .inProgress {
+.kx-item details .inProgress {
   font-size: 10px;
   margin: 50px auto;
   text-indent: -9999em;
   width: 48px;
   height: 48px;
   border-radius: 50%;
-  background: var(--purple-400);
-  background: -moz-linear-gradient(left, var(--purple-400) 10%, rgba(255, 255, 255, 0) 42%);
-  background: -webkit-linear-gradient(left, var(--purple-400) 10%, rgba(255, 255, 255, 0) 42%);
-  background: -o-linear-gradient(left, var(--purple-400) 10%, rgba(255, 255, 255, 0) 42%);
-  background: -ms-linear-gradient(left, var(--purple-400) 10%, rgba(255, 255, 255, 0) 42%);
-  background: linear-gradient(to right, var(--purple-400) 10%, rgba(255, 255, 255, 0) 42%);
+  background: var(--loader-color);
+  background: -moz-linear-gradient(left, var(--loader-color) 10%, rgba(255, 255, 255, 0) 42%);
+  background: -webkit-linear-gradient(left, var(--loader-color) 10%, rgba(255, 255, 255, 0) 42%);
+  background: -o-linear-gradient(left, var(--loader-color) 10%, rgba(255, 255, 255, 0) 42%);
+  background: -ms-linear-gradient(left, var(--loader-color) 10%, rgba(255, 255, 255, 0) 42%);
+  background: linear-gradient(to right, var(--loader-color) 10%, rgba(255, 255, 255, 0) 42%);
   position: relative;
   -webkit-animation: load3 1.4s infinite linear;
   animation: load3 1.4s infinite linear;
@@ -170,18 +179,18 @@ details.kx-item .inProgress {
   -ms-transform: translateZ(0);
   transform: translateZ(0);
 }
-details.kx-item .inProgress:before {
+.kx-item details .inProgress:before {
   width: 50%;
   height: 50%;
-  background: var(--purple-400);
+  background: var(--loader-color);
   border-radius: 100% 0 0 0;
   position: absolute;
   top: 0;
   left: 0;
   content: '';
 }
-details.kx-item .inProgress:after {
-  background: var(--purple-100);
+.kx-item details .inProgress:after {
+  background: var(--claim-background-color);
   width: 65%;
   height: 65%;
   border-radius: 50%;
@@ -193,27 +202,28 @@ details.kx-item .inProgress:after {
   bottom: 0;
   right: 0;
 }
-details.kx-item button {
+.kx-item details button {
   padding: 0.4rem 0.8rem;
   margin-right: 8px;
   text-decoration: none;
   text-transform: uppercase;
-  background-color: #fff;
-  border: solid 2px var(--purple-400);
+  color: var(--button-text-color);
+  background-color: var(--button-background-color);
+  border: solid 2px var(--button-border-color);
   border-radius: 4px;
   cursor: pointer;
 }
-details.kx-item button:hover {
-  background-color: var(--purple-500);
-  border-color: var(--purple-500);
-  color: #fff;
+.kx-item details button:hover {
+  background-color: var(--button-hover-background-color);
+  border-color: var(--button-hover-border-color);
+  color: var(--button-hover-text-color);
 }
 
 @media screen and (max-width: 640px) {
-  details.kx-item summary .claim__description p {
+  .kx-item details summary .claim__description p {
     font-size: 1.2rem;
   }
-  details.kx-item summary .claim__links a, p.subtle-links a {
+  .kx-item details summary .claim__links a, p.subtle-links a {
     font-size: 0.9rem;
   }
 }
@@ -221,12 +231,12 @@ details.kx-item button:hover {
   summary .claim__description p {
     font-size: 1rem;
   }
-  details.kx-item summary .verificationStatus {
+  .kx-item details summary .verificationStatus {
     width: 36px;
     height: 36px;
     font-size: 1.6rem;
   }
-  details.kx-item .inProgress {
+  .kx-item details .inProgress {
     width: 36px;
     height: 36px;
   }
