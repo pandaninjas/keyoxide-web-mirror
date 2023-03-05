@@ -92,7 +92,7 @@ export class Claim extends HTMLElement {
             const subsection_alert = elContent.appendChild(document.createElement('div'));
             subsection_alert.setAttribute('class', 'subsection');
             const subsection_alert_icon = subsection_alert.appendChild(document.createElement('img'));
-            subsection_alert_icon.setAttribute('src', '/static/img/alert-decagram.png');
+            subsection_alert_icon.setAttribute('src', '/static/img/alert-decagram.svg');
             subsection_alert_icon.setAttribute('alt', '');
             subsection_alert_icon.setAttribute('aria-hidden', 'true');
             const subsection_alert_text = subsection_alert.appendChild(document.createElement('div'));
@@ -106,7 +106,7 @@ export class Claim extends HTMLElement {
         const subsection_links = elContent.appendChild(document.createElement('div'));
         subsection_links.setAttribute('class', 'subsection');
         const subsection_links_icon = subsection_links.appendChild(document.createElement('img'));
-        subsection_links_icon.setAttribute('src', '/static/img/link.png');
+        subsection_links_icon.setAttribute('src', '/static/img/link.svg');
         subsection_links_icon.setAttribute('alt', '');
         subsection_links_icon.setAttribute('aria-hidden', 'true');
         const subsection_links_text = subsection_links.appendChild(document.createElement('div'));
@@ -132,7 +132,7 @@ export class Claim extends HTMLElement {
             const subsection_qr = elContent.appendChild(document.createElement('div'));
             subsection_qr.setAttribute('class', 'subsection');
             const subsection_qr_icon = subsection_qr.appendChild(document.createElement('img'));
-            subsection_qr_icon.setAttribute('src', '/static/img/qrcode.png');
+            subsection_qr_icon.setAttribute('src', '/static/img/qrcode.svg');
             subsection_qr_icon.setAttribute('alt', '');
             subsection_qr_icon.setAttribute('aria-hidden', 'true');
             const subsection_qr_text = subsection_qr.appendChild(document.createElement('div'));
@@ -149,7 +149,7 @@ export class Claim extends HTMLElement {
         const subsection_status = elContent.appendChild(document.createElement('div'));
         subsection_status.setAttribute('class', 'subsection');
         const subsection_status_icon = subsection_status.appendChild(document.createElement('img'));
-        subsection_status_icon.setAttribute('src', '/static/img/decagram.png');
+        subsection_status_icon.setAttribute('src', '/static/img/decagram.svg');
         subsection_status_icon.setAttribute('alt', '');
         subsection_status_icon.setAttribute('aria-hidden', 'true');
         const subsection_status_text = subsection_status.appendChild(document.createElement('div'));
@@ -157,7 +157,7 @@ export class Claim extends HTMLElement {
         const verification = subsection_status_text.appendChild(document.createElement('p'));
         if (claim.status === 'verified') {
             verification.innerHTML = `Claim verification has completed.`;
-            subsection_status_icon.setAttribute('src', '/static/img/check-decagram.png');
+            subsection_status_icon.setAttribute('src', '/static/img/check-decagram.svg');
             subsection_status_icon.setAttribute('alt', '');
             subsection_status_icon.setAttribute('aria-hidden', 'true');
         } else {
@@ -171,7 +171,7 @@ export class Claim extends HTMLElement {
         const subsection_result = elContent.appendChild(document.createElement('div'));
         subsection_result.setAttribute('class', 'subsection');
         const subsection_result_icon = subsection_result.appendChild(document.createElement('img'));
-        subsection_result_icon.setAttribute('src', '/static/img/shield-search.png');
+        subsection_result_icon.setAttribute('src', '/static/img/shield-search.svg');
         subsection_result_icon.setAttribute('alt', '');
         subsection_result_icon.setAttribute('aria-hidden', 'true');
         const subsection_result_text = subsection_result.appendChild(document.createElement('div'));
@@ -186,7 +186,7 @@ export class Claim extends HTMLElement {
             const subsection_info = elContent.appendChild(document.createElement('div'));
             subsection_info.setAttribute('class', 'subsection');
             const subsection_info_icon = subsection_info.appendChild(document.createElement('img'));
-            subsection_info_icon.setAttribute('src', '/static/img/information.png');
+            subsection_info_icon.setAttribute('src', '/static/img/information.svg');
             subsection_info_icon.setAttribute('alt', '');
             subsection_info_icon.setAttribute('aria-hidden', 'true');
             const subsection_info_text = subsection_info.appendChild(document.createElement('div'));
@@ -203,7 +203,7 @@ export class Claim extends HTMLElement {
         //     const subsection_errors = elContent.appendChild(document.createElement('div'));
         //     subsection_errors.setAttribute('class', 'subsection');
         //     const subsection_errors_icon = subsection_errors.appendChild(document.createElement('img'));
-        //     subsection_errors_icon.setAttribute('src', '/static/img/alert-circle.png');
+        //     subsection_errors_icon.setAttribute('src', '/static/img/alert-circle.svg');
         //     const subsection_errors_text = subsection_errors.appendChild(document.createElement('div'));
 
         //     claim.verification.errors.forEach(message => {

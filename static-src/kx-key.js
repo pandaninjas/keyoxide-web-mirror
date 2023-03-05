@@ -56,7 +56,7 @@ export class Key extends HTMLElement {
         const subsection_links = elContent.appendChild(document.createElement('div'));
         subsection_links.setAttribute('class', 'subsection');
         const subsection_links_icon = subsection_links.appendChild(document.createElement('img'));
-        subsection_links_icon.setAttribute('src', '/static/img/link.png');
+        subsection_links_icon.setAttribute('src', '/static/img/link.svg');
         subsection_links_icon.setAttribute('alt', '');
         subsection_links_icon.setAttribute('aria-hidden', 'true');
         const subsection_links_text = subsection_links.appendChild(document.createElement('div'));
@@ -70,7 +70,7 @@ export class Key extends HTMLElement {
         const subsection_qr = elContent.appendChild(document.createElement('div'));
         subsection_qr.setAttribute('class', 'subsection');
         const subsection_qr_icon = subsection_qr.appendChild(document.createElement('img'));
-        subsection_qr_icon.setAttribute('src', '/static/img/qrcode.png');
+        subsection_qr_icon.setAttribute('src', '/static/img/qrcode.svg');
         subsection_qr_icon.setAttribute('alt', '');
         subsection_qr_icon.setAttribute('aria-hidden', 'true');
         const subsection_qr_text = subsection_qr.appendChild(document.createElement('div'));
