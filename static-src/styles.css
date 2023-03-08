@@ -297,11 +297,14 @@ section.profile p, .demo p {
 .hcards {
   display: grid;
   grid-gap: 1.2rem;
-  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
   margin-bottom: 1.6rem;
 }
 .hcards .card {
   margin: 0;
+}
+.hcards.hcards--max-2 {
+  grid-template-columns: repeat(auto-fit, minmax(256px, 1fr));
 }
 .hcards--col-1-2, .hcards--col-2-1 {
   grid-template-columns: repeat(auto-fit, minmax(256px, 1fr));
@@ -312,6 +315,9 @@ section.profile p, .demo p {
 @media screen and (min-width: 1024px) {
   .hcards--max-3 {
     grid-template-columns: 1fr 1fr 1fr;
+  }
+  .hcards--max-2 {
+    grid-template-columns: 1fr 1fr;
   }
   .hcards--col-1-2, .hcards--col-2-1 {
     grid-template-columns: repeat(3, 1fr);
