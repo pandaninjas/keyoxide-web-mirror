@@ -572,15 +572,41 @@ input[type="button"]:hover, input[type="submit"]:hover, button:hover, a.button:h
 a.button i {
   font-size: 1.4em;
 }
-a.button.button--liberapay {
+a.button--donate {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin-right: 12px;
   padding: 8px 16px;
   font-size: 0.95rem;
-  color: #333;
-  background-color: #ffee16;
   border: 0;
 }
-a.button.button--liberapay:hover {
+a.button--donate svg {
+  width: 24px;
+  height: 24px;
+  fill: var(--text-color);
+}
+a.button--donate.button--liberapay {
+  color: #333;
+  background-color: #ffee16;
+}
+a.button--donate.button--liberapay svg {
+  fill: #333;
+}
+a.button--donate.button--liberapay:hover {
+  color: #333;
   background-color: #fff463;
+}
+a.button--donate.button--kofi {
+  color: #333;
+  background-color: #1ac0ff;
+}
+a.button--donate.button--kofi svg {
+  fill: #333;
+}
+a.button--donate.button--kofi:hover {
+  color: #333;
+  background-color: #66d4ff;
 }
 button.inline {
   min-height: auto;
