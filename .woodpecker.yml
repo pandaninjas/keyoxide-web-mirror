@@ -2,7 +2,7 @@ pipeline:
   build-latest-container:
     image: plugins/docker
     settings:
-      registry: codeberg.org
+      registry: https://codeberg.org
       username:
         from_secret: codeberg_username
       password:
@@ -16,7 +16,7 @@ pipeline:
   build-tag-container:
     image: plugins/docker
     settings:
-      registry: codeberg.org
+      registry: https://codeberg.org
       username:
         from_secret: codeberg_username
       password:
@@ -30,7 +30,7 @@ pipeline:
   build-dev-container:
     image: plugins/docker
     settings:
-      registry: codeberg.org
+      registry: https://codeberg.org
       username:
         from_secret: codeberg_username
       password:
