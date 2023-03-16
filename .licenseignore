@@ -12,7 +12,7 @@ package.json
 yarn.lock
 robots.txt
 \.licenseignore
-\.drone.yml
+\.woodpecker.yml
 \.editorconfig
 \.envrc
 shell.nix
