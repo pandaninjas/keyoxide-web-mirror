@@ -1,42 +1,42 @@
 pipeline:
   build-latest-container:
+    when:
+      branch: main
+      event: tag
     image: plugins/docker
     settings:
-      registry: https://codeberg.org
+      registry: https://codeberg.org/v2
       username:
         from_secret: codeberg_username
       password:
         from_secret: codeberg_password
-      repo: keyoxide/keyoxide-web
+      repo: codeberg.org/keyoxide/keyoxide-web
       tags: latest
-    when:
-      branch: main
-      event: tag
 
   build-tag-container:
-    image: plugins/docker
-    settings:
-      registry: https://codeberg.org
-      username:
-        from_secret: codeberg_username
-      password:
-        from_secret: codeberg_password
-      repo: keyoxide/keyoxide-web
-      auto_tag: true
     when:
       branch: main
       event: tag
-
-  build-dev-container:
     image: plugins/docker
     settings:
-      registry: https://codeberg.org
+      registry: https://codeberg.org/v2
       username:
         from_secret: codeberg_username
       password:
         from_secret: codeberg_password
-      repo: keyoxide/keyoxide-web
-      tags: dev
+      repo: codeberg.org/keyoxide/keyoxide-web
+      auto_tag: true
+
+  build-dev-container:
     when:
       branch: dev
       event: push
+    image: plugins/docker
+    settings:
+      registry: https://codeberg.org/v2
+      username:
+        from_secret: codeberg_username
+      password:
+        from_secret: codeberg_password
+      repo: codeberg.org/keyoxide/keyoxide-web
+      tags: dev
