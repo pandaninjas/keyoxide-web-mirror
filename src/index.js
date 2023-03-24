@@ -33,6 +33,7 @@ import { stringReplace } from 'string-replace-middleware'
 import * as pug from 'pug'
 import * as dotenv from 'dotenv'
 
+import logger from './log.js'
 import apiRoute from './routes/api.js'
 import mainRoute from './routes/main.js'
 import profileRoute from './routes/profile.js'
@@ -82,7 +83,8 @@ if ((process.env.ENABLE_MAIN_MODULE ?? 'true') === 'true') {
 }
 
 app.listen(app.get('port'), () => {
-  console.log(`Server listening at http://localhost:${app.get('port')}`)
+  logger.info(`Server listening at http://localhost:${app.get('port')}`,
+    { component: 'http_server', action: 'start' })
 })
 
 export default app

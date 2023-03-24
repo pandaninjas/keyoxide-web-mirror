@@ -27,11 +27,15 @@ You should also get your employer (if you work as a programmer) or school,
 if any, to sign a "copyright disclaimer" for the program, if necessary. For
 more information on this, and how to apply and follow the GNU AGPL, see <https://www.gnu.org/licenses/>.
 */
+import logger from '../log.js'
 import * as doipjs from 'doipjs'
 import { fetchWKD, fetchHKP, fetchSignature, fetchKeybase } from './keys.js'
 import libravatar from 'libravatar'
 
 const generateWKDProfile = async (id) => {
+  logger.debug('Generating a WKD profile',
+    { component: 'wkd_profile_generator', action: 'start', profile_id: id })
+
   return fetchWKD(id)
     .then(async key => {
       let keyData = await doipjs.keys.process(key.publicKey)
@@ -44,6 +48,9 @@ const generateWKDProfile = async (id) => {
       const keyoxideData = {}
       keyoxideData.url = `https://${process.env.DOMAIN}/wkd/${id}`
 
+      logger.debug('Generating a WKD profile',
+        { component: 'wkd_profile_generator', action: 'done', profile_id: id })
+
       return {
         key,
         keyData,
@@ -53,6 +60,9 @@ const generateWKDProfile = async (id) => {
       }
     })
     .catch(err => {
+      logger.warn('Failed to generate WKD profile',
+        { component: 'wkd_profile_generator', action: 'failure', error: err.message, profile_id: id })
+
       return {
         key: {},
         keyData: {},
@@ -64,6 +74,9 @@ const generateWKDProfile = async (id) => {
 }
 
 const generateHKPProfile = async (id, keyserverDomain) => {
+  logger.debug('Generating a HKP profile',
+    { component: 'hkp_profile_generator', action: 'start', profile_id: id, keyserver_domain: keyserverDomain || '' })
+
   return fetchHKP(id, keyserverDomain)
     .then(async key => {
       let keyData = await doipjs.keys.process(key.publicKey)
@@ -80,6 +93,9 @@ const generateHKPProfile = async (id, keyserverDomain) => {
         keyoxideData.url = `https://${process.env.DOMAIN}/hkp/${keyserverDomain}/${id}`
       }
 
+      logger.debug('Generating a HKP profile',
+        { component: 'hkp_profile_generator', action: 'done', profile_id: id, keyserver_domain: keyserverDomain || '' })
+
       return {
         key,
         keyData,
@@ -89,6 +105,9 @@ const generateHKPProfile = async (id, keyserverDomain) => {
       }
     })
     .catch(err => {
+      logger.warn('Failed to generate HKP profile',
+        { component: 'hkp_profile_generator', action: 'failure', error: err.message, profile_id: id, keyserver_domain: keyserverDomain || '' })
+
       return {
         key: {},
         keyData: {},
@@ -125,6 +144,9 @@ const generateAutoProfile = async (id) => {
 }
 
 const generateSignatureProfile = async (signature) => {
+  logger.debug('Generating a signature profile',
+    { component: 'signature_profile_generator', action: 'start' })
+
   return fetchSignature(signature)
     .then(async key => {
       let keyData = key.keyData
@@ -135,6 +157,9 @@ const generateSignatureProfile = async (signature) => {
 
       const keyoxideData = {}
 
+      logger.debug('Generating a signature profile',
+        { component: 'signature_profile_generator', action: 'done' })
+
       return {
         key,
         keyData,
@@ -144,6 +169,9 @@ const generateSignatureProfile = async (signature) => {
       }
     })
     .catch(err => {
+      logger.warn('Failed to generate a signature profile',
+        { component: 'signature_profile_generator', action: 'failure', error: err.message })
+
       return {
         key: {},
         keyData: {},
@@ -155,6 +183,9 @@ const generateSignatureProfile = async (signature) => {
 }
 
 const generateKeybaseProfile = async (username, fingerprint) => {
+  logger.debug('Generating a Keybase profile',
+    { component: 'keybase_profile_generator', action: 'start', username, fingerprint })
+
   return fetchKeybase(username, fingerprint)
     .then(async key => {
       let keyData = await doipjs.keys.process(key.publicKey)
@@ -167,6 +198,9 @@ const generateKeybaseProfile = async (username, fingerprint) => {
       const keyoxideData = {}
       keyoxideData.url = `https://${process.env.DOMAIN}/keybase/${username}/${fingerprint}`
 
+      logger.debug('Generating a Keybase profile',
+        { component: 'keybase_profile_generator', action: 'done', username, fingerprint })
+
       return {
         key,
         keyData,
@@ -176,6 +210,9 @@ const generateKeybaseProfile = async (username, fingerprint) => {
       }
     })
     .catch(err => {
+      logger.warn('Failed to generate a Keybase profile',
+        { component: 'keybase_profile_generator', action: 'failure', error: err.message, username, fingerprint })
+
       return {
         key: {},
         keyData: {},

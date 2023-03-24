@@ -22,7 +22,8 @@
     "openpgp": "^5.5.0",
     "pug": "^3.0.0",
     "qrcode": "^1.4.4",
-    "string-replace-middleware": "^1.0.2"
+    "string-replace-middleware": "^1.0.2",
+    "winston": "^3.8.2"
   },
   "devDependencies": {
     "@vercel/ncc": "^0.34.0",
@@ -41,7 +42,7 @@
   },
   "scripts": {
     "start": "node --experimental-fetch ./",
-    "dev": "yarn run watch & yarn run build:static:dev",
+    "dev": "LOG_LEVEL=debug yarn run watch & yarn run build:static:dev",
     "test": "yarn run standard:check && mocha",
     "watch": "./node_modules/.bin/nodemon --config nodemon.json ./",
     "build": "yarn run build:server & yarn run build:static",
