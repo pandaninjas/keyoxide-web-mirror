@@ -277,4 +277,26 @@ router.get(
   }
 )
 
+// GraphQL route
+router.get(
+  '/graphql',
+  query('url').isURL(),
+  query('query').isString(),
+  async (req, res) => {
+    const errors = validationResult(req)
+    if (!errors.isEmpty()) {
+      return res.status(400).json({ errors: errors.array() })
+    }
+
+    fetcher.graphql
+      .fn(req.query, opts)
+      .then((data) => {
+        return res.status(200).send(data)
+      })
+      .catch((err) => {
+        return res.status(400).json({ errors: err.message ? err.message : err })
+      })
+  }
+)
+
 export default router
