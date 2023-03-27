@@ -592,6 +592,17 @@ a.button--donate svg {
   height: 24px;
   fill: var(--text-color);
 }
+a.button--donate.button--opencollective {
+  color: #fff;
+  background-color: #0c2d66;
+}
+a.button--donate.button--opencollective svg {
+  fill: #fff;
+}
+a.button--donate.button--opencollective:hover {
+  color: #fff;
+  background-color: #144aa9;
+}
 a.button--donate.button--liberapay {
   color: #333;
   background-color: #ffee16;
