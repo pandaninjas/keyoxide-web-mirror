@@ -9,7 +9,7 @@
     "bent": "^7.3.12",
     "body-parser": "^1.19.0",
     "dialog-polyfill": "^0.5.6",
-    "doipjs": "^0.18.2",
+    "doipjs": "^0.18.3",
     "dotenv": "^16.0.3",
     "express": "^4.17.1",
     "express-validator": "^6.13.0",

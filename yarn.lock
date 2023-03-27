@@ -439,6 +439,36 @@
   resolved "https://registry.yarnpkg.com/@polka/url/-/url-1.0.0-next.21.tgz#5de5a2385a35309427f6011992b544514d559aa1"
   integrity sha512-a5Sab1C4/icpTZVzZc5Ghpz88yQtGOyNqYXcZgOssB2uuAr+wF/MvN6bgtW32q7HHrvBki+BsZ0OuNv6EV3K9g==
 
+"@rometools/cli-darwin-arm64@11.0.0":
+  version "11.0.0"
+  resolved "https://registry.yarnpkg.com/@rometools/cli-darwin-arm64/-/cli-darwin-arm64-11.0.0.tgz#8f916df0580fede2325434a50ed5b1f2cf972696"
+  integrity sha512-F3vkdY+s3FLIEnAjSbyHTuIPB88cLpccimW4ecid5I7S6GzGG3iUJI4xT00JhH73K4P/qW20/9r+kH1T9Du8Xg==
+
+"@rometools/cli-darwin-x64@11.0.0":
+  version "11.0.0"
+  resolved "https://registry.yarnpkg.com/@rometools/cli-darwin-x64/-/cli-darwin-x64-11.0.0.tgz#1393a5bba26e8c5352737270a1a98f2759f40d14"
+  integrity sha512-X6jhtS6Iml4GOzgNtnLwIp/KXXhSdqeVyfv69m/AHnIzx3gQAjPZ7BPnJLvTCbhe4SKHL+uTZYFSCJpkUUKE6w==
+
+"@rometools/cli-linux-arm64@11.0.0":
+  version "11.0.0"
+  resolved "https://registry.yarnpkg.com/@rometools/cli-linux-arm64/-/cli-linux-arm64-11.0.0.tgz#efbfd36013455fc5d940b24b1b195a43aba87bcb"
+  integrity sha512-dktTJJlTpmycBZ2TwhJBcAO8ztK8DdevdyZnFFxdYRvtmJgTjIsC2UFayf/SbKew8B8q1IhI0it+D6ihAeIpeg==
+
+"@rometools/cli-linux-x64@11.0.0":
+  version "11.0.0"
+  resolved "https://registry.yarnpkg.com/@rometools/cli-linux-x64/-/cli-linux-x64-11.0.0.tgz#675532d9f603b88ab0686da800ec711b45d22085"
+  integrity sha512-WVcnXPNdWGUWo0p4NU8YzuthjYR7q+b4vRcjdxtP1DlpphZmSsoC/RSE85nEqRAz8hChcKUansVzOPM8BSsuGA==
+
+"@rometools/cli-win32-arm64@11.0.0":
+  version "11.0.0"
+  resolved "https://registry.yarnpkg.com/@rometools/cli-win32-arm64/-/cli-win32-arm64-11.0.0.tgz#4d50f446acf2bc126cb58b5cff5a4d53b7c6a378"
+  integrity sha512-tPj6RThQzS7Q45jqQll7NlTYvNcsg/BEP3LYiiazqSh9FAFnMkrV6ewUcMPKWyAfiyLs7jlz4rRvdNRUSygzfQ==
+
+"@rometools/cli-win32-x64@11.0.0":
+  version "11.0.0"
+  resolved "https://registry.yarnpkg.com/@rometools/cli-win32-x64/-/cli-win32-x64-11.0.0.tgz#c6d48db5ea52b393dae7fe04bfe803ad8cee71a5"
+  integrity sha512-bmBai8WHxYjsGk1+je7ZTfCUCWq30WJI3pQM8pzTA674lfGTZ9ymJoZwTaIMSO4rL5V9mlO6uLunsBKso9VqOg==
+
 "@sindresorhus/is@^4.0.0":
   version "4.6.0"
   resolved "https://registry.yarnpkg.com/@sindresorhus/is/-/is-4.6.0.tgz#3c7c9c46e678feefe7a2e5bb609d3dbd665ffb3f"
@@ -1783,10 +1813,10 @@ doctypes@^1.1.0:
   resolved "https://registry.yarnpkg.com/doctypes/-/doctypes-1.1.0.tgz#ea80b106a87538774e8a3a4a5afe293de489e0a9"
   integrity sha512-LLBi6pEqS6Do3EKQ3J0NqHWV5hhb78Pi8vvESYwyOy2c31ZEZVdtitdzsQsKb7878PEERhzUk0ftqGhG6Mz+pQ==
 
-doipjs@^0.18.2:
-  version "0.18.2"
-  resolved "https://registry.yarnpkg.com/doipjs/-/doipjs-0.18.2.tgz#983ae94131cf3f5ed55ac51ac72c2a8bd9114c97"
-  integrity sha512-7wHCLidkT1Ja+WI/nPTRTCu/kE+k1Uzh8R6KQ9j7lahMLAEK/8+h2C3cFDMBuGiIwGJGuL0xT33ESGKODvC2YA==
+doipjs@^0.18.3:
+  version "0.18.3"
+  resolved "https://registry.yarnpkg.com/doipjs/-/doipjs-0.18.3.tgz#26f5b0dbf98db7060516a9bac4b698d42e11166d"
+  integrity sha512-C/1FoUm/dw8/T0RYawuyP5WQJbwRI8CGKrFP7/UCzRT68Zm/NvAyAVqqrHfNs7D3n1nZI0qRYCkYGvrX5eyxoQ==
   dependencies:
     "@openpgp/hkp-client" "^0.0.2"
     "@openpgp/wkd-client" "^0.0.3"
@@ -1796,12 +1826,14 @@ doipjs@^0.18.2:
     browser-or-node "^1.3.0"
     cors "^2.8.5"
     dotenv "^8.2.0"
+    entities "^4.4.0"
     express "^4.17.1"
     express-validator "^6.10.0"
     hash-wasm "^4.9.0"
     irc-upd "^0.11.0"
     merge-options "^3.0.3"
     openpgp "^5.5.0"
+    rome "^11.0.0"
     valid-url "^1.0.9"
     validator "^13.5.2"
 
@@ -1869,6 +1901,11 @@ enhanced-resolve@^5.10.0:
   dependencies:
     graceful-fs "^4.2.4"
     tapable "^2.2.0"
+
+entities@^4.4.0:
+  version "4.4.0"
+  resolved "https://registry.yarnpkg.com/entities/-/entities-4.4.0.tgz#97bdaba170339446495e653cfd2db78962900174"
+  integrity sha512-oYp7156SP8LkeGD0GF85ad1X9Ai79WtRsZ2gxJqtBuzH+98YUV6jkHEKlZkMbcrjJjIVJNIDP/3WL9wQkoPbWA==
 
 entities@~3.0.1:
   version "3.0.1"
@@ -4231,6 +4268,18 @@ ripemd160@^2.0.0, ripemd160@^2.0.1:
   dependencies:
     hash-base "^3.0.0"
     inherits "^2.0.1"
+
+rome@^11.0.0:
+  version "11.0.0"
+  resolved "https://registry.yarnpkg.com/rome/-/rome-11.0.0.tgz#cd2f00fadfd3611399eba9a2f87612e1f3299a23"
+  integrity sha512-rRo6JOwpMLc3OkeTDRXkrmrDqnxDvZ75GS4f0jLDBNmRgDXWbu0F8eVnJoRn+VbK2AE7vWvhVOMBjnWowcopkQ==
+  optionalDependencies:
+    "@rometools/cli-darwin-arm64" "11.0.0"
+    "@rometools/cli-darwin-x64" "11.0.0"
+    "@rometools/cli-linux-arm64" "11.0.0"
+    "@rometools/cli-linux-x64" "11.0.0"
+    "@rometools/cli-win32-arm64" "11.0.0"
+    "@rometools/cli-win32-x64" "11.0.0"
 
 run-parallel@^1.1.9:
   version "1.2.0"
