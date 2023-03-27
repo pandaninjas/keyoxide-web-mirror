@@ -6,6 +6,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [3.6.3] - 2023-03-27
+### Added
+- Basic logging
+### Changed
+- Replaced liberapay & kofi with opencollective
+- Updated doipjs to 0.18.3
+
 ## [3.6.2] - 2023-03-08
 ### Added
 - Dark theme
