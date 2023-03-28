@@ -49,7 +49,7 @@ const fetchWKD = (id) => {
       }
 
       const [, localPart, domain] = /([^@]*)@(.*)/.exec(id)
-      if (!localPart || !domain) {
+      if (!(localPart && domain)) {
         reject(new Error(`The WKD identifier "${id}" is invalid`))
       }
       const localEncoded = await computeWKDLocalPart(localPart)

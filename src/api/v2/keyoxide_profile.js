@@ -298,7 +298,7 @@ router.get('/fetch',
     }
 
     if (data.errors.length > 0) {
-      delete data.key
+      data.key = undefined
       res.status(500).send(data)
     }
 
@@ -306,7 +306,7 @@ router.get('/fetch',
     if (req.query.returnPublicKey) {
       data.keyData.key.data = data.key.publicKey
     }
-    delete data.key
+    data.key = undefined
 
     // Do verification
     if (req.query.doVerification) {

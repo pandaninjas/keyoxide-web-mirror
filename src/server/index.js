@@ -151,7 +151,7 @@ const generateSignatureProfile = async (signature) => {
     .then(async key => {
       let keyData = key.keyData
       keyData.openpgp4fpr = `openpgp4fpr:${keyData.fingerprint.toLowerCase()}`
-      delete key.keyData
+      key.keyData = undefined
       keyData.key.data = {}
       keyData = processKeyData(keyData)
 

@@ -118,9 +118,7 @@ router.get(
   query('id').isEmail(),
   async (req, res) => {
     if (
-      !opts.claims.xmpp.service ||
-      !opts.claims.xmpp.username ||
-      !opts.claims.xmpp.password
+      !((opts.claims.xmpp.service && opts.claims.xmpp.username) && opts.claims.xmpp.password)
     ) {
       return res.status(501).json({ errors: 'XMPP not enabled on server' })
     }
@@ -166,7 +164,7 @@ router.get(
   query('roomId').isString(),
   query('eventId').isString(),
   async (req, res) => {
-    if (!opts.claims.matrix.instance || !opts.claims.matrix.accessToken) {
+    if (!(opts.claims.matrix.instance && opts.claims.matrix.accessToken)) {
       return res.status(501).json({ errors: 'Matrix not enabled on server' })
     }
     const errors = validationResult(req)
