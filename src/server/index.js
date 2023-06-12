@@ -32,9 +32,11 @@ import * as doipjs from 'doipjs'
 import { fetchWKD, fetchHKP, fetchSignature, fetchKeybase } from './keys.js'
 import libravatar from 'libravatar'
 
-const scheme = process.env.PROXY_SCHEME ? process.env.PROXY_SCHEME
-: process.env.SCHEME ? process.env.SCHEME 
-: 'https'
+const scheme = process.env.PROXY_SCHEME
+  ? process.env.PROXY_SCHEME
+  : process.env.SCHEME
+    ? process.env.SCHEME
+    : 'https'
 
 const generateWKDProfile = async (id) => {
   logger.debug('Generating a WKD profile',
