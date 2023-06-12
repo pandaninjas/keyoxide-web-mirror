@@ -46,19 +46,20 @@ export async function computeWKDLocalPart(localPart) {
 // Generate Keyoxide profile URL
 export async function generateProfileURL(data) {
     let hostname = data.hostname || window.location.hostname;
+    let scheme = data.scheme || window.location.protocol.slice(0,-1);
 
     if (data.input == "") {
         return "Waiting for input…";
     }
     switch (data.source) {
         case "wkd":
-            return `https://${hostname}/${data.input}`;
+            return `${scheme}://${hostname}/${data.input}`;
             break;
         case "hkp":
             if (/.*@.*\..*/.test(data.input)) {
-                return `https://${hostname}/hkp/${data.input}`;
+                return `${scheme}://${hostname}/hkp/${data.input}`;
             } else {
-                return `https://${hostname}/${data.input}`;
+                return `${scheme}://${hostname}/${data.input}`;
             }
             break;
         case "keybase":
@@ -67,7 +68,7 @@ export async function generateProfileURL(data) {
                 return "Incorrect Keybase public key URL.";
             }
             const match = data.input.match(re);
-            return `https://${hostname}/keybase/${match[1]}/${match[2]}`;
+            return `${scheme}://${hostname}/keybase/${match[1]}/${match[2]}`;
             break;
     }
 }

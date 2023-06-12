@@ -192,7 +192,8 @@ const doVerification = async (data) => {
   const verificationOptions = {
     proxy: {
       hostname: process.env.PROXY_HOSTNAME,
-      policy: (process.env.PROXY_HOSTNAME !== '') ? 'adaptive' : 'never'
+      policy: (process.env.PROXY_HOSTNAME !== '') ? 'adaptive' : 'never',
+      scheme: (process.env.PROXY_SCHEME !== '') ? process.env.PROXY_SCHEME : (process.env.SCHEME !== '') ? process.env.SCHEME : 'https'
     }
   }
 
