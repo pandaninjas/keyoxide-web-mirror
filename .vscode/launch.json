@@ -16,7 +16,7 @@
                 "<node_internals>/**"
             ],
             "type": "node",
-            "env": { "DOMAIN": "localhost:3000"},
+            "env": { "DOMAIN": "localhost:3000", "SCHEME": "http"},
             "outputCapture": "std"
         }
     ]
