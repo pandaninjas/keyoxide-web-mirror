@@ -45,16 +45,16 @@ To run Keyoxide locally on your machine for development:
 2. Swap over to LTS: `nvm use --lts`
 3. Ensure that yarn is installed: `npm install -g yarn`
 4. Install node dependencies: `yarn`
-5. Run the server a la `DOMAIN='localhost:3000' yarn dev`
+5. Run the server locally a la `SCHEME='http' DOMAIN='localhost:3000' yarn dev`
 
-Keyoxide will now be available at [https://localhost:3000](https://localhost:3000)
+Keyoxide will now be available at [http://localhost:3000](http://localhost:3000)
 
 For **vscode/vscodium** development, a `launcher.json` is provided. Ensure that
-the first four steps have been performed at least once to ensure the proper
-node and yarn binaries are available to vscode, then load the project. The
-launcher provides a "Launch via yarn" debug option that will start the project
-with the appropriate version and environment variables set. The project will
-then be available in a browser.
+the first four steps have been performed at least once so that the proper node
+and yarn binaries are available to vscode, then load the project. The launcher
+provides a "Launch via yarn" debug option that will start the project with the
+appropriate version and environment variables set. The project will then be
+available in a browser.
 
 There is also a `shell.nix` file to install Node and yarn (steps one through
 three above).
