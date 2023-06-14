@@ -16,7 +16,12 @@
                 "<node_internals>/**"
             ],
             "type": "node",
-            "env": { "DOMAIN": "localhost:3000", "SCHEME": "http"},
+            "env": { 
+                "DOMAIN": "localhost:3000",
+                "SCHEME": "http",
+                "MATRIX_ACCESS_TOKEN": "",
+                "MATRIX_INSTANCE": ""
+            },
             "outputCapture": "std"
         }
     ]
