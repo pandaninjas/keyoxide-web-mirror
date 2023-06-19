@@ -250,6 +250,8 @@ const processKeyData = (keyData) => {
     })
   })
 
+  keyData.primaryUserIndex ||= 0
+
   return keyData
 }
 
