@@ -45,7 +45,7 @@ To run Keyoxide locally on your machine for development:
 2. Swap over to LTS: `nvm use --lts`
 3. Ensure that yarn is installed: `npm install -g yarn`
 4. Install node dependencies: `yarn`
-5. Run the server locally a la `SCHEME='http' DOMAIN='localhost:3000' MATRIX_ACCESS_TOKEN='XXXXXXyourTokenXXXXXX' MATRIX_INSTANCE='abc.yourmatrixdomain.tld' yarn dev`
+5. Run the server locally a la `SCHEME='http' DOMAIN='localhost:3000' yarn dev`
 
 Keyoxide will now be available at [http://localhost:3000](http://localhost:3000)
 

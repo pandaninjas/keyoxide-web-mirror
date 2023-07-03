@@ -70,8 +70,7 @@ describe('browser', function () {
                 const local = await utils.generateProfileURL({
                     source: 'wkd',
                     input: 'test@doip.rocks',
-                    hostname: 'keyoxide.instance',
-                    scheme: 'https'
+                    hostname: 'keyoxide.instance'
                 })
                 local.should.equal('https://keyoxide.instance/test@doip.rocks')
             })
@@ -79,8 +78,7 @@ describe('browser', function () {
                 const local = await utils.generateProfileURL({
                     source: 'hkp',
                     input: 'test@doip.rocks',
-                    hostname: 'keyoxide.instance',
-                    scheme: 'https'
+                    hostname: 'keyoxide.instance'
                 })
                 local.should.equal('https://keyoxide.instance/hkp/test@doip.rocks')
             })
@@ -88,8 +86,7 @@ describe('browser', function () {
                 const local = await utils.generateProfileURL({
                     source: 'hkp',
                     input: '3637202523E7C1309AB79E99EF2DC5827B445F4B',
-                    hostname: 'keyoxide.instance',
-                    scheme: 'https'
+                    hostname: 'keyoxide.instance'
                 })
                 local.should.equal('https://keyoxide.instance/3637202523E7C1309AB79E99EF2DC5827B445F4B')
             })
@@ -97,8 +94,7 @@ describe('browser', function () {
                 const local = await utils.generateProfileURL({
                     source: 'keybase',
                     input: 'https://keybase.io/doip/pgp_keys.asc?fingerprint=3637202523E7C1309AB79E99EF2DC5827B445F4B',
-                    hostname: 'keyoxide.instance',
-                    scheme: 'https'
+                    hostname: 'keyoxide.instance'
                 })
                 local.should.equal('https://keyoxide.instance/keybase/doip/3637202523E7C1309AB79E99EF2DC5827B445F4B')
             })
