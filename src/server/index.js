@@ -32,12 +32,6 @@ import * as doipjs from 'doipjs'
 import { fetchWKD, fetchHKP, fetchSignature, fetchKeybase } from './keys.js'
 import libravatar from 'libravatar'
 
-const scheme = process.env.PROXY_SCHEME
-  ? process.env.PROXY_SCHEME
-  : process.env.SCHEME
-    ? process.env.SCHEME
-    : 'https'
-
 const generateWKDProfile = async (id) => {
   logger.debug('Generating a WKD profile',
     { component: 'wkd_profile_generator', action: 'start', profile_id: id })
@@ -52,7 +46,7 @@ const generateWKDProfile = async (id) => {
       keyData = processKeyData(keyData)
 
       const keyoxideData = {}
-      keyoxideData.url = `${scheme}://${process.env.DOMAIN}/wkd/${id}`
+      keyoxideData.url = `${getScheme()}://${process.env.DOMAIN}/wkd/${id}`
 
       logger.debug('Generating a WKD profile',
         { component: 'wkd_profile_generator', action: 'done', profile_id: id })
@@ -94,9 +88,9 @@ const generateHKPProfile = async (id, keyserverDomain) => {
 
       const keyoxideData = {}
       if (!keyserverDomain || keyserverDomain === 'keys.openpgp.org') {
-        keyoxideData.url = `${scheme}://${process.env.DOMAIN}/hkp/${id}`
+        keyoxideData.url = `${getScheme()}://${process.env.DOMAIN}/hkp/${id}`
       } else {
-        keyoxideData.url = `${scheme}://${process.env.DOMAIN}/hkp/${keyserverDomain}/${id}`
+        keyoxideData.url = `${getScheme()}://${process.env.DOMAIN}/hkp/${keyserverDomain}/${id}`
       }
 
       logger.debug('Generating a HKP profile',
@@ -202,7 +196,7 @@ const generateKeybaseProfile = async (username, fingerprint) => {
       keyData = processKeyData(keyData)
 
       const keyoxideData = {}
-      keyoxideData.url = `${scheme}://${process.env.DOMAIN}/keybase/${username}/${fingerprint}`
+      keyoxideData.url = `${getScheme()}://${process.env.DOMAIN}/keybase/${username}/${fingerprint}`
 
       logger.debug('Generating a Keybase profile',
         { component: 'keybase_profile_generator', action: 'done', username, fingerprint })
@@ -269,6 +263,14 @@ const computeExtraData = async (key, keyData) => {
   return {
     avatarURL: await libravatar.get_avatar_url({ email: primaryUser.user.userID.email, size: 128, default: 'mm', https: true })
   }
+}
+
+const getScheme = () => {
+  return process.env.PROXY_SCHEME
+    ? process.env.PROXY_SCHEME
+    : process.env.SCHEME
+      ? process.env.SCHEME
+      : 'https'
 }
 
 export { generateWKDProfile }
