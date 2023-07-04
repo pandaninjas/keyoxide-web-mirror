@@ -121,7 +121,7 @@ const fetchHKP = (id, keyserverDomain) => {
         fetchURL: null
       }
 
-      keyserverDomain = keyserverDomain || 'keys.openpgp.org'
+      const keyserverDomainNormalized = keyserverDomain || 'keys.openpgp.org'
 
       let query = ''
       if (id.includes('@')) {
@@ -135,9 +135,9 @@ const fetchHKP = (id, keyserverDomain) => {
         query = `0x${sanitizedId}`
       }
 
-      output.fetchURL = `https://${keyserverDomain}/pks/lookup?op=get&options=mr&search=${query}`
+      output.fetchURL = `https://${keyserverDomainNormalized}/pks/lookup?op=get&options=mr&search=${query}`
 
-      const hash = createHash('md5').update(`${query}__${keyserverDomain}`).digest('hex')
+      const hash = createHash('md5').update(`${query}__${keyserverDomainNormalized}`).digest('hex')
 
       if (c && await c.get(hash)) {
         output.publicKey = await readKey({
@@ -145,7 +145,7 @@ const fetchHKP = (id, keyserverDomain) => {
         })
       } else {
         try {
-          output.publicKey = await doipjs.keys.fetchHKP(query, keyserverDomain)
+          output.publicKey = await doipjs.keys.fetchHKP(query, keyserverDomainNormalized)
         } catch (error) {
           reject(new Error('No public keys could be fetched using HKP'))
         }
