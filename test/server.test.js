@@ -30,20 +30,27 @@ describe('server', function () {
             })
         })
     })
+
+    // NOTE: This is necessarily brittle. If these tests fail
+    // in the future, start looking here for what new behaviour
+    // in the implementation is or isn't getting mocked
+    // appropriately.
     describe('index', function () {
 
-        // Brittle mocking :(
-        describe('generateHKPProfile', function() {
+        describe('generateHKPProfile()', function() {
 
-            it('should handle implicit scheme with implicit keys.openpgp.org keyserver', async function () {
+            let index;
+            let fingerprint;
 
-                // Arrange
-                const fingerprint = '79895B2E0F87503F1DDE80B649765D7F0DDD9BD5'
-                // the process.env needs to be here, before the esmock setup.
+            this.beforeEach(async () => {
+
+                // Common arrangement pieces that don't change per test
+                fingerprint = '79895B2E0F87503F1DDE80B649765D7F0DDD9BD5'
                 process.env.DOMAIN = "keyoxide.org"
-                //process.env.SCHEME = "http"
 
-                const index = await esmock('../src/server/index.js', {
+                // mock the appropriate pieces of our dependencies so we
+                // can test just the `keyoxide.url` return value.
+                index = await esmock('../src/server/index.js', {
                     '../src/server/keys.js': {
                         fetchHKP: () => {
                             return Promise.resolve({
@@ -52,7 +59,7 @@ describe('server', function () {
                                         return {
                                             user: {
                                                 userID: {
-                                                    email: "example@example.org"
+                                                    email: "example@example.net"
                                                 }
                                             }
                                         }
@@ -79,6 +86,16 @@ describe('server', function () {
                         }
                     }
                 })
+            })
+
+            this.afterEach(() => {
+                process.env = _env
+            })
+
+            it('should handle implicit scheme for keyoxide URL', async function () {
+
+                // Arrange
+                // no setting process.env.SCHEME
 
                 // Act
                 const local = await index.generateHKPProfile(fingerprint)
@@ -87,6 +104,33 @@ describe('server', function () {
                 local.keyoxide.url.should.equal(`https://keyoxide.org/hkp/${fingerprint}`)
 
             })
+
+            it('should handle explicit http scheme for keyoxide URL', async function () {
+
+                // Arrange
+                process.env.SCHEME = "http"
+
+                // Act
+                const local = await index.generateHKPProfile(fingerprint)
+
+                // Assert
+                local.keyoxide.url.should.equal(`http://keyoxide.org/hkp/${fingerprint}`)
+
+            })
+
+            it('should handle explicit https scheme for keyoxide URL', async function () {
+
+                // Arrange
+                process.env.SCHEME = "https"
+
+                // Act
+                const local = await index.generateHKPProfile(fingerprint)
+
+                // Assert
+                local.keyoxide.url.should.equal(`https://keyoxide.org/hkp/${fingerprint}`)
+
+            })
+
         })
     })
 })
