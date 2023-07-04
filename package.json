@@ -30,6 +30,7 @@
     "chai": "^4.3.6",
     "copy-webpack-plugin": "^10.2.4",
     "css-loader": "^6.6.0",
+    "esmock": "^2.3.1",
     "license-check-and-add": "^4.0.5",
     "mini-css-extract-plugin": "^2.5.3",
     "mocha": "^10.1.0",
