@@ -29,45 +29,48 @@ more information on this, and how to apply and follow the GNU AGPL, see <https:/
 */
 import logger from '../log.js'
 import * as doipjs from 'doipjs'
-import { fetchWKD, fetchHKP, fetchSignature, fetchKeybase } from './keys.js'
+import { fetchWKD, fetchHKP, fetchSignature, fetchKeybase } from './openpgpProfiles.js'
 import libravatar from 'libravatar'
+
+const generateAspeProfile = async (id) => {
+  logger.debug('Generating an ASPE profile',
+    { component: 'aspe_profile_generator', action: 'start', profile_id: id })
+
+  return doipjs.asp.fetchASPE(id)
+    .then(profile => {
+      profile.addVerifier('keyoxide', `https://${process.env.DOMAIN}/${id}`)
+      profile = processAspProfile(profile)
+      return profile
+    })
+    .catch(err => {
+      logger.warn('Failed to generate ASPE profile',
+        { component: 'aspe_profile_generator', action: 'failure', error: err.message, profile_id: id })
+
+      return {
+        errors: [err.message]
+      }
+    })
+}
 
 const generateWKDProfile = async (id) => {
   logger.debug('Generating a WKD profile',
     { component: 'wkd_profile_generator', action: 'start', profile_id: id })
 
   return fetchWKD(id)
-    .then(async key => {
-      let keyData = await doipjs.keys.process(key.publicKey)
-      keyData.openpgp4fpr = `openpgp4fpr:${keyData.fingerprint.toLowerCase()}`
-      keyData.key.fetchMethod = 'wkd'
-      keyData.key.uri = key.fetchURL
-      keyData.key.data = {}
-      keyData = processKeyData(keyData)
-
-      const keyoxideData = {}
-      keyoxideData.url = `https://${process.env.DOMAIN}/wkd/${id}`
+    .then(async profile => {
+      profile.addVerifier('keyoxide', `https://${process.env.DOMAIN}/wkd/${id}`)
+      profile = processOpenPgpProfile(profile)
 
       logger.debug('Generating a WKD profile',
         { component: 'wkd_profile_generator', action: 'done', profile_id: id })
 
-      return {
-        key,
-        keyData,
-        keyoxide: keyoxideData,
-        extra: await computeExtraData(key, keyData),
-        errors: []
-      }
+      return profile
     })
     .catch(err => {
       logger.warn('Failed to generate WKD profile',
         { component: 'wkd_profile_generator', action: 'failure', error: err.message, profile_id: id })
 
       return {
-        key: {},
-        keyData: {},
-        keyoxide: {},
-        extra: {},
         errors: [err.message]
       }
     })
@@ -78,41 +81,27 @@ const generateHKPProfile = async (id, keyserverDomain) => {
     { component: 'hkp_profile_generator', action: 'start', profile_id: id, keyserver_domain: keyserverDomain || '' })
 
   return fetchHKP(id, keyserverDomain)
-    .then(async key => {
-      let keyData = await doipjs.keys.process(key.publicKey)
-      keyData.openpgp4fpr = `openpgp4fpr:${keyData.fingerprint.toLowerCase()}`
-      keyData.key.fetchMethod = 'hkp'
-      keyData.key.uri = key.fetchURL
-      keyData.key.data = {}
-      keyData = processKeyData(keyData)
-
-      const keyoxideData = {}
+    .then(async profile => {
+      let keyoxideUrl
       if (!keyserverDomain || keyserverDomain === 'keys.openpgp.org') {
-        keyoxideData.url = `https://${process.env.DOMAIN}/hkp/${id}`
+        keyoxideUrl = `https://${process.env.DOMAIN}/hkp/${id}`
       } else {
-        keyoxideData.url = `https://${process.env.DOMAIN}/hkp/${keyserverDomain}/${id}`
+        keyoxideUrl = `https://${process.env.DOMAIN}/hkp/${keyserverDomain}/${id}`
       }
+
+      profile.addVerifier('keyoxide', keyoxideUrl)
+      profile = processOpenPgpProfile(profile)
 
       logger.debug('Generating a HKP profile',
         { component: 'hkp_profile_generator', action: 'done', profile_id: id, keyserver_domain: keyserverDomain || '' })
 
-      return {
-        key,
-        keyData,
-        keyoxide: keyoxideData,
-        extra: await computeExtraData(key, keyData),
-        errors: []
-      }
+      return profile
     })
     .catch(err => {
       logger.warn('Failed to generate HKP profile',
         { component: 'hkp_profile_generator', action: 'failure', error: err.message, profile_id: id, keyserver_domain: keyserverDomain || '' })
 
       return {
-        key: {},
-        keyData: {},
-        keyoxide: {},
-        extra: {},
         errors: [err.message]
       }
     })
@@ -121,25 +110,31 @@ const generateHKPProfile = async (id, keyserverDomain) => {
 const generateAutoProfile = async (id) => {
   let result
 
+  const aspeRe = /aspe:(.*):(.*)/
+
+  if (aspeRe.test(id)) {
+    result = await generateAspeProfile(id)
+
+    if (result && !('errors' in result)) {
+      return result
+    }
+  }
+
   if (id.includes('@')) {
     result = await generateWKDProfile(id)
 
-    if (result && result.errors.length === 0) {
+    if (result && !('errors' in result)) {
       return result
     }
   }
 
   result = await generateHKPProfile(id)
-  if (result && result.errors.length === 0) {
+  if (result && !('errors' in result)) {
     return result
   }
 
   return {
-    key: {},
-    keyData: {},
-    keyoxide: {},
-    extra: {},
-    errors: ['No public keys could be found']
+    errors: ['No public profile/keys could be found']
   }
 }
 
@@ -149,34 +144,20 @@ const generateSignatureProfile = async (signature) => {
 
   return fetchSignature(signature)
     .then(async key => {
-      let keyData = key.keyData
-      keyData.openpgp4fpr = `openpgp4fpr:${keyData.fingerprint.toLowerCase()}`
-      key.keyData = undefined
-      keyData.key.data = {}
-      keyData = processKeyData(keyData)
-
-      const keyoxideData = {}
+      let profile = await doipjs.signatures.parse(key.publicKey)
+      profile.addVerifier('keyoxide', keyoxideUrl)
+      profile = processOpenPgpProfile(profile)
 
       logger.debug('Generating a signature profile',
         { component: 'signature_profile_generator', action: 'done' })
 
-      return {
-        key,
-        keyData,
-        keyoxide: keyoxideData,
-        extra: await computeExtraData(key, keyData),
-        errors: []
-      }
+      return profile
     })
     .catch(err => {
       logger.warn('Failed to generate a signature profile',
         { component: 'signature_profile_generator', action: 'failure', error: err.message })
 
       return {
-        key: {},
-        keyData: {},
-        keyoxide: {},
-        extra: {},
         errors: [err.message]
       }
     })
@@ -187,72 +168,91 @@ const generateKeybaseProfile = async (username, fingerprint) => {
     { component: 'keybase_profile_generator', action: 'start', username, fingerprint })
 
   return fetchKeybase(username, fingerprint)
-    .then(async key => {
-      let keyData = await doipjs.keys.process(key.publicKey)
-      keyData.openpgp4fpr = `openpgp4fpr:${keyData.fingerprint.toLowerCase()}`
-      keyData.key.fetchMethod = 'hkp'
-      keyData.key.uri = key.fetchURL
-      keyData.key.data = {}
-      keyData = processKeyData(keyData)
-
-      const keyoxideData = {}
-      keyoxideData.url = `https://${process.env.DOMAIN}/keybase/${username}/${fingerprint}`
+    .then(async profile => {
+      profile.addVerifier('keyoxide', `https://${process.env.DOMAIN}/keybase/${username}/${fingerprint}`)
+      profile = processOpenPgpProfile(profile)
 
       logger.debug('Generating a Keybase profile',
         { component: 'keybase_profile_generator', action: 'done', username, fingerprint })
 
-      return {
-        key,
-        keyData,
-        keyoxide: keyoxideData,
-        extra: await computeExtraData(key, keyData),
-        errors: []
-      }
+      return profile
     })
     .catch(err => {
       logger.warn('Failed to generate a Keybase profile',
         { component: 'keybase_profile_generator', action: 'failure', error: err.message, username, fingerprint })
 
       return {
-        key: {},
-        keyData: {},
-        keyoxide: {},
-        extra: {},
         errors: [err.message]
       }
     })
 }
 
-const processKeyData = (keyData) => {
-  keyData.users.forEach(user => {
+const processAspProfile = async (/** @type {import('doipjs').Profile */ profile) => {
+  profile.personas.forEach(persona => {
     // Remove faulty claims
-    user.claims = user.claims.filter(claim => {
+    persona.claims = persona.claims.filter(claim => {
       return claim instanceof doipjs.Claim
     })
 
     // Match claims
-    user.claims.forEach(claim => {
+    persona.claims.forEach(claim => {
       claim.match()
     })
 
     // Sort claims
-    user.claims.sort((a, b) => {
+    persona.claims.sort((a, b) => {
       if (a.matches.length === 0) return 1
       if (b.matches.length === 0) return -1
 
-      if (a.matches[0].serviceprovider.name < b.matches[0].serviceprovider.name) {
+      if (a.matches[0].about.name < b.matches[0].about.name) {
         return -1
       }
-      if (a.matches[0].serviceprovider.name > b.matches[0].serviceprovider.name) {
+      if (a.matches[0].about.name > b.matches[0].about.name) {
         return 1
       }
       return 0
     })
   })
 
-  keyData.primaryUserIndex ||= 0
+  // Overwrite avatarUrl
+  // TODO: don't overwrite avatarUrl once it's fully supported
+  profile.personas[profile.primaryPersonaIndex].avatarUrl = `https://api.dicebear.com/6.x/shapes/svg?seed=${profile.publicKey.fingerprint}&size=128`
 
-  return keyData
+  return profile
+}
+
+const processOpenPgpProfile = async (/** @type {import('doipjs').Profile */ profile) => {
+  profile.personas.forEach(persona => {
+    // Remove faulty claims
+    persona.claims = persona.claims.filter(claim => {
+      return claim instanceof doipjs.Claim
+    })
+
+    // Match claims
+    persona.claims.forEach(claim => {
+      claim.match()
+    })
+
+    // Sort claims
+    persona.claims.sort((a, b) => {
+      if (a.matches.length === 0) return 1
+      if (b.matches.length === 0) return -1
+
+      if (a.matches[0].about.name < b.matches[0].about.name) {
+        return -1
+      }
+      if (a.matches[0].about.name > b.matches[0].about.name) {
+        return 1
+      }
+      return 0
+    })
+  })
+
+  // Overwrite avatarUrl
+  // TODO: don't overwrite avatarUrl once it's fully supported
+  profile.personas[profile.primaryPersonaIndex].avatarUrl = await libravatar.get_avatar_url({ email: profile.personas[profile.primaryPersonaIndex].email, size: 128, default: 'mm', https: true })
+
+  return profile
 }
 
 const computeExtraData = async (key, keyData) => {
@@ -265,6 +265,7 @@ const computeExtraData = async (key, keyData) => {
   }
 }
 
+export { generateAspeProfile }
 export { generateWKDProfile }
 export { generateHKPProfile }
 export { generateAutoProfile }

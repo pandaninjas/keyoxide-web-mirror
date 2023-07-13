@@ -30,7 +30,6 @@ more information on this, and how to apply and follow the GNU AGPL, see <https:/
 import express from 'express'
 import markdownImport from 'markdown-it'
 import { readFileSync } from 'fs'
-import demoData from '../server/demo.js'
 
 const router = express.Router()
 const md = markdownImport({ typographer: true })
@@ -48,7 +47,7 @@ router.get('/', (req, res) => {
     }
   }
 
-  res.render('index', { highlights, demoData })
+  res.render('index', { highlights })
 })
 
 router.get('/privacy', (req, res) => {

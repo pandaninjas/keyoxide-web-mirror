@@ -28,16 +28,19 @@ if any, to sign a "copyright disclaimer" for the program, if necessary. For
 more information on this, and how to apply and follow the GNU AGPL, see <https://www.gnu.org/licenses/>.
 */
 import express from 'express'
-import apiRouter0 from '../api/v0/index.js'
-import apiRouter1 from '../api/v1/index.js'
-import apiRouter2 from '../api/v2/index.js'
+import apiRouter3 from '../api/v3/index.js'
 
 const router = express.Router()
 
-if ((process.env.ENABLE_MAIN_MODULE ?? 'true') === 'true') {
-  router.use('/0', apiRouter0)
-}
-router.use('/1', apiRouter1)
-router.use('/2', apiRouter2)
+router.get('/0', (req, res) => {
+  return res.status(501).send('Proxy v0 API endpoint is no longer supported, please migrate to proxy v3 API endpoint')
+})
+router.get('/1', (req, res) => {
+  return res.status(501).send('Proxy v1 API endpoint is no longer supported, please migrate to proxy v3 API endpoint')
+})
+router.get('/2', (req, res) => {
+  return res.status(501).send('Proxy v2 API endpoint is no longer supported, please migrate to proxy v3 API endpoint')
+})
+router.use('/3', apiRouter3)
 
 export default router
