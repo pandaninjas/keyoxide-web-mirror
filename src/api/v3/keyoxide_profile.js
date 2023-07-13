@@ -37,7 +37,7 @@ import { claimSchema, personaSchema, profileSchema, serviceProviderSchema } from
 dotenv.config()
 
 const router = express.Router()
-const ajv = new Ajv({ 
+const ajv = new Ajv({
   schemas: [profileSchema, personaSchema, claimSchema, serviceProviderSchema]
 })
 
@@ -157,7 +157,7 @@ router.get('/verify',
       return
     }
 
-    let profile = Claim.fromJson(req.query.data)
+    const profile = Claim.fromJson(req.query.data)
 
     // Do verification
     let data = await doVerification(profile)

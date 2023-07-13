@@ -29,7 +29,7 @@ more information on this, and how to apply and follow the GNU AGPL, see <https:/
 */
 import got from 'got'
 import * as doipjs from 'doipjs'
-import { readKey, readCleartextMessage, verify, PublicKey } from 'openpgp'
+import { readKey } from 'openpgp'
 import { computeWKDLocalPart } from './utils.js'
 import { createHash } from 'crypto'
 import Keyv from 'keyv'
@@ -175,16 +175,6 @@ const fetchSignature = (signature) => {
   return new Promise((resolve, reject) => {
     (async () => {
       let profile = null
-
-      // Check validity of signature
-      let signatureData
-      try {
-        signatureData = await readCleartextMessage({
-          cleartextMessage: signature
-        })
-      } catch (error) {
-        reject(new Error(`Signature could not be properly read (${error.message})`))
-      }
 
       // Process the signature
       try {

@@ -145,7 +145,6 @@ const generateSignatureProfile = async (signature) => {
   return fetchSignature(signature)
     .then(async key => {
       let profile = await doipjs.signatures.parse(key.publicKey)
-      profile.addVerifier('keyoxide', keyoxideUrl)
       profile = processOpenPgpProfile(profile)
 
       logger.debug('Generating a signature profile',
@@ -253,16 +252,6 @@ const processOpenPgpProfile = async (/** @type {import('doipjs').Profile */ prof
   profile.personas[profile.primaryPersonaIndex].avatarUrl = await libravatar.get_avatar_url({ email: profile.personas[profile.primaryPersonaIndex].email, size: 128, default: 'mm', https: true })
 
   return profile
-}
-
-const computeExtraData = async (key, keyData) => {
-  // Get the primary user
-  const primaryUser = await key.publicKey.getPrimaryUser()
-
-  // Query libravatar to get the avatar url
-  return {
-    avatarURL: await libravatar.get_avatar_url({ email: primaryUser.user.userID.email, size: 128, default: 'mm', https: true })
-  }
 }
 
 export { generateAspeProfile }
