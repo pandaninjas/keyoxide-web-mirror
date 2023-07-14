@@ -45,7 +45,7 @@ export class Claim extends HTMLElement {
     }
 
     async verify() {
-        const claim = new doipjs.Claim(JSON.parse(this.getAttribute('data-claim')));
+        const claim = doipjs.Claim.fromJson(JSON.parse(this.getAttribute('data-claim')));
         await claim.verify({
             proxy: {
                 policy: 'adaptive',
@@ -58,24 +58,14 @@ export class Claim extends HTMLElement {
 
     updateContent(value) {
         const root = this;
-        const claim = new doipjs.Claim(JSON.parse(value));
+        const claim = doipjs.Claim.fromJson(JSON.parse(value));
 
-        switch (claim.matches[0].serviceprovider.name) {
-            case 'dns':
-            case 'xmpp':
-            case 'irc':
-                root.querySelector('.info .subtitle').innerText = claim.matches[0].serviceprovider.name.toUpperCase();
-                break;
-
-            default:
-                root.querySelector('.info .subtitle').innerText = claim.matches[0].serviceprovider.name;
-                break;
-        }
+        root.querySelector('.info .subtitle').innerText = claim.matches[0].about.name;
         root.querySelector('.info .title').innerText = claim.matches[0].profile.display;
 
         try {
-            if (claim.status === 'verified') {
-                root.querySelector('.icons .verificationStatus').setAttribute('data-value', claim.verification.result ? 'success' : 'failed');
+            if (claim.status >= 200) {
+                root.querySelector('.icons .verificationStatus').setAttribute('data-value', claim.status < 300 ? 'success' : 'failed');
             } else {
                 root.querySelector('.icons .verificationStatus').setAttribute('data-value', 'running');
             }
@@ -87,7 +77,7 @@ export class Claim extends HTMLElement {
         elContent.innerHTML = ``;
 
         // Handle failed ambiguous claim
-        if (claim.status === 'verified' && !claim.verification.result && claim.isAmbiguous()) {
+        if (claim.status >= 300 && claim.isAmbiguous()) {
             root.querySelector('.info .subtitle').innerText = '---';
 
             const subsection_alert = elContent.appendChild(document.createElement('div'));
@@ -120,8 +110,8 @@ export class Claim extends HTMLElement {
         }
 
         const proof_link = subsection_links_text.appendChild(document.createElement('p'));
-        if (claim.matches[0].proof.uri) {
-            proof_link.innerHTML = `Proof link: <a href="${claim.matches[0].proof.uri}" aria-label="link to profile">${claim.matches[0].proof.uri}</a>`;
+        if (claim.matches[0].proof.request.uri) {
+            proof_link.innerHTML = `Proof link: <a href="${claim.matches[0].proof.request.uri}" aria-label="link to profile">${claim.matches[0].proof.request.uri}</a>`;
         } else {
             proof_link.innerHTML = `Proof link: not accessible from browser`;
         }
@@ -156,7 +146,7 @@ export class Claim extends HTMLElement {
         const subsection_status_text = subsection_status.appendChild(document.createElement('div'));
 
         const verification = subsection_status_text.appendChild(document.createElement('p'));
-        if (claim.status === 'verified') {
+        if (claim.status >= 200) {
             verification.innerHTML = `Claim verification has completed.`;
             subsection_status_icon.setAttribute('src', '/static/img/check-decagram.svg');
             subsection_status_icon.setAttribute('alt', '');
@@ -178,10 +168,10 @@ export class Claim extends HTMLElement {
         const subsection_result_text = subsection_result.appendChild(document.createElement('div'));
 
         const result = subsection_result_text.appendChild(document.createElement('p'));
-        result.innerHTML = `The claim <strong>${claim.verification.result ? 'HAS BEEN' : 'COULD NOT BE'}</strong> verified by the proof.`;
+        result.innerHTML = `The claim <strong>${claim.status >= 200 && claim.status < 300 ? 'HAS BEEN' : 'COULD NOT BE'}</strong> verified by the proof.`;
 
         // Additional info
-        if (claim.verification.proof.viaProxy) {
+        if (claim.status === 201) {
             elContent.appendChild(document.createElement('hr'));
 
             const subsection_info = elContent.appendChild(document.createElement('div'));

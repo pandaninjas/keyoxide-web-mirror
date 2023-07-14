@@ -75,33 +75,22 @@ export async function generateProfileURL(data) {
 
 // Fetch OpenPGP key based on information stored in window
 export async function fetchProfileKey() {
-    if (window.kx.key.object && window.kx.key.object instanceof openpgp.PublicKey) {
+    if (window.kx.publicKey.key && window.kx.publicKey.key instanceof openpgp.PublicKey) {
         return;
     }
 
-    const rawKeyData = await fetch(window.kx.key.url)
     let key, errorMsg
     
     try {
         key = (await openpgp.readKey({
-            binaryKey: new Uint8Array(await rawKeyData.clone().arrayBuffer())
+            armoredKey: window.kx.publicKey.encodedKey
         }))
-    } catch(error) {
+    } catch (error) {
         errorMsg = error.message
     }
 
-    if (!key) {
-        try {
-            key = (await openpgp.readKey({
-                armoredKey: await rawKeyData.clone().text()
-            }))
-        } catch (error) {
-            errorMsg = error.message
-        }
-    }
-
     if (key) {
-        window.kx.key.object = key
+        window.kx.publicKey.key = key
         return
     } else {
         throw new Error(`Public key could not be fetched (${errorMsg})`)

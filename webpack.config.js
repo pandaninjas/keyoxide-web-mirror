@@ -13,10 +13,8 @@ export default (env) => {
             mode: env.mode,
             entry: {
                 main: {
-                    import: './static-src/index.js',
-                    dependOn: 'openpgp',
-                },
-                openpgp: './node_modules/openpgp/dist/openpgp.js',
+                    import: './static-src/index.js'
+                }
             },
             output: {
                 filename: '[name].js',
@@ -62,12 +60,19 @@ export default (env) => {
                 new CopyPlugin({
                     patterns: [
                         { from: './static-src/files/', to: '../static/' },
+                        { from: './node_modules/openpgp/dist/openpgp.js', to: '../static/openpgp.js' },
+                        { from: './node_modules/doipjs/dist/doip.core.js', to: '../static/doip.js' },
+                        { from: './node_modules/doipjs/dist/doip.fetchers.minimal.js', to: '../static/doipFetchers.js' },
                     ],
                     options: {
                         concurrency: 10,
                     },
                 }),
             ],
+            externals: {
+                doipjs: 'doip',
+                openpgp: 'openpgp'
+            }
         }
     } else {
         return {}

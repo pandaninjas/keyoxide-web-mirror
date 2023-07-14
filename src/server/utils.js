@@ -39,7 +39,7 @@ export function generatePageTitle (type, data) {
   switch (type) {
     case 'profile':
       try {
-        return `${data.keyData.users[data.keyData.primaryUserIndex].userData.name} - Keyoxide`
+        return `${data.personas[data.primaryPersonaIndex].name} - Keyoxide`
       } catch (error) {
         return 'Profile - Keyoxide'
       }

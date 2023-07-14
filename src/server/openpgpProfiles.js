@@ -29,7 +29,7 @@ more information on this, and how to apply and follow the GNU AGPL, see <https:/
 */
 import got from 'got'
 import * as doipjs from 'doipjs'
-import { readKey, readCleartextMessage, verify, PublicKey } from 'openpgp'
+import { readKey } from 'openpgp'
 import { computeWKDLocalPart } from './utils.js'
 import { createHash } from 'crypto'
 import Keyv from 'keyv'
@@ -39,10 +39,9 @@ const c = process.env.ENABLE_EXPERIMENTAL_CACHE ? new Keyv() : null
 const fetchWKD = (id) => {
   return new Promise((resolve, reject) => {
     (async () => {
-      const output = {
-        publicKey: null,
-        fetchURL: null
-      }
+      let publicKey = null
+      let profile = null
+      let fetchURL = null
 
       if (!id.includes('@')) {
         reject(new Error(`The WKD identifier "${id}" is invalid`))
@@ -59,14 +58,14 @@ const fetchWKD = (id) => {
 
       const hash = createHash('md5').update(id).digest('hex')
       if (c && await c.get(hash)) {
-        plaintext = Uint8Array.from((await c.get(hash)).split(','))
+        profile = doipjs.Claim.fromJson(JSON.parse(await c.get(hash)))
       }
 
-      if (!plaintext) {
+      if (!profile) {
         try {
           plaintext = await got(urlAdvanced).then((response) => {
             if (response.statusCode === 200) {
-              output.fetchURL = urlAdvanced
+              fetchURL = urlAdvanced
               return new Uint8Array(response.rawBody)
             } else {
               return null
@@ -76,7 +75,7 @@ const fetchWKD = (id) => {
           try {
             plaintext = await got(urlDirect).then((response) => {
               if (response.statusCode === 200) {
-                output.fetchURL = urlDirect
+                fetchURL = urlDirect
                 return new Uint8Array(response.rawBody)
               } else {
                 return null
@@ -91,24 +90,29 @@ const fetchWKD = (id) => {
           reject(new Error('No public keys could be fetched using WKD'))
         }
 
-        if (c && plaintext instanceof Uint8Array) {
-          await c.set(hash, plaintext.toString(), 60 * 1000)
+        try {
+          publicKey = await readKey({
+            binaryKey: plaintext
+          })
+        } catch (error) {
+          reject(new Error('No public keys could be read from the data fetched using WKD'))
         }
+
+        if (!publicKey) {
+          reject(new Error('No public keys could be read from the data fetched using WKD'))
+        }
+
+        profile = await doipjs.openpgp.parsePublicKey(publicKey)
+        profile.publicKey.fetch.method = 'wkd'
+        profile.publicKey.fetch.query = id
+        profile.publicKey.fetch.resolvedUrl = fetchURL
       }
 
-      try {
-        output.publicKey = await readKey({
-          binaryKey: plaintext
-        })
-      } catch (error) {
-        reject(new Error('No public keys could be read from the data fetched using WKD'))
+      if (c && plaintext instanceof Uint8Array) {
+        await c.set(hash, JSON.stringify(profile), 60 * 1000)
       }
 
-      if (!output.publicKey) {
-        reject(new Error('No public keys could be read from the data fetched using WKD'))
-      }
-
-      resolve(output)
+      resolve(profile)
     })()
   })
 }
@@ -116,12 +120,10 @@ const fetchWKD = (id) => {
 const fetchHKP = (id, keyserverDomain) => {
   return new Promise((resolve, reject) => {
     (async () => {
-      const output = {
-        publicKey: null,
-        fetchURL: null
-      }
+      let profile = null
+      let fetchURL = null
 
-      keyserverDomain = keyserverDomain || 'keys.openpgp.org'
+      const keyserverDomainNormalized = keyserverDomain || 'keys.openpgp.org'
 
       let query = ''
       if (id.includes('@')) {
@@ -135,31 +137,36 @@ const fetchHKP = (id, keyserverDomain) => {
         query = `0x${sanitizedId}`
       }
 
-      output.fetchURL = `https://${keyserverDomain}/pks/lookup?op=get&options=mr&search=${query}`
+      fetchURL = `https://${keyserverDomainNormalized}/pks/lookup?op=get&options=mr&search=${query}`
 
-      const hash = createHash('md5').update(`${query}__${keyserverDomain}`).digest('hex')
+      const hash = createHash('md5').update(`${query}__${keyserverDomainNormalized}`).digest('hex')
 
       if (c && await c.get(hash)) {
-        output.publicKey = await readKey({
-          armoredKey: await c.get(hash)
-        })
-      } else {
+        profile = doipjs.Claim.fromJson(JSON.parse(await c.get(hash)))
+      }
+
+      if (!profile) {
         try {
-          output.publicKey = await doipjs.keys.fetchHKP(query, keyserverDomain)
+          profile = await doipjs.openpgp.fetchHKP(query, keyserverDomainNormalized)
         } catch (error) {
-          reject(new Error('No public keys could be fetched using HKP'))
+          profile = null
         }
       }
 
-      if (!output.publicKey) {
+      if (!profile) {
         reject(new Error('No public keys could be fetched using HKP'))
+        return
       }
 
-      if (c && output.publicKey instanceof PublicKey) {
-        await c.set(hash, output.publicKey.armor(), 60 * 1000)
+      profile.publicKey.fetch.method = 'hkp'
+      profile.publicKey.fetch.query = id
+      profile.publicKey.fetch.resolvedUrl = fetchURL
+
+      if (c && profile instanceof doipjs.Profile) {
+        await c.set(hash, JSON.stringify(profile), 60 * 1000)
       }
 
-      resolve(output)
+      resolve(profile)
     })()
   })
 }
@@ -167,48 +174,22 @@ const fetchHKP = (id, keyserverDomain) => {
 const fetchSignature = (signature) => {
   return new Promise((resolve, reject) => {
     (async () => {
-      const output = {
-        publicKey: null,
-        fetchURL: null,
-        keyData: null
-      }
-
-      // Check validity of signature
-      let signatureData
-      try {
-        signatureData = await readCleartextMessage({
-          cleartextMessage: signature
-        })
-      } catch (error) {
-        reject(new Error(`Signature could not be properly read (${error.message})`))
-      }
+      let profile = null
 
       // Process the signature
       try {
-        output.keyData = await doipjs.signatures.process(signature)
-        output.publicKey = output.keyData.key.data
+        profile = await doipjs.signatures.parse(signature)
         // TODO Find the URL to the key
-        output.fetchURL = null
       } catch (error) {
         reject(new Error(`Signature could not be properly read (${error.message})`))
       }
 
       // Check if a key was fetched
-      if (!output.publicKey) {
-        reject(new Error('No public keys could be fetched'))
+      if (!profile) {
+        reject(new Error('No profile could be fetched'))
       }
 
-      // Check validity of signature
-      const verified = await verify({
-        message: signatureData,
-        verificationKeys: output.publicKey
-      })
-
-      if (!await verified.signatures[0].verified) {
-        reject(new Error('Signature was invalid'))
-      }
-
-      resolve(output)
+      resolve(profile)
     })()
   })
 }
@@ -216,23 +197,24 @@ const fetchSignature = (signature) => {
 const fetchKeybase = (username, fingerprint) => {
   return new Promise((resolve, reject) => {
     (async () => {
-      const output = {
-        publicKey: null,
-        fetchURL: null
-      }
+      let profile = null
+      let fetchURL = null
 
       try {
-        output.publicKey = await doipjs.keys.fetchKeybase(username, fingerprint)
-        output.fetchURL = `https://keybase.io/${username}/pgp_keys.asc?fingerprint=${fingerprint}`
+        profile = await doipjs.openpgp.fetchKeybase(username, fingerprint)
+        fetchURL = `https://keybase.io/${username}/pgp_keys.asc?fingerprint=${fingerprint}`
       } catch (error) {
         reject(new Error('No public keys could be fetched from Keybase'))
       }
 
-      if (!output.publicKey) {
+      if (!profile) {
         reject(new Error('No public keys could be fetched from Keybase'))
       }
 
-      resolve(output)
+      profile.publicKey.fetch.method = 'http'
+      profile.publicKey.fetch.resolvedUrl = fetchURL
+
+      resolve(profile)
     })()
   })
 }

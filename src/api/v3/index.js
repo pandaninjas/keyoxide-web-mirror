@@ -1,5 +1,5 @@
 /*
-Copyright (C) 2022 Yarmo Mackenbach
+Copyright (C) 2023 Yarmo Mackenbach
 
 This program is free software: you can redistribute it and/or modify it under
 the terms of the GNU Affero General Public License as published by the Free

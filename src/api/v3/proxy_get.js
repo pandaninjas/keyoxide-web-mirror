@@ -51,9 +51,6 @@ const opts = {
     telegram: {
       token: process.env.TELEGRAM_TOKEN || null
     },
-    twitter: {
-      bearerToken: process.env.TWITTER_BEARER_TOKEN || null
-    },
     xmpp: {
       service: process.env.XMPP_SERVICE || null,
       username: process.env.XMPP_USERNAME || null,
@@ -137,26 +134,6 @@ router.get(
       })
   }
 )
-
-// Twitter route
-router.get('/twitter', query('tweetId').isInt(), async (req, res) => {
-  if (!opts.claims.twitter.bearerToken) {
-    return res.status(501).json({ errors: 'Twitter not enabled on server' })
-  }
-  const errors = validationResult(req)
-  if (!errors.isEmpty()) {
-    return res.status(400).json({ errors: errors.array() })
-  }
-
-  fetcher.twitter
-    .fn(req.query, opts)
-    .then((data) => {
-      return res.status(200).send(data)
-    })
-    .catch((err) => {
-      return res.status(400).json({ errors: err.message ? err.message : err })
-    })
-})
 
 // Matrix route
 router.get(

@@ -1,20 +1,23 @@
 extends templates/base.pug
 
-mixin generateUser(user, isPrimary)
+mixin generatePersona(persona, isPrimary)
   h2
-    span.p-email #{user.userData.email}
+    if persona.email
+      span.p-email Identity claims (#{persona.email})
+    else
+      span.p-email Identity claims
     if isPrimary
       small.primary primary
-  if user.userData.comment
-    span.p-comment &#9432; #{user.userData.comment}
-  each claim in user.claims
+  if persona.description
+    span.p-comment &#9432; #{persona.description}
+  each claim in persona.claims
     if claim.matches.length > 0
       kx-claim.kx-item(data-claim=claim)
         details(aria-label="Claim")
           summary
             .info
-              p.subtitle= claim.matches[0].serviceprovider.name
-              p.title= claim.matches[0].profile.display
+              p.subtitle= claim.display.serviceproviderName
+              p.title= claim.display.name
             .icons
               .verificationStatus(data-value='running')
                 .inProgress
@@ -22,12 +25,12 @@ mixin generateUser(user, isPrimary)
             .subsection
               img(src='/static/img/link.png')
               div
-                if (claim.matches[0].profile.uri)
+                if (claim.display.url)
                   p Profile link: 
-                    a(rel='me' href=claim.matches[0].profile.uri aria-label="Link to profile")= claim.matches[0].profile.uri
+                    a(rel='me' href=claim.display.url aria-label="Link to profile")= claim.display.url
                 else
                   p Profile link: not accessible from browser
-                if (claim.matches[0].proof.uri)
+                if (claim.matches.length === 1 && claim.matches[0].proof.uri)
                   p Proof link: 
                     a(href=claim.matches[0].proof.uri aria-label="Link to proof")= claim.matches[0].proof.uri
                 else
@@ -36,10 +39,7 @@ mixin generateUser(user, isPrimary)
 block content
   script.
     kx = {
-      key: {
-        url: "!{data && data.key && data.key.fetchURL ? data.key.fetchURL : null}",
-        object: null
-      }
+      publicKey: !{JSON.stringify(data.publicKey)}
     }
 
   if (data && 'errors' in data && data.errors.length > 0)
@@ -80,12 +80,7 @@ block content
         dialog#dialog--verifySignature
           div
             form(method='post')
-              label(for="sigVerInput") Signature 
-              textarea#sigVerInput.input(name='signature')
-              input.no-margin(type='submit' name='submit' value='VERIFY SIGNATURE')
-              br
-              br
-              label(for="sigVerOutput") Verification result 
+              label(for="sigVerInput") Signature name
               textarea#sigVerOutput.output(name='message' placeholder='Waiting for input' readonly)
             form(method="dialog")
               input(type="submit" value="Close")
@@ -108,9 +103,9 @@ block content
 
       unless (isSignature && !signature)
         #profileHeader.card.card--transparent.card--profileHeader
-          img#profileAvatar.u-logo(src=data.extra.avatarURL alt="avatar")
+          img#profileAvatar.u-logo(src=data.personas[data.primaryPersonaIndex].avatarUrl alt="avatar")
 
-          p#profileName.p-name= data.keyData.users[data.keyData.primaryUserIndex].userData.name
+          p#profileName.p-name= data.personas[data.primaryPersonaIndex].name
 
           if (enable_message_encryption || enable_signature_verification)
             .button-wrapper
@@ -119,27 +114,28 @@ block content
               if (enable_signature_verification)
                 button(onClick="document.querySelector('#dialog--verifySignature').showModal();") Verify signature
 
-        +generateUser(data.keyData.users[data.keyData.primaryUserIndex], true)
-        each user, index in data.keyData.users
-          unless index == data.keyData.primaryUserIndex
-            +generateUser(user, false)
+        +generatePersona(data.personas[data.primaryPersonaIndex], true && data.personas.length > 1)
+        each persona, index in data.personas
+          unless index == data.primaryPersonaIndex
+            +generatePersona(persona, false)
 
         #profileProofs.card.card--transparent
           h2 Key
-          kx-key.kx-item(data-keydata=data.keyData)
+          kx-key.kx-item(data-keydata=data.publicKey)
             details(aria-label="Key")
               summary
                 .info
-                  p.subtitle= data.keyData.key.fetchMethod
-                  p.title= data.keyData.fingerprint
+                  p.subtitle= data.publicKey.fetch.method
+                  p.title= data.identifier
               .content
                 .subsection
                   img(src='/static/img/link.png')
                   div
                     p Key link: 
-                      a.u-key(href=data.keyData.key.uri rel="pgpkey" aria-label="Link to cryptographic key")= data.keyData.key.uri
+                      a.u-key(href=data.publicKey.fetch.resolvedUrl rel="pgpkey" aria-label="Link to cryptographic key")= data.publicKey.fetch.resolvedUrl
                 hr
-                .subsection
-                  img(src='/static/img/qrcode.png')
-                  div
-                    button(onClick=`showQR('${data.keyData.fingerprint}', 'fingerprint')` aria-label='Show QR code for cryptographic fingerprint') Show OpenPGP fingerprint QR
+                if (data.profileType === 'openpgp')
+                  .subsection
+                    img(src='/static/img/qrcode.png')
+                    div
+                      button(onClick=`showQR('${data.publicKey.fingerprint}', 'fingerprint')` aria-label='Show QR code for cryptographic fingerprint') Show OpenPGP fingerprint QR
