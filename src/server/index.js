@@ -38,7 +38,7 @@ const generateAspeProfile = async (id) => {
 
   return doipjs.asp.fetchASPE(id)
     .then(profile => {
-      profile.addVerifier('keyoxide', `https://${process.env.DOMAIN}/${id}`)
+      profile.addVerifier('keyoxide', `${getScheme()}://${process.env.DOMAIN}/${id}`)
       profile = processAspProfile(profile)
       return profile
     })

@@ -1,5 +1,6 @@
 import 'chai/register-should.js'
 import esmock from 'esmock'
+import * as doipjs from 'doipjs'
 
 import * as utils from '../src/server/utils.js'
 
@@ -41,6 +42,8 @@ describe('server', function () {
 
             let index;
             let fingerprint;
+            /** @type {import('doipjs').Profile */
+            let profile;
 
             this.beforeEach(async () => {
 
@@ -48,36 +51,16 @@ describe('server', function () {
                 fingerprint = '79895B2E0F87503F1DDE80B649765D7F0DDD9BD5'
                 process.env.DOMAIN = "keyoxide.org"
 
+                const persona = new doipjs.Persona("test", [new doipjs.Claim('dns:domain.tld?type=TXT')])
+
+                profile = new doipjs.Profile(doipjs.enums.ProfileType.OPENPGP, fingerprint, [persona])
+
                 // mock the appropriate pieces of our dependencies so we
                 // can test just the `keyoxide.url` return value.
                 index = await esmock('../src/server/index.js', {
-                    '../src/server/keys.js': {
+                    '../src/server/openpgpProfiles.js': {
                         fetchHKP: () => {
-                            return Promise.resolve({
-                                publicKey: {
-                                    getPrimaryUser: () => {
-                                        return {
-                                            user: {
-                                                userID: {
-                                                    email: "example@example.net"
-                                                }
-                                            }
-                                        }
-                                    }
-                                },
-                                fetchURL: 'example.com'
-                            })
-                        }
-                    },
-                    'doipjs': {
-                        keys: {
-                            process: () => {
-                                return { 
-                                    key: {},
-                                    'fingerprint': fingerprint,
-                                    users: [] 
-                                }
-                            }
+                            return Promise.resolve(profile)
                         }
                     },
                     'libravatar': {
@@ -101,7 +84,7 @@ describe('server', function () {
                 const local = await index.generateHKPProfile(fingerprint)
 
                 // Assert
-                local.keyoxide.url.should.equal(`https://keyoxide.org/hkp/${fingerprint}`)
+                local.verifiers[0].url.should.equal(`https://keyoxide.org/hkp/${fingerprint}`)
 
             })
 
@@ -114,7 +97,7 @@ describe('server', function () {
                 const local = await index.generateHKPProfile(fingerprint)
 
                 // Assert
-                local.keyoxide.url.should.equal(`http://keyoxide.org/hkp/${fingerprint}`)
+                local.verifiers[0].url.should.equal(`http://keyoxide.org/hkp/${fingerprint}`)
 
             })
 
@@ -127,7 +110,7 @@ describe('server', function () {
                 const local = await index.generateHKPProfile(fingerprint)
 
                 // Assert
-                local.keyoxide.url.should.equal(`https://keyoxide.org/hkp/${fingerprint}`)
+                local.verifiers[0].url.should.equal(`https://keyoxide.org/hkp/${fingerprint}`)
 
             })
 
