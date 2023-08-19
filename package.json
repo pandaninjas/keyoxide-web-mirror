@@ -1,6 +1,6 @@
 {
-  "name": "keyoxide-web",
-  "version": "3.6.4",
+  "name": "@aspensmonster/keyoxide-web",
+  "version": "3.7.0",
   "description": "Verifying online identity with cryptography",
   "main": "./src/index.js",
   "type": "module",
@@ -9,7 +9,7 @@
     "bent": "^7.3.12",
     "body-parser": "^1.19.0",
     "dialog-polyfill": "^0.5.6",
-    "doipjs": "^1.0.0",
+    "@aspensmonster/doipjs": "^1.0.1",
     "dotenv": "^16.0.3",
     "express": "^4.17.1",
     "express-validator": "^6.13.0",
@@ -43,7 +43,7 @@
     "webpack-cli": "^5.0.0"
   },
   "scripts": {
-    "start": "node --experimental-fetch ./",
+    "start": "node --experimental-fetch --preserve-symlinks ./",
     "dev": "LOG_LEVEL=debug yarn run watch & yarn run build:static:dev",
     "test": "yarn run lint && mocha --loader=esmock",
     "watch": "./node_modules/.bin/nodemon --config nodemon.json ./",

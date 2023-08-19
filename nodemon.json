@@ -1,6 +1,7 @@
 {
     "execArgs": [
-        "--experimental-fetch"
+        "--experimental-fetch",
+        "--preserve-symlinks"
     ],
     "env": {
         "NODE_ENV": "development"
