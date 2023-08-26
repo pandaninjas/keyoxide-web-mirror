@@ -11,11 +11,8 @@ RUN yarn run build
 FROM node:16-alpine
 
 WORKDIR /app
-COPY --from=builder /app/package.json .
-COPY --from=builder /app/dist/ .
-COPY --from=builder /app/content/ .
-COPY --from=builder /app/views/ .
-COPY --from=builder /app/static/ .
+COPY --from=builder /app /app
+RUN rm -r /app/node_modules
 
 EXPOSE 3000
 
