@@ -105,13 +105,10 @@ const fetchWKD = (id) => {
         try {
           profile = await doipjs.openpgp.parsePublicKey(publicKey)
         } catch (error) {
-          profile = null
-        }
-
-        if (!profile) {
           reject(new Error('No public keys could be fetched using WKD'))
           return
         }
+
         profile.publicKey.fetch.method = 'wkd'
         profile.publicKey.fetch.query = id
         profile.publicKey.fetch.resolvedUrl = fetchURL
