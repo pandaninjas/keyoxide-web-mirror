@@ -102,7 +102,13 @@ const fetchWKD = (id) => {
           reject(new Error('No public keys could be read from the data fetched using WKD'))
         }
 
-        profile = await doipjs.openpgp.parsePublicKey(publicKey)
+        try {
+          profile = await doipjs.openpgp.parsePublicKey(publicKey)
+        } catch (error) {
+          reject(new Error('No public keys could be fetched using WKD'))
+          return
+        }
+
         profile.publicKey.fetch.method = 'wkd'
         profile.publicKey.fetch.query = id
         profile.publicKey.fetch.resolvedUrl = fetchURL

@@ -6,6 +6,22 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [4.0.1] - 2023-08-28
+### Fixed
+- CI docker builds
+
+## [4.0.0] - 2023-08-28
+### Added
+- ASPE support
+- Rome linting and formatting
+- API v3
+### Changed
+- Updated doipjs to 1.0.0
+### Fixed
+- Missing primaryUserIndex
+### Removed
+- API v0, v1, v2
+
 ## [3.6.4] - 2023-03-27
 ### Fixed
 - Missing /graphql proxy API endpoint

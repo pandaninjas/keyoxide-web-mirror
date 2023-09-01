@@ -4,7 +4,8 @@ WORKDIR /app
 COPY . .
 
 RUN yarn --pure-lockfile
-RUN yarn run build
+RUN yarn run build:server
+RUN yarn run build:static
 
 ###
 
