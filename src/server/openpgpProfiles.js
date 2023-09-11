@@ -44,12 +44,12 @@ const fetchWKD = (id) => {
       let fetchURL = null
 
       if (!id.includes('@')) {
-        reject(new Error(`The WKD identifier "${id}" is invalid`))
+        return reject(new Error(`The WKD identifier "${id}" is invalid`))
       }
 
       const [, localPart, domain] = /([^@]*)@(.*)/.exec(id)
       if (!(localPart && domain)) {
-        reject(new Error(`The WKD identifier "${id}" is invalid`))
+        return reject(new Error(`The WKD identifier "${id}" is invalid`))
       }
       const localEncoded = await computeWKDLocalPart(localPart)
       const urlAdvanced = `https://openpgpkey.${domain}/.well-known/openpgpkey/${domain}/hu/${localEncoded}`
@@ -82,12 +82,12 @@ const fetchWKD = (id) => {
               }
             })
           } catch (error) {
-            reject(new Error('No public keys could be fetched using WKD'))
+            return reject(new Error('No public keys could be fetched using WKD'))
           }
         }
 
         if (!plaintext) {
-          reject(new Error('No public keys could be fetched using WKD'))
+          return reject(new Error('No public keys could be fetched using WKD'))
         }
 
         try {
@@ -95,18 +95,17 @@ const fetchWKD = (id) => {
             binaryKey: plaintext
           })
         } catch (error) {
-          reject(new Error('No public keys could be read from the data fetched using WKD'))
+          return reject(new Error('No public keys could be read from the data fetched using WKD'))
         }
 
         if (!publicKey) {
-          reject(new Error('No public keys could be read from the data fetched using WKD'))
+          return reject(new Error('No public keys could be read from the data fetched using WKD'))
         }
 
         try {
           profile = await doipjs.openpgp.parsePublicKey(publicKey)
         } catch (error) {
-          reject(new Error('No public keys could be fetched using WKD'))
-          return
+          return reject(new Error('No public keys could be fetched using WKD'))
         }
 
         profile.publicKey.fetch.method = 'wkd'
@@ -160,8 +159,7 @@ const fetchHKP = (id, keyserverDomain) => {
       }
 
       if (!profile) {
-        reject(new Error('No public keys could be fetched using HKP'))
-        return
+        return reject(new Error('No public keys could be fetched using HKP'))
       }
 
       profile.publicKey.fetch.method = 'hkp'
@@ -187,12 +185,12 @@ const fetchSignature = (signature) => {
         profile = await doipjs.signatures.parse(signature)
         // TODO Find the URL to the key
       } catch (error) {
-        reject(new Error(`Signature could not be properly read (${error.message})`))
+        return reject(new Error(`Signature could not be properly read (${error.message})`))
       }
 
       // Check if a key was fetched
       if (!profile) {
-        reject(new Error('No profile could be fetched'))
+        return reject(new Error('No profile could be fetched'))
       }
 
       resolve(profile)
@@ -210,11 +208,11 @@ const fetchKeybase = (username, fingerprint) => {
         profile = await doipjs.openpgp.fetchKeybase(username, fingerprint)
         fetchURL = `https://keybase.io/${username}/pgp_keys.asc?fingerprint=${fingerprint}`
       } catch (error) {
-        reject(new Error('No public keys could be fetched from Keybase'))
+        return reject(new Error('No public keys could be fetched from Keybase'))
       }
 
       if (!profile) {
-        reject(new Error('No public keys could be fetched from Keybase'))
+        return reject(new Error('No public keys could be fetched from Keybase'))
       }
 
       profile.publicKey.fetch.method = 'http'
