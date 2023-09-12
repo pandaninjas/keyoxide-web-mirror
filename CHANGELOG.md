@@ -6,6 +6,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [4.0.2] - 2023-09-12
+### Fixed
+- Handle doip promise rejection
+- yarn script calls
+
 ## [4.0.1] - 2023-08-28
 ### Fixed
 - CI docker builds
