@@ -30,7 +30,7 @@
     "chai": "^4.3.6",
     "copy-webpack-plugin": "^11.0.0",
     "css-loader": "^6.6.0",
-    "esmock": "^2.3.1",
+    "esmock": "^2.5.0",
     "license-check-and-add": "^4.0.5",
     "mini-css-extract-plugin": "^2.5.3",
     "mocha": "^10.1.0",
@@ -45,7 +45,7 @@
   "scripts": {
     "start": "node --experimental-fetch ./",
     "dev": "LOG_LEVEL=debug yarn run watch && yarn run build:static:dev",
-    "test": "yarn run lint && mocha --loader=esmock",
+    "test": "yarn run lint && mocha",
     "watch": "./node_modules/.bin/nodemon --config nodemon.json ./",
     "build": "yarn run build:server && yarn run build:static",
     "build:server": "ncc build ./src/index.js -o dist",
