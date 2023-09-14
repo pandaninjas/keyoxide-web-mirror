@@ -17,7 +17,9 @@ Self-hosting Keyoxide is an important aspect of the project. Users need to trust
 
 The Docker container allows you to easily self-host the [Keyoxide](https://keyoxide.org) project. To get started, simply run:
 
-`docker run -d -p 3000:3000 keyoxide/keyoxide:stable`
+```sh
+docker run -d -p 3000:3000 codeberg.org/keyoxide/keyoxide-web:latest
+```
 
 Keyoxide will now be available by visiting http://localhost:3000.
 
