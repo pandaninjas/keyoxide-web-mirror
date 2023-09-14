@@ -30,6 +30,7 @@ more information on this, and how to apply and follow the GNU AGPL, see <https:/
 import express from 'express'
 import markdownImport from 'markdown-it'
 import { readFileSync } from 'fs'
+import { getMetaFromReq } from '../server/utils.js'
 
 const router = express.Router()
 const md = markdownImport({ typographer: true })
@@ -47,13 +48,13 @@ router.get('/', (req, res) => {
     }
   }
 
-  res.render('index', { highlights })
+  res.render('index', { highlights, meta: getMetaFromReq(req) })
 })
 
 router.get('/privacy', (req, res) => {
   const rawContent = readFileSync('./content/privacy-policy.md', 'utf8')
   const content = md.render(rawContent)
-  res.render('article', { title: 'Privacy policy', content })
+  res.render('article', { title: 'Privacy policy', content, meta: getMetaFromReq(req) })
 })
 
 router.get('/.well-known/webfinger', (req, res) => {

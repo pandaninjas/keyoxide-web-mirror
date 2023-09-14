@@ -31,12 +31,13 @@ import express from 'express'
 import bodyParserImport from 'body-parser'
 import { generateSignatureProfile, utils, generateWKDProfile, generateHKPProfile, generateAutoProfile, generateKeybaseProfile } from '../server/index.js'
 import { Profile } from 'doipjs'
+import { getMetaFromReq } from '../server/utils.js'
 
 const router = express.Router()
 const bodyParser = bodyParserImport.urlencoded({ extended: false })
 
 router.get('/sig', (req, res) => {
-  res.render('profile', { isSignature: true, signature: null })
+  res.render('profile', { isSignature: true, signature: null, meta: getMetaFromReq(req) })
 })
 
 router.post('/sig', bodyParser, async (req, res) => {
@@ -49,7 +50,8 @@ router.post('/sig', bodyParser, async (req, res) => {
     isSignature: true,
     signature: req.body.signature,
     enable_message_encryption: false,
-    enable_signature_verification: false
+    enable_signature_verification: false,
+    meta: getMetaFromReq(req)
   })
 })
 
@@ -61,7 +63,8 @@ router.get('/wkd/:id', async (req, res) => {
     title,
     data: data instanceof Profile ? data.toJSON() : data,
     enable_message_encryption: false,
-    enable_signature_verification: false
+    enable_signature_verification: false,
+    meta: getMetaFromReq(req)
   })
 })
 
@@ -73,7 +76,8 @@ router.get('/hkp/:id', async (req, res) => {
     title,
     data: data instanceof Profile ? data.toJSON() : data,
     enable_message_encryption: false,
-    enable_signature_verification: false
+    enable_signature_verification: false,
+    meta: getMetaFromReq(req)
   })
 })
 
@@ -85,7 +89,8 @@ router.get('/hkp/:server/:id', async (req, res) => {
     title,
     data: data instanceof Profile ? data.toJSON() : data,
     enable_message_encryption: false,
-    enable_signature_verification: false
+    enable_signature_verification: false,
+    meta: getMetaFromReq(req)
   })
 })
 
@@ -97,7 +102,8 @@ router.get('/keybase/:username/:fingerprint', async (req, res) => {
     title,
     data: data instanceof Profile ? data.toJSON() : data,
     enable_message_encryption: false,
-    enable_signature_verification: false
+    enable_signature_verification: false,
+    meta: getMetaFromReq(req)
   })
 })
 
@@ -109,7 +115,8 @@ router.get('/:id', async (req, res) => {
     title,
     data: data instanceof Profile ? data.toJSON() : data,
     enable_message_encryption: false,
-    enable_signature_verification: false
+    enable_signature_verification: false,
+    meta: getMetaFromReq(req)
   })
 })
 

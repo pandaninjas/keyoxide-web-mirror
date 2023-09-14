@@ -27,4 +27,9 @@ footer
         br
         a(href="https://ariadne.id") ariadne.id
 
-    p.copyright &copy; 2022 Keyoxide project contributors
+    p.copyright
+      | Version #{meta.keyoxide.version}
+      if (meta.env === "development")
+        | -dev
+      br
+      | &copy; 2023 Keyoxide project contributors

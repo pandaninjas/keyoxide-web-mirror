@@ -78,3 +78,12 @@ export function encodeZBase32 (data) {
   }
   return result
 }
+
+export function getMetaFromReq (req) {
+  return {
+    env: req.app.get('env'),
+    keyoxide: {
+      version: req.app.get('keyoxide_version')
+    }
+  }
+}
