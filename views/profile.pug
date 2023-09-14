@@ -37,10 +37,11 @@ mixin generatePersona(persona, isPrimary)
                   p Proof link: not accessible from browser
 
 block content
-  script.
-    kx = {
-      publicKey: !{JSON.stringify(data.publicKey)}
-    }
+  if (data && 'publicKey' in data)
+    script.
+      kx = {
+        publicKey: !{JSON.stringify(data.publicKey)}
+      }
 
   if (data && 'errors' in data && data.errors.length > 0)
     section
