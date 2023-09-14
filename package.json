@@ -42,7 +42,7 @@
     "webpack-cli": "^5.0.0"
   },
   "scripts": {
-    "start": "node --experimental-fetch ./",
+    "start": "node ./",
     "dev": "LOG_LEVEL=debug yarn run watch && yarn run build:static:dev",
     "test": "yarn run lint && mocha",
     "watch": "./node_modules/.bin/nodemon --config nodemon.json ./",

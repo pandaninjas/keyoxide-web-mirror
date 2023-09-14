@@ -1,4 +1,4 @@
-FROM node:16-alpine as builder
+FROM node:20-alpine as builder
 
 WORKDIR /app
 COPY . .
@@ -9,7 +9,7 @@ RUN yarn run build:static
 
 ###
 
-FROM node:16-alpine
+FROM node:20-alpine
 
 WORKDIR /app
 COPY --from=builder /app/package.json /app/package.json
@@ -20,4 +20,4 @@ COPY --from=builder /app/static /app/static
 
 EXPOSE 3000
 
-CMD node --experimental-fetch ./dist/
+CMD node ./dist/
