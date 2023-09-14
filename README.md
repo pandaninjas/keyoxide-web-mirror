@@ -5,7 +5,7 @@
 [![Docker Image Version (latest semver)](https://img.shields.io/docker/v/keyoxide/keyoxide?sort=semver&style=for-the-badge)](https://hub.docker.com/r/keyoxide/keyoxide)
 [![Docker Pulls](https://img.shields.io/docker/pulls/keyoxide/keyoxide?style=for-the-badge)](https://hub.docker.com/r/keyoxide/keyoxide)
 [![Mastodon Follow](https://img.shields.io/mastodon/follow/247838?domain=https%3A%2F%2Ffosstodon.org&style=for-the-badge)](https://fosstodon.org/@keyoxide)
-[![Liberapay receiving](https://img.shields.io/liberapay/receives/keyoxide?style=for-the-badge)](https://liberapay.com/Keyoxide)
+[![Open Collective backers and sponsors](https://img.shields.io/opencollective/all/keyoxide?style=for-the-badge)](https://opencollective.com/keyoxide)
 
 [Keyoxide](https://keyoxide.org) is a modern, secure and decentralized platform to prove your online identity.
 
