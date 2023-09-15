@@ -25,10 +25,11 @@ export default (env) => {
             module: {
                 rules: [
                     {
-                        test: /\.css$/,
+                        test: /\.s[ca]ss$/,
                         use: [
                             MiniCssExtractPlugin.loader,
-                            'css-loader'
+                            'css-loader',
+                            'sass-loader'
                         ]
                     }
                 ]
