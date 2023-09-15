@@ -1,76 +1,41 @@
 extends templates/base.pug
 
 block content
-  #search.form-wrapper.card
-    h2#searchTitle View a profile
+  section#search.form-wrapper
     form(action="post")
-      label#searchQuery(for="query") Query for fingerprint or email identifier
-      input#query(type="search" name="query" required placeholder="3637202523e7c1309ab79e99ef2dc5827b445f4b, test@doip.rocks" aria-labelledby="searchTitle searchQuery")
+      input#query(type="search" name="query" required placeholder="Search for a profile")
+      input(type="submit" value="Search")
 
-      input(type="submit" value="View profile")
-    p Or view a 
-      a(href="/sig") plaintext signature
-      |  profile.
-
-  if highlights.length > 0
-    h2 Highlights
-    .hcards.hcards--highlights
-      each hl in highlights
-        .card.card--small-profile
-          h3.name= hl.name
-          p
-            span.fingerprint= hl.fingerprint
-            br
-            span.details= hl.description
-          .spacer
-          p
-            a(href=`/${hl.fingerprint}`).button.full-width View profile
-      - var n = 0
-      while n < 3-highlights.length
-        .card.card--small-profile-dummy
-        - n++
-
-  h2 About Keyoxide
-  .hcards.hcards--features.hcards--max-2
-    .card
-      h3 Online identity
-      p Verifying online identity with cryptography. View 
-        a(href="/project@keyoxide.org") Keyoxide's profile
-        | .
-    .card
-      h3 Mobile app
-      p Available on Android and iOS. More information on 
-        a(href="https://mobile.keyoxide.org") mobile.keyoxide.org
-        | .
-    .card
-      h3 Decentralization &amp; privacy
-      p No central server or database. No collected data. Control how your data is stored and accessed.
-    .card
-      h3 Cryptography
-      p Your online identity verifiably signed with widely-used cryptographic standards (OpenPGP, others coming).
-    .card
-      h3 Open Source
-      p All Keyoxide projects are licensed under AGPL-3.0-or-later.
-    .card
-      h3 Transparent funding
-      p Funded by donations. Keyoxide stands against VC and surveillance capitalism.
-
-  h2 Community
-  .card
+  section
+    h2 About Keyoxide
+    p Keyoxide is a decentralized tool to create and verify decentralized online identities.
+    p Just like passports for real life identities, Keyoxide can be used to verify the online identity of people to make sure one is interacting with whom they intended to be and not an imposter.
+    p Unlike real life passports, Keyoxide works with online identities or "personas", meaning these identities can be anonymous and one can have multiple separate personas to protect their privacy, both online and in real life.
     p
-      | Discussion of the Keyoxide project happens primarily on the 
+      | Here is what a 
+      a(href="/project@keyoxide.org") Keyoxide profile
+      |  looks like.
+    p
+      a(href="https://docs.keyoxide.org/getting-started") Get started
+      |  and create your own!
+  section
+    h2 Community
+    p
+      | Discussion of the Keyoxide project primarily happens on the 
+      a(href="https://matrix.to/#/#keyoxide:matrix.org") #keyoxide Matrix channel
+      |  and the 
       a(href="https://community.keyoxide.org") Keyoxide Community Forum
-      | . This is the place to propose new service providers for identity verification, make feature suggestions or report bugs.
+      | . 
+      | The Matrix channel is great for troubleshooting.
+      | The forum is the place to propose new service providers for identity verification, make feature suggestions or report bugs.
     p 
       | There is also the 
       a(href="irc://irc.libera.chat/#keyoxide") #keyoxide:libera.chat IRC room
-      | , the 
-      a(href="https://matrix.to/#/#keyoxide:matrix.org") #keyoxide Matrix channel
       |  and the 
       a(href="https://lists.sr.ht/~yarmo/keyoxide-devel") keyoxide-devel mailing list
       | . The IRC room and Matrix channel are bridged together.
     p
-      | The project is also present on the fediverse as 
+      | The project is also present on the fediverse: 
       a(href="https://fosstodon.org/@keyoxide") @keyoxide@fosstodon.org
       | .
     p
@@ -79,10 +44,10 @@ block content
       | .
 
 
-  h2 Fund the project
-  .card
+  section
+    h2 Fund the project
     p
-      | The development of Keyoxide and the Decentralized OpenPGP Identity Proofs ecosystem is entirely funded by donations.
+      | The development of Keyoxide and the Decentralized Online Identity Proofs ecosystem is entirely funded by donations.
     p
       | The Keyoxide project was awarded a NGI Zero grant from the 
       a(href='https://nlnet.nl/') NLnet Foundation

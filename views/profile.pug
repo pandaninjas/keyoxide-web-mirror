@@ -3,24 +3,38 @@ extends templates/base.pug
 mixin generatePersona(persona, isPrimary)
   h2
     if persona.email
-      span.p-email Identity claims (#{persona.email})
+      | Identity claims (
+      span.p-email #{persona.email}
+      | )
     else
-      span.p-email Identity claims
+      | Identity claims
     if isPrimary
       small.primary primary
   if persona.description
-    span.p-comment &#9432; #{persona.description}
+    span.persona__description.p-comment
+      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-info"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+      |  #{persona.description}
   each claim in persona.claims
     if claim.matches.length > 0
-      kx-claim.kx-item(data-claim=claim)
+      kx-claim.kx-item(data-claim=claim,data-status='running')
         details(aria-label="Claim")
           summary
             .info
-              p.subtitle= claim.display.serviceproviderName
-              p.title= claim.display.name
+              p
+                span.title= claim.display.name
+                span.subtitle-wrapper
+                  |  [
+                  span.subtitle= claim.display.serviceproviderName
+                  | ]
             .icons
-              .verificationStatus(data-value='running')
+              .verificationStatus
                 .inProgress
+                  <svg style="width:24px;height:24px" viewBox="0 0 24 24"><path fill="currentColor" d="M12,4V2A10,10 0 0,0 2,12H4A8,8 0 0,1 12,4Z"></path></svg>
+                .success
+                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-check"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                .failure
+                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-x"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+
           .content
             .subsection
               img(src='/static/img/link.png')
@@ -59,7 +73,7 @@ block content
           a(href="https://docs.keyoxide.org/getting-started/something-went-wrong/") documentation
           |  for help.
   else
-    section.profile.narrow.h-card
+    section.profile
       noscript
         p Keyoxide requires JavaScript to function.
 
@@ -103,10 +117,12 @@ block content
             input(type='submit', name='submit', value='Generate profile')
 
       unless (isSignature && !signature)
-        #profileHeader.card.card--transparent.card--profileHeader
-          img#profileAvatar.u-logo(src=data.personas[data.primaryPersonaIndex].avatarUrl alt="avatar")
+        .profile__header
+          img.profile__avatar.u-logo(src=data.personas[data.primaryPersonaIndex].avatarUrl alt="avatar")
 
-          p#profileName.p-name= data.personas[data.primaryPersonaIndex].name
+          p.profile__name.p-name= data.personas[data.primaryPersonaIndex].name
+          if (data.personas[data.primaryPersonaIndex].description)
+            p= data.personas[data.primaryPersonaIndex].description
 
           if (enable_message_encryption || enable_signature_verification)
             .button-wrapper
@@ -115,28 +131,34 @@ block content
               if (enable_signature_verification)
                 button(onClick="document.querySelector('#dialog--verifySignature').showModal();") Verify signature
 
-        +generatePersona(data.personas[data.primaryPersonaIndex], true && data.personas.length > 1)
-        each persona, index in data.personas
-          unless index == data.primaryPersonaIndex
-            +generatePersona(persona, false)
+        .profile__claims
+          +generatePersona(data.personas[data.primaryPersonaIndex], true && data.personas.length > 1)
+          each persona, index in data.personas
+            unless index == data.primaryPersonaIndex
+              +generatePersona(persona, false)
 
-        #profileProofs.card.card--transparent
-          h2 Key
-          kx-key.kx-item(data-keydata=data.publicKey)
-            details(aria-label="Key")
-              summary
-                .info
-                  p.subtitle= data.publicKey.fetch.method
-                  p.title= data.identifier
-              .content
-                .subsection
-                  img(src='/static/img/link.png')
-                  div
-                    p Key link: 
-                      a.u-key(href=data.publicKey.fetch.resolvedUrl rel="pgpkey" aria-label="Link to cryptographic key")= data.publicKey.fetch.resolvedUrl
-                hr
-                if (data.profileType === 'openpgp')
-                  .subsection
-                    img(src='/static/img/qrcode.png')
-                    div
-                      button(onClick=`showQR('${data.publicKey.fingerprint}', 'fingerprint')` aria-label='Show QR code for cryptographic fingerprint') Show OpenPGP fingerprint QR
+    section
+      h2 Profile information
+      h3 Public key
+      kx-key.kx-item(data-keydata=data.publicKey)
+        details(aria-label="Key")
+          summary
+            .info
+              p
+                span.title= data.identifier
+                span.subtitle-wrapper
+                  |  [
+                  span.subtitle= data.publicKey.fetch.method
+                  | ]
+          .content
+            .subsection
+              img(src='/static/img/link.png')
+              div
+                p Key link: 
+                  a.u-key(href=data.publicKey.fetch.resolvedUrl rel="pgpkey" aria-label="Link to cryptographic key")= data.publicKey.fetch.resolvedUrl
+            hr
+            if (data.profileType === 'openpgp')
+              .subsection
+                img(src='/static/img/qrcode.png')
+                div
+                  button(onClick=`showQR('${data.publicKey.fingerprint}', 'fingerprint')` aria-label='Show QR code for cryptographic fingerprint') Show OpenPGP fingerprint QR
