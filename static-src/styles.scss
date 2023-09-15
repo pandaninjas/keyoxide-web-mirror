@@ -1,5 +1,5 @@
 /*
-Copyright (C) 2022 Yarmo Mackenbach
+Copyright (C) 2021 Yarmo Mackenbach
 
 This program is free software: you can redistribute it and/or modify it under
 the terms of the GNU Affero General Public License as published by the Free
@@ -27,24 +27,74 @@ You should also get your employer (if you work as a programmer) or school,
 if any, to sign a "copyright disclaimer" for the program, if necessary. For
 more information on this, and how to apply and follow the GNU AGPL, see <https://www.gnu.org/licenses/>.
 */
-// Import JS libraries
-import * as kx from './keyoxide.js'
-import * as kxKey from './kx-key.js'
-import * as kxClaim from './kx-claim.js'
-import * as ui from './ui.js'
-import * as utils from './utils.js'
+@use './styles/vars.scss';
+@use './styles/layout.scss';
+@use './styles/typography.scss';
+@use './styles/forms.scss';
 
-// Import CSS files
-import './styles.scss'
-import './kx-styles.scss'
+@import '../node_modules/fork-awesome/css/fork-awesome.css';
+@import '../node_modules/dialog-polyfill/dist/dialog-polyfill.css';
 
-// Add functions to window
-window.showQR = utils.showQR
+* {
+    box-sizing: border-box;
+}
 
-// Register custom elements
-customElements.define('kx-key', kxKey.Key)
-customElements.define('kx-claim', kxClaim.Claim)
+/* HELPERS */
+.spacer {
+    flex: 1;
+}
 
-// Run scripts
-ui.init()
-kx.init()
+.no-margin {
+    margin: 0 !important;
+}
+
+.full-width {
+    display: block;
+    width: 100% !important;
+}
+
+.half-width {
+    display: block;
+    width: 50% !important;
+}
+
+.select-all {
+    user-select: all;
+}
+
+#qr {
+    display: block;
+    width: 100% !important;
+    max-width: 256px !important;
+    height: auto !important;
+    margin: 0 auto 16px;
+}
+
+/* DIALOGS */
+dialog {
+    width: 100% !important;
+    max-width: 800px !important;
+    padding: 0 !important;
+    word-wrap: anywhere;
+}
+
+dialog>div {
+    padding: 1em;
+}
+
+dialog form[method="Dialog"] {
+    margin: 1em 0 0 !important;
+}
+
+dialog form[method="Dialog"] input {
+    width: auto;
+}
+
+dialog p {
+    font-size: 1rem !important;
+    margin: 1rem 0;
+}
+
+dialog p:first-of-type {
+    margin-top: 0;
+}

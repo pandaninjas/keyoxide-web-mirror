@@ -58,19 +58,26 @@ export class Claim extends HTMLElement {
 
     updateContent(value) {
         const root = this;
-        const claim = doipjs.Claim.fromJson(JSON.parse(value));
+        const claimJson = JSON.parse(value);
+        const claim = doipjs.Claim.fromJson(claimJson);
 
-        root.querySelector('.info .subtitle').innerText = claim.matches[0].about.name;
-        root.querySelector('.info .title').innerText = claim.matches[0].profile.display;
+        console.log(claimJson);
+
+        root.querySelector('.info .title').innerText = claimJson.display.name;
+        root.querySelector('.info .subtitle').innerText = claimJson.display.serviceProviderName ??
+            (claim.status < 300 ? '???' : '---');
 
         try {
             if (claim.status >= 200) {
-                root.querySelector('.icons .verificationStatus').setAttribute('data-value', claim.status < 300 ? 'success' : 'failed');
+                root.setAttribute('data-status', claim.status < 300 ? 'success' : 'failed');
+                // root.querySelector('.icons .verificationStatus').setAttribute('data-value', claim.status < 300 ? 'success' : 'failed');
             } else {
-                root.querySelector('.icons .verificationStatus').setAttribute('data-value', 'running');
+                root.setAttribute('data-status', 'running');
+                // root.querySelector('.icons .verificationStatus').setAttribute('data-value', 'running');
             }
         } catch (error) {
-            root.querySelector('.icons .verificationStatus').setAttribute('data-value', 'failed');
+            root.setAttribute('data-status', 'failed');
+            // root.querySelector('.icons .verificationStatus').setAttribute('data-value', 'failed');
         }
 
         const elContent = root.querySelector('.content');

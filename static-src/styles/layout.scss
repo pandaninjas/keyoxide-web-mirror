@@ -1,0 +1,193 @@
+/*
+Copyright (C) 2023 Yarmo Mackenbach
+
+This program is free software: you can redistribute it and/or modify it under
+the terms of the GNU Affero General Public License as published by the Free
+Software Foundation, either version 3 of the License, or (at your option)
+any later version.
+
+This program is distributed in the hope that it will be useful, but WITHOUT
+ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+FOR A PARTICULAR PURPOSE. See the GNU Affero General Public License for more
+details.
+
+You should have received a copy of the GNU Affero General Public License along
+with this program. If not, see <https://www.gnu.org/licenses/>.
+
+Also add information on how to contact you by electronic and paper mail.
+
+If your software can interact with users remotely through a computer network,
+you should also make sure that it provides a way for users to get its source.
+For example, if your program is a web application, its interface could display
+a "Source" link that leads users to an archive of the code. There are many
+ways you could offer source, and different solutions will be better for different
+programs; see section 13 for the specific requirements.
+
+You should also get your employer (if you work as a programmer) or school,
+if any, to sign a "copyright disclaimer" for the program, if necessary. For
+more information on this, and how to apply and follow the GNU AGPL, see <https://www.gnu.org/licenses/>.
+*/
+body {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    margin: 0 8px;
+    padding: 1.6rem 0 0;
+    line-height: 1.4rem;
+    font-family: sans-serif;
+    color: var(--text-color);
+    background-color: var(--body-background-color);
+}
+
+header {
+    margin: 0 0 3rem;
+
+    nav {
+        flex: 1;
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        justify-content: center;
+        gap: 16px;
+
+        @media screen and (max-width: 400px) {
+            flex-direction: column;
+            align-items: start;
+        }
+        
+        a.logo {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            font-size: 1.8rem;
+            text-decoration: none;
+            font-weight: bold;
+            color: var(--primary-color);
+
+            @media screen and (max-width: 480px) {
+                gap: 8px;
+                font-size: 1.4rem;
+            }
+
+            img {
+                width: 40px;
+                height: 40px;
+
+                @media screen and (max-width: 480px) {
+                    width: 32px;
+                    height: 32px;
+                }
+            }
+        }
+        
+        a.text {
+            margin: 0;
+            color: var(--text-color);
+
+            &:hover, &:active {
+                color: var(--link-color-hover);
+            }
+        }
+
+        .links {
+            display: flex;
+            gap: 12px;
+        }
+    }
+}
+main {
+    flex: 1;
+}
+footer {
+    margin: 4.8rem 0 0;
+    background-color: var(--footer-background-color);
+    color: var(--footer-text-color);
+
+    a {
+        display: inline-block;
+        color: var(--footer-text-color);
+    }
+}
+
+.container {
+    width: 100%;
+    max-width: 920px;
+    margin: 0 auto;
+}
+
+section {
+    margin: 0 0 32px;
+    padding: 16px;
+    background-color: var(--section-background-color);
+    border-radius: 8px;
+
+    h1:first-child, h2:first-child {
+        margin-top: 0;
+    }
+
+    p:last-child {
+        margin-bottom: 0;
+    }
+    
+    &.transparent {
+        padding-left: 0;
+        padding-right: 0;
+        background-color: transparent;
+        border: 0;
+    }
+}
+
+.profile {
+    display: flex;
+    gap: 16px;
+    padding-top: 24px;
+
+    @media screen and (max-width: 600px) {
+        flex-direction: column;
+        padding-top: 32px;
+    }
+
+    .profile__name {
+        font-size: 1.6rem;
+        color: var(--text-color);
+    }
+
+    .profile__header {
+        flex: 3;
+        display: flex;
+        flex-direction: column;
+        flex-wrap: wrap;
+        align-items: center;
+        gap: 16px;
+        
+        & p, & small {
+            margin: 0;
+        }
+    }
+
+    .profile__claims {
+        flex: 4;
+    }
+
+    .profile__avatar {
+        display: inline-block;
+        min-width: 96px;
+        max-width: 128px;
+        line-height: 0;
+        text-align: center;
+        border-radius: 16px;
+    }
+
+    .persona__description {
+        display: block;
+        margin: 8px 0 8px;
+        font-size: 0.9em;
+
+        svg {
+            width: 16px;
+            height: 16px;
+            vertical-align: sub;
+        }
+    }
+}
