@@ -199,15 +199,15 @@ kx-claim {
         text-transform: uppercase;
         color: var(--button-text-color);
         background-color: var(--button-background-color);
-        border: solid 2px var(--button-border-color);
+        border: solid 1px var(--button-border-color);
         border-radius: 4px;
         cursor: pointer;
     }
 
     button:hover {
-        background-color: var(--button-hover-background-color);
-        border-color: var(--button-hover-border-color);
-        color: var(--button-hover-text-color);
+        background-color: var(--button-background-color-hover);
+        border-color: var(--button-border-color-hover);
+        color: var(--button-text-color-hover);
     }
 
     &[data-status="running"] {

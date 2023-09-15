@@ -72,13 +72,19 @@ more information on this, and how to apply and follow the GNU AGPL, see <https:/
 
 /* DIALOGS */
 dialog {
-    width: 100% !important;
-    max-width: 800px !important;
-    padding: 0 !important;
     word-wrap: anywhere;
+    background-color: var(--section-background-color);
+    border: 0;
+    border-radius: 16px;
+
+    &::backdrop {
+        background-color: #000;
+        opacity: 0.8;
+    }
 }
 
 dialog>div {
+    margin: 16px;
     padding: 1em;
 }
 
