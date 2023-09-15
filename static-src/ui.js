@@ -27,7 +27,6 @@ You should also get your employer (if you work as a programmer) or school,
 if any, to sign a "copyright disclaimer" for the program, if necessary. For
 more information on this, and how to apply and follow the GNU AGPL, see <https://www.gnu.org/licenses/>.
 */
-import dialogPolyfill from 'dialog-polyfill'
 import QRCode from 'qrcode'
 import * as openpgp from 'openpgp'
 import * as utils from './utils.js'
@@ -51,17 +50,6 @@ const elUtilBcryptVerification = document.body.querySelector("#form-util-bcrypt-
 
 // Initialize UI elements and event listeners
 export function init() {
-    // Register modals
-    document.querySelectorAll('dialog').forEach(function(d) {
-        dialogPolyfill.registerDialog(d);
-        d.addEventListener('click', function(ev) {
-            if (ev && ev.target != d) {
-                return;
-            }
-            d.close();
-        });
-    });
-
     // Run context-dependent scripts
     if (elFormEncrypt) {
         runEncryptionForm()
