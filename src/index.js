@@ -48,6 +48,7 @@ app.set('env', process.env.NODE_ENV || 'production')
 app.engine('pug', pug.__express).set('view engine', 'pug')
 app.set('port', process.env.PORT || 3000)
 app.set('domain', process.env.DOMAIN)
+app.set('scheme', process.env.SCHEME || 'https')
 app.set('keyoxide_version', packageData.version)
 app.set('onion_url', process.env.ONION_URL)
 
@@ -65,7 +66,8 @@ if (app.get('onion_url')) {
 }
 
 app.use(stringReplace({
-  PLACEHOLDER__PROXY_HOSTNAME: process.env.PROXY_HOSTNAME || process.env.DOMAIN || 'null'
+  PLACEHOLDER__PROXY_HOSTNAME: process.env.PROXY_HOSTNAME || process.env.DOMAIN || 'null',
+  PLACEHOLDER__PROXY_SCHEME: process.env.PROXY_SCHEME || process.env.SCHEME || 'https'
 }, {
   contentTypeFilterRegexp: /application\/javascript/
 }))

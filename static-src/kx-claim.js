@@ -49,7 +49,8 @@ export class Claim extends HTMLElement {
         await claim.verify({
             proxy: {
                 policy: 'adaptive',
-                hostname: 'PLACEHOLDER__PROXY_HOSTNAME'
+                hostname: 'PLACEHOLDER__PROXY_HOSTNAME',
+                scheme: 'PLACEHOLDER__PROXY_SCHEME'
             }
         });
         this.setAttribute('data-claim', JSON.stringify(claim));
@@ -182,7 +183,7 @@ export class Claim extends HTMLElement {
             const subsection_info_text = subsection_info.appendChild(document.createElement('div'));
 
             const result_proxyUsed = subsection_info_text.appendChild(document.createElement('p'));
-            result_proxyUsed.innerHTML = `A proxy was used to fetch the proof: <a href="https://PLACEHOLDER__PROXY_HOSTNAME" aria-label="Link to proxy server">PLACEHOLDER__PROXY_HOSTNAME</a>`;
+            result_proxyUsed.innerHTML = `A proxy was used to fetch the proof: <a href="PLACEHOLDER__PROXY_SCHEME://PLACEHOLDER__PROXY_HOSTNAME" aria-label="Link to proxy server">PLACEHOLDER__PROXY_HOSTNAME</a>`;
         }
 
         // TODO Display errors

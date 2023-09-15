@@ -66,37 +66,77 @@ describe('browser', function () {
             })
         })
         describe('generateProfileURL()', function () {
-            it('should handle a WKD URL', async function () {
+            it('should handle a https WKD URL', async function () {
                 const local = await utils.generateProfileURL({
                     source: 'wkd',
                     input: 'test@doip.rocks',
-                    hostname: 'keyoxide.instance'
+                    hostname: 'keyoxide.instance',
+                    scheme: 'https'
                 })
                 local.should.equal('https://keyoxide.instance/test@doip.rocks')
             })
-            it('should handle a HKP+email URL', async function () {
+            it('should handle a http WKD URL', async function () {
+                const local = await utils.generateProfileURL({
+                    source: 'wkd',
+                    input: 'test@doip.rocks',
+                    hostname: 'keyoxide.instance',
+                    scheme: 'http'
+                })
+                local.should.equal('http://keyoxide.instance/test@doip.rocks')
+            })
+            it('should handle a https HKP+email URL', async function () {
                 const local = await utils.generateProfileURL({
                     source: 'hkp',
                     input: 'test@doip.rocks',
-                    hostname: 'keyoxide.instance'
+                    hostname: 'keyoxide.instance',
+                    scheme: 'https'
                 })
                 local.should.equal('https://keyoxide.instance/hkp/test@doip.rocks')
             })
-            it('should handle a HKP+fingerprint URL', async function () {
+            it('should handle a http HKP+email URL', async function () {
+                const local = await utils.generateProfileURL({
+                    source: 'hkp',
+                    input: 'test@doip.rocks',
+                    hostname: 'keyoxide.instance',
+                    scheme: 'http'
+                })
+                local.should.equal('http://keyoxide.instance/hkp/test@doip.rocks')
+            })
+            it('should handle a https HKP+fingerprint URL', async function () {
                 const local = await utils.generateProfileURL({
                     source: 'hkp',
                     input: '3637202523E7C1309AB79E99EF2DC5827B445F4B',
-                    hostname: 'keyoxide.instance'
+                    hostname: 'keyoxide.instance',
+                    scheme: 'https'
                 })
                 local.should.equal('https://keyoxide.instance/3637202523E7C1309AB79E99EF2DC5827B445F4B')
             })
-            it('should handle a keybase URL', async function () {
+            it('should handle a http HKP+fingerprint URL', async function () {
+                const local = await utils.generateProfileURL({
+                    source: 'hkp',
+                    input: '3637202523E7C1309AB79E99EF2DC5827B445F4B',
+                    hostname: 'keyoxide.instance',
+                    scheme: 'http'
+                })
+                local.should.equal('http://keyoxide.instance/3637202523E7C1309AB79E99EF2DC5827B445F4B')
+            })
+            it('should handle a https keybase URL', async function () {
                 const local = await utils.generateProfileURL({
                     source: 'keybase',
                     input: 'https://keybase.io/doip/pgp_keys.asc?fingerprint=3637202523E7C1309AB79E99EF2DC5827B445F4B',
-                    hostname: 'keyoxide.instance'
+                    hostname: 'keyoxide.instance',
+                    scheme: 'https'
                 })
                 local.should.equal('https://keyoxide.instance/keybase/doip/3637202523E7C1309AB79E99EF2DC5827B445F4B')
+            })
+            it('should handle a http keybase URL', async function () {
+                const local = await utils.generateProfileURL({
+                    source: 'keybase',
+                    input: 'https://keybase.io/doip/pgp_keys.asc?fingerprint=3637202523E7C1309AB79E99EF2DC5827B445F4B',
+                    hostname: 'keyoxide.instance',
+                    scheme: 'http'
+                })
+                local.should.equal('http://keyoxide.instance/keybase/doip/3637202523E7C1309AB79E99EF2DC5827B445F4B')
             })
         })
     })

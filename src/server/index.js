@@ -38,7 +38,7 @@ const generateAspeProfile = async (id) => {
 
   return doipjs.asp.fetchASPE(id)
     .then(profile => {
-      profile.addVerifier('keyoxide', `https://${process.env.DOMAIN}/${id}`)
+      profile.addVerifier('keyoxide', `${getScheme()}://${process.env.DOMAIN}/${id}`)
       profile = processAspProfile(profile)
       return profile
     })
@@ -58,7 +58,7 @@ const generateWKDProfile = async (id) => {
 
   return fetchWKD(id)
     .then(async profile => {
-      profile.addVerifier('keyoxide', `https://${process.env.DOMAIN}/wkd/${id}`)
+      profile.addVerifier('keyoxide', `${getScheme()}://${process.env.DOMAIN}/wkd/${id}`)
       profile = processOpenPgpProfile(profile)
 
       logger.debug('Generating a WKD profile',
@@ -84,9 +84,9 @@ const generateHKPProfile = async (id, keyserverDomain) => {
     .then(async profile => {
       let keyoxideUrl
       if (!keyserverDomain || keyserverDomain === 'keys.openpgp.org') {
-        keyoxideUrl = `https://${process.env.DOMAIN}/hkp/${id}`
+        keyoxideUrl = `${getScheme()}://${process.env.DOMAIN}/hkp/${id}`
       } else {
-        keyoxideUrl = `https://${process.env.DOMAIN}/hkp/${keyserverDomain}/${id}`
+        keyoxideUrl = `${getScheme()}://${process.env.DOMAIN}/hkp/${keyserverDomain}/${id}`
       }
 
       profile.addVerifier('keyoxide', keyoxideUrl)
@@ -168,7 +168,7 @@ const generateKeybaseProfile = async (username, fingerprint) => {
 
   return fetchKeybase(username, fingerprint)
     .then(async profile => {
-      profile.addVerifier('keyoxide', `https://${process.env.DOMAIN}/keybase/${username}/${fingerprint}`)
+      profile.addVerifier('keyoxide', `${getScheme()}://${process.env.DOMAIN}/keybase/${username}/${fingerprint}`)
       profile = processOpenPgpProfile(profile)
 
       logger.debug('Generating a Keybase profile',
@@ -252,6 +252,14 @@ const processOpenPgpProfile = async (/** @type {import('doipjs').Profile */ prof
   profile.personas[profile.primaryPersonaIndex].avatarUrl = await libravatar.get_avatar_url({ email: profile.personas[profile.primaryPersonaIndex].email, size: 128, default: 'mm', https: true })
 
   return profile
+}
+
+const getScheme = () => {
+  return process.env.PROXY_SCHEME
+    ? process.env.PROXY_SCHEME
+    : process.env.SCHEME
+      ? process.env.SCHEME
+      : 'https'
 }
 
 export { generateAspeProfile }

@@ -2216,6 +2216,11 @@ eslint@^8.41.0:
     strip-json-comments "^3.1.0"
     text-table "^0.2.0"
 
+esmock@^2.5.0:
+  version "2.5.1"
+  resolved "https://registry.yarnpkg.com/esmock/-/esmock-2.5.1.tgz#cef05c9cd23c46edbfb2e0add34466f6c52e37f6"
+  integrity sha512-3pu+ri9kNrRjahR8c+FWXphK3xpKrgBwLHu+A+Xj3vw84fGsScWY3SWTH1v5nSiheYQAdlz5Ny+a319tlle1mA==
+
 espree@^9.6.0:
   version "9.6.0"
   resolved "https://registry.yarnpkg.com/espree/-/espree-9.6.0.tgz#80869754b1c6560f32e3b6929194a3fe07c5b82f"
