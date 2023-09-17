@@ -101,6 +101,8 @@ more information on this, and how to apply and follow the GNU AGPL, see <https:/
     --footer-text-color: var(--text-color-subtle);
     
     @media (prefers-color-scheme: dark) {
+        color-scheme: dark;
+
         --primary-color: var(--purple-300);
         --primary-color-subtle: var(--purple-500);
 

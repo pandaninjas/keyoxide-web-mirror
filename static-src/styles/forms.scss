@@ -73,7 +73,8 @@ form textarea {
     margin: 8px 0;
 }
 
-input {
+input,
+textarea {
     color: var(--input-text-color);
     background-color: var(--input-background-color);
     border: solid 1px var(--input-border-color);
