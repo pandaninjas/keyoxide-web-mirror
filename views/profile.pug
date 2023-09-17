@@ -139,26 +139,27 @@ block content
 
     section
       h2 Profile information
-      h3 Public key
-      kx-key.kx-item(data-keydata=data.publicKey)
-        details(aria-label="Key")
-          summary
-            .info
-              p
-                span.title= data.identifier
-                span.subtitle-wrapper
-                  |  [
-                  span.subtitle= data.publicKey.fetch.method
-                  | ]
-          .content
-            .subsection
-              img(src='/static/img/link.png')
-              div
-                p Key link: 
-                  a.u-key(href=data.publicKey.fetch.resolvedUrl rel="pgpkey" aria-label="Link to cryptographic key")= data.publicKey.fetch.resolvedUrl
-            hr
-            if (data.profileType === 'openpgp')
+      if (data && data.publicKey)
+        h3 Public key
+        kx-key.kx-item(data-keydata=data.publicKey)
+          details(aria-label="Key")
+            summary
+              .info
+                p
+                  span.title= data.identifier
+                  span.subtitle-wrapper
+                    |  [
+                    span.subtitle= data.publicKey.fetch.method
+                    | ]
+            .content
               .subsection
-                img(src='/static/img/qrcode.png')
+                img(src='/static/img/link.png')
                 div
-                  button(onClick=`showQR('${data.publicKey.fingerprint}', 'fingerprint')` aria-label='Show QR code for cryptographic fingerprint') Show OpenPGP fingerprint QR
+                  p Key link: 
+                    a.u-key(href=data.publicKey.fetch.resolvedUrl rel="pgpkey" aria-label="Link to cryptographic key")= data.publicKey.fetch.resolvedUrl
+              hr
+              if (data.profileType === 'openpgp')
+                .subsection
+                  img(src='/static/img/qrcode.png')
+                  div
+                    button(onClick=`showQR('${data.publicKey.fingerprint}', 'fingerprint')` aria-label='Show QR code for cryptographic fingerprint') Show OpenPGP fingerprint QR
