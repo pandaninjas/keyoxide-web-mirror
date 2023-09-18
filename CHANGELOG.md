@@ -6,6 +6,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [4.1.0] - 2023-09-18
+### Changed
+- Redesign
+- Update doipjs to 1.0.1
+- Update node to 20
+- Make https scheme for proxy calls optional
+- Display site version in footer
+
 ## [4.0.2] - 2023-09-12
 ### Fixed
 - Handle doip promise rejection
