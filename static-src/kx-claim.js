@@ -61,8 +61,6 @@ export class Claim extends HTMLElement {
         const claimJson = JSON.parse(value);
         const claim = doipjs.Claim.fromJson(claimJson);
 
-        console.log(claimJson);
-
         root.querySelector('.info .title').innerText = claimJson.display.name;
         root.querySelector('.info .subtitle').innerText = claimJson.display.serviceProviderName ??
             (claim.status < 300 ? '???' : '---');
@@ -70,14 +68,11 @@ export class Claim extends HTMLElement {
         try {
             if (claim.status >= 200) {
                 root.setAttribute('data-status', claim.status < 300 ? 'success' : 'failed');
-                // root.querySelector('.icons .verificationStatus').setAttribute('data-value', claim.status < 300 ? 'success' : 'failed');
             } else {
                 root.setAttribute('data-status', 'running');
-                // root.querySelector('.icons .verificationStatus').setAttribute('data-value', 'running');
             }
         } catch (error) {
             root.setAttribute('data-status', 'failed');
-            // root.querySelector('.icons .verificationStatus').setAttribute('data-value', 'failed');
         }
 
         const elContent = root.querySelector('.content');
