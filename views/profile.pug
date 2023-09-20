@@ -1,54 +1,47 @@
 extends templates/base.pug
 
 mixin generatePersona(persona, isPrimary)
-  h2
-    if persona.email
-      | Identity claims (
-      span.p-email #{persona.email}
-      | )
-    else
-      | Identity claims
-    if isPrimary
-      small.primary primary
-  if persona.description
-    span.persona__description.p-comment
-      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-info"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
-      |  #{persona.description}
-  each claim in persona.claims
-    if claim.matches.length > 0
-      kx-claim.kx-item(data-claim=claim,data-status='running')
-        details(aria-label="Claim")
-          summary
-            .info
-              p
-                span.title= claim.display.name
-                span.subtitle-wrapper
-                  |  [
-                  span.subtitle= claim.display.serviceproviderName
-                  | ]
-            .icons
-              .verificationStatus
-                .inProgress
-                  <svg style="width:24px;height:24px" viewBox="0 0 24 24"><path fill="currentColor" d="M12,4V2A10,10 0 0,0 2,12H4A8,8 0 0,1 12,4Z"></path></svg>
-                .success
-                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-check"><polyline points="20 6 9 17 4 12"></polyline></svg>
-                .failure
-                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-x"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+  if persona.claims.length > 0
+    h2
+      if persona.email
+        | Identity claims (
+        span.p-email #{persona.email}
+        | )
+      else
+        | Identity claims
+      if isPrimary
+        small.primary primary
+    if persona.description
+      span.persona__description.p-comment
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-info"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+        |  #{persona.description}
+    each claim in persona.claims
+      if claim.matches.length > 0
+        kx-claim.kx-item(data-claim=claim,data-status='running')
+          details(aria-label="Claim")
+            summary
+              .info
+                p
+                  span.title= claim.display.name
+                  span.subtitle-wrapper
+                    |  [
+                    span.subtitle= claim.display.serviceproviderName
+                    | ]
+              .icons
+                .verificationStatus
+                  .inProgress
+                    <svg style="width:24px;height:24px" viewBox="0 0 24 24"><path fill="currentColor" d="M12,4V2A10,10 0 0,0 2,12H4A8,8 0 0,1 12,4Z"></path></svg>
+                  .success
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-check"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                  .failure
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-x"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
 
-          .content
-            .subsection
-              img(src='/static/img/link.png')
-              div
-                if (claim.display.url)
-                  p Profile link: 
-                    a(rel='me' href=claim.display.url aria-label="Link to profile")= claim.display.url
-                else
-                  p Profile link: not accessible from browser
-                if (claim.matches.length === 1 && claim.matches[0].proof.uri)
-                  p Proof link: 
-                    a(href=claim.matches[0].proof.uri aria-label="Link to proof")= claim.matches[0].proof.uri
-                else
-                  p Proof link: not accessible from browser
+            .content
+              .subsection
+                img(src='/static/img/link.png')
+                div
+                  p Claim link: 
+                    a(rel="me" href=claim.uri aria-label="Link to claim")= claim.uri
 
 block content
   if (data && 'publicKey' in data)
