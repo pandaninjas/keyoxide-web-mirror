@@ -6,6 +6,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [4.1.1] - 2023-09-18
+### Changed
+- Update doipjs to 1.1.0
+### Fixed
+- Missing rel=me for ambiguous claims
+- OpenPGP cache logic
+
 ## [4.1.0] - 2023-09-18
 ### Changed
 - Redesign
