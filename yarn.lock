@@ -1825,10 +1825,10 @@ doctypes@^1.1.0:
   resolved "https://registry.yarnpkg.com/doctypes/-/doctypes-1.1.0.tgz#ea80b106a87538774e8a3a4a5afe293de489e0a9"
   integrity sha512-LLBi6pEqS6Do3EKQ3J0NqHWV5hhb78Pi8vvESYwyOy2c31ZEZVdtitdzsQsKb7878PEERhzUk0ftqGhG6Mz+pQ==
 
-doipjs@^1.0.4:
-  version "1.0.4"
-  resolved "https://registry.yarnpkg.com/doipjs/-/doipjs-1.0.4.tgz#87e7d703ef5f8c452c8464cdbbba2012ff15e052"
-  integrity sha512-p4njl3tJZdpg2OMVgd9m6pdf7/o999ZsujZ58mmYlnO22p/YeDdCQmZlzqxwGszAuRlkF1r5J0RdUDUY0y3KTg==
+doipjs@^1.1.0:
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/doipjs/-/doipjs-1.1.0.tgz#1130550c8cd23c72504e27c6fa61dfe3123d36e0"
+  integrity sha512-L3W+Yqc+CiJjxb2N9wZf2oWqrcnKS7MQYN8E0sJsVqpTdSSNF7NgC5Bq5LYMOwv0nmuLOiFw+qyHpKWIZXcGuw==
   dependencies:
     "@openpgp/hkp-client" "^0.0.3"
     "@openpgp/wkd-client" "^0.0.4"
