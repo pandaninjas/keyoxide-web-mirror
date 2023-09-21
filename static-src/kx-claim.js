@@ -45,7 +45,7 @@ export class Claim extends HTMLElement {
     }
 
     async verify() {
-        const claim = doipjs.Claim.fromJson(JSON.parse(this.getAttribute('data-claim')));
+        const claim = doipjs.Claim.fromJSON(JSON.parse(this.getAttribute('data-claim')));
         await claim.verify({
             proxy: {
                 policy: 'adaptive',
@@ -59,7 +59,7 @@ export class Claim extends HTMLElement {
     updateContent(value) {
         const root = this;
         const claimJson = JSON.parse(value);
-        const claim = doipjs.Claim.fromJson(claimJson);
+        const claim = doipjs.Claim.fromJSON(claimJson);
 
         root.querySelector('.info .title').innerText = claimJson.display.name;
         root.querySelector('.info .subtitle').innerText = claimJson.display.serviceProviderName ??

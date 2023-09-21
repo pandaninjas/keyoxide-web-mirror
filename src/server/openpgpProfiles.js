@@ -58,7 +58,8 @@ const fetchWKD = (id) => {
 
       const hash = createHash('md5').update(id).digest('hex')
       if (c && await c.get(hash)) {
-        profile = doipjs.Claim.fromJson(JSON.parse(await c.get(hash)))
+        profile = doipjs.Profile.fromJSON(JSON.parse(await c.get(hash)))
+        return resolve(profile)
       }
 
       if (!profile) {
@@ -147,7 +148,8 @@ const fetchHKP = (id, keyserverDomain) => {
       const hash = createHash('md5').update(`${query}__${keyserverDomainNormalized}`).digest('hex')
 
       if (c && await c.get(hash)) {
-        profile = doipjs.Claim.fromJson(JSON.parse(await c.get(hash)))
+        profile = doipjs.Profile.fromJSON(JSON.parse(await c.get(hash)))
+        return resolve(profile)
       }
 
       if (!profile) {
