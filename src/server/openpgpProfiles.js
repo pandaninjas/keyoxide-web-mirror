@@ -27,6 +27,7 @@ You should also get your employer (if you work as a programmer) or school,
 if any, to sign a "copyright disclaimer" for the program, if necessary. For
 more information on this, and how to apply and follow the GNU AGPL, see <https://www.gnu.org/licenses/>.
 */
+import logger from '../log.js'
 import got from 'got'
 import * as doipjs from 'doipjs'
 import { readKey } from 'openpgp'
@@ -34,7 +35,13 @@ import { computeWKDLocalPart } from './utils.js'
 import { createHash } from 'crypto'
 import Keyv from 'keyv'
 
-const c = process.env.ENABLE_EXPERIMENTAL_CACHE ? new Keyv() : null
+let c = null
+if (process.env.ENABLE_EXPERIMENTAL_CACHE) {
+  c = new Keyv()
+
+  logger.debug('OpenPGP cache started',
+    { component: 'openpgp_cache', action: 'start' })
+}
 
 const fetchWKD = (id) => {
   return new Promise((resolve, reject) => {
@@ -59,6 +66,10 @@ const fetchWKD = (id) => {
       const hash = createHash('md5').update(id).digest('hex')
       if (c && await c.get(hash)) {
         profile = doipjs.Profile.fromJSON(JSON.parse(await c.get(hash)))
+
+        logger.debug('WKD profile retrieved from OpenPGP cache',
+          { component: 'openpgp_cache', action: 'retrieve_wkd' })
+
         return resolve(profile)
       }
 
@@ -116,6 +127,9 @@ const fetchWKD = (id) => {
 
       if (c && plaintext instanceof Uint8Array) {
         await c.set(hash, JSON.stringify(profile), 60 * 1000)
+
+        logger.debug('WKD profile stored in OpenPGP cache',
+          { component: 'openpgp_cache', action: 'store_wkd' })
       }
 
       resolve(profile)
@@ -149,6 +163,10 @@ const fetchHKP = (id, keyserverDomain) => {
 
       if (c && await c.get(hash)) {
         profile = doipjs.Profile.fromJSON(JSON.parse(await c.get(hash)))
+
+        logger.debug('HKP profile retrieved from OpenPGP cache',
+          { component: 'openpgp_cache', action: 'store_hkp' })
+
         return resolve(profile)
       }
 
@@ -170,6 +188,9 @@ const fetchHKP = (id, keyserverDomain) => {
 
       if (c && profile instanceof doipjs.Profile) {
         await c.set(hash, JSON.stringify(profile), 60 * 1000)
+
+        logger.debug('HKP profile stored in OpenPGP cache',
+          { component: 'openpgp_cache', action: 'store_hkp' })
       }
 
       resolve(profile)
