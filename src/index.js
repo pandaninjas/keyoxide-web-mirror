@@ -28,6 +28,8 @@ if any, to sign a "copyright disclaimer" for the program, if necessary. For
 more information on this, and how to apply and follow the GNU AGPL, see <https://www.gnu.org/licenses/>.
 */
 import express from 'express'
+import * as httpContext from 'express-http-context2'
+import { nanoid } from 'nanoid'
 import { readFileSync } from 'fs'
 import { stringReplace } from 'string-replace-middleware'
 import * as pug from 'pug'
@@ -53,8 +55,16 @@ app.set('keyoxide_version', packageData.version)
 app.set('onion_url', process.env.ONION_URL)
 
 // Middlewares
+app.use(httpContext.middleware)
 app.use((req, res, next) => {
   res.setHeader('Permissions-Policy', 'interest-cohort=()')
+  httpContext.set('requestId', nanoid())
+  httpContext.set('requestPath', req.path)
+  httpContext.set('requestIp', req.ip)
+
+  logger.info(`Handle a request`,
+    { component: 'http_server', action: 'request' })
+
   next()
 })
 

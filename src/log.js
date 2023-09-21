@@ -28,6 +28,7 @@ if any, to sign a "copyright disclaimer" for the program, if necessary. For
 more information on this, and how to apply and follow the GNU AGPL, see <https://www.gnu.org/licenses/>.
 */
 import { createLogger, format, transports } from 'winston'
+import * as httpContext from 'express-http-context2'
 import * as dotenv from 'dotenv'
 dotenv.config()
 
@@ -37,13 +38,23 @@ const anonymize = format((info, opts) => {
     info.keyserver_domain = undefined
     info.username = undefined
     info.fingerprint = undefined
+    info.request_path = undefined
+    info.request_ip = undefined
   }
+  return info
+})
+
+const addRequestData = format((info, opts) => {
+  if (httpContext.get('requestId')) info.request_id = httpContext.get('requestId')
+  if (httpContext.get('requestPath')) info.request_path = httpContext.get('requestPath')
+  if (httpContext.get('requestIp')) info.request_ip = httpContext.get('requestIp')
   return info
 })
 
 const logger = createLogger({
   level: process.env.LOG_LEVEL || 'info',
   format: format.combine(
+    addRequestData(),
     anonymize(),
     format.timestamp(),
     format.json()
