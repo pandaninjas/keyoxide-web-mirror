@@ -12,6 +12,7 @@
     "dotenv": "^16.0.3",
     "express": "^4.17.1",
     "express-http-context2": "^1.0.0",
+    "express-rate-limit": "^7.0.1",
     "express-validator": "^6.13.0",
     "got": "^11.8.2",
     "hash-wasm": "^4.9.0",

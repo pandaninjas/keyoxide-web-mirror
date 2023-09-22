@@ -29,18 +29,42 @@ more information on this, and how to apply and follow the GNU AGPL, see <https:/
 */
 import express from 'express'
 import bodyParserImport from 'body-parser'
+import { rateLimit } from 'express-rate-limit'
 import { generateSignatureProfile, utils, generateWKDProfile, generateHKPProfile, generateAutoProfile, generateKeybaseProfile } from '../server/index.js'
 import { Profile } from 'doipjs'
 import { getMetaFromReq } from '../server/utils.js'
+import logger from '../log.js'
 
 const router = express.Router()
 const bodyParser = bodyParserImport.urlencoded({ extended: false })
 
-router.get('/sig', (req, res) => {
+let profileRateLimiter = (req, res, next) => {
+  next()
+}
+
+if (process.env.ENABLE_EXPERIMENTAL_RATE_LIMITER) {
+  profileRateLimiter = rateLimit({
+    windowMs: 1000,
+    limit: 3,
+    standardHeaders: 'draft-7',
+    legacyHeaders: false,
+    handler: (req, res, next, options) => {
+      logger.debug('Rate-limiting a profile request',
+        { component: 'profile_rate_limiter', action: 'block' })
+
+      res.status(options.statusCode).render('429', { meta: getMetaFromReq(req) })
+    }
+  })
+
+  logger.debug('Starting the profile request rate limiter',
+    { component: 'profile_rate_limiter', action: 'start' })
+}
+
+router.get('/sig', profileRateLimiter, (req, res) => {
   res.render('profile', { isSignature: true, signature: null, meta: getMetaFromReq(req) })
 })
 
-router.post('/sig', bodyParser, async (req, res) => {
+router.post('/sig', profileRateLimiter, bodyParser, async (req, res) => {
   const data = await generateSignatureProfile(req.body.signature)
   const title = utils.generatePageTitle('profile', data)
   res.set('ariadne-identity-proof', data.identifier)
@@ -55,7 +79,7 @@ router.post('/sig', bodyParser, async (req, res) => {
   })
 })
 
-router.get('/wkd/:id', async (req, res) => {
+router.get('/wkd/:id', profileRateLimiter, async (req, res) => {
   const data = await generateWKDProfile(req.params.id)
   const title = utils.generatePageTitle('profile', data)
   res.set('ariadne-identity-proof', data.identifier)
@@ -68,7 +92,7 @@ router.get('/wkd/:id', async (req, res) => {
   })
 })
 
-router.get('/hkp/:id', async (req, res) => {
+router.get('/hkp/:id', profileRateLimiter, async (req, res) => {
   const data = await generateHKPProfile(req.params.id)
   const title = utils.generatePageTitle('profile', data)
   res.set('ariadne-identity-proof', data.identifier)
@@ -81,7 +105,7 @@ router.get('/hkp/:id', async (req, res) => {
   })
 })
 
-router.get('/hkp/:server/:id', async (req, res) => {
+router.get('/hkp/:server/:id', profileRateLimiter, async (req, res) => {
   const data = await generateHKPProfile(req.params.id, req.params.server)
   const title = utils.generatePageTitle('profile', data)
   res.set('ariadne-identity-proof', data.identifier)
@@ -94,7 +118,7 @@ router.get('/hkp/:server/:id', async (req, res) => {
   })
 })
 
-router.get('/keybase/:username/:fingerprint', async (req, res) => {
+router.get('/keybase/:username/:fingerprint', profileRateLimiter, async (req, res) => {
   const data = await generateKeybaseProfile(req.params.username, req.params.fingerprint)
   const title = utils.generatePageTitle('profile', data)
   res.set('ariadne-identity-proof', data.identifier)
@@ -107,7 +131,7 @@ router.get('/keybase/:username/:fingerprint', async (req, res) => {
   })
 })
 
-router.get('/:id', async (req, res) => {
+router.get('/:id', profileRateLimiter, async (req, res) => {
   const data = await generateAutoProfile(req.params.id)
   const title = utils.generatePageTitle('profile', data)
   res.set('ariadne-identity-proof', data.identifier)
