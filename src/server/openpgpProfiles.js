@@ -46,6 +46,9 @@ if (process.env.ENABLE_EXPERIMENTAL_CACHE) {
 const fetchWKD = (id) => {
   return new Promise((resolve, reject) => {
     (async () => {
+      logger.debug('Fetching an OpenPGP profile via WKD',
+        { component: 'wkd_profile_fetcher', action: 'start', profile_id: id })
+
       let publicKey = null
       let profile = null
       let fetchURL = null
@@ -83,7 +86,10 @@ const fetchWKD = (id) => {
               return null
             }
           })
-        } catch (e) {
+        } catch (errorAdvanced) {
+          logger.debug('Failed to fetch an OpenPGP profile via WKD (advanced URL)',
+            { component: 'hkp_profile_fetcher', action: 'failure', profile_id: id, error: errorAdvanced.message })
+
           try {
             plaintext = await got(urlDirect).then((response) => {
               if (response.statusCode === 200) {
@@ -93,7 +99,10 @@ const fetchWKD = (id) => {
                 return null
               }
             })
-          } catch (error) {
+          } catch (errorDirect) {
+            logger.debug('Failed to fetch an OpenPGP profile via WKD (direct URL)',
+              { component: 'hkp_profile_fetcher', action: 'failure', profile_id: id, error: errorDirect.message })
+
             return reject(new Error('No public keys could be fetched using WKD'))
           }
         }
@@ -107,6 +116,9 @@ const fetchWKD = (id) => {
             binaryKey: plaintext
           })
         } catch (error) {
+          logger.debug('Failed to fetch an OpenPGP profile via WKD (reading key)',
+            { component: 'hkp_profile_fetcher', action: 'failure', profile_id: id, error: error.message })
+
           return reject(new Error('No public keys could be read from the data fetched using WKD'))
         }
 
@@ -117,6 +129,9 @@ const fetchWKD = (id) => {
         try {
           profile = await doipjs.openpgp.parsePublicKey(publicKey)
         } catch (error) {
+          logger.debug('Failed to fetch an OpenPGP profile via WKD (parsing key)',
+            { component: 'hkp_profile_fetcher', action: 'failure', profile_id: id, error: error.message })
+
           return reject(new Error('No public keys could be fetched using WKD'))
         }
 
@@ -132,6 +147,9 @@ const fetchWKD = (id) => {
           { component: 'openpgp_cache', action: 'store_wkd' })
       }
 
+      logger.debug('Fetched an OpenPGP profile via WKD',
+        { component: 'wkd_profile_fetcher', action: 'done', profile_id: id })
+
       resolve(profile)
     })()
   })
@@ -140,6 +158,9 @@ const fetchWKD = (id) => {
 const fetchHKP = (id, keyserverDomain) => {
   return new Promise((resolve, reject) => {
     (async () => {
+      logger.debug('Fetching an OpenPGP profile via HKP',
+        { component: 'hkp_profile_fetcher', action: 'start', profile_id: id, keyserver_domain: keyserverDomain || '' })
+
       let profile = null
       let fetchURL = null
 
@@ -174,6 +195,9 @@ const fetchHKP = (id, keyserverDomain) => {
         try {
           profile = await doipjs.openpgp.fetchHKP(query, keyserverDomainNormalized)
         } catch (error) {
+          logger.debug('Failed to fetch an OpenPGP profile via HKP',
+            { component: 'hkp_profile_fetcher', action: 'failure', profile_id: id, keyserver_domain: keyserverDomain || '', error: error.message })
+
           profile = null
         }
       }
@@ -192,6 +216,9 @@ const fetchHKP = (id, keyserverDomain) => {
         logger.debug('HKP profile stored in OpenPGP cache',
           { component: 'openpgp_cache', action: 'store_hkp' })
       }
+
+      logger.debug('Fetched an OpenPGP profile via HKP',
+        { component: 'hkp_profile_fetcher', action: 'done', profile_id: id, keyserver_domain: keyserverDomain || '' })
 
       resolve(profile)
     })()

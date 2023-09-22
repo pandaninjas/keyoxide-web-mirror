@@ -62,7 +62,7 @@ app.use((req, res, next) => {
   httpContext.set('requestPath', req.path)
   httpContext.set('requestIp', req.ip)
 
-  logger.info(`Handle a request`,
+  logger.info('Handle a request',
     { component: 'http_server', action: 'request' })
 
   next()
