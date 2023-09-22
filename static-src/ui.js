@@ -337,8 +337,8 @@ const runArgon2GenerationUtility = () => {
             elFeedback.innerHTML = "";
         } else {
             let feedbackContent = "";
-            if (!(/openpgp4fpr:[0-9a-zA-Z]+/.test(elInput.value))) {
-                feedbackContent += "❗ Valid proofs must begin with <strong>openpgp4fpr:</strong>. <button class='inline' onclick='window.kx__fixArgon2Input();'>Fix now</button><br>";
+            if (!(/[openpgp4fpr|aspe]:[0-9a-zA-Z]+/.test(elInput.value))) {
+                feedbackContent += "❗ Valid OpenPGP proofs must begin with <strong>openpgp4fpr:</strong>. <button class='inline' onclick='window.kx__fixArgon2Input();'>Fix now</button><br>";
             }
             if (!(elInput.value === elInput.value.toLowerCase())) {
                 feedbackContent += "❗ Valid proofs must be lowercase. <button class='inline' onclick='window.kx__fixArgon2Input();'>Fix now</button><br>";
@@ -379,7 +379,7 @@ window.kx__fixArgon2Input = () => {
     const elInput = document.querySelector('#form-util-argon2-generate .input');
     elInput.value = elInput.value.toLowerCase();
 
-    if (!(/openpgp4fpr:[0-9a-zA-Z]+/.test(elInput.value))) {
+    if (!(/[openpgp4fpr|aspe]:[0-9a-zA-Z]+/.test(elInput.value))) {
         elInput.value = `openpgp4fpr:${elInput.value}`;
     }
     
@@ -402,8 +402,8 @@ const runBcryptGenerationUtility = () => {
             elFeedback.innerHTML = "";
         } else {
             let feedbackContent = "";
-            if (!(/openpgp4fpr:[0-9a-zA-Z]+/.test(elInput.value))) {
-                feedbackContent += "❗ Valid proofs must begin with <strong>openpgp4fpr:</strong>. <button class='inline' onclick='window.kx__fixBcryptInput();'>Fix now</button><br>";
+            if (!(/[openpgp4fpr|aspe]:[0-9a-zA-Z]+/.test(elInput.value))) {
+                feedbackContent += "❗ Valid OpenPGP proofs must begin with <strong>openpgp4fpr:</strong>. <button class='inline' onclick='window.kx__fixBcryptInput();'>Fix now</button><br>";
             }
             if (!(elInput.value === elInput.value.toLowerCase())) {
                 feedbackContent += "❗ Valid proofs must be lowercase. <button class='inline' onclick='window.kx__fixBcryptInput();'>Fix now</button><br>";
@@ -444,7 +444,7 @@ window.kx__fixBcryptInput = () => {
     const elInput = document.querySelector('#form-util-bcrypt-generate .input');
     elInput.value = elInput.value.toLowerCase();
 
-    if (!(/openpgp4fpr:[0-9a-zA-Z]+/.test(elInput.value))) {
+    if (!(/[openpgp4fpr|aspe]:[0-9a-zA-Z]+/.test(elInput.value))) {
         elInput.value = `openpgp4fpr:${elInput.value}`;
     }
 
