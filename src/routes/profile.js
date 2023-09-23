@@ -44,8 +44,8 @@ let profileRateLimiter = (req, res, next) => {
 
 if (process.env.ENABLE_EXPERIMENTAL_RATE_LIMITER) {
   profileRateLimiter = rateLimit({
-    windowMs: 1000,
-    limit: 3,
+    windowMs: 5000,
+    limit: 20,
     standardHeaders: 'draft-7',
     legacyHeaders: false,
     handler: (req, res, next, options) => {
