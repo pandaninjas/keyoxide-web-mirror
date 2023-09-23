@@ -6,6 +6,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [4.2.1] - 2023-09-23
+### Fixed
+- Tweak the rate limiter parameters
+
 ## [4.2.0] - 2023-09-23
 ### Added
 - Profile request rate limiter (experimental; opt-in)
