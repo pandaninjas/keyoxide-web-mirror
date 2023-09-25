@@ -93,6 +93,9 @@ kx-claim {
             }
 
             .info {
+                display: flex;
+                align-items: baseline;
+                gap: 8px;
                 flex: 1;
             }
 
@@ -103,9 +106,8 @@ kx-claim {
             .info img {
                 width: 16px;
                 height: 16px;
-                margin-right: 8px;
-                vertical-align: sub;
                 opacity: 0.5;
+                transform: translateY(3px);
 
                 @media (prefers-color-scheme: dark) {
                     filter: invert(1);

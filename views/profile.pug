@@ -21,8 +21,8 @@ mixin generatePersona(persona, isPrimary)
           details(aria-label="Claim")
             summary
               .info
+                img(src=`https://design.keyoxide.org/brands/service-providers/_/icon.svg` onerror="this.src='https://design.keyoxide.org/brands/service-providers/_/icon.svg'")
                 p
-                  img(src=`https://design.keyoxide.org/brands/service-providers/_/icon.svg` onerror="this.src='https://design.keyoxide.org/brands/service-providers/_/icon.svg'")
                   span.title= claim.display.name
                   span.subtitle-wrapper
                     |  [
