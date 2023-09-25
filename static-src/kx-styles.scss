@@ -106,6 +106,10 @@ kx-claim {
                 margin-right: 8px;
                 vertical-align: sub;
                 opacity: 0.5;
+
+                @media (prefers-color-scheme: dark) {
+                    filter: invert(1);
+                }
             }
 
             .claim__links {
