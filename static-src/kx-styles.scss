@@ -100,6 +100,14 @@ kx-claim {
                 color: var(--text-color);
             }
 
+            .info img {
+                width: 16px;
+                height: 16px;
+                margin-right: 8px;
+                vertical-align: sub;
+                opacity: 0.5;
+            }
+
             .claim__links {
 
                 p {
