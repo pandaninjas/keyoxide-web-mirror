@@ -226,6 +226,10 @@ export const claimSchema = {
         serviceProviderName: {
           type: ['string', 'null'],
           description: 'Name of the service provider to display in the user interface'
+        },
+        serviceProviderId: {
+          type: ['string', 'null'],
+          description: 'Id of the service provider'
         }
       }
     }
