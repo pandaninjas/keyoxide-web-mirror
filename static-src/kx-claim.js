@@ -65,8 +65,8 @@ export class Claim extends HTMLElement {
         root.querySelector('.info .subtitle').innerText = claimJson.display.serviceProviderName ??
             (claim.status < 300 ? '???' : '---');
         root.querySelector('.info img').setAttribute('src',
-            `https://design.keyoxide.org/brands/service-providers/${claimJson.display.serviceProviderName
-            ? claimJson.display.serviceProviderName.toLowerCase() : '_'}/icon.svg`);
+            `https://design.keyoxide.org/brands/service-providers/${claimJson.display.serviceProviderId
+            ? claimJson.display.serviceProviderId : '_'}/icon.svg`);
 
         try {
             if (claim.status >= 200) {
