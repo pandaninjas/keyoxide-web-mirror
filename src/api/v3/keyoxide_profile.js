@@ -128,7 +128,13 @@ router.get('/fetch',
       data = await doVerification(data)
     }
 
-    data = data.toJSON()
+    try {
+      data = data.toJSON()
+    } catch (error) {
+      data = {
+        errors: [error.message]
+      }
+    }
 
     try {
       // Validate JSON
@@ -162,7 +168,13 @@ router.get('/verify',
     // Do verification
     let data = await doVerification(profile)
 
-    data = data.toJSON()
+    try {
+      data = data.toJSON()
+    } catch (error) {
+      data = {
+        errors: [error.message]
+      }
+    }
 
     try {
       // Validate JSON
