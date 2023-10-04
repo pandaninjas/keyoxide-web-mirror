@@ -108,8 +108,8 @@ export class Claim extends HTMLElement {
         const subsection_links_text = subsection_links.appendChild(document.createElement('div'));
 
         const profile_link = subsection_links_text.appendChild(document.createElement('p'));
-        if (claimJson.display.profileUri) {
-            profile_link.innerHTML = `Profile link: <a rel="me" href="${claimJson.display.profileUri}" aria-label="link to profile">${claimJson.display.profileUri}</a>`;
+        if (claimJson.display.profileUrl) {
+            profile_link.innerHTML = `Profile link: <a rel="me" href="${claimJson.display.profileUrl}" aria-label="link to profile">${claimJson.display.profileUrl}</a>`;
         } else {
             profile_link.innerHTML = `Profile link: not accessible from browser`;
         }
