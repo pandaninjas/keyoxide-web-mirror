@@ -6,6 +6,7 @@ html(lang='en')
     meta(name='theme-color' content='#fff')
     meta(name='description' content='Modern and secure platform to manage a decentralized identity based on cryptographic keys')
     link(rel='shortcut icon' href='/favicon.svg')
+    link(rel='stylesheet' href='/static/main.css')
     title= (title ? title : 'Keyoxide')
 
   include ../partials/header.pug
@@ -16,7 +17,6 @@ html(lang='en')
 
   include ../partials/footer.pug
 
-  link(rel='stylesheet' href='/static/main.css')
   script(type='application/javascript' defer src='/static/openpgp.js' charset='utf-8')
   script(type='application/javascript' defer src='/static/doipFetchers.js' charset='utf-8')
   script(type='application/javascript' defer src='/static/doip.js' charset='utf-8')
