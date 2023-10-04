@@ -56,7 +56,6 @@ header {
         }
         
         a.logo {
-            flex: 1;
             display: flex;
             align-items: center;
             gap: 16px;
@@ -187,6 +186,31 @@ section {
             width: 16px;
             height: 16px;
             vertical-align: sub;
+        }
+    }
+}
+
+.screenshots {
+    display: flex;
+    gap: 16px;
+    width: 100%;
+    padding: 8px;
+    background-color: #fafafa;
+    overflow-y: scroll;
+
+    img {
+        height: 400px;
+    }
+}
+
+.banners {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+
+    a {
+        img {
+            height: 32px;
         }
     }
 }

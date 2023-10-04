@@ -51,6 +51,10 @@ router.get('/', (req, res) => {
   res.render('index', { highlights, meta: getMetaFromReq(req) })
 })
 
+router.get('/apps', (req, res) => {
+  res.render('apps', { title: 'Apps', meta: getMetaFromReq(req) })
+})
+
 router.get('/privacy', (req, res) => {
   const rawContent = readFileSync('./content/privacy-policy.md', 'utf8')
   const content = md.render(rawContent)
