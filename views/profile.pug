@@ -23,7 +23,7 @@ mixin generatePersona(persona, isPrimary)
               .info
                 img(src=`https://design.keyoxide.org/brands/service-providers/_/icon.svg` onerror="this.src='https://design.keyoxide.org/brands/service-providers/_/icon.svg'")
                 p
-                  span.title= claim.display.name
+                  span.title= claim.display.profileName
                   span.subtitle-wrapper
                     |  [
                     span.subtitle= claim.display.serviceproviderName
@@ -130,6 +130,8 @@ block content
           each persona, index in data.personas
             unless index == data.primaryPersonaIndex
               +generatePersona(persona, false)
+          h2 Profile
+          button(onClick=`showQR('${data.identifier}', 'profile_identifier')` aria-label='Show profile ID QR') Profile ID QR
 
     section
       h2 Profile information
@@ -151,9 +153,3 @@ block content
                 div
                   p Key link: 
                     a.u-key(href=data.publicKey.fetch.resolvedUrl rel="pgpkey" aria-label="Link to cryptographic key")= data.publicKey.fetch.resolvedUrl
-              hr
-              if (data.profileType === 'openpgp')
-                .subsection
-                  img(src='/static/img/qrcode.png')
-                  div
-                    button(onClick=`showQR('${data.publicKey.fingerprint}', 'fingerprint')` aria-label='Show QR code for cryptographic fingerprint') Show OpenPGP fingerprint QR
