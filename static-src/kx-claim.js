@@ -61,7 +61,7 @@ export class Claim extends HTMLElement {
         const claimJson = JSON.parse(value);
         const claim = doipjs.Claim.fromJSON(claimJson);
 
-        root.querySelector('.info .title').innerText = claimJson.display.name;
+        root.querySelector('.info .title').innerText = claimJson.display.profileName;
         root.querySelector('.info .subtitle').innerText = claimJson.display.serviceProviderName ??
             (claim.status < 300 ? '???' : '---');
         root.querySelector('.info img').setAttribute('src',
@@ -108,15 +108,15 @@ export class Claim extends HTMLElement {
         const subsection_links_text = subsection_links.appendChild(document.createElement('div'));
 
         const profile_link = subsection_links_text.appendChild(document.createElement('p'));
-        if (claim.matches[0].profile.uri) {
-            profile_link.innerHTML = `Profile link: <a rel="me" href="${claim.matches[0].profile.uri}" aria-label="link to profile">${claim.matches[0].profile.uri}</a>`;
+        if (claimJson.display.profileUri) {
+            profile_link.innerHTML = `Profile link: <a rel="me" href="${claimJson.display.profileUri}" aria-label="link to profile">${claimJson.display.profileUri}</a>`;
         } else {
             profile_link.innerHTML = `Profile link: not accessible from browser`;
         }
 
         const proof_link = subsection_links_text.appendChild(document.createElement('p'));
-        if (claim.matches[0].proof.request.uri) {
-            proof_link.innerHTML = `Proof link: <a href="${claim.matches[0].proof.request.uri}" aria-label="link to profile">${claim.matches[0].proof.request.uri}</a>`;
+        if (claimJson.display.proofUrl) {
+            proof_link.innerHTML = `Proof link: <a href="${claimJson.display.proofUrl}" aria-label="link to profile">${claimJson.display.proofUrl}</a>`;
         } else {
             proof_link.innerHTML = `Proof link: not accessible from browser`;
         }
