@@ -216,24 +216,24 @@ export const claimSchema = {
       type: 'object',
       properties: {
         profileName: {
-          type: "string",
-          description: "Account name to display in the user interface"
+          type: 'string',
+          description: 'Account name to display in the user interface'
         },
         profileUrl: {
-          type: ["string", "null"],
-          description: "Profile URL to link to in the user interface"
+          type: ['string', 'null'],
+          description: 'Profile URL to link to in the user interface'
         },
         proofUrl: {
-          type: ["string", "null"],
-          description: "Proof URL to link to in the user interface"
+          type: ['string', 'null'],
+          description: 'Proof URL to link to in the user interface'
         },
         serviceProviderName: {
-          type: ["string", "null"],
-          description: "Name of the service provider to display in the user interface"
+          type: ['string', 'null'],
+          description: 'Name of the service provider to display in the user interface'
         },
         serviceProviderId: {
-          type: ["string", "null"],
-          description: "Id of the service provider"
+          type: ['string', 'null'],
+          description: 'Id of the service provider'
         }
       }
     }

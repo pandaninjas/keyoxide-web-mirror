@@ -224,7 +224,7 @@ const processAspProfile = async (/** @type {import('doipjs').Profile */ profile)
   // Overwrite avatarUrl
   // TODO: don't overwrite avatarUrl once it's fully supported
   profile.personas[profile.primaryPersonaIndex].avatarUrl =
-    `https://${process.env.DICEBEAR_API_HOSTNAME || "api.dicebear.com" }/7.x/shapes/svg?seed=${profile.publicKey.fingerprint}&size=128`
+    `https://${process.env.DICEBEAR_API_HOSTNAME || 'api.dicebear.com'}/7.x/shapes/svg?seed=${profile.publicKey.fingerprint}&size=128`
 
   return profile
 }
