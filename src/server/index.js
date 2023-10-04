@@ -38,7 +38,9 @@ const generateAspeProfile = async (id) => {
 
   return doipjs.asp.fetchASPE(id)
     .then(profile => {
-      profile.addVerifier('keyoxide', `${getScheme()}://${process.env.DOMAIN}/${id}`)
+      if (process.env.DOMAIN) {
+        profile.addVerifier('keyoxide', `${getScheme()}://${process.env.DOMAIN}/${id}`)
+      }
       profile = processAspProfile(profile)
       return profile
     })
@@ -58,7 +60,9 @@ const generateWKDProfile = async (id) => {
 
   return fetchWKD(id)
     .then(async profile => {
-      profile.addVerifier('keyoxide', `${getScheme()}://${process.env.DOMAIN}/wkd/${id}`)
+      if (process.env.DOMAIN) {
+        profile.addVerifier('keyoxide', `${getScheme()}://${process.env.DOMAIN}/wkd/${id}`)
+      }
       profile = processOpenPgpProfile(profile)
 
       logger.debug('Generating a WKD profile',
@@ -89,7 +93,9 @@ const generateHKPProfile = async (id, keyserverDomain) => {
         keyoxideUrl = `${getScheme()}://${process.env.DOMAIN}/hkp/${keyserverDomain}/${id}`
       }
 
-      profile.addVerifier('keyoxide', keyoxideUrl)
+      if (process.env.DOMAIN) {
+        profile.addVerifier('keyoxide', keyoxideUrl)
+      }
       profile = processOpenPgpProfile(profile)
 
       logger.debug('Generating a HKP profile',
@@ -168,7 +174,9 @@ const generateKeybaseProfile = async (username, fingerprint) => {
 
   return fetchKeybase(username, fingerprint)
     .then(async profile => {
-      profile.addVerifier('keyoxide', `${getScheme()}://${process.env.DOMAIN}/keybase/${username}/${fingerprint}`)
+      if (process.env.DOMAIN) {
+        profile.addVerifier('keyoxide', `${getScheme()}://${process.env.DOMAIN}/keybase/${username}/${fingerprint}`)
+      }
       profile = processOpenPgpProfile(profile)
 
       logger.debug('Generating a Keybase profile',
