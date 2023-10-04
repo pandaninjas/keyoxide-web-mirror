@@ -63,7 +63,6 @@ header {
             font-size: 1.8rem;
             text-decoration: none;
             font-weight: bold;
-            color: var(--primary-color);
 
             @media screen and (max-width: 480px) {
                 gap: 8px;
@@ -81,7 +80,7 @@ header {
             }
         }
         
-        a.text {
+        a {
             margin: 0;
             color: var(--text-color);
 
