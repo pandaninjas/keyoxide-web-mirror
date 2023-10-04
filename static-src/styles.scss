@@ -69,6 +69,7 @@ more information on this, and how to apply and follow the GNU AGPL, see <https:/
 
 /* DIALOGS */
 dialog {
+    max-width: 480px;
     word-wrap: anywhere;
     background-color: var(--section-background-color);
     border: 0;
@@ -78,11 +79,6 @@ dialog {
         background-color: #000;
         opacity: 0.8;
     }
-}
-
-dialog>div {
-    margin: 16px;
-    padding: 1em;
 }
 
 dialog form[method="Dialog"] {

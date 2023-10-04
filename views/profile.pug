@@ -131,6 +131,8 @@ block content
             unless index == data.primaryPersonaIndex
               +generatePersona(persona, false)
           h2 Profile
+          if data.verifiers.length > 0
+            button(onClick=`showQR('${data.verifiers[0].url}', 'profile_verifier_url')` aria-label='Show profile ID QR') Keyoxide profile QR
           button(onClick=`showQR('${data.identifier}', 'profile_identifier')` aria-label='Show profile ID QR') Profile ID QR
 
     section
