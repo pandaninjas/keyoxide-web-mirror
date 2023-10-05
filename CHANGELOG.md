@@ -6,6 +6,22 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [4.2.3] - 2023-10-05
+### Added
+- Themeable profile pages
+- Apps page
+### Changed
+- Update doipjs to 1.2.5
+- Make Dicebear API domain configurable
+### Fixed
+- Catch errors potentially thrown by function
+- Update JSON schemas
+- Icon URL generation in profile view
+### Notes
+- ASP profiles use the Dicebear API to generate avatars. By default, Keyoxide
+uses the official api.dicebear.com instance. To use a custom Dicebear instance,
+set the DICEBEAR_API_HOSTNAME environment variable to its hostname.
+
 ## [4.2.2] - 2023-10-03
 ### Changed
 - Update doipjs to 1.2.2
