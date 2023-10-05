@@ -70,8 +70,8 @@ more information on this, and how to apply and follow the GNU AGPL, see <https:/
     --primary-color-subtle-light: var(--purple-400);
     --primary-color-subtle-dark: var(--purple-500);
 
-    --background-color-light: var(#fafafa);
-    --background-color-dark: var(#0a0a0a);
+    --background-color-light: #fafafa;
+    --background-color-dark: #0a0a0a;
 }
 :root {
     --primary-color: var(--primary-color-light);
