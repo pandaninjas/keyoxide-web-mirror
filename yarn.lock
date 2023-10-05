@@ -1579,6 +1579,11 @@ colorette@^2.0.14:
   resolved "https://registry.yarnpkg.com/colorette/-/colorette-2.0.20.tgz#9eb793e6833067f7235902fcd3b09917a000a95a"
   integrity sha512-IfEDxwoWIjkeXL1eXcDiow4UbKjhLdq6/EuSVR9GMN7KVH3r9gQ83e73hsz1Nd1T3ijd5xv1wcWRYO+D6kCI2w==
 
+colorjs.io@^0.4.5:
+  version "0.4.5"
+  resolved "https://registry.yarnpkg.com/colorjs.io/-/colorjs.io-0.4.5.tgz#7775f787ff90aca7a38f6edb7b7c0f8cce1e6418"
+  integrity sha512-yCtUNCmge7llyfd/Wou19PMAcf5yC3XXhgFoAh6zsO2pGswhUPBaaUh8jzgHnXtXuZyFKzXZNAnyF5i+apICow==
+
 colorspace@1.1.x:
   version "1.1.4"
   resolved "https://registry.yarnpkg.com/colorspace/-/colorspace-1.1.4.tgz#8d442d1186152f60453bf8070cd66eb364e59243"
@@ -1837,10 +1842,10 @@ doctypes@^1.1.0:
   resolved "https://registry.yarnpkg.com/doctypes/-/doctypes-1.1.0.tgz#ea80b106a87538774e8a3a4a5afe293de489e0a9"
   integrity sha512-LLBi6pEqS6Do3EKQ3J0NqHWV5hhb78Pi8vvESYwyOy2c31ZEZVdtitdzsQsKb7878PEERhzUk0ftqGhG6Mz+pQ==
 
-doipjs@^1.2.4:
-  version "1.2.4"
-  resolved "https://registry.yarnpkg.com/doipjs/-/doipjs-1.2.4.tgz#f980ac4a3ca71b4496530a1e877230b7b6a4cec0"
-  integrity sha512-zs/kL/Yc3H4X8SrWW0zf6w6RLWDw2LQ6w/tgx8Kirqf7eMtOO0rur9/0ASCeHvoqRr7O6W7dXnW7nD/I5ZgxDg==
+doipjs@^1.2.5:
+  version "1.2.5"
+  resolved "https://registry.yarnpkg.com/doipjs/-/doipjs-1.2.5.tgz#98d67dad67ec0d0afafcda4e4740c93a964eecd3"
+  integrity sha512-366rS4LpzrGUgf1wfxjLpS46T4whB15m4dW8DfVYLLFYqNhwDVirRhysaexCQ8B4Ns+eCSa7qfpVszSxwGmgkA==
   dependencies:
     "@openpgp/hkp-client" "^0.0.3"
     "@openpgp/wkd-client" "^0.0.4"

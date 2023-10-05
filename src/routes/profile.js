@@ -32,7 +32,7 @@ import bodyParserImport from 'body-parser'
 import { rateLimit } from 'express-rate-limit'
 import { generateSignatureProfile, utils, generateWKDProfile, generateHKPProfile, generateAutoProfile, generateKeybaseProfile } from '../server/index.js'
 import { Profile } from 'doipjs'
-import { getMetaFromReq } from '../server/utils.js'
+import { generateProfileTheme, getMetaFromReq } from '../server/utils.js'
 import logger from '../log.js'
 
 const router = express.Router()
@@ -133,6 +133,7 @@ router.get('/keybase/:username/:fingerprint', profileRateLimiter, async (req, re
 
 router.get('/:id', profileRateLimiter, async (req, res) => {
   const data = await generateAutoProfile(req.params.id)
+  const theme = generateProfileTheme(data)
   const title = utils.generatePageTitle('profile', data)
   res.set('ariadne-identity-proof', data.identifier)
   res.render('profile', {
@@ -140,6 +141,7 @@ router.get('/:id', profileRateLimiter, async (req, res) => {
     data: data instanceof Profile ? data.toJSON() : data,
     enable_message_encryption: false,
     enable_signature_verification: false,
+    theme,
     meta: getMetaFromReq(req)
   })
 })

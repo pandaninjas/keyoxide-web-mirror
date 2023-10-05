@@ -28,6 +28,8 @@ if any, to sign a "copyright disclaimer" for the program, if necessary. For
 more information on this, and how to apply and follow the GNU AGPL, see <https://www.gnu.org/licenses/>.
 */
 import { webcrypto as crypto } from 'crypto'
+import { Profile } from 'doipjs'
+import Color from 'colorjs.io'
 
 export async function computeWKDLocalPart (localPart) {
   const localPartEncoded = new TextEncoder().encode(localPart.toLowerCase())
@@ -84,6 +86,54 @@ export function getMetaFromReq (req) {
     env: req.app.get('env'),
     keyoxide: {
       version: req.app.get('keyoxide_version')
+    }
+  }
+}
+
+export function generateProfileTheme (/** @type {Profile} */ profile) {
+  if (!(profile && profile instanceof Profile)) return null
+
+  if (!profile.personas[profile.primaryPersonaIndex].themeColor) return null
+
+  let base
+  try {
+    base = new Color(profile.personas[profile.primaryPersonaIndex].themeColor)
+  } catch (_) {
+    return null
+  }
+
+  if (base.to('hsl').hsl[0].isNaN) return null
+  if (base.to('hsl').hsl[2] === 0) return null
+
+  const primaryLight = base.to('hsl')
+  primaryLight.hsl[2] = 40
+  const primaryDark = base.to('hsl')
+  primaryDark.hsl[2] = 80
+
+  const primarySubtleLight = base.to('hsl')
+  primarySubtleLight.hsl[2] = 50
+  const primarySubtleDark = base.to('hsl')
+  primarySubtleDark.hsl[2] = 70
+
+  const backgroundLight = base.to('hsl')
+  backgroundLight.hsl[2] = 98
+  const backgroundDark = base.to('hsl')
+  backgroundDark.hsl[1] = 20
+  backgroundDark.hsl[2] = 5
+
+  return {
+    base: base.toString({ format: 'hex' }),
+    primary: {
+      light: primaryLight.toString(),
+      dark: primaryDark.toString()
+    },
+    primarySubtle: {
+      light: primarySubtleLight.toString(),
+      dark: primarySubtleDark.toString()
+    },
+    background: {
+      light: backgroundLight.toString(),
+      dark: backgroundDark.toString()
     }
   }
 }

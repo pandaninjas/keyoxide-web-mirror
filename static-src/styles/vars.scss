@@ -64,14 +64,25 @@ more information on this, and how to apply and follow the GNU AGPL, see <https:/
 }
 
 :root {
-    --primary-color: var(--purple-700);
-    --primary-color-subtle: var(--purple-400);
+    --primary-color-light: var(--purple-700);
+    --primary-color-dark: var(--purple-300);
 
-    --body-background-color: #fafafa;
+    --primary-color-subtle-light: var(--purple-400);
+    --primary-color-subtle-dark: var(--purple-500);
+
+    --background-color-light: var(#fafafa);
+    --background-color-dark: var(#0a0a0a);
+}
+:root {
+    --primary-color: var(--primary-color-light);
+    --primary-color-subtle: var(--primary-color-subtle-light);
+
+    --body-background-color: var(--background-color-light);
     --section-background-color: var(--white);
 
     --text-color: var(--grey-800);
     --text-color-subtle: var(--grey-500);
+    --text-color-inverse: var(--white);
     --h1-color: var(--text-color);
     --h2-color: var(--text-color);
     --h2-small-color: var(--primary-color-subtle);
@@ -82,7 +93,7 @@ more information on this, and how to apply and follow the GNU AGPL, see <https:/
 
     --link-color: var(--blue-700);
     --link-color-subtle: var(--text-color);
-    --link-color-hover: var(--purple-700);
+    --link-color-hover: var(--primary-color);
 
     --line-color-subtle: var(--grey-200);
 
@@ -105,14 +116,15 @@ more information on this, and how to apply and follow the GNU AGPL, see <https:/
     @media (prefers-color-scheme: dark) {
         color-scheme: dark;
 
-        --primary-color: var(--purple-300);
-        --primary-color-subtle: var(--purple-500);
+        --primary-color: var(--primary-color-dark);
+        --primary-color-subtle: var(--primary-color-subtle-dark);
 
-        --body-background-color: #0a0a0a;
+        --body-background-color: var(--background-color-dark);
         --section-background-color: var(--grey-900);
 
         --text-color: var(--grey-50);
         --text-color-subtle: var(--grey-300);
+        --text-color-inverse: var(--grey-800);
         --h1-color: var(--text-color);
         --h2-color: var(--text-color);
         --h2-small-color: var(--primary-color-subtle);

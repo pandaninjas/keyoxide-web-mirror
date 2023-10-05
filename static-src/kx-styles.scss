@@ -58,8 +58,9 @@ kx-claim {
         }
 
         hr {
+            margin: 8px 0;
             border: none;
-            border-top: 2px solid var(--background-color);
+            border-top: 2px solid var(--header-background-color);
         }
 
         .content {

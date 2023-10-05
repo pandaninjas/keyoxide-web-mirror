@@ -111,6 +111,16 @@ block content
             input(type='submit', name='submit', value='Generate profile')
 
       unless (isSignature && !signature)
+        if (theme)
+          style
+            | :root {
+            |   --primary-color-light: #{theme.primary.light};
+            |   --primary-color-dark: #{theme.primary.dark};
+            |   --primary-color-subtle-light: #{theme.primarySubtle.light};
+            |   --primary-color-subtle-dark: #{theme.primarySubtle.dark};
+            |   --background-color-light: #{theme.background.light};
+            |   --background-color-dark: #{theme.background.dark};
+            | }
         .profile__header
           img.profile__avatar.u-logo(src=data.personas[data.primaryPersonaIndex].avatarUrl alt="avatar")
 
@@ -132,8 +142,8 @@ block content
               +generatePersona(persona, false)
           h2 Profile
           if data.verifiers.length > 0
-            button(onClick=`showQR('${data.verifiers[0].url}', 'profile_verifier_url')` aria-label='Show profile ID QR') Keyoxide profile QR
-          button(onClick=`showQR('${data.identifier}', 'profile_identifier')` aria-label='Show profile ID QR') Profile ID QR
+            button.themed(onClick=`showQR('${data.verifiers[0].url}', 'profile_verifier_url')` aria-label='Show profile ID QR') Keyoxide profile QR
+          button.themed(onClick=`showQR('${data.identifier}', 'profile_identifier')` aria-label='Show profile ID QR') Profile ID QR
 
     section
       h2 Profile information

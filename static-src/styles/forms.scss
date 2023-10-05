@@ -108,6 +108,18 @@ a.button {
         border-color: var(--button-border-color-hover);
         color: var(--button-text-color-hover);
     }
+
+    &.themed {
+        padding: 8px 12px;
+        color: var(--text-color-inverse);
+        background-color: var(--primary-color);
+        border: 0;
+
+        &:hover {
+            color: var(--text-color-inverse);
+            background-color: var(--primary-color-subtle);
+        }
+    }
 }
 
 button {
