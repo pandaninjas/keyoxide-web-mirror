@@ -84,6 +84,8 @@ more information on this, and how to apply and follow the GNU AGPL, see <https:/
     --link-color-subtle: var(--text-color);
     --link-color-hover: var(--purple-700);
 
+    --line-color-subtle: var(--grey-200);
+
     --button-text-color: var(--text-color);
     --button-text-color-hover: var(--text-color);
     --button-border-color: var(--grey-300);
@@ -122,6 +124,8 @@ more information on this, and how to apply and follow the GNU AGPL, see <https:/
         --link-color: var(--blue-500);
         --link-color-subtle: var(--text-color);
         --link-color-hover: var(--primary-color);
+
+        --line-color-subtle: var(--grey-700);
 
         --button-text-color: var(--text-color);
         --button-text-color-hover: var(--text-color);
