@@ -157,6 +157,10 @@ export const personaSchema = {
       description: 'URL to an avatar image',
       type: ['string', 'null']
     },
+    themeColor: {
+      description: 'Profile page theme color',
+      type: ['string', 'null']
+    },
     isRevoked: {
       type: 'boolean'
     },
