@@ -1,6 +1,6 @@
 {
   "name": "keyoxide-web",
-  "version": "4.2.3",
+  "version": "4.2.4",
   "description": "Verifying online identity with cryptography",
   "main": "./src/index.js",
   "type": "module",

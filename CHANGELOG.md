@@ -6,6 +6,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [4.2.4] - 2023-10-09
+### Changed
+- Update doipjs to 1.2.6
+
 ## [4.2.3] - 2023-10-05
 ### Added
 - Themeable profile pages
