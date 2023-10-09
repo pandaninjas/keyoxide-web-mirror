@@ -6,6 +6,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [4.2.5] - 2023-10-09
+### Changed
+- Update doipjs to 1.2.7
+
 ## [4.2.4] - 2023-10-09
 ### Changed
 - Update doipjs to 1.2.6
