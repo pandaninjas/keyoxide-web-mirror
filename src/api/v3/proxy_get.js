@@ -92,6 +92,40 @@ router.get(
   }
 )
 
+// ASPE route
+router.get('/aspe', query('aspeUri').isString(), (req, res) => {
+  const errors = validationResult(req)
+  if (!errors.isEmpty()) {
+    return res.status(400).json({ errors: errors.array() })
+  }
+
+  fetcher.aspe
+    .fn(req.query, opts)
+    .then((data) => {
+      return res.status(200).send(data)
+    })
+    .catch((err) => {
+      return res.status(400).json({ errors: err.message ? err.message : err })
+    })
+})
+
+// OpenPGP route
+router.get('/openpgp', query('url').isFQDN(), query('protocol').isString(), (req, res) => {
+  const errors = validationResult(req)
+  if (!errors.isEmpty()) {
+    return res.status(400).json({ errors: errors.array() })
+  }
+
+  fetcher.openpgp
+    .fn(req.query, opts)
+    .then((data) => {
+      return res.status(200).send(data)
+    })
+    .catch((err) => {
+      return res.status(400).json({ errors: err.message ? err.message : err })
+    })
+})
+
 // DNS route
 router.get('/dns', query('domain').isFQDN(), (req, res) => {
   const errors = validationResult(req)
