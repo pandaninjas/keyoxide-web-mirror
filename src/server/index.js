@@ -117,9 +117,19 @@ const generateAutoProfile = async (id) => {
   let result
 
   const aspeRe = /aspe:(.*):(.*)/
+  const openpgpRe = /openpgp4fpr:(.*)/
 
   if (aspeRe.test(id)) {
     result = await generateAspeProfile(id)
+
+    if (result && !('errors' in result)) {
+      return result
+    }
+  }
+
+  if (openpgpRe.test(id)) {
+    const match = id.match(openpgpRe)
+    result = await generateHKPProfile(match[1])
 
     if (result && !('errors' in result)) {
       return result
