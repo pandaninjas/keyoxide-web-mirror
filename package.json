@@ -22,7 +22,7 @@
     "libravatar": "^3.0.0",
     "nanoid": "^5.0.1",
     "openpgp": "^5.5.0",
-    "pug": "^3.0.0",
+    "pug": "^3.0.2",
     "qrcode": "^1.4.4",
     "string-replace-middleware": "^1.0.2",
     "winston": "^3.8.2"
