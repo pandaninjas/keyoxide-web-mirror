@@ -110,7 +110,7 @@ router.get('/aspe', query('aspeUri').isString(), (req, res) => {
 })
 
 // OpenPGP route
-router.get('/openpgp', query('url').isFQDN(), query('protocol').isString(), (req, res) => {
+router.get('/openpgp', query('url').isURL(), query('protocol').isString(), (req, res) => {
   const errors = validationResult(req)
   if (!errors.isEmpty()) {
     return res.status(400).json({ errors: errors.array() })
