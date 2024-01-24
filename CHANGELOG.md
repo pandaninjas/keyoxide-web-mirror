@@ -6,6 +6,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [4.2.6] - 2024-01-24
+### Added
+- Support openpgp4fpr: queries in URL
+- Proxy routes for openpgp and aspe
+### Changed
+- Update doipjs to 1.2.8
+### Notes
+- This version notably adds support for OpenPGP and ASPE claim verification.
+
 ## [4.2.5] - 2023-10-09
 ### Changed
 - Update doipjs to 1.2.7
