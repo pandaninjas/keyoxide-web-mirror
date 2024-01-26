@@ -1,0 +1,8 @@
+name: New claim
+about: Suggest a new service provider or website for identity verification
+title: ''
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Please open this issue in the [doip-js repo](https://codeberg.org/keyoxide/doipjs/issues/new/choose) instead.      
