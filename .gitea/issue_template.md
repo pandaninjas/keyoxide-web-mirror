@@ -1,7 +1,9 @@
-<!-- Please search existing issues to avoid duplicates -->
+<!-- Please search existing issues to avoid duplicates
 
-<!-- If you'd like to propose a new service provider,
-please do so over at https://community.keyoxide.org -->
+Issues about claim verification should be opened at:
+https://codeberg.org/keyoxide/doipjs/issues
 
-<!-- Feel free to remove these comments -->
+New suggestions for services to claim should also be opened at:
+https://codeberg.org/keyoxide/doipjs/issues
 
+Feel free to remove this comment -->
