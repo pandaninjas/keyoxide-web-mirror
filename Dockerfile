@@ -11,8 +11,8 @@ RUN yarn run build:static
 
 FROM node:20-alpine
 
-ARG CI_COMMIT_SHA
-ARG CI_COMMIT_BRANCH
+ENV CI_COMMIT_SHA
+ENV CI_COMMIT_BRANCH
 
 WORKDIR /app
 COPY --from=builder /app/package.json /app/package.json
