@@ -25,10 +25,9 @@ footer
       a(href="https://ariadne.id") ariadne.id
 
     p
-      | Version #{meta.keyoxide.version}
-      if (meta.env === "development")
-        | -dev
+      | Version 
+      a(href=meta.keyoxide.sourceUrl)= meta.keyoxide.semver
       br
       
-      | &copy; 2024 Keyoxide project contributors
+      | &copy; 2020-2024 Keyoxide project contributors
       
