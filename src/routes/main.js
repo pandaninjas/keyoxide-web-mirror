@@ -37,19 +37,7 @@ const router = express.Router()
 const md = markdownImport({ typographer: true })
 
 router.get('/', (req, res) => {
-  const highlights = []
-  for (let index = 1; index < 4; index++) {
-    if (process.env[`KX_HIGHLIGHTS_${index}_NAME`] &&
-            process.env[`KX_HIGHLIGHTS_${index}_FINGERPRINT`]) {
-      highlights.push({
-        name: process.env[`KX_HIGHLIGHTS_${index}_NAME`],
-        description: process.env[`KX_HIGHLIGHTS_${index}_DESCRIPTION`],
-        fingerprint: process.env[`KX_HIGHLIGHTS_${index}_FINGERPRINT`]
-      })
-    }
-  }
-
-  res.render('index', { highlights, meta: getMetaFromReq(req) })
+  res.render('index', { meta: getMetaFromReq(req) })
 })
 
 router.get('/apps', (req, res) => {
