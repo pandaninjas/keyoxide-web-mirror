@@ -37,8 +37,11 @@ const router = express.Router()
 router.get('/version', async (req, res) => {
   // TODO Support responding with JSON object when requested
 
-  const versionDetails = (app.get('git_branch') && app.get('git_hash'))
-    ? `+${app.get('git_branch')}.${app.get('git_hash').substring(0, 10)}`
+  let versionDetails = app.get('git_branch')
+    ? `+${app.get('git_branch')}`
+    : ''
+  versionDetails += (app.get('git_branch') && app.get('git_hash'))
+    ? `.${app.get('git_hash').substring(0, 10)}`
     : ''
 
   return res.status(200).contentType('text/plain').send(`${app.get('keyoxide_name')}/${app.get('keyoxide_version')}${versionDetails}`)

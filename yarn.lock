@@ -488,11 +488,6 @@
   resolved "https://registry.yarnpkg.com/@polka/url/-/url-1.0.0-next.24.tgz#58601079e11784d20f82d0585865bb42305c4df3"
   integrity sha512-2LuNTFBIO0m7kKIQvvPHN6UE63VjpmL9rnEEaOOaiSPbZK+zUOYIzBAWcED+3XYzhYsd/0mD57VdxAEqqV52CQ==
 
-"@richex/git-last-commit@^2.1.1":
-  version "2.1.1"
-  resolved "https://registry.yarnpkg.com/@richex/git-last-commit/-/git-last-commit-2.1.1.tgz#b6527ae4223af8143f13e39d8f0cdaeaed7f9ba6"
-  integrity sha512-rNa0hCMyKTJ+qPwyN54FlwTUhDBNNghiQWt0ES27g11iYzyzpLcFBGLKYhDaEEEUPZ7aawXOCEYAwCg5JZ1FAQ==
-
 "@sindresorhus/is@^4.0.0":
   version "4.6.0"
   resolved "https://registry.yarnpkg.com/@sindresorhus/is/-/is-4.6.0.tgz#3c7c9c46e678feefe7a2e5bb609d3dbd665ffb3f"

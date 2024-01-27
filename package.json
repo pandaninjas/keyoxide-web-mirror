@@ -29,7 +29,6 @@
   },
   "devDependencies": {
     "@biomejs/biome": "1.2.2",
-    "@richex/git-last-commit": "^2.1.1",
     "@vercel/ncc": "^0.34.0",
     "chai": "^4.3.6",
     "copy-webpack-plugin": "^11.0.0",
