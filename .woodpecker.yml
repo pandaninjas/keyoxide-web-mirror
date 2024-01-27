@@ -18,6 +18,9 @@ steps:
         from_secret: codeberg_password
       repo: codeberg.org/keyoxide/keyoxide-web
       tags: latest
+      build_args_from_env:
+        - CI_COMMIT_SHA
+        - CI_COMMIT_BRANCH
 
   build-tag-container:
     when:
@@ -32,6 +35,9 @@ steps:
         from_secret: codeberg_password
       repo: codeberg.org/keyoxide/keyoxide-web
       auto_tag: true
+      build_args_from_env:
+        - CI_COMMIT_SHA
+        - CI_COMMIT_BRANCH
 
   build-dev-container:
     when:
@@ -46,3 +52,6 @@ steps:
         from_secret: codeberg_password
       repo: codeberg.org/keyoxide/keyoxide-web
       tags: dev
+      build_args_from_env:
+        - CI_COMMIT_SHA
+        - CI_COMMIT_BRANCH
