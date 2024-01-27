@@ -27,6 +27,7 @@ You should also get your employer (if you work as a programmer) or school,
 if any, to sign a "copyright disclaimer" for the program, if necessary. For
 more information on this, and how to apply and follow the GNU AGPL, see <https://www.gnu.org/licenses/>.
 */
+import git from '@richex/git-last-commit'
 import express from 'express'
 import * as httpContext from 'express-http-context2'
 import { nanoid } from 'nanoid'
@@ -45,13 +46,17 @@ dotenv.config()
 
 const app = express()
 const packageData = JSON.parse(readFileSync('./package.json'))
+const commit = await git.getLastCommitAsync()
 
 app.set('env', process.env.NODE_ENV || 'production')
 app.engine('pug', pug.__express).set('view engine', 'pug')
 app.set('port', process.env.PORT || 3000)
 app.set('domain', process.env.DOMAIN)
 app.set('scheme', process.env.SCHEME || 'https')
+app.set('keyoxide_name', 'keyoxide-web')
 app.set('keyoxide_version', packageData.version)
+app.set('git_branch', commit.branch ?? process.env.CI_COMMIT_BRANCH ?? process.env.COMMIT_BRANCH)
+app.set('git_hash', commit.hash ?? process.env.CI_COMMIT_SHA ?? process.env.COMMIT_SHA)
 app.set('onion_url', process.env.ONION_URL)
 
 // Middlewares

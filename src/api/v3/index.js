@@ -30,8 +30,19 @@ more information on this, and how to apply and follow the GNU AGPL, see <https:/
 import express from 'express'
 import keyoxideProfileApiRouter from './keyoxide_profile.js'
 import proxyGetApiRouter from './proxy_get.js'
+import app from '../../index.js'
 
 const router = express.Router()
+
+router.get('/version', async (req, res) => {
+  // TODO Support responding with JSON object when requested
+
+  const versionDetails = (app.get('git_branch') && app.get('git_hash'))
+    ? `+${app.get('git_branch')}.${app.get('git_hash').substring(0, 10)}`
+    : ''
+
+  return res.status(200).contentType('text/plain').send(`${app.get('keyoxide_name')}/${app.get('keyoxide_version')}${versionDetails}`)
+})
 
 if ((process.env.ENABLE_MAIN_MODULE ?? 'true') === 'true') {
   router.use('/profile', keyoxideProfileApiRouter)
