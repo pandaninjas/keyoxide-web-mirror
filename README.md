@@ -61,6 +61,6 @@ Please note that this project has a [Code of Conduct](https://codeberg.org/keyox
 
 ## About the Keyoxide project
 
-The Keyoxide project strives for a healthier internet for all and has made all its efforts fully [open source](https://codeberg.org/keyoxide). Our [community](https://docs.keyoxide.org/community/) is open and welcoming, feel free to say hi!
+The Keyoxide project strives for a healthier internet for all and has made its efforts fully [open source](https://codeberg.org/keyoxide). Our [community](https://docs.keyoxide.org/community/) is open and welcoming, feel free to say hi!
 
-Funding for the project comes primarily from the [NLnet foundation](https://nlnet.nl/), [NGI0](https://www.ngi.eu/) and the people supporting our [OpenCollective](https://opencollective.com/keyoxide). The project is grateful for all your support.
+Funding for the project comes from the [NLnet foundation](https://nlnet.nl/), [NGI0](https://www.ngi.eu/) and the people supporting our [OpenCollective](https://opencollective.com/keyoxide). The project is grateful for all your support.
