@@ -59,7 +59,7 @@ Everyone is invited to:
 
 Please note that this project has a [Code of Conduct](https://codeberg.org/keyoxide/web/src/branch/main/CODE_OF_CONDUCT.md) that all contributors agree to abide when participating.
 
-### About the Keyoxide project
+## About the Keyoxide project
 
 The Keyoxide project strives for a healthier internet for all and has made all its efforts fully [open source](https://codeberg.org/keyoxide). Our [community](https://docs.keyoxide.org/community/) is open and welcoming, feel free to say hi!
 
