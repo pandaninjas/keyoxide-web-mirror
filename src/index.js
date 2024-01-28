@@ -31,7 +31,7 @@ import express from 'express'
 import * as httpContext from 'express-http-context2'
 import { nanoid } from 'nanoid'
 import { readFileSync } from 'fs'
-import { execSync } from 'child_process';
+import { execSync } from 'child_process'
 import { stringReplace } from 'string-replace-middleware'
 import * as pug from 'pug'
 import * as dotenv from 'dotenv'
