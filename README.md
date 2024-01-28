@@ -1,7 +1,7 @@
 # keyoxide-web
 
 [![status-badge](https://ci.codeberg.org/api/badges/5919/status.svg)](https://ci.codeberg.org/repos/5919)
-[![License](https://img.shields.io/badge/license-AGPL--v3-blue?style=flat)](https://codeberg.org/keyoxide/web/src/branch/main/LICENSE)
+[![License](https://img.shields.io/badge/license-AGPL--v3-blue?style=flat)](https://codeberg.org/keyoxide/keyoxide-web/src/branch/main/LICENSE)
 [![Docker Image Version (latest semver)](https://img.shields.io/docker/v/keyoxide/keyoxide?sort=semver&style=flat)](https://hub.docker.com/r/keyoxide/keyoxide)
 [![Docker Pulls](https://img.shields.io/docker/pulls/keyoxide/keyoxide?style=flat)](https://hub.docker.com/r/keyoxide/keyoxide)
 [![Mastodon Follow](https://img.shields.io/mastodon/follow/247838?domain=https%3A%2F%2Ffosstodon.org&style=flat)](https://fosstodon.org/@keyoxide)
