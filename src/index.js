@@ -31,6 +31,7 @@ import express from 'express'
 import * as httpContext from 'express-http-context2'
 import { nanoid } from 'nanoid'
 import { readFileSync } from 'fs'
+import { execSync } from 'child_process';
 import { stringReplace } from 'string-replace-middleware'
 import * as pug from 'pug'
 import * as dotenv from 'dotenv'
@@ -43,6 +44,20 @@ import staticRoute from './routes/static.js'
 import utilRoute from './routes/util.js'
 dotenv.config()
 
+// Get information about the last git commit
+let gitBranch = process.env.CI_COMMIT_BRANCH ?? process.env.COMMIT_BRANCH
+if (!gitBranch) {
+  try {
+    gitBranch = execSync('git rev-parse --abbrev-ref HEAD').toString().trim()
+  } catch (_) {}
+}
+let gitHash = process.env.CI_COMMIT_SHA ?? process.env.COMMIT_SHA
+if (!gitHash) {
+  try {
+    gitHash = execSync('git rev-parse HEAD').toString().trim()
+  } catch (_) {}
+}
+
 const app = express()
 const packageData = JSON.parse(readFileSync('./package.json'))
 
@@ -53,8 +68,8 @@ app.set('domain', process.env.DOMAIN)
 app.set('scheme', process.env.SCHEME || 'https')
 app.set('keyoxide_name', 'keyoxide-web')
 app.set('keyoxide_version', packageData.version)
-app.set('git_branch', process.env.CI_COMMIT_BRANCH ?? process.env.COMMIT_BRANCH)
-app.set('git_hash', process.env.CI_COMMIT_SHA ?? process.env.COMMIT_SHA)
+app.set('git_branch', gitBranch)
+app.set('git_hash', gitHash)
 app.set('onion_url', process.env.ONION_URL)
 
 // Middlewares
