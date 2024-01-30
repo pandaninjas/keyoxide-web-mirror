@@ -82,7 +82,7 @@ export function encodeZBase32 (data) {
 }
 
 export function getMetaFromReq (req) {
-  let versionDetails = (req.app.get('git_hash'))
+  const versionDetails = (req.app.get('git_hash'))
     ? `+${req.app.get('git_hash').substring(0, 10)}`
     : ''
 
