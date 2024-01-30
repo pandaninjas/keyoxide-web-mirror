@@ -82,20 +82,15 @@ export function encodeZBase32 (data) {
 }
 
 export function getMetaFromReq (req) {
-  let versionDetails = req.app.get('git_branch')
-    ? `+${req.app.get('git_branch')}`
-    : ''
-  versionDetails += (req.app.get('git_branch') && req.app.get('git_hash'))
-    ? `.${req.app.get('git_hash').substring(0, 10)}`
+  let versionDetails = (req.app.get('git_hash'))
+    ? `+${req.app.get('git_hash').substring(0, 10)}`
     : ''
 
   const semver = `${req.app.get('keyoxide_name')}/${req.app.get('keyoxide_version')}${versionDetails}`
 
   const sourceUrl = req.app.get('git_hash')
     ? `https://codeberg.org/keyoxide/keyoxide-web/src/commit/${req.app.get('git_hash')}`
-    : req.app.get('git_branch')
-      ? `https://codeberg.org/keyoxide/keyoxide-web/src/branch/${req.app.get('git_branch')}`
-      : 'https://codeberg.org/keyoxide/keyoxide-web'
+    : 'https://codeberg.org/keyoxide/keyoxide-web'
 
   return {
     env: req.app.get('env'),
