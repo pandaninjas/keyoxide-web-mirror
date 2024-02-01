@@ -6,6 +6,17 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [4.2.7] - 2024-02-01
+### Added
+- Server version HTTP endpoint
+- Server version in footer
+### Changed
+- Update doipjs to 1.2.9
+### Notes
+- The version of keyoxide-web that the server is running can now be requested at the `/.well-known/keyoxide/version` HTTP endpoint. It is also found in the footer of every page.
+- Version 1.2.9 of doipjs notably adds support for ORCiD claim verification, as well as a couple of performance improvements.
+
+
 ## [4.2.6] - 2024-01-24
 ### Added
 - Support openpgp4fpr: queries in URL
