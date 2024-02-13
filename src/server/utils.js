@@ -156,17 +156,17 @@ export function generateProfileTheme (/** @type {Profile} */ profile) {
 
 const reEmailLike = /(<[^\s@<>]+@[^\s@<>]+>)/
 
-export function escapedParam(name) {
+export function escapedParam (/** @type {String} */ name) {
   return param(name).customSanitizer(value => {
     return value.split(reEmailLike).map(token => {
       if (reEmailLike.test(token)) return token
-      return escape(token)
+      return escapeString(token)
     }).join('')
   })
 }
 
-// Copied from https://github.com/validatorjs/validator.js/blob/b958bd7d1026a434ad3bf90064d3dcb8b775f1a9/src/lib/escape.js
-function escape(input) {
+// Copied from https://github.com/validatorjs/validator.js/blob/b958bd7d1026a434ad3bf90064d3dcb8b775f1a9/src/lib/escapeString.js
+function escapeString (/** @type {String} */ input) {
   return (input.replace(/&/g, '&amp;')
     .replace(/"/g, '&quot;')
     .replace(/'/g, '&#x27;')

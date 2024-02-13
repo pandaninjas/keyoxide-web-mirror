@@ -38,7 +38,7 @@ router.get('/', function (req, res) {
 router.get('/profile-url', function (req, res) {
   res.render('util/profile-url', { meta: getMetaFromReq(req) })
 })
-router.get('/profile-url/:input', 
+router.get('/profile-url/:input',
   escapedParam('input'),
   function (req, res) {
     res.render('util/profile-url', { input: req.params.input, meta: getMetaFromReq(req) })
