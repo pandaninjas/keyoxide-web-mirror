@@ -10,7 +10,7 @@ WorkingDirectory=/opt/keyoxide-web/
 ExecStart=/usr/bin/node /opt/keyoxide-web/dist/index.js
 Restart=always
 RestartSec=2s
-Environment=PORT=5000 DOMAIN=keyoxide.org PROXY_HOSTNAME=keyoxide.org
+Environment=PORT=5000 DOMAIN=domain.example PROXY_HOSTNAME=domain.example
 
 [Install]
 WantedBy=multi-user.target
