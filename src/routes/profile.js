@@ -28,12 +28,11 @@ if any, to sign a "copyright disclaimer" for the program, if necessary. For
 more information on this, and how to apply and follow the GNU AGPL, see <https://www.gnu.org/licenses/>.
 */
 import express from 'express'
-import { param } from 'express-validator'
 import bodyParserImport from 'body-parser'
 import { rateLimit } from 'express-rate-limit'
 import { generateSignatureProfile, utils, generateWKDProfile, generateHKPProfile, generateAutoProfile, generateKeybaseProfile } from '../server/index.js'
 import { Profile } from 'doipjs'
-import { generateProfileTheme, getMetaFromReq } from '../server/utils.js'
+import { generateProfileTheme, getMetaFromReq, escapedParam } from '../server/utils.js'
 import logger from '../log.js'
 
 const router = express.Router()
@@ -87,7 +86,7 @@ router.post('/sig',
 
 router.get('/wkd/:id',
   profileRateLimiter,
-  param('id').escape(),
+  escapedParam('id'),
   async (req, res) => {
     const data = await generateWKDProfile(req.params.id)
     const title = utils.generatePageTitle('profile', data)
@@ -103,7 +102,7 @@ router.get('/wkd/:id',
 
 router.get('/hkp/:id',
   profileRateLimiter,
-  param('id').escape(),
+  escapedParam('id'),
   async (req, res) => {
     const data = await generateHKPProfile(req.params.id)
     const title = utils.generatePageTitle('profile', data)
@@ -119,8 +118,8 @@ router.get('/hkp/:id',
 
 router.get('/hkp/:server/:id',
   profileRateLimiter,
-  param('server').escape(),
-  param('id').escape(),
+  escapedParam('server'),
+  escapedParam('id'),
   async (req, res) => {
     const data = await generateHKPProfile(req.params.id, req.params.server)
     const title = utils.generatePageTitle('profile', data)
@@ -136,8 +135,8 @@ router.get('/hkp/:server/:id',
 
 router.get('/keybase/:username/:fingerprint',
   profileRateLimiter,
-  param('username').escape(),
-  param('fingerprint').escape(),
+  escapedParam('username'),
+  escapedParam('fingerprint'),
   async (req, res) => {
     const data = await generateKeybaseProfile(req.params.username, req.params.fingerprint)
     const title = utils.generatePageTitle('profile', data)
@@ -153,7 +152,7 @@ router.get('/keybase/:username/:fingerprint',
 
 router.get('/:id',
   profileRateLimiter,
-  param('id').escape(),
+  escapedParam('id'),
   async (req, res) => {
     const data = await generateAutoProfile(req.params.id)
     const theme = generateProfileTheme(data)

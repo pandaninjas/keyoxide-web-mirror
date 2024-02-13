@@ -30,6 +30,7 @@ more information on this, and how to apply and follow the GNU AGPL, see <https:/
 import { webcrypto as crypto } from 'crypto'
 import { Profile } from 'doipjs'
 import Color from 'colorjs.io'
+import { param } from 'express-validator'
 
 export async function computeWKDLocalPart (localPart) {
   const localPartEncoded = new TextEncoder().encode(localPart.toLowerCase())
@@ -151,4 +152,27 @@ export function generateProfileTheme (/** @type {Profile} */ profile) {
       dark: backgroundDark.toString()
     }
   }
+}
+
+const reEmailLike = /(<[^\s@<>]+@[^\s@<>]+>)/
+
+export function escapedParam(name) {
+  return param(name).customSanitizer(value => {
+    return value.split(reEmailLike).map(token => {
+      if (reEmailLike.test(token)) return token
+      return escape(token)
+    }).join('')
+  })
+}
+
+// Copied from https://github.com/validatorjs/validator.js/blob/b958bd7d1026a434ad3bf90064d3dcb8b775f1a9/src/lib/escape.js
+function escape(input) {
+  return (input.replace(/&/g, '&amp;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#x27;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/\//g, '&#x2F;')
+    .replace(/\\/g, '&#x5C;')
+    .replace(/`/g, '&#96;'))
 }
