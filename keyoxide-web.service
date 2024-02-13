@@ -1,5 +1,5 @@
 [Unit]
-Description=Keyoxide (Your online passport)
+Description=Keyoxide (Online identity verification)
 After=syslog.target
 After=network.target
 
@@ -7,10 +7,10 @@ After=network.target
 User=keyoxide
 Group=www-data
 WorkingDirectory=/opt/keyoxide-web/
-ExecStart=/usr/bin/node /opt/keyoxide-web/src/index.js
+ExecStart=/usr/bin/node /opt/keyoxide-web/dist/index.js
 Restart=always
 RestartSec=2s
-Environment=PORT=5000
+Environment=PORT=5000 DOMAIN=keyoxide.org PROXY_HOSTNAME=keyoxide.org
 
 [Install]
 WantedBy=multi-user.target
